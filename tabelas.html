@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sobre · Igor Bastos</title>
-<meta name="description" content="A história de Igor Bastos, luthier no Vale do Capão.">
+<title>Tabelas de digitação · Igor Bastos</title>
+<meta name="description" content="Tabelas de digitação para flauta diatônica em todos os tons e flauta irlandesa Low D.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Igor Bastos · Luthier">
 <meta property="og:description" content="Flautas e rabecas feitas à mão no Vale do Capão, Chapada Diamantina, Bahia.">
@@ -176,14 +176,63 @@ if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
 <body>
 <header class="site"><div class="in"><a class="brand" href="index.html">Igor Bastos<small>Luthier</small></a>
 <button class="burger" aria-expanded="false" aria-controls="menu">Menu</button>
-<nav><ul class="menu" id="menu"><li class="has"><a href="index.html#instrumentos">Instrumentos</a><ul><li><a href="transversais.html">Flautas transversais</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="nativas.html">Flautas nativas e totens</a></li><li><a href="rabecas.html">Rabecas</a></li></ul></li><li><a href="acessorios.html">Acessórios</a></li><li><a href="encomendas.html">Encomendas</a></li><li><a href="monte.html">Monte sua flauta</a></li><li><a href="aprender.html">Aprender</a></li><li><a href="tabelas.html">Tabelas de digitação</a></li><li><a href="oficinas.html">Oficinas</a></li><li><a href="sobre.html" aria-current="page">Sobre</a></li><li><a href="contato.html">Contato</a></li></ul></nav></div></header>
+<nav><ul class="menu" id="menu"><li class="has"><a href="index.html#instrumentos">Instrumentos</a><ul><li><a href="transversais.html">Flautas transversais</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="nativas.html">Flautas nativas e totens</a></li><li><a href="rabecas.html">Rabecas</a></li></ul></li><li><a href="acessorios.html">Acessórios</a></li><li><a href="encomendas.html">Encomendas</a></li><li><a href="monte.html">Monte sua flauta</a></li><li><a href="aprender.html">Aprender</a></li><li><a href="tabelas.html" aria-current="page">Tabelas de digitação</a></li><li><a href="oficinas.html">Oficinas</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="contato.html">Contato</a></li></ul></nav></div></header>
 <main>
-<section class="ph"><div class="wrap"><div class="eyebrow">Sobre</div><h1>Igor Bastos</h1><p>Luthier de flautas e rabecas no Vale do Capão, Chapada Diamantina, Bahia.</p></div></section><section class="about" style="padding-top:24px"><div class="wrap grid"><div class="prose">
-<p>A trajetória de Igor Bastos é autodidata. Começou em Salvador, Bahia, onde descobriu a afinidade com o trabalho manual e a madeira, primeiro com artesanato em bambu e artigos de tabacaria.</p>
-<p>Aos 23 anos ganhou sua primeira flauta e ali encontrou a sua paixão. Com a prática no bambu, logo passou a fazer as próprias flautas, aprimorando a técnica e buscando informação por conta própria, inclusive na internet.</p>
-<p>Cada peça leva em conta a estética, a funcionalidade e a qualidade sonora. Igor também é músico pifeiro autodidata, o que o aproxima do que cada músico precisa.</p>
-<p>Ele segue em busca de aprendizado, com planos de estudar com mestres do ofício.</p>
-</div><figure class="atl"><a class="it" href="img/atelie_1.jpg"><img src="img/m/atelie_1.jpg" width="1280" height="960" loading="lazy" alt="Ateliê: vitrine de flautas, bancada e serra tico-tico"></a><a class="it" href="img/atelie_2.jpg"><img src="img/m/atelie_2.jpg" width="960" height="1280" loading="lazy" alt="Ateliê: corredor com bancadas e ferramentas na parede preta"></a><figcaption>O ateliê, no Vale do Capão.</figcaption></figure></div></section>
+<section class="ph"><div class="wrap"><div class="eyebrow">Aprender</div><h1>Tabelas de digitação</h1><p>Como fechar os furos para cada nota. Escolha o tom da sua flauta.</p></div></section><style>
+.tabctl{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:8px 0 18px}
+.tabctl select{font:inherit;padding:10px 12px;border:1px solid var(--line);background:var(--paper);min-width:200px}
+.tabctl button{cursor:pointer;font:inherit}
+#tabela{background:#fff;border:1px solid var(--line);padding:8px;overflow-x:auto}
+#tabela svg{display:block;width:100%;height:auto;min-width:0}
+.irl img{max-width:100%;height:auto;border:1px solid var(--line);background:#fff}
+@media print{@page{size:A4;margin:10mm}body *{visibility:hidden}#tabela,#tabela *{visibility:visible}#tabela{position:absolute;left:0;top:0;width:100%;border:0;padding:0}.fab,.site{display:none}}
+</style><section class="cat" style="padding-top:0"><div class="wrap">
+<h2>Flauta diatônica (6 furos)</h2>
+<p>Vale para pífanos e flautas transversais de 6 furos. A digitação é a mesma em qualquer tom; só mudam os nomes das notas.</p>
+<div class="tabctl"><label for="tom">Tom da flauta</label><select id="tom"></select><button class="btn" id="png" type="button">Baixar PNG</button><button class="btn ghost" id="imp" type="button">Imprimir</button></div>
+<div id="tabela"></div>
+<h2 id="irlandesa" style="margin-top:56px">Flauta irlandesa (Low D)</h2>
+<figure class="irl"><a class="it" href="img/tabela_irlandesa_lowd.png"><img src="img/tabela_irlandesa_lowd.png" width="1400" height="1980" loading="lazy" alt="Tabela de digitação da flauta irlandesa Low D, de Igor Bastos"></a></figure>
+<h2 style="margin-top:56px">Para quem faz flautas: calculadora de furos (Whistle Calculator, de Bracker)</h2>
+<p>Calcula a posição dos furos para qualquer tom. <a href="https://music.bracker.uk/pub/html/Workshop/Whistle-Calculator.html" target="_blank" rel="noopener">Abrir a calculadora</a></p>
+</div></section><script>
+(function(){
+var F={"1": [[0, ["FFFFFF"]], [1, ["FFFFFH"]], [2, ["FFFFFO"]], [3, ["FFFFHO", "FFFFOF"]], [4, ["FFFFOO"]], [5, ["FFFOOO"]], [6, ["FFHOOO", "FFOFFF"]], [7, ["FFOOOO"]], [8, ["FHOOOO", "FOFFFF"]], [9, ["FOOOOO"]], [10, ["HOOOOO", "OFFFFO"]], [11, ["OOOOOO"]]], "2": [[0, ["OFFFFF"]], [1, ["FFFFFH"]], [2, ["FFFFFO"]], [3, ["FFFFHO", "FFFFOF"]], [4, ["FFFFOO"]], [5, ["FFFOOO"]], [6, ["FFHOOO", "FFOFFO"]], [7, ["FFOOOO"]], [8, ["FHOOOO", "FOFOOO"]], [9, ["FOOOOO"]], [10, ["HOOOOO", "OFOFFF"]], [11, ["OOOOOO"]]], "3": [[0, ["OFFFFF"]], [1, ["FFHOFH"]], [2, ["FFOFFO"]], [3, ["FHOFHO"]], [4, ["FOFFFF"]], [5, ["FOFOOF"]], [6, ["OOFOOF"]], [7, ["OFOFFF"]], [8, ["FOFOFO"]]]};
+var N=['C','C#','D','Eb','E','F','F#','G','G#','A','Bb','B'];
+var P={'C':'Dó','C#':'Dó#','D':'Ré','Eb':'Mi♭','E':'Mi','F':'Fá','F#':'Fá#','G':'Sol','G#':'Sol#','A':'Lá','Bb':'Si♭','B':'Si'};
+var K=[['C','Dó (C)'],['C#','Dó# / Ré♭ (C#/D♭)'],['D','Ré (D)'],['Eb','Ré# / Mi♭ (D#/E♭)'],['E','Mi (E)'],['F','Fá (F)'],['F#','Fá# / Sol♭ (F#/G♭)'],['G','Sol (G)'],['G#','Sol# / Lá♭ (G#/A♭)'],['A','Lá (A)'],['Bb','Lá# / Si♭ (A#/B♭)'],['B','Si (B)']];
+function lab(n){return n.replace('b','♭')}
+function flute(x,p){var s='<g transform="translate('+x+',0)">';
+ s+='<path d="M0,-12 l-4,8 h8z M-7,-4 h14 v14 h-14z" fill="#2a2119"/><path d="M-5,0 v8 M-1.7,0 v8 M1.7,0 v8 M5,0 v8" stroke="#fff" stroke-width="1"/>';
+ s+='<rect x="-9" y="10" width="18" height="236" rx="6" fill="#fff" stroke="#2a2119" stroke-width="1.6"/>';
+ s+='<ellipse cx="0" cy="30" rx="4.6" ry="6" fill="#fff" stroke="#2a2119" stroke-width="1.5"/>';
+ for(var i=0;i<6;i++){var y=100+i*22,c=p[i];
+  s+='<ellipse cx="0" cy="'+y+'" rx="5" ry="6.5" fill="'+(c=='F'?'#2a2119':'#fff')+'" stroke="#2a2119" stroke-width="1.5"/>';
+  if(c=='H')s+='<path d="M0,'+(y-6.5)+' A5,6.5 0 0 0 0,'+(y+6.5)+'z" fill="#2a2119"/>';}
+ return s+'</g>';}
+function svg(t){var ti=N.indexOf(t),W=780,out='',y=70;
+ out+='<text x="390" y="34" text-anchor="middle" font-family="Georgia,serif" font-size="30" font-style="italic" fill="#2a2119">Tabela de Digitação</text>';
+ out+='<text x="390" y="58" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#6b5d50">para flauta diatônica no tom de '+P[t]+' ('+lab(t)+')</text>';
+ ['1','2','3'].forEach(function(o){var row=F[o],n=0;row.forEach(function(r){n+=r[1].length});
+  out+='<text x="20" y="'+(y+30)+'" font-family="Arial,sans-serif" font-size="14" font-weight="bold" font-style="italic" fill="#2a2119">'+o+'ª oitava</text>';
+  var sp=(W-100)/(row.length-1),g='';
+  row.forEach(function(r,k){var nm=N[(ti+r[0])%12],cx=50+k*sp;
+   r[1].forEach(function(p,j){g+=flute(cx+(r[1].length>1?(j?13:-13):0),p)});
+   g+='<text x="'+cx+'" y="282" text-anchor="middle" font-family="Arial,sans-serif" font-size="17" font-weight="bold" fill="#2a2119">'+lab(nm)+'</text><text x="'+cx+'" y="300" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#6b5d50">'+P[nm]+'</text>';});
+  out+='<g transform="translate(0,'+(y+56)+')">'+g+'</g>';y+=360;});
+ out+='<g font-family="Arial,sans-serif" font-size="14" font-style="italic" fill="#2a2119"><ellipse cx="30" cy="'+(y+14)+'" rx="5" ry="6.5" fill="#2a2119"/><text x="42" y="'+(y+19)+'">fechado</text><ellipse cx="130" cy="'+(y+14)+'" rx="5" ry="6.5" fill="#fff" stroke="#2a2119" stroke-width="1.5"/><text x="142" y="'+(y+19)+'">aberto</text><ellipse cx="225" cy="'+(y+14)+'" rx="5" ry="6.5" fill="#fff" stroke="#2a2119" stroke-width="1.5"/><path d="M225,'+(y+7.5)+' A5,6.5 0 0 0 225,'+(y+20.5)+'z"/><text x="237" y="'+(y+19)+'">metade</text></g>';
+ out+='<text x="760" y="'+(y+19)+'" text-anchor="end" font-family="Georgia,serif" font-size="15" font-style="italic" fill="#2a2119">Igor Bastos · Luthier</text>';
+ return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 '+(y+40)+'" width="780" height="'+(y+40)+'" role="img" aria-label="Tabela de digitação, flauta diatônica em '+P[t]+'"><rect width="100%" height="100%" fill="#fff"/>'+out+'</svg>';}
+var sel=document.getElementById('tom'),box=document.getElementById('tabela');
+K.forEach(function(k){var o=document.createElement('option');o.value=k[0];o.textContent=k[1];sel.appendChild(o)});
+function draw(){box.innerHTML=svg(sel.value);try{history.replaceState(null,'','#'+encodeURIComponent(sel.value))}catch(e){}}
+var h=decodeURIComponent(location.hash.slice(1));sel.value=N.indexOf(h)>=0?h:'G';sel.onchange=draw;draw();
+document.getElementById('png').onclick=function(){var s=box.querySelector('svg'),w=s.width.baseVal.value,hh=s.height.baseVal.value,img=new Image(),c=document.createElement('canvas');c.width=w*3;c.height=hh*3;
+ img.onload=function(){var x=c.getContext('2d');x.scale(3,3);x.drawImage(img,0,0);var a=document.createElement('a');a.download='tabela-digitacao-'+sel.value.replace('#','sustenido')+'.png';a.href=c.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove()};
+ img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(new XMLSerializer().serializeToString(s));};
+document.getElementById('imp').onclick=function(){window.print()};
+})();
+</script>
 </main>
 <section class="contact" id="contato"><div class="wrap">
   <div class="eyebrow">Contato</div><h2>Encomendas</h2>
@@ -198,7 +247,7 @@ if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
   </ul>
 </div></section>
 <footer>Igor Bastos Luthier · Vale do Capão, Chapada Diamantina, Bahia</footer>
-<a class="fab" href="https://wa.me/5575982901157" target="_blank" rel="noopener">WhatsApp</a>
+<a class="fab" href="https://wa.me/5575982901157?text=Ol%C3%A1%20Igor%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20digita%C3%A7%C3%A3o" target="_blank" rel="noopener">WhatsApp</a>
 <div class="lb" id="lb" role="dialog" aria-modal="true"><button class="x" aria-label="Fechar">×</button><button class="pv" aria-label="Anterior">‹</button><img alt=""><button class="nx" aria-label="Próxima">›</button></div>
 <script>
 (function(){

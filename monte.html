@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monte sua flauta · Igor Bastos</title>
+<meta name="description" content="Monte a sua flauta, veja o valor com os preços da tabela e envie o pedido pelo WhatsApp.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Igor Bastos · Luthier">
+<meta property="og:description" content="Flautas e rabecas feitas à mão no Vale do Capão, Chapada Diamantina, Bahia.">
+<meta property="og:image" content="https://igorbastosluthier.github.io/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Igor Bastos · Luthier">
+<meta name="twitter:description" content="Flautas e rabecas feitas à mão no Vale do Capão, Chapada Diamantina, Bahia.">
+<meta name="twitter:image" content="https://igorbastosluthier.github.io/img/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5efe6;--paper:#fbf8f3;--ink:#2a2119;--muted:#6f6052;--line:#e2d6c5;
+  --wood:#8a5a34;--wood-dark:#4a2f1c;--earth:#b77a45;--cream:#f3e7d3;
+  --overlay:rgba(20,13,8,.55);--shade:rgba(20,13,8,.92);--white:#fff;
+  --serif:"Cormorant Garamond",Georgia,serif;--sans:Inter,system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:300 16px/1.7 var(--sans);overflow-x:hidden;padding-bottom:64px}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.eyebrow{font:500 11px/1 var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--earth)}
+h1,h2{font-family:var(--serif);font-weight:500;line-height:1.05;letter-spacing:-.01em}
+/* hero */
+.hero{position:relative;min-height:560px;height:min(100svh,860px);display:flex;align-items:flex-end;color:var(--cream);overflow:hidden}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,13,8,.15) 0%,rgba(20,13,8,0) 35%,var(--overlay) 100%)}
+.hero .wrap{position:relative;z-index:1;padding-bottom:56px;width:100%}
+.hero h1{font-size:clamp(52px,12vw,120px);margin:14px 0 10px}
+.hero p{font-size:17px;max-width:30em;opacity:.92}
+.hero .eyebrow{color:var(--cream);opacity:.85}
+nav.top{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;justify-content:space-between;padding:20px;color:var(--cream);font:500 12px var(--sans);letter-spacing:.2em;text-transform:uppercase}
+nav.top a{text-decoration:none}
+/* about */
+.about{padding:96px 0 72px;background:var(--paper)}
+.about .grid{display:grid;gap:40px;grid-template-columns:1fr}
+.about h2{font-size:clamp(36px,6vw,56px);margin:14px 0 22px}
+.about p{margin-bottom:16px;color:var(--muted);max-width:36em}
+.about figure img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.about figcaption{font-size:13px;color:var(--muted);margin-top:10px;font-style:italic;font-family:var(--serif);font-size:16px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.facts span{border:1px solid var(--line);padding:6px 12px;border-radius:999px;font-size:12px;color:var(--wood-dark)}
+/* index */
+.index{padding:28px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg)}
+.index ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--serif);font-size:20px}
+.index a{text-decoration:none}.index a:hover{color:var(--wood)}
+/* sections */
+section.cat{padding:80px 0 24px}
+.cat header{display:grid;gap:10px;margin-bottom:30px;max-width:40em}
+.cat h2{font-size:clamp(34px,6vw,58px)}
+.cat .n{font-family:var(--serif);font-style:italic;color:var(--earth);font-size:20px}
+.cat header p{color:var(--muted)}
+.gal{columns:2;column-gap:10px}
+.gal .it{display:block;margin-bottom:10px;break-inside:avoid;overflow:hidden;background:var(--line);cursor:zoom-in}
+.gal img{width:100%;transition:transform .6s ease}
+.gal .it:hover img{transform:scale(1.03)}
+.note{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--wood-dark);border-left:2px solid var(--earth);padding-left:16px;margin-top:22px;max-width:34em}
+/* contact */
+.contact{margin-top:80px;padding:96px 0;background:var(--wood-dark);color:var(--cream)}
+.contact h2{font-size:clamp(38px,7vw,64px);margin:14px 0 14px}
+.contact .lead{opacity:.85;max-width:30em;margin-bottom:34px}
+.contact ul{list-style:none;display:grid;gap:0;border-top:1px solid rgba(243,231,211,.2)}
+.contact li{border-bottom:1px solid rgba(243,231,211,.2)}
+.contact li a{display:flex;justify-content:space-between;gap:16px;padding:18px 0;text-decoration:none;flex-wrap:wrap}
+.contact li small{font:500 11px var(--sans);letter-spacing:.22em;text-transform:uppercase;opacity:.7;align-self:center}
+.contact li b{font:400 22px var(--serif);word-break:break-word}
+.contact .eyebrow{color:var(--earth)}
+footer{padding:28px 20px;text-align:center;font-size:12px;color:var(--muted)}
+/* sticky bar */
+.bar-old{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;background:var(--paper);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(42,33,25,.08)}
+.bar a{flex:1;text-align:center;padding:14px 4px;font:500 13px var(--sans);letter-spacing:.06em;text-decoration:none;color:var(--ink)}
+.bar a.wa{background:var(--wood);color:var(--cream)}
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:50;background:var(--shade);display:none;align-items:center;justify-content:center;padding:20px}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:88vh;object-fit:contain}
+.lb button{position:absolute;background:none;border:0;color:var(--cream);font:300 34px/1 var(--sans);padding:14px;cursor:pointer}
+.lb .x{top:6px;right:8px}.lb .pv{left:4px;top:50%;transform:translateY(-50%)}.lb .nx{right:4px;top:50%;transform:translateY(-50%)}
+@media(min-width:760px){
+  body{padding-bottom:0}.bar-old{display:none}
+  .about .grid{grid-template-columns:1.1fr .9fr;align-items:center;gap:72px}
+  .gal{columns:3;column-gap:14px}.gal .it{margin-bottom:14px}
+  .wrap{padding:0 40px}nav.top{padding:28px 40px}
+}
+@media(min-width:1100px){.gal.wide{columns:4}}
+.sub{margin:44px 0 18px;max-width:40em}.sub:first-of-type{margin-top:8px}.sub h3{font:500 26px/1.15 var(--serif);color:var(--wood-dark)}.sub p{color:var(--muted);font-size:15px}
+
+.site{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1px solid var(--line)}
+.site .in{max-width:1180px;margin:0 auto;padding:0 20px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.brand{font:500 22px/1 var(--serif);text-decoration:none;letter-spacing:.01em}
+.brand small{display:block;font:500 9px var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--earth);margin-top:4px}
+.menu{display:flex;gap:26px;list-style:none;align-items:center;font-size:14px}
+.menu a{text-decoration:none}.menu a:hover,.menu a[aria-current]{color:var(--wood)}
+.menu .has{position:relative}
+.menu .has>ul{display:none;position:absolute;top:100%;left:-16px;background:var(--paper);border:1px solid var(--line);list-style:none;padding:10px 0;min-width:240px;box-shadow:0 10px 30px rgba(42,33,25,.1)}
+.menu .has:hover>ul,.menu .has:focus-within>ul{display:block}
+.menu .has>ul a{display:block;padding:8px 18px}
+.burger{display:none;background:none;border:0;font:500 13px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);padding:10px 0;cursor:pointer}
+@media(max-width:899px){
+ .burger{display:block}
+ .menu{position:fixed;top:62px;right:0;bottom:0;width:min(86vw,340px);flex-direction:column;align-items:stretch;gap:0;background:var(--paper);border-left:1px solid var(--line);padding:14px 22px 90px;transform:translateX(100%);visibility:hidden;transition:transform .3s ease,visibility .3s;overflow-y:auto;font-size:17px}
+ body.nav-open .menu{transform:none;visibility:visible}
+ .menu>li{border-bottom:1px solid var(--line)}
+ .menu>li>a{display:block;padding:14px 0;font-family:var(--serif);font-size:22px}
+ .menu .has>ul{display:block;position:static;border:0;box-shadow:none;padding:0 0 10px 12px;min-width:0;background:none}
+ .menu .has>ul a{padding:6px 0;font-size:15px;color:var(--muted)}
+}
+.fab{position:fixed;right:16px;bottom:16px;z-index:25;background:var(--wood);color:var(--cream);text-decoration:none;font:500 14px var(--sans);padding:14px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(42,33,25,.25)}
+@media(min-width:900px){.fab{display:none}}
+body{padding-bottom:0}
+.hero{min-height:520px;height:min(calc(100svh - 62px),820px)}
+.ph{padding:64px 0 8px}.ph h1{font-size:clamp(40px,8vw,72px);margin:12px 0 12px}.ph p{color:var(--muted);max-width:40em}
+.ficha{display:grid;gap:0;border-top:1px solid var(--line);margin:28px 0 8px;max-width:760px}
+.ficha div{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.ficha dt{font:500 11px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--earth);padding-top:4px}
+.btn{display:inline-block;background:var(--wood);color:var(--cream);text-decoration:none;padding:14px 22px;font:500 14px var(--sans);letter-spacing:.04em;margin-top:18px}
+.btn.ghost{background:none;color:var(--wood-dark);border:1px solid var(--wood)}
+.cards{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+.card{text-decoration:none;display:block}
+.card img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.card h3{font:500 22px/1.15 var(--serif);margin-top:10px}
+.card span{font-size:13px;color:var(--muted)}
+@media(min-width:900px){.cards{grid-template-columns:repeat(4,1fr);gap:22px}}
+.steps{list-style:none;counter-reset:s;display:grid;gap:0;max-width:760px;margin-top:26px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:52px 1fr;gap:12px;padding:20px 0;border-top:1px solid var(--line)}
+.steps li::before{content:counter(s,upper-roman);font:italic 400 28px/1 var(--serif);color:var(--earth)}
+.steps h3,.prose h3{font:500 24px/1.2 var(--serif);margin-bottom:4px}
+.steps p,.prose p,.prose li{color:var(--muted)}
+.prose{max-width:760px}.prose h2{font-size:clamp(30px,5vw,44px);margin:56px 0 14px}.prose h3{margin-top:26px}
+.prose ul{padding-left:20px;margin-top:8px}.prose li{margin-bottom:6px}
+.tag{display:inline-block;font:500 11px var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--earth);border:1px solid var(--line);padding:5px 10px;margin-bottom:6px}
+.band{background:var(--paper);padding:72px 0;margin-top:72px;border-top:1px solid var(--line)}
+.site .in{justify-content:flex-start}.brand{margin-right:auto}.site nav{order:2}.burger{order:3}
+.contact{margin-top:0}main>section:last-child{padding-bottom:72px}
+@media(max-width:899px){footer{padding-bottom:84px}}
+.cover .wrap{display:grid;gap:28px;align-items:end}.cover img{width:100%;aspect-ratio:4/5;object-fit:cover}
+@media(min-width:900px){.cover .wrap{grid-template-columns:1fr 420px;gap:56px}}
+.sub2{margin:22px 0 12px}.sub2 h4{font:500 12px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--earth)}
+.precos{max-width:760px;margin:30px 0 6px;border:1px solid var(--line);background:var(--paper);padding:22px 22px 16px}
+.precos h3{font:500 26px/1.1 var(--serif);margin-bottom:10px}
+.precos ul{list-style:none}.precos li{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.precos li span{flex:1}.precos li small{display:block;font-size:12px;color:var(--muted)}.precos li b{font-weight:500;color:var(--wood-dark);white-space:nowrap;text-align:right}
+.precos .nota{font-size:13px;color:var(--muted);margin-top:12px}
+.som{margin:28px 0 0;max-width:420px}.som video{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--ink);display:block}.som figcaption{font:italic 16px var(--serif);color:var(--muted);margin-top:8px}
+.sons{display:grid;gap:14px;grid-template-columns:1fr 1fr}.sons .som{margin:0}.sons .som figcaption{font-size:15px}
+@media(min-width:900px){.sons{grid-template-columns:repeat(4,1fr);gap:22px}}
+.card.wide{display:grid;gap:18px;align-items:center;background:var(--paper);border:1px solid var(--line)}.card.wide img{aspect-ratio:4/3}.card.wide>div{padding:0 20px 22px}
+@media(min-width:900px){.card.wide{grid-template-columns:1fr 1fr}.card.wide>div{padding:30px}}
+.deps{display:grid;gap:16px}@media(min-width:900px){.deps{grid-template-columns:repeat(3,1fr);gap:22px}}
+.deps blockquote{background:var(--paper);border:1px solid var(--line);padding:22px}.deps p{font:italic 21px/1.35 var(--serif);color:var(--ink)}.deps cite{display:block;margin-top:10px;font:500 11px var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--earth);font-style:normal}
+.exs{columns:2}.ex{break-inside:avoid;margin-bottom:12px}.ex figcaption{font:italic 15px var(--serif);color:var(--muted);margin-top:4px}
+@media(min-width:900px){.exs{columns:5}}
+.mais{margin:18px 0 0;font-size:14px}.mais a{color:var(--wood);text-decoration:underline;text-underline-offset:3px}
+.atl{display:grid;gap:10px}.atl img{width:100%;aspect-ratio:auto!important}
+.band h2{font-size:clamp(30px,6vw,52px);margin:12px 0 12px}
+</style>
+<script data-goatcounter="https://igorbastosluthier.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a,button");if(!a||!window.goatcounter||!window.goatcounter.count)return;var h=(a.getAttribute("href")||""),t=(a.textContent||"").trim().slice(0,60),n="";
+if(h.indexOf("wa.me")>=0)n=(t.indexOf("pedido")>=0||t.indexOf("Pedido")>=0)?"clique-pedido-whatsapp":"clique-whatsapp";else if(h.indexOf("ig.me")>=0||h.indexOf("instagram.com")>=0)n="clique-instagram";else if(h.indexOf("facebook.com")>=0)n="clique-facebook";else if(h.indexOf("mailto:")===0)n="clique-email";else if(h.indexOf("bracker")>=0)n="clique-calculadora-furos";else if(/Baixar PNG|Imprimir/.test(t))n="tabela-"+t.toLowerCase().replace(/\s+/g,"-");
+if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
+</script>
+</head>
+<body>
+<header class="site"><div class="in"><a class="brand" href="index.html">Igor Bastos<small>Luthier</small></a>
+<button class="burger" aria-expanded="false" aria-controls="menu">Menu</button>
+<nav><ul class="menu" id="menu"><li class="has"><a href="index.html#instrumentos">Instrumentos</a><ul><li><a href="transversais.html">Flautas transversais</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="nativas.html">Flautas nativas e totens</a></li><li><a href="rabecas.html">Rabecas</a></li></ul></li><li><a href="acessorios.html">Acessórios</a></li><li><a href="encomendas.html">Encomendas</a></li><li><a href="monte.html" aria-current="page">Monte sua flauta</a></li><li><a href="aprender.html">Aprender</a></li><li><a href="tabelas.html">Tabelas de digitação</a></li><li><a href="oficinas.html">Oficinas</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="contato.html">Contato</a></li></ul></nav></div></header>
+<main>
+<style>
+.fab{display:none}
+body{padding-bottom:96px}
+.mst{max-width:760px;padding:26px 0;border-top:1px solid var(--line)}
+.mst[hidden]{display:none}
+.mst h2{font:500 30px/1.1 var(--serif);margin:8px 0 6px}
+.mst .hint{font-size:14px;color:var(--muted);margin-bottom:12px}
+.opts{display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.mst,.sum{min-width:0;overflow-wrap:anywhere}
+.opts.one{grid-template-columns:1fr}
+@media(min-width:700px){.opts{grid-template-columns:repeat(3,1fr)}.opts.one{grid-template-columns:1fr 1fr}}
+.o{position:relative;display:flex;gap:10px;align-items:center;background:var(--paper);border:1px solid var(--line);padding:12px 14px;cursor:pointer;min-height:58px;transition:border-color .15s,background .15s}
+.o input{position:absolute;opacity:0;pointer-events:none}
+.o:has(input:checked){border-color:var(--wood);background:var(--cream);box-shadow:inset 0 0 0 1px var(--wood)}
+.o:has(input:focus-visible){outline:2px solid var(--wood);outline-offset:2px}
+.o:has(input:disabled){opacity:.55;cursor:not-allowed}
+.opts:not(.one) .o{flex-wrap:wrap;align-content:center;gap:2px 10px}.opts:not(.one) .o b{flex-basis:100%;text-align:left;font-size:13px}
+.o img{width:48px;height:48px;object-fit:cover;flex:none}
+.o span{flex:1;min-width:0;font-size:15px;line-height:1.3}
+.o small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+.o b{font-weight:500;color:var(--wood-dark);font-size:13px;text-align:right}
+.o.ck::before{content:"";flex:none;width:18px;height:18px;border:1px solid var(--wood);background:var(--paper)}
+.o.ck:has(input:checked)::before{background:var(--wood);box-shadow:inset 0 0 0 3px var(--paper)}
+.fld{display:block;width:100%;font:300 16px var(--sans);color:var(--ink);background:var(--paper);border:1px solid var(--line);padding:12px 14px}
+.fld:focus{outline:2px solid var(--wood);outline-offset:1px}
+textarea.fld{min-height:90px;resize:vertical}
+.tier{font-size:14px;color:var(--wood-dark);margin:8px 0 12px}
+.frete{margin-top:12px;font-size:15px}
+.frete p{color:var(--muted);font-size:13px;margin-top:6px}
+.sum{max-width:760px;background:var(--paper);border:1px solid var(--line);padding:22px;margin:30px 0 0}
+.sum h2{font:500 30px/1.1 var(--serif);margin-bottom:10px}
+.sum ul{list-style:none}
+.sum li{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.sum li b{font-weight:500;color:var(--wood-dark);white-space:nowrap;text-align:right}
+.sum li.t{font-size:17px;font-weight:400}.sum li.s{background:var(--cream);margin:6px -10px 0;padding:12px 10px;border:0}
+.sum .nota{font-size:13px;color:var(--muted);margin-top:12px}
+.sum .btn{width:100%;text-align:center;font-size:16px;padding:16px}
+.sum .reset{background:none;border:0;color:var(--muted);text-decoration:underline;font:300 13px var(--sans);margin-top:14px;cursor:pointer}
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:26;background:var(--wood-dark);color:var(--cream);box-shadow:0 -8px 24px rgba(42,33,25,.18)}
+.mbar .in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.mbar .tt{flex:1;min-width:0;line-height:1.25}
+.mbar .tt small{display:block;font-size:11.5px;opacity:.8;letter-spacing:.04em}
+.mbar .tt strong{font:500 24px/1.1 var(--serif)}
+.mbar a{background:var(--cream);color:var(--wood-dark);text-decoration:none;font:500 13.5px var(--sans);padding:12px 14px;white-space:nowrap}
+footer{padding-bottom:110px}
+</style><section class="ph"><div class="wrap"><div class="eyebrow">Encomendas</div><h1>Monte sua flauta</h1>
+<p>Escolha modelo, tom, madeira e detalhes e veja o valor na hora, com os preços da tabela do Igor. O pedido segue pelo WhatsApp, onde o Igor confirma tudo com você. Nenhum pagamento é feito no site.</p></div></section>
+<section class="cat" style="padding-top:8px"><div class="wrap" id="monte">
+<div class="mst" id="s-modelo"><div class="eyebrow">Passo 1</div><h2>Modelo</h2><div class="opts" data-k="model"></div></div>
+<div class="mst" id="s-tom" hidden><div class="eyebrow">Passo 2</div><h2>Tom</h2><p class="hint">Menor é mais agudo; maior é mais grave. Para começar, Dó ou Sol; o Sol é o mais pedido.</p><div class="opts" data-k="tone"></div></div>
+<div class="mst" id="s-madeira" hidden><div class="eyebrow">Passo 3</div><h2>Madeira</h2><div class="opts" data-k="wood"></div></div>
+<div class="mst" id="s-corpo" hidden><div class="eyebrow">Passo 4</div><h2>Corpo</h2><p class="hint" id="corpo-hint">Corpo único, sem encaixe, ou segmentada em partes. A de encaixe é mais fácil de levar e limpar, e o encaixe ajuda no ajuste da afinação.</p><div class="opts one" data-k="parts"></div></div>
+<div class="mst" id="s-pers" hidden><div class="eyebrow">Passo 5</div><h2>Personalização</h2><p class="hint">Opcional. Cada item soma ao valor da flauta.</p><div class="opts one" data-k="pers"></div></div>
+<div class="mst" id="s-grav" hidden><div class="eyebrow">Passo 6</div><h2>Gravação a laser</h2><p class="hint">Opcional. Até 2 palavras é nome pequeno; mais que isso, frase.</p>
+<input class="fld" id="grav" maxlength="60" placeholder="Ex.: Ana, ou uma frase curta" autocomplete="off"><p class="tier" id="grav-tier"></p><div class="opts one" data-k="arte"></div></div>
+<div class="mst" id="s-acc" hidden><div class="eyebrow">Passo 7</div><h2>Acessórios</h2><p class="hint">O valor do estojo acompanha o tom e o número de partes que você escolheu.</p><div class="opts one" data-k="acc"></div></div>
+<div class="mst" id="s-acab" hidden><div class="eyebrow">Passo 8</div><h2>Acabamento</h2><p class="hint">Sem custo. Goma-laca forma uma película acetinada que sela e protege; o óleo de amêndoas entra na fibra, com toque mais natural.</p><div class="opts" data-k="finish"></div></div>
+<div class="mst" id="s-obs" hidden><div class="eyebrow">Passo 9</div><h2>Observações</h2><textarea class="fld" id="obs" maxlength="400" placeholder="Mãos pequenas, presente, prazo desejado, dúvidas..."></textarea></div>
+<div class="mst" id="s-cep" hidden><div class="eyebrow">Passo 10</div><h2>CEP e frete</h2>
+<input class="fld" id="cep" inputmode="numeric" maxlength="9" placeholder="00000-000" autocomplete="postal-code"><div class="opts" data-k="service" style="margin-top:12px"></div><div class="frete" id="frete"></div></div>
+<div class="sum" id="resumo" hidden><div class="eyebrow">Resumo</div><h2>Seu pedido</h2><ul id="itens"></ul><p class="nota" id="notas"></p>
+<a class="btn" id="enviar" href="#" target="_blank" rel="noopener">Enviar pedido pelo WhatsApp</a>
+<p class="nota">O pedido vai como mensagem para o WhatsApp do Igor. O pagamento é combinado só por lá: sinal de 50% do total (com frete) para começar e o restante antes do envio. Prazo combinado no orçamento, conforme a fila.</p>
+<button class="reset" id="reset" type="button">Recomeçar</button></div>
+</div></section>
+<div class="mbar" role="region" aria-label="Total"><div class="in"><div class="tt"><small id="bar-l">Escolha o modelo</small><strong id="bar-t">R$ 0</strong></div><a href="#resumo" id="bar-go">Ver resumo</a></div></div>
+<script type="application/json" id="precos">{"schema": "igor-order-builder-v1", "models": [{"key": "pifano_bambu", "label": "Pífano de bambu", "kind": "transversal", "tones": [{"key": "do", "label": "Dó", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 325, "marchetaria": 520}}}]}, {"key": "do#", "label": "Dó#", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 300, "marchetaria": 480}}}]}, {"key": "re", "label": "Ré", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 280, "marchetaria": 450}}}]}, {"key": "re#", "label": "Ré#", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 260}}}]}, {"key": "mi", "label": "Mi", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"marchetaria": 960, "base": 590}}}]}, {"key": "fa", "label": "Fá", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 550, "marchetaria": 880}}}]}, {"key": "fa#", "label": "Fá#", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 510, "marchetaria": 820}}}]}, {"key": "sol", "label": "Sol", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 475, "marchetaria": 760}}}]}, {"key": "sol#", "label": "Sol#", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 440, "marchetaria": 700}}}]}, {"key": "la", "label": "Lá", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 410, "marchetaria": 660}}}]}, {"key": "la#", "label": "Lá#", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 380, "marchetaria": 610}}}]}, {"key": "si", "label": "Si", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 350, "marchetaria": 560}}}]}, {"key": "re_grave", "label": "Ré grave", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"marchetaria": 1120}}}]}]}, {"key": "pifano_pvc", "label": "Pífano de PVC", "kind": "transversal", "tones": [{"key": "do", "label": "Dó", "woods": [{"key": "pvc", "label": "PVC", "bodies": {"1": {"base": 150}}}]}, {"key": "sol", "label": "Sol", "woods": [{"key": "pvc", "label": "PVC", "bodies": {"1": {"base": 220}}}]}, {"key": "sol#", "label": "Sol#", "woods": [{"key": "pvc", "label": "PVC", "bodies": {"1": {"base": 200}}}]}, {"key": "la", "label": "Lá", "woods": [{"key": "pvc", "label": "PVC", "bodies": {"1": {"base": 190}}}]}, {"key": "la#", "label": "Lá#", "woods": [{"key": "pvc", "label": "PVC", "bodies": {"1": {"base": 175}}}]}, {"key": "si", "label": "Si", "woods": [{"key": "pvc", "label": "PVC", "bodies": {"1": {"base": 160}}}]}]}, {"key": "pifano_madeira", "label": "Pífano / transversal de madeira", "kind": "transversal", "tones": [{"key": "do", "label": "Dó", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 810, "marchetaria": 1220}, "2": {"base": 1210, "marchetaria": 1620}, "3": {"base": 1610, "marchetaria": 2020, "regra": ["marchetaria"]}, "4": {"base": 2010, "regra": ["base", "marchetaria"], "marchetaria": 2420}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 960, "marchetaria": 1440}, "2": {"base": 1360, "marchetaria": 1840}, "3": {"base": 1760, "marchetaria": 2240, "regra": ["marchetaria"]}, "4": {"base": 2160, "regra": ["base", "marchetaria"], "marchetaria": 2640}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 810, "marchetaria": 1220}, "2": {"base": 1210, "marchetaria": 1620}, "3": {"base": 1610, "marchetaria": 2020, "regra": ["marchetaria"]}, "4": {"base": 2010, "regra": ["base", "marchetaria"], "marchetaria": 2420}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 810, "marchetaria": 1220}, "2": {"base": 1210, "marchetaria": 1620}, "3": {"base": 1610, "marchetaria": 2020, "regra": ["marchetaria"]}, "4": {"base": 2010, "regra": ["base", "marchetaria"], "marchetaria": 2420}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 880, "marchetaria": 1320}, "2": {"base": 1280, "marchetaria": 1720}, "3": {"base": 1680, "marchetaria": 2120, "regra": ["marchetaria"]}, "4": {"base": 2080, "regra": ["base", "marchetaria"], "marchetaria": 2520}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 830, "marchetaria": 1240}, "2": {"base": 1230, "marchetaria": 1640}, "3": {"base": 1630, "marchetaria": 2040, "regra": ["marchetaria"]}, "4": {"base": 2030, "regra": ["base", "marchetaria"], "marchetaria": 2440}}}]}, {"key": "do#", "label": "Dó#", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 750, "marchetaria": 1120}, "2": {"base": 1150, "marchetaria": 1520}, "3": {"base": 1550, "marchetaria": 1920, "regra": ["marchetaria"]}, "4": {"base": 1950, "regra": ["base", "marchetaria"], "marchetaria": 2320}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 900, "marchetaria": 1350}, "2": {"base": 1300, "marchetaria": 1750}, "3": {"base": 1700, "marchetaria": 2150, "regra": ["marchetaria"]}, "4": {"base": 2100, "regra": ["base", "marchetaria"], "marchetaria": 2550}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 750, "marchetaria": 1120}, "2": {"base": 1150, "marchetaria": 1520}, "3": {"base": 1550, "marchetaria": 1920, "regra": ["marchetaria"]}, "4": {"base": 1950, "regra": ["base", "marchetaria"], "marchetaria": 2320}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 750, "marchetaria": 1130}, "2": {"base": 1150, "marchetaria": 1520}, "3": {"base": 1550, "marchetaria": 1930, "regra": ["marchetaria"]}, "4": {"base": 1950, "regra": ["base", "marchetaria"], "marchetaria": 2330}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 820, "marchetaria": 1230}, "2": {"base": 1220, "marchetaria": 1630}, "3": {"base": 1620, "marchetaria": 2030, "regra": ["marchetaria"]}, "4": {"base": 2020, "regra": ["base", "marchetaria"], "marchetaria": 2430}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 770, "marchetaria": 1160}, "2": {"base": 1170, "marchetaria": 1560}, "3": {"base": 1570, "marchetaria": 1960, "regra": ["marchetaria"]}, "4": {"base": 1970, "regra": ["base", "marchetaria"], "marchetaria": 2360}}}]}, {"key": "re", "label": "Ré", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 690, "marchetaria": 1040}, "2": {"base": 1090, "marchetaria": 1440}, "3": {"base": 1490, "marchetaria": 1840, "regra": ["marchetaria"]}, "4": {"base": 1890, "regra": ["base", "marchetaria"], "marchetaria": 2240}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 840, "marchetaria": 1260}, "2": {"base": 1240, "marchetaria": 1660}, "3": {"base": 1640, "marchetaria": 2060, "regra": ["marchetaria"]}, "4": {"base": 2040, "regra": ["base", "marchetaria"], "marchetaria": 2460}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 690, "marchetaria": 1040}, "2": {"base": 1090, "marchetaria": 1440}, "3": {"base": 1490, "marchetaria": 1840, "regra": ["marchetaria"]}, "4": {"base": 1890, "regra": ["base", "marchetaria"], "marchetaria": 2240}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 690, "marchetaria": 1040}, "2": {"base": 1090, "marchetaria": 1440}, "3": {"base": 1490, "marchetaria": 1840, "regra": ["marchetaria"]}, "4": {"base": 1890, "regra": ["base", "marchetaria"], "marchetaria": 2240}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 760, "marchetaria": 1140}, "2": {"base": 1160, "marchetaria": 1540}, "3": {"base": 1560, "marchetaria": 1940, "regra": ["marchetaria"]}, "4": {"base": 1960, "regra": ["base", "marchetaria"], "marchetaria": 2340}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 710, "marchetaria": 1060}, "2": {"base": 1110, "marchetaria": 1460}, "3": {"base": 1510, "marchetaria": 1860, "regra": ["marchetaria"]}, "4": {"base": 1910, "regra": ["base", "marchetaria"], "marchetaria": 2260}}}]}, {"key": "mi", "label": "Mi", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1500, "marchetaria": 2250}, "2": {"base": 1900, "marchetaria": 2650}, "3": {"base": 2300, "marchetaria": 3050, "regra": ["marchetaria"]}, "4": {"base": 2700, "regra": ["base", "marchetaria"], "marchetaria": 3450}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1650, "marchetaria": 2480}, "2": {"base": 2050, "marchetaria": 2880}, "3": {"base": 2450, "marchetaria": 3280, "regra": ["marchetaria"]}, "4": {"base": 2850, "regra": ["base", "marchetaria"], "marchetaria": 3680}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1500, "marchetaria": 2250}, "2": {"base": 1900, "marchetaria": 2650}, "3": {"base": 2300, "marchetaria": 3050, "regra": ["marchetaria"]}, "4": {"base": 2700, "regra": ["base", "marchetaria"], "marchetaria": 3450}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1500, "marchetaria": 2250}, "2": {"base": 1900, "marchetaria": 2650}, "3": {"base": 2300, "marchetaria": 3050, "regra": ["marchetaria"]}, "4": {"base": 2700, "regra": ["base", "marchetaria"], "marchetaria": 3450}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1580, "marchetaria": 2370}, "2": {"base": 1980, "marchetaria": 2770}, "3": {"base": 2380, "marchetaria": 3170, "regra": ["marchetaria"]}, "4": {"base": 2780, "regra": ["base", "marchetaria"], "marchetaria": 3570}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1520, "marchetaria": 2280}, "2": {"base": 1920, "marchetaria": 2680}, "3": {"base": 2320, "marchetaria": 3080, "regra": ["marchetaria"]}, "4": {"base": 2720, "regra": ["base", "marchetaria"], "marchetaria": 3480}}}]}, {"key": "fa", "label": "Fá", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1380, "marchetaria": 2070}, "2": {"base": 1780, "marchetaria": 2470}, "3": {"base": 2180, "marchetaria": 2870, "regra": ["marchetaria"]}, "4": {"base": 2580, "regra": ["base", "marchetaria"], "marchetaria": 3270}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1530, "marchetaria": 2300}, "2": {"base": 1930, "marchetaria": 2700}, "3": {"base": 2330, "marchetaria": 3100, "regra": ["marchetaria"]}, "4": {"base": 2730, "regra": ["base", "marchetaria"], "marchetaria": 3500}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1380, "marchetaria": 2070}, "2": {"base": 1780, "marchetaria": 2470}, "3": {"base": 2180, "marchetaria": 2870, "regra": ["marchetaria"]}, "4": {"base": 2580, "regra": ["base", "marchetaria"], "marchetaria": 3270}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1380, "marchetaria": 2070}, "2": {"base": 1780, "marchetaria": 2470}, "3": {"base": 2180, "marchetaria": 2870, "regra": ["marchetaria"]}, "4": {"base": 2580, "regra": ["base", "marchetaria"], "marchetaria": 3270}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1460, "marchetaria": 2190}, "2": {"base": 1860, "marchetaria": 2590}, "3": {"base": 2260, "marchetaria": 2990, "regra": ["marchetaria"]}, "4": {"base": 2660, "regra": ["base", "marchetaria"], "marchetaria": 3390}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1400, "marchetaria": 2100}, "2": {"base": 1800, "marchetaria": 2500}, "3": {"base": 2200, "marchetaria": 2900, "regra": ["marchetaria"]}, "4": {"base": 2600, "regra": ["base", "marchetaria"], "marchetaria": 3300}}}]}, {"key": "fa#", "label": "Fá#", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1280, "marchetaria": 1920}, "2": {"base": 1680, "marchetaria": 2320}, "3": {"base": 2080, "marchetaria": 2720, "regra": ["marchetaria"]}, "4": {"base": 2480, "regra": ["base", "marchetaria"], "marchetaria": 3120}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1420, "marchetaria": 2130}, "2": {"base": 1820, "marchetaria": 2530}, "3": {"base": 2220, "marchetaria": 2930, "regra": ["marchetaria"]}, "4": {"base": 2620, "regra": ["base", "marchetaria"], "marchetaria": 3330}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1280, "marchetaria": 1920}, "2": {"base": 1680, "marchetaria": 2320}, "3": {"base": 2080, "marchetaria": 2720, "regra": ["marchetaria"]}, "4": {"base": 2480, "regra": ["base", "marchetaria"], "marchetaria": 3120}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1280, "marchetaria": 1920}, "2": {"base": 1680, "marchetaria": 2320}, "3": {"base": 2080, "marchetaria": 2720, "regra": ["marchetaria"]}, "4": {"base": 2480, "regra": ["base", "marchetaria"], "marchetaria": 3120}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1350, "marchetaria": 2020}, "2": {"base": 1750, "marchetaria": 2420}, "3": {"base": 2150, "marchetaria": 2820, "regra": ["marchetaria"]}, "4": {"base": 2550, "regra": ["base", "marchetaria"], "marchetaria": 3220}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1300, "marchetaria": 1950}, "2": {"base": 1700, "marchetaria": 2350}, "3": {"base": 2100, "marchetaria": 2750, "regra": ["marchetaria"]}, "4": {"base": 2500, "regra": ["base", "marchetaria"], "marchetaria": 3150}}}]}, {"key": "sol", "label": "Sol", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1180, "marchetaria": 1770}, "2": {"base": 1580, "marchetaria": 2170}, "3": {"base": 1980, "marchetaria": 2570, "regra": ["marchetaria"]}, "4": {"base": 2380, "regra": ["base", "marchetaria"], "marchetaria": 2970}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1340, "marchetaria": 2010}, "2": {"base": 1740, "marchetaria": 2410}, "3": {"base": 2140, "marchetaria": 2810, "regra": ["marchetaria"]}, "4": {"base": 2540, "regra": ["base", "marchetaria"], "marchetaria": 3210}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1180, "marchetaria": 1770}, "2": {"base": 1580, "marchetaria": 2170}, "3": {"base": 1980, "marchetaria": 2570, "regra": ["marchetaria"]}, "4": {"base": 2380, "regra": ["base", "marchetaria"], "marchetaria": 2970}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1180, "marchetaria": 1770}, "2": {"base": 1580, "marchetaria": 2170}, "3": {"base": 1980, "marchetaria": 2570, "regra": ["marchetaria"]}, "4": {"base": 2380, "regra": ["base", "marchetaria"], "marchetaria": 2970}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1260, "marchetaria": 1890}, "2": {"base": 1660, "marchetaria": 2290}, "3": {"base": 2060, "marchetaria": 2690, "regra": ["marchetaria"]}, "4": {"base": 2460, "regra": ["base", "marchetaria"], "marchetaria": 3090}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1200, "marchetaria": 1800}, "2": {"base": 1600, "marchetaria": 2200}, "3": {"base": 2000, "marchetaria": 2600, "regra": ["marchetaria"]}, "4": {"base": 2400, "regra": ["base", "marchetaria"], "marchetaria": 3000}}}]}, {"key": "sol#", "label": "Sol#", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1100, "marchetaria": 1650}, "2": {"base": 1500, "marchetaria": 2050}, "3": {"base": 1900, "marchetaria": 2450, "regra": ["marchetaria"]}, "4": {"base": 2300, "regra": ["base", "marchetaria"], "marchetaria": 2850}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1240, "marchetaria": 1860}, "2": {"base": 1640, "marchetaria": 2260}, "3": {"base": 2040, "marchetaria": 2660, "regra": ["marchetaria"]}, "4": {"base": 2440, "regra": ["base", "marchetaria"], "marchetaria": 3060}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1100, "marchetaria": 1650}, "2": {"base": 1500, "marchetaria": 2050}, "3": {"base": 1900, "marchetaria": 2450, "regra": ["marchetaria"]}, "4": {"base": 2300, "regra": ["base", "marchetaria"], "marchetaria": 2850}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1100, "marchetaria": 1650}, "2": {"base": 1500, "marchetaria": 2050}, "3": {"base": 1900, "marchetaria": 2450, "regra": ["marchetaria"]}, "4": {"base": 2300, "regra": ["base", "marchetaria"], "marchetaria": 2850}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1170, "marchetaria": 1760}, "2": {"base": 1570, "marchetaria": 2160}, "3": {"base": 1970, "marchetaria": 2560, "regra": ["marchetaria"]}, "4": {"base": 2370, "regra": ["base", "marchetaria"], "marchetaria": 2960}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1120, "marchetaria": 1680}, "2": {"base": 1520, "marchetaria": 2080}, "3": {"base": 1920, "marchetaria": 2480, "regra": ["marchetaria"]}, "4": {"base": 2320, "regra": ["base", "marchetaria"], "marchetaria": 2880}}}]}, {"key": "la", "label": "Lá", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1020, "marchetaria": 1530}, "2": {"base": 1420, "marchetaria": 1930}, "3": {"base": 1820, "marchetaria": 2330, "regra": ["marchetaria"]}, "4": {"base": 2220, "regra": ["base", "marchetaria"], "marchetaria": 2730}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1170, "marchetaria": 1760}, "2": {"base": 1570, "marchetaria": 2160}, "3": {"base": 1970, "marchetaria": 2560, "regra": ["marchetaria"]}, "4": {"base": 2370, "regra": ["base", "marchetaria"], "marchetaria": 2960}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1020, "marchetaria": 1530}, "2": {"base": 1420, "marchetaria": 1930}, "3": {"base": 1820, "marchetaria": 2330, "regra": ["marchetaria"]}, "4": {"base": 2220, "regra": ["base", "marchetaria"], "marchetaria": 2730}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1020, "marchetaria": 1530}, "2": {"base": 1420, "marchetaria": 1930}, "3": {"base": 1820, "marchetaria": 2330, "regra": ["marchetaria"]}, "4": {"base": 2220, "regra": ["base", "marchetaria"], "marchetaria": 2730}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1100, "marchetaria": 1650}, "2": {"base": 1500, "marchetaria": 2050}, "3": {"base": 1900, "marchetaria": 2450, "regra": ["marchetaria"]}, "4": {"base": 2300, "regra": ["base", "marchetaria"], "marchetaria": 2850}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1040, "marchetaria": 1560}, "2": {"base": 1440, "marchetaria": 1960}, "3": {"base": 1840, "marchetaria": 2360, "regra": ["marchetaria"]}, "4": {"base": 2240, "regra": ["base", "marchetaria"], "marchetaria": 2760}}}]}, {"key": "la#", "label": "Lá#", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 940, "marchetaria": 1410}, "2": {"base": 1340, "marchetaria": 1810}, "3": {"base": 1740, "marchetaria": 2210, "regra": ["marchetaria"]}, "4": {"base": 2140, "regra": ["base", "marchetaria"], "marchetaria": 2610}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1100, "marchetaria": 1650}, "2": {"base": 1500, "marchetaria": 2050}, "3": {"base": 1900, "marchetaria": 2450, "regra": ["marchetaria"]}, "4": {"base": 2300, "regra": ["base", "marchetaria"], "marchetaria": 2850}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 940, "marchetaria": 1410}, "2": {"base": 1340, "marchetaria": 1810}, "3": {"base": 1740, "marchetaria": 2210, "regra": ["marchetaria"]}, "4": {"base": 2140, "regra": ["base", "marchetaria"], "marchetaria": 2610}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 940, "marchetaria": 1410}, "2": {"base": 1340, "marchetaria": 1810}, "3": {"base": 1740, "marchetaria": 2210, "regra": ["marchetaria"]}, "4": {"base": 2140, "regra": ["base", "marchetaria"], "marchetaria": 2610}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1020, "marchetaria": 1530}, "2": {"base": 1420, "marchetaria": 1930}, "3": {"base": 1820, "marchetaria": 2330, "regra": ["marchetaria"]}, "4": {"base": 2220, "regra": ["base", "marchetaria"], "marchetaria": 2730}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 960, "marchetaria": 1440}, "2": {"base": 1360, "marchetaria": 1840}, "3": {"base": 1760, "marchetaria": 2240, "regra": ["marchetaria"]}, "4": {"base": 2160, "regra": ["base", "marchetaria"], "marchetaria": 2640}}}]}, {"key": "si", "label": "Si", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 870, "marchetaria": 1300}, "2": {"base": 1270, "marchetaria": 1700}, "3": {"base": 1670, "marchetaria": 2100, "regra": ["marchetaria"]}, "4": {"base": 2070, "regra": ["base", "marchetaria"], "marchetaria": 2500}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1020, "marchetaria": 1530}, "2": {"base": 1420, "marchetaria": 1930}, "3": {"base": 1820, "marchetaria": 2330, "regra": ["marchetaria"]}, "4": {"base": 2220, "regra": ["base", "marchetaria"], "marchetaria": 2730}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 870, "marchetaria": 1300}, "2": {"base": 1270, "marchetaria": 1700}, "3": {"base": 1670, "marchetaria": 2100, "regra": ["marchetaria"]}, "4": {"base": 2070, "regra": ["base", "marchetaria"], "marchetaria": 2500}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 870, "marchetaria": 1310}, "2": {"base": 1270, "marchetaria": 1700}, "3": {"base": 1670, "marchetaria": 2110, "regra": ["marchetaria"]}, "4": {"base": 2070, "regra": ["base", "marchetaria"], "marchetaria": 2510}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 940, "marchetaria": 1410}, "2": {"base": 1340, "marchetaria": 1810}, "3": {"base": 1740, "marchetaria": 2210, "regra": ["marchetaria"]}, "4": {"base": 2140, "regra": ["base", "marchetaria"], "marchetaria": 2610}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 890, "marchetaria": 1340}, "2": {"base": 1290, "marchetaria": 1740}, "3": {"base": 1690, "marchetaria": 2140, "regra": ["marchetaria"]}, "4": {"base": 2090, "regra": ["base", "marchetaria"], "marchetaria": 2540}}}]}, {"key": "re_grave", "label": "Ré grave", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1740, "marchetaria": 2610}, "2": {"base": 2140, "marchetaria": 3010}, "3": {"base": 2540, "marchetaria": 3410, "regra": ["marchetaria"]}, "4": {"base": 2940, "regra": ["base", "marchetaria"], "marchetaria": 3810}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1890, "marchetaria": 2840}, "2": {"base": 2290, "marchetaria": 3240}, "3": {"base": 2690, "marchetaria": 3640, "regra": ["marchetaria"]}, "4": {"base": 3090, "regra": ["base", "marchetaria"], "marchetaria": 4040}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1740, "marchetaria": 2610}, "2": {"base": 2140, "marchetaria": 3010}, "3": {"base": 2540, "marchetaria": 3410, "regra": ["marchetaria"]}, "4": {"base": 2940, "regra": ["base", "marchetaria"], "marchetaria": 3810}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1740, "marchetaria": 2610}, "2": {"base": 2140, "marchetaria": 3010}, "3": {"base": 2540, "marchetaria": 3410, "regra": ["marchetaria"]}, "4": {"base": 2940, "regra": ["base", "marchetaria"], "marchetaria": 3810}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1820, "marchetaria": 2730}, "2": {"base": 2220, "marchetaria": 3130}, "3": {"base": 2620, "marchetaria": 3530, "regra": ["marchetaria"]}, "4": {"base": 3020, "regra": ["base", "marchetaria"], "marchetaria": 3930}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1760, "marchetaria": 2640}, "2": {"base": 2160, "marchetaria": 3040}, "3": {"base": 2560, "marchetaria": 3440, "regra": ["marchetaria"]}, "4": {"base": 2960, "regra": ["base", "marchetaria"], "marchetaria": 3840}}}]}]}, {"key": "naf_bambu", "label": "NAF de bambu", "kind": "naf", "tones": [{"key": "do", "label": "Dó", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 440, "drone": 790, "marchetaria": 700, "drone+marchetaria": 1050}}}]}, {"key": "do#", "label": "Dó#", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 400, "drone": 720, "marchetaria": 640, "drone+marchetaria": 960}}}]}, {"key": "re", "label": "Ré", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 380, "drone": 680, "marchetaria": 610, "drone+marchetaria": 910}}}]}, {"key": "fa", "label": "Fá", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 740, "drone": 1330, "marchetaria": 1180, "drone+marchetaria": 1770}}}]}, {"key": "fa#", "label": "Fá#", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 690, "drone": 1240, "marchetaria": 1100, "drone+marchetaria": 1650}}}]}, {"key": "sol", "label": "Sol", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 640, "drone": 1150, "marchetaria": 1020, "drone+marchetaria": 1530}}}]}, {"key": "sol#", "label": "Sol#", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 590, "drone": 1060, "marchetaria": 940, "drone+marchetaria": 1410}}}]}, {"key": "la", "label": "Lá", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 550, "drone": 990, "marchetaria": 880, "drone+marchetaria": 1320}}}]}, {"key": "la#", "label": "Lá#", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 510, "drone": 920, "marchetaria": 820, "drone+marchetaria": 1230}}}]}, {"key": "si", "label": "Si", "woods": [{"key": "bambu", "label": "Bambu", "bodies": {"1": {"base": 470, "drone": 850, "marchetaria": 750, "drone+marchetaria": 1130}}}]}]}, {"key": "naf_madeira", "label": "NAF de madeira", "kind": "naf", "tones": [{"key": "do", "label": "Dó", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1090, "drone": 1960, "marchetaria": 1640, "drone+marchetaria": 2510}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1300, "drone": 2340, "marchetaria": 1950, "drone+marchetaria": 2990}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1090, "drone": 1960, "marchetaria": 1640, "drone+marchetaria": 2510}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1090, "drone": 1960, "marchetaria": 1640, "drone+marchetaria": 2510}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1190, "drone": 2140, "marchetaria": 1780, "drone+marchetaria": 2730}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1120, "drone": 2020, "marchetaria": 1680, "drone+marchetaria": 2580}}}]}, {"key": "do#", "label": "Dó#", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1010, "drone": 1820, "marchetaria": 1520, "drone+marchetaria": 2330}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1220, "drone": 2200, "marchetaria": 1830, "drone+marchetaria": 2810}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1010, "drone": 1820, "marchetaria": 1520, "drone+marchetaria": 2330}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1010, "drone": 1820, "marchetaria": 1520, "drone+marchetaria": 2330}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1110, "drone": 2000, "marchetaria": 1660, "drone+marchetaria": 2550}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1040, "drone": 1870, "marchetaria": 1560, "drone+marchetaria": 2390}}}]}, {"key": "re", "label": "Ré", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 930, "drone": 1670, "marchetaria": 1400, "drone+marchetaria": 2140}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1130, "drone": 2030, "marchetaria": 1700, "drone+marchetaria": 2600}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 930, "drone": 1670, "marchetaria": 1400, "drone+marchetaria": 2140}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 930, "drone": 1670, "marchetaria": 1400, "drone+marchetaria": 2140}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1030, "drone": 1850, "marchetaria": 1540, "drone+marchetaria": 2360}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 960, "drone": 1730, "marchetaria": 1440, "drone+marchetaria": 2210}}}]}, {"key": "mi", "label": "Mi", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 2030, "drone": 3650, "marchetaria": 3040, "drone+marchetaria": 4660}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 2230, "drone": 4010, "marchetaria": 3340, "drone+marchetaria": 5120}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 2030, "drone": 3650, "marchetaria": 3040, "drone+marchetaria": 4660}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 2030, "drone": 3650, "marchetaria": 3040, "drone+marchetaria": 4660}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 2130, "drone": 3830, "marchetaria": 3200, "drone+marchetaria": 4900}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 2050, "drone": 3690, "marchetaria": 3080, "drone+marchetaria": 4720}}}]}, {"key": "fa", "label": "Fá", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1860, "drone": 3350, "marchetaria": 2790, "drone+marchetaria": 4280}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 2070, "drone": 3730, "marchetaria": 3100, "drone+marchetaria": 4760}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1860, "drone": 3350, "marchetaria": 2790, "drone+marchetaria": 4280}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1860, "drone": 3350, "marchetaria": 2790, "drone+marchetaria": 4280}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1970, "drone": 3550, "marchetaria": 2960, "drone+marchetaria": 4540}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1890, "drone": 3400, "marchetaria": 2840, "drone+marchetaria": 4350}}}]}, {"key": "fa#", "label": "Fá#", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1730, "drone": 3110, "marchetaria": 2600, "drone+marchetaria": 3980}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1920, "drone": 3460, "marchetaria": 2880, "drone+marchetaria": 4420}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1730, "drone": 3110, "marchetaria": 2600, "drone+marchetaria": 3980}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1730, "drone": 3110, "marchetaria": 2600, "drone+marchetaria": 3980}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1820, "drone": 3280, "marchetaria": 2730, "drone+marchetaria": 4190}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1760, "drone": 3170, "marchetaria": 2640, "drone+marchetaria": 4050}}}]}, {"key": "sol", "label": "Sol", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1590, "drone": 2860, "marchetaria": 2380, "drone+marchetaria": 3650}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1810, "drone": 3260, "marchetaria": 2720, "drone+marchetaria": 4170}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1590, "drone": 2860, "marchetaria": 2380, "drone+marchetaria": 3650}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1590, "drone": 2860, "marchetaria": 2380, "drone+marchetaria": 3650}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1700, "drone": 3060, "marchetaria": 2550, "drone+marchetaria": 3910}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1620, "drone": 2920, "marchetaria": 2430, "drone+marchetaria": 3730}}}]}, {"key": "sol#", "label": "Sol#", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1480, "drone": 2660, "marchetaria": 2220, "drone+marchetaria": 3400}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1670, "drone": 3010, "marchetaria": 2500, "drone+marchetaria": 3840}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1480, "drone": 2660, "marchetaria": 2220, "drone+marchetaria": 3400}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1480, "drone": 2660, "marchetaria": 2220, "drone+marchetaria": 3400}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1580, "drone": 2840, "marchetaria": 2370, "drone+marchetaria": 3630}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1510, "drone": 2720, "marchetaria": 2260, "drone+marchetaria": 3470}}}]}, {"key": "la", "label": "Lá", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1380, "drone": 2480, "marchetaria": 2070, "drone+marchetaria": 3170}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1580, "drone": 2840, "marchetaria": 2370, "drone+marchetaria": 3630}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1380, "drone": 2480, "marchetaria": 2070, "drone+marchetaria": 3170}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1380, "drone": 2480, "marchetaria": 2070, "drone+marchetaria": 3170}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1480, "drone": 2660, "marchetaria": 2220, "drone+marchetaria": 3400}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1400, "drone": 2520, "marchetaria": 2100, "drone+marchetaria": 3220}}}]}, {"key": "la#", "label": "Lá#", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1270, "drone": 2290, "marchetaria": 1900, "drone+marchetaria": 2920}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1480, "drone": 2660, "marchetaria": 2220, "drone+marchetaria": 3400}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1270, "drone": 2290, "marchetaria": 1900, "drone+marchetaria": 2920}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1270, "drone": 2290, "marchetaria": 1900, "drone+marchetaria": 2920}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1380, "drone": 2480, "marchetaria": 2070, "drone+marchetaria": 3170}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1300, "drone": 2340, "marchetaria": 1950, "drone+marchetaria": 2990}}}]}, {"key": "si", "label": "Si", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 1170, "drone": 2110, "marchetaria": 1760, "drone+marchetaria": 2700}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 1380, "drone": 2480, "marchetaria": 2070, "drone+marchetaria": 3170}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 1170, "drone": 2110, "marchetaria": 1760, "drone+marchetaria": 2700}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 1170, "drone": 2110, "marchetaria": 1760, "drone+marchetaria": 2700}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 1270, "drone": 2290, "marchetaria": 1900, "drone+marchetaria": 2920}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 1200, "drone": 2160, "marchetaria": 1800, "drone+marchetaria": 2760}}}]}, {"key": "re_grave", "label": "Ré grave", "woods": [{"key": "arariba", "label": "Arariba", "bodies": {"1": {"base": 2350, "drone": 4230, "marchetaria": 3520, "drone+marchetaria": 5400}}}, {"key": "jacaranda", "label": "Jacarandá", "bodies": {"1": {"base": 2550, "drone": 4590, "marchetaria": 3820, "drone+marchetaria": 5860}}}, {"key": "jaqueira", "label": "Jaqueira", "bodies": {"1": {"base": 2350, "drone": 4230, "marchetaria": 3520, "drone+marchetaria": 5400}}}, {"key": "massaranduba", "label": "Massaranduba", "bodies": {"1": {"base": 2350, "drone": 4230, "marchetaria": 3520, "drone+marchetaria": 5400}}}, {"key": "muirapiranga", "label": "Muirapiranga", "bodies": {"1": {"base": 2460, "drone": 4430, "marchetaria": 3690, "drone+marchetaria": 5660}}}, {"key": "roxinho", "label": "Roxinho", "bodies": {"1": {"base": 2380, "drone": 4280, "marchetaria": 3570, "drone+marchetaria": 5470}}}]}]}, {"key": "irlandesa", "label": "Flauta irlandesa (Low D)", "kind": "transversal", "tones": [{"key": "re_grave", "label": "Ré grave", "woods": [{"key": "-", "label": "", "bodies": {"2": {"base": 2100}, "4": {"base": 2700}}}]}]}], "addons": [{"key": "aneis", "label": "Anéis de latão", "value": 150, "photo": "A_aneis_latao.jpg", "models": ["pifano_bambu", "pifano_madeira", "naf_bambu", "naf_madeira", "irlandesa"]}, {"key": "marchet_bocal", "label": "Marchetaria no bocal", "value": 260, "photo": "A_marchetaria_bocal.jpg", "models": ["pifano_bambu", "pifano_madeira", "irlandesa"]}, {"key": "porta_labios", "label": "Porta-lábios", "value": 100, "photo": "A_porta_labios.jpg", "models": ["pifano_bambu", "pifano_madeira"]}, {"key": "stopper", "label": "Coroa com stopper móvel", "value": 180, "photo": "A_stopper.jpg", "models": ["pifano_madeira", "irlandesa"]}, {"key": "totem_catalogo", "label": "Totem 3D de catálogo", "value": 350, "photo": "A_totem_pantera.jpg", "models": ["naf_bambu", "naf_madeira"]}, {"key": "totem_encomenda", "label": "Totem 3D sob encomenda", "value": 700, "photo": "A_totem_pantera.jpg", "models": ["naf_bambu", "naf_madeira"]}], "gravacao": {"nome": 30, "frase": 50, "arte": 250}, "consulta": [{"key": "resina", "label": "Marchetaria com resina epóxi", "photo": "A_resina_epoxi.jpg"}], "companions": {"kit": 90, "estojo_tom": {"re": 350, "do": 350, "do#": 350, "si": 350, "la": 350, "la#": 350, "sol": 350, "sol#": 350, "fa": 390, "fa#": 390, "mi": 420, "re_grave": 450}, "estojo_partes": {"2": 550, "3": 670}}, "finishes": ["goma-laca", "óleo de amêndoas"], "extra_part": 400, "stats": {"rows": 1826, "combinations": 720, "derived_by_rule": 216, "conflicts": []}, "frete": {"kind": "faixas", "origem": "46940-000 (Vale do Capão, Palmeiras-BA)", "caixa": "11 x 11 x 60 cm, 1 kg", "nota": "estimativa; o frete exato é confirmado no WhatsApp", "regioes": [{"de": "40", "ate": "48", "label": "Bahia", "PAC": [25, 45], "SEDEX": [40, 80]}, {"de": "49", "ate": "49", "label": "Sergipe", "PAC": [35, 60], "SEDEX": [60, 110]}, {"de": "50", "ate": "59", "label": "Pernambuco, Alagoas, Paraíba e Rio Grande do Norte", "PAC": [35, 65], "SEDEX": [60, 120]}, {"de": "60", "ate": "65", "label": "Ceará, Piauí e Maranhão", "PAC": [40, 75], "SEDEX": [70, 140]}, {"de": "66", "ate": "69", "label": "Norte (Pará, Amapá, Amazonas, Roraima, Acre)", "PAC": [55, 110], "SEDEX": [100, 200]}, {"de": "30", "ate": "39", "label": "Minas Gerais", "PAC": [40, 70], "SEDEX": [65, 130]}, {"de": "20", "ate": "29", "label": "Rio de Janeiro e Espírito Santo", "PAC": [45, 80], "SEDEX": [75, 145]}, {"de": "01", "ate": "19", "label": "São Paulo", "PAC": [45, 80], "SEDEX": [75, 150]}, {"de": "70", "ate": "77", "label": "Distrito Federal, Goiás e Tocantins", "PAC": [45, 80], "SEDEX": [75, 150]}, {"de": "78", "ate": "79", "label": "Mato Grosso, Mato Grosso do Sul e Rondônia", "PAC": [55, 100], "SEDEX": [95, 180]}, {"de": "80", "ate": "89", "label": "Paraná e Santa Catarina", "PAC": [50, 90], "SEDEX": [85, 165]}, {"de": "90", "ate": "99", "label": "Rio Grande do Sul", "PAC": [55, 95], "SEDEX": [95, 180]}]}}</script>
+<script>
+(function(){
+var D=JSON.parse(document.getElementById('precos').textContent),WA='5575982901157',KEY='monte_v1';
+function $(s){return document.querySelector(s)}
+function money(c){c=Math.round(c);var r=Math.floor(c/100),k=c%100;return 'R$ '+String(r).replace(/\B(?=(\d{3})+(?!\d))/g,'.')+(k?','+(k<10?'0':'')+k:'')}
+function hex4(){var a='';for(var i=0;i<4;i++)a+='0123456789ABCDEF'[Math.floor(Math.random()*16)];return a}
+var S={model:'',tone:'',wood:'',parts:'',pers:{},grav:'',arte:false,acc:{},finish:'goma-laca',obs:'',cep:'',service:'PAC',code:''};
+try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);for(var k in o)if(k in S)S[k]=o[k]}}catch(e){}
+if(!/^[0-9A-F]{4}$/.test(S.code))S.code=hex4();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function M(){return D.models.filter(function(m){return m.key===S.model})[0]}
+function T(){var m=M();return m&&m.tones.filter(function(t){return t.key===S.tone})[0]}
+function W(){var t=T();return t&&t.woods.filter(function(w){return w.key===S.wood})[0]}
+function B(){var w=W();return w&&w.bodies[S.parts]}
+function minOf(list){var v=list.filter(function(x){return x}).sort(function(a,b){return a-b});return v.length?v[0]:null}
+function woodMin(w){return minOf(Object.keys(w.bodies).map(function(p){return w.bodies[p].base}))}
+function toneMin(t){return minOf(t.woods.map(woodMin))}
+function modelMin(m){return minOf(m.tones.map(toneMin))}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function opt(type,name,val,checked,title,sub,price,img,dis){return '<label class="o'+(type==='checkbox'?' ck':'')+'">'+(img?'<img src="img/m/'+img+'" alt="" loading="lazy">':'')+'<input type="'+type+'" name="'+name+'" value="'+esc(val)+'"'+(checked?' checked':'')+(dis?' disabled':'')+'><span>'+esc(title)+(sub?'<small>'+esc(sub)+'</small>':'')+'</span>'+(price?'<b>'+price+'</b>':'')+'</label>'}
+function partsLabel(p){return p==='1'?'Corpo único, sem encaixe':p+' partes ('+(p-1)+' encaixe'+(p>2?'s':'')+')'}
+function estojo(){var c=D.companions,m=M();if(!m||m.kind!=='transversal'||!S.parts)return undefined;return S.parts==='1'?c.estojo_tom[S.tone]:c.estojo_partes[S.parts]}
+function gravTier(){var w=S.grav.trim().split(/\s+/).filter(Boolean).length;return w?(w<=2?'nome':'frase'):''}
+function region(){var d=S.cep.replace(/\D/g,'');if(d.length!==8)return null;var p=d.slice(0,2);return D.frete.regioes.filter(function(r){return p>=r.de&&p<=r.ate})[0]||null}
+function fix(){var m=M();if(!m){S.tone=S.wood=S.parts='';return}
+ if(!T())S.tone=m.tones.length===1?m.tones[0].key:'';var t=T();if(!t){S.wood=S.parts='';return}
+ if(!W())S.wood=t.woods.length===1?t.woods[0].key:'';var w=W();if(!w){S.parts='';return}
+ var ps=Object.keys(w.bodies);if(ps.indexOf(S.parts)<0)S.parts=ps.length===1?ps[0]:''}
+function items(){var out=[],b=B(),m=M(),base=b&&b.base;if(!b)return out;
+ out.push({k:'flauta',l:'Flauta',v:base?base*100:null});
+ if(S.pers.marchetaria&&b.marchetaria)out.push({k:'v',l:'Marchetaria no corpo',v:(b.marchetaria-base)*100});
+ if(S.pers.drone&&b.drone)out.push({k:'v',l:'Drone (flauta dupla)',v:(b.drone-base)*100});
+ D.addons.forEach(function(a){if(S.pers[a.key]&&a.models.indexOf(m.key)>=0)out.push({k:'a',l:a.label,v:a.value*100})});
+ var g=gravTier(),txt=S.grav.trim().replace(/[:"`]/g,' ').replace(/\s+/g,' ');
+ if(g)out.push({k:'g',l:'Gravação a laser, '+(g==='nome'?'nome pequeno':'frase')+' ("'+txt+'")',v:D.gravacao[g]*100});
+ if(S.arte)out.push({k:'g',l:'Gravação a laser, arte maior',v:D.gravacao.arte*100});
+ if(S.pers.resina)out.push({k:'c',l:'Marchetaria com resina epóxi',v:null});
+ if(S.acc.estojo){var e=estojo();out.push({k:'e',l:'Estojo sob medida (com kit de limpeza)',v:e?e*100:null})}
+ else if(S.acc.kit)out.push({k:'k',l:'Kit de limpeza',v:D.companions.kit*100});
+ return out}
+function totals(){var it=items(),sub=0,cons=[];it.forEach(function(i){if(i.v===null)cons.push(i.l);else sub+=i.v});
+ var r=region(),fr=r?r[S.service][1]*100:null;var tot=sub+(fr||0);return{it:it,sub:sub,cons:cons,r:r,fr:fr,tot:tot,sinal:fr!==null?Math.ceil(tot/2):null}}
+function render(){fix();var m=M(),t=T(),w=W(),b=B();
+ $('[data-k=model]').innerHTML=D.models.map(function(x){var mn=modelMin(x);return opt('radio','model',x.key,x.key===S.model,x.label,'',mn?'a partir de '+money(mn*100):'',0)}).join('');
+ $('#s-tom').hidden=!m;if(m)$('[data-k=tone]').innerHTML=m.tones.map(function(x){var mn=toneMin(x);return opt('radio','tone',x.key,x.key===S.tone,x.label,'',mn?(x.woods.length>1||Object.keys(x.woods[0].bodies).length>1?'a partir de ':'')+money(mn*100):'sob consulta')}).join('');
+ var showW=t&&t.woods.length>1;$('#s-madeira').hidden=!showW;if(showW)$('[data-k=wood]').innerHTML=t.woods.map(function(x){var mn=woodMin(x);return opt('radio','wood',x.key,x.key===S.wood,x.label,'',mn?money(mn*100):'sob consulta')}).join('');
+ $('#s-corpo').hidden=!w;if(w){var ps=Object.keys(w.bodies);$('[data-k=parts]').innerHTML=ps.map(function(p){var v=w.bodies[p].base;return opt('radio','parts',p,p===S.parts,partsLabel(p),'',v?money(v*100):'sob consulta')}).join('');
+  $('#corpo-hint').textContent=ps.length===1&&ps[0]==='1'?'Esta flauta é sempre de corpo único, sem encaixe.':(m.key==='irlandesa'?'A irlandesa é feita em partes com encaixe de cortiça.':'Corpo único, sem encaixe, ou segmentada em partes. A de encaixe é mais fácil de levar e limpar, e o encaixe ajuda no ajuste da afinação.')}
+ var ready=!!b;['#s-pers','#s-grav','#s-acc','#s-acab','#s-obs','#s-cep'].forEach(function(s){$(s).hidden=!ready});$('#resumo').hidden=!ready;
+ if(ready){var h='';
+  if(b.marchetaria)h+=opt('checkbox','pers','marchetaria',S.pers.marchetaria,'Marchetaria no corpo','desenho com madeiras de cores diferentes','+ '+money((b.marchetaria-b.base)*100));
+  if(b.drone)h+=opt('checkbox','pers','drone',S.pers.drone,'Drone (flauta dupla)','um segundo tubo com nota contínua','+ '+money((b.drone-b.base)*100));
+  D.addons.forEach(function(a){if(a.models.indexOf(m.key)>=0)h+=opt('checkbox','pers',a.key,S.pers[a.key],a.label,'','+ '+money(a.value*100),a.photo)});
+  if(m.key!=='pifano_pvc')D.consulta.forEach(function(c){h+=opt('checkbox','pers',c.key,S.pers[c.key],c.label,'valor combinado no WhatsApp','sob consulta',c.photo)});
+  $('[data-k=pers]').innerHTML=h;
+  var g=gravTier();$('#grav-tier').textContent=g?(g==='nome'?'Nome pequeno: + '+money(D.gravacao.nome*100):'Frase: + '+money(D.gravacao.frase*100)):'';
+  $('[data-k=arte]').innerHTML=opt('checkbox','arte','1',S.arte,'Arte maior','desenho ou arte gravada a laser','+ '+money(D.gravacao.arte*100),'A_gravacao_laser.jpg');
+  var e=estojo(),a='';if(m.kind==='transversal')a+=opt('checkbox','acc','estojo',S.acc.estojo,'Estojo sob medida (com kit de limpeza)','Feito em MDF, sob medida para a sua flauta',e?money(e*100):'sob consulta','e_mdf_verde.jpg');
+  a+=opt('checkbox','acc','kit',S.acc.kit&&!S.acc.estojo,'Kit de limpeza','vareta, microfibra e óleo'+(S.acc.estojo?' (já incluso no estojo)':''),money(D.companions.kit*100),0,S.acc.estojo);
+  $('[data-k=acc]').innerHTML=a;
+  $('[data-k=finish]').innerHTML=D.finishes.map(function(f){return opt('radio','finish',f,f===S.finish,f.charAt(0).toUpperCase()+f.slice(1),'','sem custo')}).join('');
+  $('[data-k=service]').innerHTML=['PAC','SEDEX'].map(function(s){return opt('radio','service',s,s===S.service,s,s==='PAC'?'mais econômico':'mais rápido','')}).join('');
+ }
+ summary()}
+function summary(){var x=totals(),r=x.r;
+ var f=$('#frete');if(!r)f.innerHTML=S.cep.replace(/\D/g,'').length===8?'<p>CEP fora das faixas conhecidas: o frete é calculado no WhatsApp.</p>':'<p>Informe o CEP para estimar o frete.</p>';
+ else f.innerHTML='<b>'+esc(r.label)+'</b>: '+S.service+' de '+money(r[S.service][0]*100)+' a '+money(r[S.service][1]*100)+'<p>Frete: estimativa; o frete exato é confirmado no WhatsApp. Para o total e o sinal usamos o valor mais alto da faixa.</p>';
+ var li=x.it.map(function(i){return '<li><span>'+esc(i.k==='flauta'?flName():i.l)+'</span><b>'+(i.v===null?'sob consulta':money(i.v))+'</b></li>'});
+ if(B())li.push('<li><span>Acabamento: '+esc(S.finish)+'</span><b>sem custo</b></li>');
+ li.push('<li class="t"><span>Subtotal</span><b>'+money(x.sub)+'</b></li>');
+ li.push('<li><span>Frete '+S.service+' (estimativa)</span><b>'+(x.fr!==null?'até '+money(x.fr):'a calcular')+'</b></li>');
+ li.push('<li class="t"><span>Total'+(x.fr!==null?' estimado':' sem frete')+'</span><b>'+money(x.tot)+'</b></li>');
+ li.push('<li class="s"><span>Sinal (50% do total com frete)</span><b>'+(x.sinal!==null?money(x.sinal):'com o frete')+'</b></li>');
+ $('#itens').innerHTML=li.join('');
+ $('#notas').textContent=(x.cons.length?'Sob consulta (fora do total): '+x.cons.join(', ')+'. O Igor passa o valor no WhatsApp. ':'')+'Pedido '+('PED-'+S.code)+'.';
+ $('#enviar').href='https://wa.me/'+WA+'?text='+encodeURIComponent(message(x));
+ $('#bar-l').textContent=B()?(x.fr!==null?'Total estimado com frete · sinal '+money(x.sinal):'Total sem frete · informe o CEP'):'Escolha '+(!M()?'o modelo':!T()?'o tom':!W()?'a madeira':'o corpo');
+ $('#bar-t').textContent=money(x.tot)}
+function flName(){var m=M(),t=T(),w=W();return [m.label,t.label,(m.tones.some(function(t){return t.woods.length>1})?w.label:''),partsLabel(S.parts).toLowerCase()].filter(Boolean).join(', ')}
+function message(x){var m=M(),t=T(),w=W(),L=['Olá, Igor! Montei minha flauta no site.','Pedido PED-'+S.code,'Modelo: '+m.label,'Tom: '+t.label];
+ if(m.tones.some(function(t){return t.woods.length>1}))L.push('Madeira: '+w.label);
+ L.push('Corpo: '+(S.parts==='1'?'corpo único, sem encaixe':partsLabel(S.parts)));
+ x.it.forEach(function(i){if(i.k==='flauta')L.push('Flauta: '+(i.v===null?'sob consulta':money(i.v)));else L.push('+ '+i.l+': '+(i.v===null?'sob consulta':money(i.v)))});
+ L.push('Acabamento: '+S.finish);
+ var o=S.obs.trim().replace(/\s+/g,' ');if(o)L.push('Observações: '+o);
+ var d=S.cep.replace(/\D/g,'');if(d.length===8)L.push('CEP: '+d.slice(0,5)+'-'+d.slice(5));
+ L.push('Subtotal: '+money(x.sub));
+ if(x.fr!==null){L.push('Frete estimado ('+S.service+'): até '+money(x.fr));L.push('Total estimado: '+money(x.tot));L.push('Sinal (50% do total com frete): '+money(x.sinal))}
+ else L.push('Frete: a calcular pelo CEP');
+ if(x.cons.length)L.push('Itens sob consulta: o valor é combinado aqui.');
+ L.push('O frete exato é confirmado aqui no WhatsApp.');
+ return L.join('\n')}
+var root=$('#monte');
+root.addEventListener('change',function(ev){var el=ev.target,n=el.name;if(!n)return;
+ if(n==='model'||n==='tone'||n==='wood'||n==='parts'||n==='finish'||n==='service')S[n]=el.value;
+ else if(n==='pers')S.pers[el.value]=el.checked;
+ else if(n==='acc'){S.acc[el.value]=el.checked;if(el.value==='estojo'&&el.checked)S.acc.kit=false}
+ else if(n==='arte')S.arte=el.checked;
+ save();render()});
+$('#grav').value=S.grav;$('#obs').value=S.obs;$('#cep').value=S.cep;
+$('#grav').addEventListener('input',function(){S.grav=this.value;save();render()});
+$('#obs').addEventListener('input',function(){S.obs=this.value;save();summary()});
+$('#cep').addEventListener('input',function(){var d=this.value.replace(/\D/g,'').slice(0,8);this.value=d.length>5?d.slice(0,5)+'-'+d.slice(5):d;S.cep=this.value;save();summary()});
+$('#enviar').addEventListener('click',function(){setTimeout(function(){S.code=hex4();save();summary()},1500)});
+$('#reset').addEventListener('click',function(){S={model:'',tone:'',wood:'',parts:'',pers:{},grav:'',arte:false,acc:{},finish:'goma-laca',obs:'',cep:'',service:'PAC',code:hex4()};$('#grav').value=$('#obs').value=$('#cep').value='';save();render();window.scrollTo(0,0)});
+render();
+})();
+</script>
+</main>
+<section class="contact" id="contato"><div class="wrap">
+  <div class="eyebrow">Contato</div><h2>Encomendas</h2>
+  <p class="lead">Encomendas e orçamentos pelo WhatsApp ou Direct.</p>
+  <ul>
+    <li><a href="https://wa.me/5575982901157" target="_blank" rel="noopener"><small>WhatsApp</small><b>(75) 98290-1157</b></a></li>
+    <li><a href="https://instagram.com/igorbastos.luthier" target="_blank" rel="noopener"><small>Instagram</small><b>@igorbastos.luthier</b></a></li>
+    <li><a href="https://instagram.com/igorbastos.flauta" target="_blank" rel="noopener"><small>Portfólio de flautas</small><b>@igorbastos.flauta</b></a></li>
+    <li><a href="https://instagram.com/igorbastos.rabeca" target="_blank" rel="noopener"><small>Portfólio de rabecas</small><b>@igorbastos.rabeca</b></a></li>
+    <li><a href="https://www.facebook.com/igorbastos.luthier" target="_blank" rel="noopener"><small>Facebook</small><b>Igor Bastos Luthier</b></a></li>
+    <li><a href="mailto:igorbastosluthier@gmail.com"><small>E-mail</small><b>igorbastosluthier@gmail.com</b></a></li>
+  </ul>
+</div></section>
+<footer>Igor Bastos Luthier · Vale do Capão, Chapada Diamantina, Bahia</footer>
+<a class="fab" href="https://wa.me/5575982901157?text=Ol%C3%A1%20Igor%2C%20quero%20montar%20a%20minha%20flauta" target="_blank" rel="noopener">WhatsApp</a>
+<div class="lb" id="lb" role="dialog" aria-modal="true"><button class="x" aria-label="Fechar">×</button><button class="pv" aria-label="Anterior">‹</button><img alt=""><button class="nx" aria-label="Próxima">›</button></div>
+<script>
+(function(){
+  var bg=document.querySelector('.burger');if(bg)bg.onclick=function(){var o=document.body.classList.toggle('nav-open');bg.setAttribute('aria-expanded',o);bg.textContent=o?'Fechar':'Menu'};
+  document.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('nav-open')})});
+  var lb=document.getElementById('lb'),im=lb.querySelector('img'),list=[],i=0;
+  document.querySelectorAll('.gal').forEach(function(g){g.querySelectorAll('img').forEach(function(x){if(!x.alt)x.alt=g.dataset.alt})});
+  function show(){im.src=list[i].href;im.alt=list[i].querySelector('img').alt}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('.gal .it');if(!a)return;e.preventDefault();
+    list=[].slice.call(a.parentNode.querySelectorAll('.it'));i=list.indexOf(a);show();lb.classList.add('on');
+  });
+  function step(d){i=(i+d+list.length)%list.length;show()}
+  lb.querySelector('.x').onclick=function(){lb.classList.remove('on')};
+  lb.querySelector('.pv').onclick=function(e){e.stopPropagation();step(-1)};
+  lb.querySelector('.nx').onclick=function(e){e.stopPropagation();step(1)};
+  lb.onclick=function(e){if(e.target===lb)lb.classList.remove('on')};
+  document.addEventListener('keydown',function(e){if(!lb.classList.contains('on'))return;if(e.key==='Escape')lb.classList.remove('on');if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1)});
+  var sx=0;lb.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});
+  lb.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)step(dx<0?1:-1)});
+})();
+</script>
+</body>
+</html>
