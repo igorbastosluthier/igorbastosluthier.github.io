@@ -16,8 +16,7 @@
 <meta name="twitter:title" content="Igor Bastos · Luthier">
 <meta name="twitter:description" content="Flautas e rabecas feitas à mão no Vale do Capão, Chapada Diamantina, Bahia.">
 <meta name="twitter:image" content="https://igorbastosluthier.github.io/img/og.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#f5efe6;--paper:#fbf8f3;--ink:#2a2119;--muted:#6f6052;--line:#e2d6c5;
@@ -166,6 +165,135 @@ body{padding-bottom:0}
 .atl{display:grid;gap:10px}.atl img{width:100%;aspect-ratio:auto!important}
 .band h2{font-size:clamp(30px,6vw,52px);margin:12px 0 12px}
 </style>
+<style>/* Layout: caderno de bancada — coluna editorial à esquerda, dados em mono, divisões marcadas pelo furo de sopro e os seis furos. */
+:root{
+  --pedra:#E4E1D9;        /* fundo: pedra clara da serra */
+  --papel:#EFEDE7;        /* superfícies: papel de oficina */
+  --madeira-escura:#2A1E19;/* texto: jacarandá */
+  --roxinho:#5E2C3B;      /* madeira de destaque, botões */
+  --bambu:#B39A62;        /* bambu seco, detalhes */
+  --latao:#9A7428;        /* acento: anéis de latão (com parcimônia) */
+  --serra:#5C574F;        /* texto secundário: rocha */
+  --fio:#CBC5B9;          /* linhas */
+  /* mapeamento para os nomes antigos do site */
+  --bg:var(--pedra);--paper:var(--papel);--ink:var(--madeira-escura);--muted:var(--serra);--line:var(--fio);
+  --wood:var(--roxinho);--wood-dark:var(--madeira-escura);--earth:var(--latao);--cream:#F3EFE7;
+  --painel:#231915;       /* faixas escuras (contato) */
+  --display:"Gloock",Georgia,serif;--text:"Figtree",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+  --serif:var(--display);--sans:var(--text);
+  --furos:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='14'%3E%3Cline x1='0' y1='7' x2='220' y2='7' stroke='%239A7428' stroke-width='1'/%3E%3Cellipse cx='14' cy='7' rx='5' ry='4' fill='%23E4E1D9' stroke='%239A7428'/%3E%3Ccircle cx='100' cy='7' r='3.2' fill='%232A1E19'/%3E%3Ccircle cx='118' cy='7' r='3.2' fill='%232A1E19'/%3E%3Ccircle cx='136' cy='7' r='3.2' fill='%232A1E19'/%3E%3Ccircle cx='160' cy='7' r='3.2' fill='%232A1E19'/%3E%3Ccircle cx='178' cy='7' r='3.2' fill='%232A1E19'/%3E%3Ccircle cx='196' cy='7' r='3.2' fill='%232A1E19'/%3E%3C/svg%3E");
+  --fs-0:15px;--fs-1:17px;--fs-2:clamp(22px,2.6vw,26px);--fs-3:clamp(30px,4.6vw,44px);--fs-4:clamp(40px,7vw,68px);--fs-5:clamp(52px,10vw,104px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --pedra:#15110F;--papel:#1E1814;--madeira-escura:#ECE5DA;--roxinho:#7A3C4F;--bambu:#C8AF73;--latao:#D0A955;--serra:#A89E92;--fio:#3A302A;
+  --cream:#F3EFE7;--painel:#0D0A09;color-scheme:dark;
+  --furos:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='14'%3E%3Cline x1='0' y1='7' x2='220' y2='7' stroke='%23D0A955' stroke-width='1'/%3E%3Cellipse cx='14' cy='7' rx='5' ry='4' fill='%2315110F' stroke='%23D0A955'/%3E%3Ccircle cx='100' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3Ccircle cx='118' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3Ccircle cx='136' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3Ccircle cx='160' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3Ccircle cx='178' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3Ccircle cx='196' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3C/svg%3E");
+}}
+:root[data-theme="dark"]{
+  --pedra:#15110F;--papel:#1E1814;--madeira-escura:#ECE5DA;--roxinho:#7A3C4F;--bambu:#C8AF73;--latao:#D0A955;--serra:#A89E92;--fio:#3A302A;
+  --cream:#F3EFE7;--painel:#0D0A09;color-scheme:dark;
+  --furos:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='14'%3E%3Cline x1='0' y1='7' x2='220' y2='7' stroke='%23D0A955' stroke-width='1'/%3E%3Cellipse cx='14' cy='7' rx='5' ry='4' fill='%2315110F' stroke='%23D0A955'/%3E%3Ccircle cx='100' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3Ccircle cx='118' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3Ccircle cx='136' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3Ccircle cx='160' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3Ccircle cx='178' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3Ccircle cx='196' cy='7' r='3.2' fill='%23ECE5DA'/%3E%3C/svg%3E");
+}
+
+/* base */
+body{background:var(--pedra);color:var(--madeira-escura);font:400 var(--fs-1)/1.65 var(--text)}
+.wrap{padding-left:max(16px,4vw);padding-right:max(16px,4vw)}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:-.005em;text-wrap:balance}
+h1{line-height:1.02}h2{line-height:1.08}
+p,li{text-wrap:pretty}
+.ph p,.cat header p,.about p,.prose p,.prose li,.lead,.band p{max-width:65ch}
+a:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--latao);outline-offset:3px}
+::selection{background:var(--bambu);color:var(--madeira-escura)}
+
+/* utilitário de dados: mono com números tabulares */
+.eyebrow,.n,.precos li b,.precos li small,.o b,.sum li b,.ficha dt,.tier,.leia span,.bar a,.cat .n,
+#bar-t,#bar-l,.tabctl select,.facts span{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:11.5px;font-weight:500;letter-spacing:.14em;color:var(--latao)}
+.cat .n{font-style:normal;font-size:13px;color:var(--serra)}
+
+/* escala */
+.hero h1{font-size:var(--fs-5)}
+.ph h1{font-size:var(--fs-4)}
+.cat h2,.about h2,.band h2,.contact h2,.prose h2{font-size:var(--fs-3)}
+.sub h3,.card h3,.vb h3,.steps h3,.prose h3,.precos h3,.alist h3,.mst h2,.sum h2{font-family:var(--display);font-weight:400;font-size:var(--fs-2)}
+.lead-art{font:italic 400 var(--fs-2)/1.4 var(--display)}
+
+/* o único gesto: fio com o furo de sopro e os seis furos abrindo cada seção */
+.cat>.wrap>header::before,.ph .wrap>div:first-child::before,.ph .wrap>.eyebrow:first-child::before,.about .wrap>div:first-child::before,.band .wrap::before{
+  content:"";display:block;width:220px;max-width:70%;height:14px;margin-bottom:18px;background:var(--furos) no-repeat left center}
+.band .wrap::before{margin-bottom:14px}
+
+/* layout editorial: à esquerda, menos caixas */
+.cat header{max-width:62ch}
+.hero .wrap{padding-bottom:clamp(36px,7vh,72px)}
+.hero p{font-size:var(--fs-1)}
+.hero::after{background:linear-gradient(90deg,rgba(13,10,9,.62) 0%,rgba(13,10,9,.25) 55%,rgba(13,10,9,0) 80%),linear-gradient(0deg,rgba(13,10,9,.55) 0%,rgba(13,10,9,0) 45%)}
+@media(min-width:900px){
+  .cat>.wrap>header{display:grid;grid-template-columns:minmax(0,1fr);max-width:none}
+  .ficha{max-width:720px}
+}
+.site{background:var(--pedra);border-bottom:1px solid var(--fio)}
+.menu .has>ul{background:var(--papel);border:1px solid var(--fio);box-shadow:none}
+@media(max-width:899px){.menu{background:var(--papel);border-left:1px solid var(--fio)}}
+.about{background:transparent}
+.band{background:var(--papel);border-top:1px solid var(--fio)}
+.gal .it{background:var(--fio)}
+.card img,.cover img{border:0}
+.card h3{margin-top:12px}
+.card span{font-family:var(--mono);font-size:12.5px;color:var(--serra)}
+.vc,.precos,.diag,.deps blockquote,.sum,.alist a{background:var(--papel);border:1px solid var(--fio);border-radius:0;box-shadow:none}
+.deps blockquote{border:0;border-left:2px solid var(--latao);background:transparent;padding:6px 0 6px 18px}
+.deps p{font-family:var(--display);font-style:normal;font-size:var(--fs-2)}
+.deps cite{font-family:var(--mono);letter-spacing:.12em;color:var(--serra)}
+.alist a{border:0;border-top:1px solid var(--fio);background:transparent}
+.vt{background:var(--painel)}
+.vt span{color:var(--bambu)}
+.steps li::before{font:500 15px/1.6 var(--mono);color:var(--latao)}
+
+/* botões: madeira escura, cantos vivos */
+.btn{background:var(--roxinho);color:var(--cream);border-radius:0;font-family:var(--text);font-weight:600;letter-spacing:.02em}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--madeira-escura);border:1px solid var(--madeira-escura)}
+.fab{background:var(--roxinho);color:var(--cream);border-radius:0;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.mais a,.leia a,.prose a{color:var(--roxinho)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mais a,:root:not([data-theme="light"]) .leia a,:root:not([data-theme="light"]) .prose a{color:var(--bambu)}}
+:root[data-theme="dark"] .mais a,:root[data-theme="dark"] .leia a,:root[data-theme="dark"] .prose a{color:var(--bambu)}
+
+/* contato: noite na serra */
+.contact{background:var(--painel);color:var(--cream)}
+.contact .eyebrow{color:var(--bambu)}
+.contact li b{font-family:var(--display);font-weight:400}
+.contact li small{font-family:var(--mono);letter-spacing:.12em}
+footer{color:var(--serra);font-family:var(--mono);font-size:12px}
+.cta-monte{background:var(--painel);color:var(--cream)}
+.cta-monte .btn{background:var(--bambu);color:#1B1411}
+
+/* Monte sua flauta: aqui sim, cartões de objeto */
+.o{background:var(--papel);border:1px solid var(--fio);border-radius:0}
+.o:has(input:checked){border-color:var(--latao);background:var(--papel);box-shadow:inset 0 0 0 1px var(--latao),inset 4px 0 0 var(--latao)}
+.o b{color:var(--madeira-escura)}
+.o.ck::before{border-color:var(--latao);background:var(--papel)}
+.o.ck:has(input:checked)::before{background:var(--latao);box-shadow:inset 0 0 0 3px var(--papel)}
+.fld,.tabctl select{background:var(--papel);color:var(--madeira-escura);border:1px solid var(--fio)}
+.fld:focus{outline:2px solid var(--latao)}
+
+/* tabelas de digitação: quadro sempre claro, como papel impresso */
+#tabela{background:#FBFAF6;border:1px solid var(--fio);color:#2A1E19}
+.irl img{background:#FBFAF6}
+
+/* lightbox e diagrama */
+.lb{background:rgba(13,10,9,.94)}
+.diag .t{fill:var(--papel)}
+
+/* um movimento: a capa sobe levemente, sem começar invisível */
+@media (prefers-reduced-motion:no-preference){
+  .hero h1,.hero p,.hero .eyebrow{animation:sobe .9s cubic-bezier(.2,.7,.2,1) both}
+  .hero p{animation-delay:.08s}
+  @keyframes sobe{from{transform:translateY(14px)}to{transform:none}}
+}
+html,body{max-width:100%;overflow-x:hidden}
+</style>
 <script data-goatcounter="https://igorbastosluthier.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
 document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a,button");if(!a||!window.goatcounter||!window.goatcounter.count)return;var h=(a.getAttribute("href")||""),t=(a.textContent||"").trim().slice(0,60),n="";
@@ -189,7 +317,6 @@ if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
 <a class="it" href="img/naf_p23_t01.jpg"><img src="img/m/naf_p23_t01.jpg" width="1080" height="1349" loading="lazy" decoding="async" alt=""></a>
 <a class="it" href="img/naf_p20_t00.jpg"><img src="img/m/naf_p20_t00.jpg" width="1281" height="1600" loading="lazy" decoding="async" alt=""></a>
 <a class="it" href="img/naf_p20_t04.jpg"><img src="img/m/naf_p20_t04.jpg" width="1280" height="1600" loading="lazy" decoding="async" alt=""></a>
-<a class="it" href="img/naf_resina.jpg" title="NAF de bambu com marchetaria em resina epóxi"><img src="img/m/naf_resina.jpg" width="960" height="1280" loading="lazy" decoding="async" alt="NAF de bambu com marchetaria em resina epóxi"></a>
 <a class="it" href="img/naf_pantera.jpg" title="NAF de roxinho com totem de pantera"><img src="img/m/naf_pantera.jpg" width="1024" height="1280" loading="lazy" decoding="async" alt="NAF de roxinho com totem de pantera"></a></div><p class="mais"><a href="https://instagram.com/igorbastos.flauta" target="_blank" rel="noopener">Veja mais trabalhos no portfólio @igorbastos.flauta</a></p></div></section>
 </main>
 <section class="contact" id="contato"><div class="wrap">
