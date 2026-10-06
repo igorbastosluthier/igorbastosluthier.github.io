@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Acessórios e personalização · Igor Bastos</title>
-<meta name="description" content="Adicionais de personalização, acabamento e acessórios.">
+<title>Personalização · Igor Bastos</title>
+<meta name="description" content="Marchetaria, resina epóxi, anéis de latão, porta-lábios, coroa com stopper móvel, totens e gravação a laser.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Igor Bastos · Luthier">
-<meta property="og:description" content="Flautas e rabecas feitas à mão no Vale do Capão, Chapada Diamantina, Bahia.">
+<meta property="og:description" content="Flautas de bambu e de madeira feitas por Igor Bastos no Vale do Capão, Chapada Diamantina, Bahia.">
 <meta property="og:image" content="https://igorbastosluthier.github.io/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Igor Bastos · Luthier">
-<meta name="twitter:description" content="Flautas e rabecas feitas à mão no Vale do Capão, Chapada Diamantina, Bahia.">
+<meta name="twitter:description" content="Flautas de bambu e de madeira feitas por Igor Bastos no Vale do Capão, Chapada Diamantina, Bahia.">
 <meta name="twitter:image" content="https://igorbastosluthier.github.io/img/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -294,6 +294,151 @@ footer{color:var(--serra);font-family:var(--mono);font-size:12px}
 }
 html,body{max-width:100%;overflow-x:hidden}
 </style>
+<style>/* v3: camada editorial. Fotos pré-recortadas (work/crops.json); nada de object-fit para enquadrar. */
+:root{--sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:40px;--sp-5:64px;--sp-6:104px;--col:1180px}
+img{height:auto}
+.wrap{max-width:var(--col)}
+
+/* capa de categoria: imagem 16:9 inteira, título embaixo (sem texto sobre a foto) */
+.chero{padding:0 0 var(--sp-4)}
+.chero figure{margin:0}
+.chero picture,.chero img{display:block;width:100%}
+.chero .head{display:grid;gap:var(--sp-2);padding-top:var(--sp-4)}
+.chero h1{font-size:var(--fs-4);margin:0}
+.chero .lead{font-size:var(--fs-1);color:var(--serra);max-width:60ch}
+.chero .head .eyebrow::before{display:none}
+@media(min-width:900px){
+  .chero .head{grid-template-columns:5fr 7fr;gap:var(--sp-5);align-items:end}
+  .chero figure{max-width:1440px;margin:0 auto}
+}
+/* capa dividida, para fonte sem resolução para 16:9 */
+.chero.split .wrap.grid{display:grid;gap:var(--sp-4);padding-top:var(--sp-4)}
+@media(min-width:900px){.chero.split .wrap.grid{grid-template-columns:6fr 5fr;align-items:end;gap:var(--sp-5)}.chero.split .head{grid-template-columns:1fr;padding-top:0}}
+
+/* seções de conteúdo */
+.blk{padding:var(--sp-5) 0 0}
+.blk>.wrap>header{display:grid;gap:var(--sp-2);margin-bottom:var(--sp-4)}
+.blk h2{font-size:var(--fs-3);margin:0}
+.blk header p{color:var(--serra);max-width:62ch}
+@media(min-width:900px){.blk>.wrap>header{grid-template-columns:5fr 7fr;column-gap:var(--sp-5);row-gap:var(--sp-2);align-items:start}.blk>.wrap>header>p{grid-column:2}.blk>.wrap>header>h2{grid-row:1;grid-column:1}}
+.blk>.wrap>header::before{display:none}
+.facts2{list-style:none;display:grid;gap:0;border-top:1px solid var(--fio);margin:0}
+.facts2 li{display:grid;grid-template-columns:150px 1fr;gap:var(--sp-2);padding:12px 0;border-bottom:1px solid var(--fio);font-size:15.5px}
+.facts2 b{font:500 11.5px/1.9 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--latao)}
+@media(max-width:520px){.facts2 li{grid-template-columns:1fr;gap:2px}}
+
+/* galeria editorial: linhas de dois, 7/5 e 5/7, detalhe sempre na coluna menor */
+.gal.ed{columns:auto;display:grid;gap:var(--sp-4) var(--sp-3);grid-template-columns:1fr}
+.gal.ed .row{display:grid;gap:var(--sp-3);grid-template-columns:1fr;align-items:end}
+.gal.ed figure{margin:0}
+.gal.ed .it{display:block;margin:0;background:var(--fio);cursor:zoom-in;overflow:hidden}
+.gal.ed .it img{width:100%;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.gal.ed .it:hover img{transform:scale(1.015)}
+.gal.ed figcaption{font:400 13px/1.5 var(--mono);color:var(--serra);margin-top:10px;max-width:46ch}
+@media(min-width:760px){
+  .gal.ed{gap:var(--sp-5)}
+  .gal.ed .row{grid-template-columns:7fr 5fr;gap:var(--sp-4)}
+  .gal.ed .row.rev{grid-template-columns:5fr 7fr}
+  .gal.ed .row.one{grid-template-columns:3fr 6fr 3fr}.gal.ed .row.one figure{grid-column:2}
+  .gal.ed .row .det{align-self:end}
+  .gal.ed .row .top{align-self:start}
+}
+
+/* preços */
+.ptab{max-width:760px;margin-top:var(--sp-4)}
+.ptab h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);margin-bottom:var(--sp-1)}
+.ptab ul{list-style:none;border-top:1px solid var(--fio)}
+.ptab li{display:flex;justify-content:space-between;gap:var(--sp-2);padding:11px 0;border-bottom:1px solid var(--fio);font-size:15.5px}
+.ptab li span{flex:1}.ptab li small{display:block;font-size:13px;color:var(--serra)}
+.ptab li b{font:500 14px var(--mono);font-variant-numeric:tabular-nums;color:var(--madeira-escura);white-space:nowrap;text-align:right}
+.ptab .nota{font-size:13.5px;color:var(--serra);margin-top:12px}
+.acts{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-3)}
+.acts .btn{margin-top:0}
+
+/* player de vídeo: capa própria, sem autoplay */
+.vids{display:grid;gap:var(--sp-3);grid-template-columns:1fr}
+@media(min-width:620px){.vids{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.vids.four{grid-template-columns:repeat(4,1fr)}}
+.vid{margin:0}
+.vid .stage{position:relative;aspect-ratio:4/5;background:#0d0a09;overflow:hidden}
+.vid .stage img,.vid .stage video{position:absolute;inset:0;width:100%;height:100%;display:block}
+.vid .stage video{background:#0d0a09}
+.vid .play{position:absolute;inset:0;border:0;padding:0;background:none;cursor:pointer;display:block;width:100%}
+.vid .play::after{content:"";position:absolute;left:18px;bottom:18px;width:56px;height:56px;border-radius:50%;background:rgba(243,239,231,.94) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5.5v13l10.5-6.5z' fill='%235E2C3B'/%3E%3C/svg%3E") 55% 50%/24px no-repeat;box-shadow:0 4px 16px rgba(0,0,0,.25);transition:transform .2s}
+.vid .play:hover::after,.vid .play:focus-visible::after{transform:scale(1.06)}
+.vid figcaption{font:400 13px/1.5 var(--mono);color:var(--serra);margin-top:10px}
+.vid figcaption b{display:block;font:400 var(--fs-1)/1.3 var(--display);color:var(--madeira-escura);margin-bottom:2px}
+
+/* cartões da Início */
+.cards4{display:grid;gap:var(--sp-4) var(--sp-3);grid-template-columns:1fr 1fr}
+@media(min-width:900px){.cards4{grid-template-columns:repeat(4,1fr)}}
+.cards4 a{text-decoration:none;display:block}
+.cards4 img{width:100%}
+.cards4 h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);margin:12px 0 2px;line-height:1.15}
+.cards4 span{font:400 12.5px/1.5 var(--mono);color:var(--serra)}
+
+/* Início: capa 16:9 com texto ao lado, sem sobreposição pesada */
+.hhero figure{margin:0}.hhero picture,.hhero img{display:block;width:100%}
+.hhero .head{display:grid;gap:var(--sp-2);padding:var(--sp-4) 0 0}
+.hhero h1{font-size:var(--fs-5);margin:0}
+.hhero .lead{font-size:var(--fs-1);color:var(--serra);max-width:52ch}
+@media(min-width:900px){.hhero .head{grid-template-columns:6fr 6fr;gap:var(--sp-5);align-items:end}}
+.trio{list-style:none;display:grid;gap:var(--sp-3);grid-template-columns:1fr;counter-reset:t}
+@media(min-width:760px){.trio{grid-template-columns:repeat(3,1fr);gap:var(--sp-4)}}
+.trio li{border-top:1px solid var(--madeira-escura);padding-top:var(--sp-2)}
+.trio b{display:block;font:400 var(--fs-2)/1.2 var(--display);margin-bottom:6px}
+.trio p{color:var(--serra);font-size:15.5px}
+
+/* acessórios: grade de detalhes 1:1 */
+.opts3{display:grid;gap:var(--sp-4) var(--sp-3);grid-template-columns:1fr}
+@media(min-width:620px){.opts3{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.opts3{grid-template-columns:repeat(4,1fr)}}
+.opts3 article h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);margin:14px 0 4px;line-height:1.15}
+.opts3 .pr{font:500 13px var(--mono);color:var(--latao);display:block;margin-bottom:6px}
+.opts3 p{font-size:15px;color:var(--serra)}
+.opts3 .it{display:block;background:var(--fio);cursor:zoom-in}
+.textlist{list-style:none;border-top:1px solid var(--fio);max-width:860px}
+.textlist li{display:grid;grid-template-columns:1fr auto;gap:4px var(--sp-3);padding:16px 0;border-bottom:1px solid var(--fio)}
+.textlist h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);line-height:1.2}
+.textlist b{font:500 13px var(--mono);color:var(--latao);white-space:nowrap;align-self:baseline}
+.textlist p{grid-column:1/-1;color:var(--serra);font-size:15.5px;max-width:64ch}
+
+/* contato compacto no rodapé */
+.strip{border-top:1px solid var(--fio);margin-top:var(--sp-5);padding:var(--sp-4) 0}
+.strip .wrap{display:flex;flex-wrap:wrap;gap:var(--sp-2) var(--sp-4);align-items:baseline;justify-content:space-between}
+.strip p{font:400 var(--fs-2)/1.25 var(--display);max-width:28ch}
+.strip ul{list-style:none;display:flex;flex-wrap:wrap;gap:var(--sp-1) var(--sp-3);font:400 14px var(--mono)}
+.strip a{color:var(--madeira-escura)}
+.prose2{max-width:68ch}
+.prose2 p{margin:0 0 var(--sp-2);color:var(--madeira-escura)}
+.prose2 h2{font-size:var(--fs-3);margin:var(--sp-5) 0 var(--sp-2)}
+.prose2 h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);margin:var(--sp-4) 0 var(--sp-1)}
+.prose2 ul{padding-left:20px;margin:0 0 var(--sp-2)}.prose2 li{margin-bottom:6px;color:var(--madeira-escura)}
+.prose2 a{color:var(--roxinho)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .prose2 a{color:var(--bambu)}}
+:root[data-theme="dark"] .prose2 a{color:var(--bambu)}
+.split2{display:grid;gap:var(--sp-4)}
+@media(min-width:900px){.split2{grid-template-columns:7fr 5fr;gap:var(--sp-5);align-items:start}}
+.split2 figure{margin:0}.split2 figcaption{font:400 13px/1.5 var(--mono);color:var(--serra);margin-top:10px}
+.quotes{display:grid;gap:var(--sp-3)}@media(min-width:900px){.quotes{grid-template-columns:repeat(3,1fr);gap:var(--sp-4)}}
+.quotes blockquote{border-left:2px solid var(--latao);padding:4px 0 4px 18px;margin:0}
+.quotes p{font:400 var(--fs-2)/1.3 var(--display)}
+.quotes cite{display:block;margin-top:8px;font:500 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:var(--serra)}
+.band2{background:var(--papel);border-top:1px solid var(--fio);border-bottom:1px solid var(--fio);padding:var(--sp-5) 0;margin-top:var(--sp-6)}
+.band2+.strip{margin-top:0;border-top:0}
+.band2 h2{font-size:var(--fs-3)}
+.band2 p{color:var(--serra);max-width:60ch;margin-top:var(--sp-2)}
+.steps2{list-style:none;counter-reset:s;max-width:820px;border-top:1px solid var(--fio)}
+.steps2 li{counter-increment:s;display:grid;grid-template-columns:56px 1fr;gap:var(--sp-2);padding:var(--sp-3) 0;border-bottom:1px solid var(--fio)}
+.steps2 li::before{content:counter(s,decimal-leading-zero);font:500 14px/1.9 var(--mono);color:var(--latao)}
+.steps2 h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);margin-bottom:4px;line-height:1.2}
+.steps2 p{color:var(--serra);font-size:15.5px}
+section.ph{padding-top:var(--sp-5)}
+.vids{grid-template-columns:1fr 1fr;gap:var(--sp-3) var(--sp-2)}
+@media(min-width:620px){.vids{gap:var(--sp-3)}}
+@media(max-width:520px){.vid .play::after{width:44px;height:44px;left:10px;bottom:10px;background-size:20px}.vid figcaption{font-size:12px}}
+main:has(>.band2:last-child)+.strip{margin-top:0;border-top:0}
+</style>
 <script data-goatcounter="https://igorbastosluthier.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
 document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a,button");if(!a||!window.goatcounter||!window.goatcounter.count)return;var h=(a.getAttribute("href")||""),t=(a.textContent||"").trim().slice(0,60),n="";
@@ -304,29 +449,18 @@ if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
 <body>
 <header class="site"><div class="in"><a class="brand" href="index.html">Igor Bastos<small>Luthier</small></a>
 <button class="burger" aria-expanded="false" aria-controls="menu">Menu</button>
-<nav><ul class="menu" id="menu"><li class="has"><a href="index.html#instrumentos">Instrumentos</a><ul><li><a href="transversais.html">Flautas transversais</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="nativas.html">Flautas nativas e totens</a></li><li><a href="rabecas.html">Rabecas</a></li></ul></li><li><a href="acessorios.html" aria-current="page">Acessórios</a></li><li><a href="encomendas.html">Encomendas</a></li><li><a href="monte.html">Monte sua flauta</a></li><li><a href="aprender.html">Aprender</a></li><li><a href="tabelas.html">Tabelas de digitação</a></li><li><a href="oficinas.html">Oficinas</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="contato.html">Contato</a></li></ul></nav></div></header>
+<nav><ul class="menu" id="menu"><li class="has"><a href="index.html#instrumentos">Instrumentos</a><ul><li><a href="transversais.html">Flautas transversais</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="nativas.html">Flautas nativas e totens</a></li><li><a href="rabecas.html">Rabecas</a></li></ul></li><li><a href="acessorios.html" aria-current="page">Acessórios</a></li><li><a href="encomendas.html">Encomendas</a></li><li><a href="monte.html">Monte sua flauta</a></li><li><a href="aprender.html">Aprender</a></li><li><a href="tabelas.html">Tabelas de digitação</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="contato.html">Contato</a></li></ul></nav></div></header>
 <main>
-<section class="ph"><div class="wrap"><div class="eyebrow">Acessórios e personalização</div><h1>Personalize a sua flauta</h1><p>Detalhes que deixam a flauta com a sua cara. Escolha o que combina com você.</p></div></section><section class="cat" style="padding-top:8px"><div class="wrap"><div class="vit"><article class="vc"><a class="it" href="img/A_marchetaria_bocal.jpg"><img src="img/m/A_marchetaria_bocal.jpg" width="1143" height="1428" loading="lazy" alt="Marchetaria"></a><div class="vb"><h3>Marchetaria</h3><p>Lâminas de madeiras de cores diferentes, encaixadas uma a uma. Para quem quer uma flauta que já chama atenção antes da primeira nota.</p></div></article><article class="vc"><a class="it" href="img/A_resina_epoxi.jpg"><img src="img/m/A_resina_epoxi.jpg" width="1200" height="1600" loading="lazy" alt="Marchetaria com resina epóxi"></a><div class="vb"><h3>Marchetaria com resina epóxi</h3><p>Parece pintura, mas não é: o desenho é rebaixado no bambu e preenchido com resina colorida. Flores e folhas que não descascam com o uso.</p></div></article><article class="vc"><a class="it" href="img/A_aneis_latao.jpg"><img src="img/m/A_aneis_latao.jpg" width="640" height="800" loading="lazy" alt="Anéis de latão"></a><div class="vb"><h3>Anéis de latão</h3><p>Reforçam as pontas e os encaixes e dão um brilho discreto à madeira. Um toque clássico, muito comum nas irlandesas.</p></div></article><article class="vc"><a class="it" href="img/A_porta_classico.jpg"><img src="img/m/A_porta_classico.jpg" width="1200" height="1600" loading="lazy" alt="Porta-lábios"></a><div class="vb"><h3>Porta-lábios</h3><p>Um disco oval de madeira sobre o bocal, que deixa o apoio do lábio mais firme e confortável. Cada um numa madeira, com a coroa esculpida no topo.</p></div></article><article class="vc"><a class="it" href="img/A_stopper.jpg"><img src="img/m/A_stopper.jpg" width="720" height="960" loading="lazy" alt="Coroa com stopper móvel"></a><div class="vb"><h3>Coroa com stopper móvel</h3><p>O topo da flauta desmonta. A coroa de madeira tem uma porca de latão e encaixa no tubo pelo lado do bocal. Ela segura o stopper: madeira revestida de cortiça portuguesa, com um parafuso de latão. Girando a coroa, você afasta ou aproxima o stopper do furo de sopro. Mais longe, as notas dos últimos furos na 2ª e 3ª oitavas ficam mais graves. Mais perto, ficam mais agudas. Serve para micro-afinar e para desmontar e limpar.</p></div></article><article class="vc"><a class="it" href="img/A_totem_pantera.jpg"><img src="img/m/A_totem_pantera.jpg" width="1024" height="1280" loading="lazy" alt="Totens esculpidos"></a><div class="vb"><h3>Totens esculpidos</h3><p>O totem das flautas nativas, entalhado em madeira: pássaros, lobo, libélula e outros bichos. Cada um tem seu próprio jeito.</p></div></article><article class="vc"><a class="it" href="img/A_gravacao_laser.jpg"><img src="img/m/A_gravacao_laser.jpg" width="640" height="800" loading="lazy" alt="Gravação a laser"></a><div class="vb"><h3>Gravação a laser</h3><p>Um nome ou uma frase gravados na flauta. Ideal para presente ou para deixar a peça com a sua marca.</p></div></article><article class="vc"><a class="it" href="img/A_grav_arte.jpg"><img src="img/m/A_grav_arte.jpg" width="1200" height="1600" loading="lazy" alt="Gravação a laser: arte maior"></a><div class="vb"><h3>Gravação a laser: arte maior</h3><p>Um desenho grande, como na tampa inteira de um estojo ou ao longo da flauta.</p></div></article><article class="vc"><a class="it" href="img/N_mosaico.jpg"><img src="img/m/N_mosaico.jpg" width="1200" height="1600" loading="lazy" alt="Flauta toda marchetada (mosaico)"></a><div class="vb"><h3>Flauta toda marchetada (mosaico)</h3><p>A flauta inteira coberta de marchetaria, como um mosaico de madeiras. Valor combinado no WhatsApp.</p></div></article><article class="vc"><div class="vt"><span>✦</span></div><div class="vb"><h3>Goma-laca ou óleo de amêndoas</h3><p>O acabamento padrão, à sua escolha: a goma-laca deixa um brilho suave; o óleo deixa a madeira com toque mais natural.</p></div></article><article class="vc"><div class="vt"><span>✦</span></div><div class="vb"><h3>Kit de limpeza</h3><p>Vareta, microfibra e óleo. O básico para secar a flauta depois de tocar e cuidar da madeira.</p></div></article><article class="vc"><a class="it" href="img/N_est_aberto.jpg"><img src="img/m/N_est_aberto.jpg" width="1200" height="1600" loading="lazy" alt="Estojos sob medida"></a><div class="vb"><h3>Estojos sob medida</h3><p>Feitos para a sua flauta, em madeira ou MDF, com forro macio e kit de limpeza. Estojos sob medida a partir de R$&nbsp;350; o valor exato aparece no Monte sua flauta.</p></div></article></div><p class="mais"><a href="https://instagram.com/igorbastos.flauta" target="_blank" rel="noopener">Veja mais trabalhos no portfólio @igorbastos.flauta</a></p><div class="cta-monte"><h2>Monte a sua e veja o valor na hora</h2><a class="btn" href="monte.html">Monte sua flauta</a></div></div></section><style>.vit{display:grid;gap:22px}@media(min-width:760px){.vit{grid-template-columns:1fr 1fr}}.vc{background:var(--paper);border:1px solid var(--line)}.vc img{width:100%;aspect-ratio:4/3;object-fit:cover}.vt{aspect-ratio:16/6;display:flex;align-items:center;justify-content:center;background:var(--painel);padding:24px;text-align:center}.vt span{font:italic 500 30px/1.15 var(--serif);color:var(--cream)}.vb{padding:18px 20px 22px}.vb h3{font:500 26px/1.15 var(--serif);margin-bottom:6px}.vb p{color:var(--muted);font-size:15px}.cta-monte{margin-top:48px;padding:44px 24px;text-align:center;background:var(--painel);color:var(--cream)}.cta-monte h2{font-size:clamp(30px,6vw,46px);margin-bottom:8px}.cta-monte h2{color:var(--cream)}.cta-monte .btn{background:var(--bambu);color:#1B1411}</style>
+<section class="ph"><div class="wrap"><div class="eyebrow">Acessórios e personalização</div><h1>Personalização</h1><p>Cada item soma ao valor da flauta. O total, já com tudo, aparece no Monte sua flauta.</p></div></section><section class="blk" style="padding-top:var(--sp-3)"><div class="wrap"><div class="opts3 gal" data-alt="Detalhe"><article><a class="it" href="img/v3/acc-marchetaria-bocal-s.jpg"><img src="img/v3/acc-marchetaria-bocal-s-s.jpg" srcset="img/v3/acc-marchetaria-bocal-s-s.jpg 520w, img/v3/acc-marchetaria-bocal-s.jpg 1000w" sizes="(min-width:1000px) 270px, (min-width:620px) 45vw, 100vw" width="1000" height="1000" alt="Marchetaria no bocal" loading="lazy" decoding="async"></a><h3>Marchetaria no bocal</h3><span class="pr">+ R$ 260</span><p>O desenho triangular em volta do furo de sopro, montado com lâminas de madeiras de cores diferentes.</p></article><article><a class="it" href="img/v3/acc-resina-s.jpg"><img src="img/v3/acc-resina-s-s.jpg" srcset="img/v3/acc-resina-s-s.jpg 520w, img/v3/acc-resina-s.jpg 960w" sizes="(min-width:1000px) 270px, (min-width:620px) 45vw, 100vw" width="960" height="960" alt="Resina epóxi no bambu" loading="lazy" decoding="async"></a><h3>Resina epóxi</h3><span class="pr">valor no Monte sua flauta</span><p>O desenho é rebaixado no bambu e preenchido com resina colorida. Flores e folhas que não descascam com o uso.</p></article><article><a class="it" href="img/v3/acc-aneis-latao-s.jpg"><img src="img/v3/acc-aneis-latao-s-s.jpg" srcset="img/v3/acc-aneis-latao-s-s.jpg 520w, img/v3/acc-aneis-latao-s.jpg 1000w" sizes="(min-width:1000px) 270px, (min-width:620px) 45vw, 100vw" width="1000" height="1000" alt="Anel de latão" loading="lazy" decoding="async"></a><h3>Anéis de latão</h3><span class="pr">+ R$ 150</span><p>Nas pontas e nos encaixes. Reforçam a madeira onde ela mais trabalha.</p></article><article><a class="it" href="img/v3/acc-porta-labios-s.jpg"><img src="img/v3/acc-porta-labios-s-s.jpg" srcset="img/v3/acc-porta-labios-s-s.jpg 520w, img/v3/acc-porta-labios-s.jpg 1000w" sizes="(min-width:1000px) 270px, (min-width:620px) 45vw, 100vw" width="1000" height="1000" alt="Porta-lábios" loading="lazy" decoding="async"></a><h3>Porta-lábios</h3><span class="pr">+ R$ 100</span><p>Disco oval de madeira colado sobre o furo de sopro, nos pífanos. Dá um apoio mais firme para o lábio.</p></article><article><a class="it" href="img/v3/acc-coroa-s.jpg"><img src="img/v3/acc-coroa-s-s.jpg" srcset="img/v3/acc-coroa-s-s.jpg 520w, img/v3/acc-coroa-s.jpg 1000w" sizes="(min-width:1000px) 270px, (min-width:620px) 45vw, 100vw" width="1000" height="1000" alt="Coroa com stopper móvel" loading="lazy" decoding="async"></a><h3>Coroa com stopper móvel</h3><span class="pr">+ R$ 180</span><p>O topo da flauta desmonta. Girando a coroa, o stopper se aproxima ou se afasta do furo de sopro e ajusta as notas de cima na 2ª e na 3ª oitava.</p></article><article><a class="it" href="img/v3/acc-stopper-s.jpg"><img src="img/v3/acc-stopper-s-s.jpg" srcset="img/v3/acc-stopper-s-s.jpg 520w, img/v3/acc-stopper-s.jpg 1000w" sizes="(min-width:1000px) 270px, (min-width:620px) 45vw, 100vw" width="1000" height="1000" alt="Stopper com cortiça e parafuso de latão" loading="lazy" decoding="async"></a><h3>O stopper por dentro</h3><span class="pr">incluso na coroa</span><p>Madeira revestida de cortiça portuguesa, com parafuso de latão. Sai inteiro para a limpeza do tubo.</p></article><article><a class="it" href="img/v3/acc-totem-s.jpg"><img src="img/v3/acc-totem-s-s.jpg" srcset="img/v3/acc-totem-s-s.jpg 520w, img/v3/acc-totem-s.jpg 1000w" sizes="(min-width:1000px) 270px, (min-width:620px) 45vw, 100vw" width="1000" height="1000" alt="Totem entalhado" loading="lazy" decoding="async"></a><h3>Totem</h3><span class="pr">+ R$ 350 ou + R$ 700</span><p>Bloco esculpido em madeira para a flauta nativa. Modelo do catálogo ou sob encomenda.</p></article><article><a class="it" href="img/v3/acc-gravacao-s.jpg"><img src="img/v3/acc-gravacao-s-s.jpg" srcset="img/v3/acc-gravacao-s-s.jpg 520w, img/v3/acc-gravacao-s.jpg 1000w" sizes="(min-width:1000px) 270px, (min-width:620px) 45vw, 100vw" width="1000" height="1000" alt="Gravação a laser numa tampa de estojo" loading="lazy" decoding="async"></a><h3>Gravação a laser</h3><span class="pr">R$ 30 · R$ 50 · R$ 250</span><p>Nome pequeno, frase ou arte maior. A nota ao lado de cada furo conta como frase.</p></article></div></div></section><section class="blk"><div class="wrap"><header><h2>Mais opções</h2></header><ul class="textlist"><li><h3>Parte extra (segmentar)</h3><b>+ R$ 400 por encaixe</b><p>Divide a flauta de madeira em mais partes. Fica mais fácil de levar, e o encaixe serve de ajuste de afinação.</p></li><li><h3>Flauta toda marchetada</h3><b>em torno de R$ 2.500 em Sol</b><p>O corpo inteiro revestido de marchetaria. Valor confirmado no WhatsApp.</p></li><li><h3>Goma-laca ou óleo de amêndoas</h3><b>sem custo</b><p>O acabamento da flauta de bambu ou de madeira, à sua escolha. A goma-laca forma uma película acetinada que sela; o óleo entra na fibra e deixa o toque mais natural.</p></li><li><h3>Kit de limpeza</h3><b>R$ 90</b><p>Vareta, microfibra e óleo. Já vem dentro de todo estojo.</p></li><li><h3>Estojo sob medida</h3><b>a partir de R$ 350</b><p>Feito com a sua flauta na bancada. Veja <a href="estojos.html">Estojos</a>.</p></li></ul><div class="acts"><a class="btn" href="monte.html">Monte sua flauta</a></div></div></section>
 </main>
-<section class="contact" id="contato"><div class="wrap">
-  <div class="eyebrow">Contato</div><h2>Encomendas</h2>
-  <p class="lead">Encomendas e orçamentos pelo WhatsApp ou Direct.</p>
-  <ul>
-    <li><a href="https://wa.me/5575982901157" target="_blank" rel="noopener"><small>WhatsApp</small><b>(75) 98290-1157</b></a></li>
-    <li><a href="https://instagram.com/igorbastos.luthier" target="_blank" rel="noopener"><small>Instagram</small><b>@igorbastos.luthier</b></a></li>
-    <li><a href="https://instagram.com/igorbastos.flauta" target="_blank" rel="noopener"><small>Portfólio de flautas</small><b>@igorbastos.flauta</b></a></li>
-    <li><a href="https://instagram.com/igorbastos.rabeca" target="_blank" rel="noopener"><small>Portfólio de rabecas</small><b>@igorbastos.rabeca</b></a></li>
-    <li><a href="https://www.facebook.com/igorbastos.luthier" target="_blank" rel="noopener"><small>Facebook</small><b>Igor Bastos Luthier</b></a></li>
-    <li><a href="mailto:igorbastosluthier@gmail.com"><small>E-mail</small><b>igorbastosluthier@gmail.com</b></a></li>
-  </ul>
-</div></section>
-<footer>Igor Bastos Luthier · Vale do Capão, Chapada Diamantina, Bahia</footer>
+<section class="strip"><div class="wrap"><p>Orçamento e dúvidas pelo WhatsApp (75) 98290-1157.</p><ul><li><a href="https://wa.me/5575982901157" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="https://instagram.com/igorbastos.luthier" target="_blank" rel="noopener">Instagram</a></li><li><a href="mailto:igorbastosluthier@gmail.com">E-mail</a></li><li><a href="contato.html">Todos os contatos</a></li></ul></div></section><footer>Igor Bastos Luthier · Vale do Capão, Chapada Diamantina, Bahia</footer>
 <a class="fab" href="https://wa.me/5575982901157?text=Ol%C3%A1%20Igor%2C%20quero%20personalizar%20a%20minha%20flauta" target="_blank" rel="noopener">WhatsApp</a>
 <div class="lb" id="lb" role="dialog" aria-modal="true"><button class="x" aria-label="Fechar">×</button><button class="pv" aria-label="Anterior">‹</button><img alt=""><button class="nx" aria-label="Próxima">›</button></div>
 <script>
 (function(){
   var bg=document.querySelector('.burger');if(bg)bg.onclick=function(){var o=document.body.classList.toggle('nav-open');bg.setAttribute('aria-expanded',o);bg.textContent=o?'Fechar':'Menu'};
   document.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('nav-open')})});
+  document.querySelectorAll('.vid .play').forEach(function(b){b.addEventListener('click',function(){var st=b.parentNode,v=document.createElement('video');v.controls=true;v.playsInline=true;v.setAttribute('playsinline','');v.preload='auto';v.poster=b.dataset.poster;v.src=b.dataset.src;st.innerHTML='';st.appendChild(v);v.play().catch(function(){})})});
   var lb=document.getElementById('lb'),im=lb.querySelector('img'),list=[],i=0;
   document.querySelectorAll('.gal').forEach(function(g){g.querySelectorAll('img').forEach(function(x){if(!x.alt)x.alt=g.dataset.alt})});
   function show(){im.src=list[i].href;im.alt=list[i].querySelector('img').alt}

@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cuidados com a sua flauta: umidade, óleo e amaciamento · Igor Bastos</title>
+<title>Cuidados com a sua flauta: umidade, óleo e limpeza · Igor Bastos</title>
 <meta name="description" content="A flauta de bambu ou de madeira reage ao sol, ao calor e à umidade. Com alguns cuidados simples ela dura muitos anos. Aqui eu explico o que eu faço e o que">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Igor Bastos · Luthier">
-<meta property="og:description" content="Flautas e rabecas feitas à mão no Vale do Capão, Chapada Diamantina, Bahia.">
+<meta property="og:description" content="Flautas de bambu e de madeira feitas por Igor Bastos no Vale do Capão, Chapada Diamantina, Bahia.">
 <meta property="og:image" content="https://igorbastosluthier.github.io/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Igor Bastos · Luthier">
-<meta name="twitter:description" content="Flautas e rabecas feitas à mão no Vale do Capão, Chapada Diamantina, Bahia.">
+<meta name="twitter:description" content="Flautas de bambu e de madeira feitas por Igor Bastos no Vale do Capão, Chapada Diamantina, Bahia.">
 <meta name="twitter:image" content="https://igorbastosluthier.github.io/img/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -294,6 +294,151 @@ footer{color:var(--serra);font-family:var(--mono);font-size:12px}
 }
 html,body{max-width:100%;overflow-x:hidden}
 </style>
+<style>/* v3: camada editorial. Fotos pré-recortadas (work/crops.json); nada de object-fit para enquadrar. */
+:root{--sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:40px;--sp-5:64px;--sp-6:104px;--col:1180px}
+img{height:auto}
+.wrap{max-width:var(--col)}
+
+/* capa de categoria: imagem 16:9 inteira, título embaixo (sem texto sobre a foto) */
+.chero{padding:0 0 var(--sp-4)}
+.chero figure{margin:0}
+.chero picture,.chero img{display:block;width:100%}
+.chero .head{display:grid;gap:var(--sp-2);padding-top:var(--sp-4)}
+.chero h1{font-size:var(--fs-4);margin:0}
+.chero .lead{font-size:var(--fs-1);color:var(--serra);max-width:60ch}
+.chero .head .eyebrow::before{display:none}
+@media(min-width:900px){
+  .chero .head{grid-template-columns:5fr 7fr;gap:var(--sp-5);align-items:end}
+  .chero figure{max-width:1440px;margin:0 auto}
+}
+/* capa dividida, para fonte sem resolução para 16:9 */
+.chero.split .wrap.grid{display:grid;gap:var(--sp-4);padding-top:var(--sp-4)}
+@media(min-width:900px){.chero.split .wrap.grid{grid-template-columns:6fr 5fr;align-items:end;gap:var(--sp-5)}.chero.split .head{grid-template-columns:1fr;padding-top:0}}
+
+/* seções de conteúdo */
+.blk{padding:var(--sp-5) 0 0}
+.blk>.wrap>header{display:grid;gap:var(--sp-2);margin-bottom:var(--sp-4)}
+.blk h2{font-size:var(--fs-3);margin:0}
+.blk header p{color:var(--serra);max-width:62ch}
+@media(min-width:900px){.blk>.wrap>header{grid-template-columns:5fr 7fr;column-gap:var(--sp-5);row-gap:var(--sp-2);align-items:start}.blk>.wrap>header>p{grid-column:2}.blk>.wrap>header>h2{grid-row:1;grid-column:1}}
+.blk>.wrap>header::before{display:none}
+.facts2{list-style:none;display:grid;gap:0;border-top:1px solid var(--fio);margin:0}
+.facts2 li{display:grid;grid-template-columns:150px 1fr;gap:var(--sp-2);padding:12px 0;border-bottom:1px solid var(--fio);font-size:15.5px}
+.facts2 b{font:500 11.5px/1.9 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--latao)}
+@media(max-width:520px){.facts2 li{grid-template-columns:1fr;gap:2px}}
+
+/* galeria editorial: linhas de dois, 7/5 e 5/7, detalhe sempre na coluna menor */
+.gal.ed{columns:auto;display:grid;gap:var(--sp-4) var(--sp-3);grid-template-columns:1fr}
+.gal.ed .row{display:grid;gap:var(--sp-3);grid-template-columns:1fr;align-items:end}
+.gal.ed figure{margin:0}
+.gal.ed .it{display:block;margin:0;background:var(--fio);cursor:zoom-in;overflow:hidden}
+.gal.ed .it img{width:100%;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.gal.ed .it:hover img{transform:scale(1.015)}
+.gal.ed figcaption{font:400 13px/1.5 var(--mono);color:var(--serra);margin-top:10px;max-width:46ch}
+@media(min-width:760px){
+  .gal.ed{gap:var(--sp-5)}
+  .gal.ed .row{grid-template-columns:7fr 5fr;gap:var(--sp-4)}
+  .gal.ed .row.rev{grid-template-columns:5fr 7fr}
+  .gal.ed .row.one{grid-template-columns:3fr 6fr 3fr}.gal.ed .row.one figure{grid-column:2}
+  .gal.ed .row .det{align-self:end}
+  .gal.ed .row .top{align-self:start}
+}
+
+/* preços */
+.ptab{max-width:760px;margin-top:var(--sp-4)}
+.ptab h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);margin-bottom:var(--sp-1)}
+.ptab ul{list-style:none;border-top:1px solid var(--fio)}
+.ptab li{display:flex;justify-content:space-between;gap:var(--sp-2);padding:11px 0;border-bottom:1px solid var(--fio);font-size:15.5px}
+.ptab li span{flex:1}.ptab li small{display:block;font-size:13px;color:var(--serra)}
+.ptab li b{font:500 14px var(--mono);font-variant-numeric:tabular-nums;color:var(--madeira-escura);white-space:nowrap;text-align:right}
+.ptab .nota{font-size:13.5px;color:var(--serra);margin-top:12px}
+.acts{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-3)}
+.acts .btn{margin-top:0}
+
+/* player de vídeo: capa própria, sem autoplay */
+.vids{display:grid;gap:var(--sp-3);grid-template-columns:1fr}
+@media(min-width:620px){.vids{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.vids.four{grid-template-columns:repeat(4,1fr)}}
+.vid{margin:0}
+.vid .stage{position:relative;aspect-ratio:4/5;background:#0d0a09;overflow:hidden}
+.vid .stage img,.vid .stage video{position:absolute;inset:0;width:100%;height:100%;display:block}
+.vid .stage video{background:#0d0a09}
+.vid .play{position:absolute;inset:0;border:0;padding:0;background:none;cursor:pointer;display:block;width:100%}
+.vid .play::after{content:"";position:absolute;left:18px;bottom:18px;width:56px;height:56px;border-radius:50%;background:rgba(243,239,231,.94) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5.5v13l10.5-6.5z' fill='%235E2C3B'/%3E%3C/svg%3E") 55% 50%/24px no-repeat;box-shadow:0 4px 16px rgba(0,0,0,.25);transition:transform .2s}
+.vid .play:hover::after,.vid .play:focus-visible::after{transform:scale(1.06)}
+.vid figcaption{font:400 13px/1.5 var(--mono);color:var(--serra);margin-top:10px}
+.vid figcaption b{display:block;font:400 var(--fs-1)/1.3 var(--display);color:var(--madeira-escura);margin-bottom:2px}
+
+/* cartões da Início */
+.cards4{display:grid;gap:var(--sp-4) var(--sp-3);grid-template-columns:1fr 1fr}
+@media(min-width:900px){.cards4{grid-template-columns:repeat(4,1fr)}}
+.cards4 a{text-decoration:none;display:block}
+.cards4 img{width:100%}
+.cards4 h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);margin:12px 0 2px;line-height:1.15}
+.cards4 span{font:400 12.5px/1.5 var(--mono);color:var(--serra)}
+
+/* Início: capa 16:9 com texto ao lado, sem sobreposição pesada */
+.hhero figure{margin:0}.hhero picture,.hhero img{display:block;width:100%}
+.hhero .head{display:grid;gap:var(--sp-2);padding:var(--sp-4) 0 0}
+.hhero h1{font-size:var(--fs-5);margin:0}
+.hhero .lead{font-size:var(--fs-1);color:var(--serra);max-width:52ch}
+@media(min-width:900px){.hhero .head{grid-template-columns:6fr 6fr;gap:var(--sp-5);align-items:end}}
+.trio{list-style:none;display:grid;gap:var(--sp-3);grid-template-columns:1fr;counter-reset:t}
+@media(min-width:760px){.trio{grid-template-columns:repeat(3,1fr);gap:var(--sp-4)}}
+.trio li{border-top:1px solid var(--madeira-escura);padding-top:var(--sp-2)}
+.trio b{display:block;font:400 var(--fs-2)/1.2 var(--display);margin-bottom:6px}
+.trio p{color:var(--serra);font-size:15.5px}
+
+/* acessórios: grade de detalhes 1:1 */
+.opts3{display:grid;gap:var(--sp-4) var(--sp-3);grid-template-columns:1fr}
+@media(min-width:620px){.opts3{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.opts3{grid-template-columns:repeat(4,1fr)}}
+.opts3 article h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);margin:14px 0 4px;line-height:1.15}
+.opts3 .pr{font:500 13px var(--mono);color:var(--latao);display:block;margin-bottom:6px}
+.opts3 p{font-size:15px;color:var(--serra)}
+.opts3 .it{display:block;background:var(--fio);cursor:zoom-in}
+.textlist{list-style:none;border-top:1px solid var(--fio);max-width:860px}
+.textlist li{display:grid;grid-template-columns:1fr auto;gap:4px var(--sp-3);padding:16px 0;border-bottom:1px solid var(--fio)}
+.textlist h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);line-height:1.2}
+.textlist b{font:500 13px var(--mono);color:var(--latao);white-space:nowrap;align-self:baseline}
+.textlist p{grid-column:1/-1;color:var(--serra);font-size:15.5px;max-width:64ch}
+
+/* contato compacto no rodapé */
+.strip{border-top:1px solid var(--fio);margin-top:var(--sp-5);padding:var(--sp-4) 0}
+.strip .wrap{display:flex;flex-wrap:wrap;gap:var(--sp-2) var(--sp-4);align-items:baseline;justify-content:space-between}
+.strip p{font:400 var(--fs-2)/1.25 var(--display);max-width:28ch}
+.strip ul{list-style:none;display:flex;flex-wrap:wrap;gap:var(--sp-1) var(--sp-3);font:400 14px var(--mono)}
+.strip a{color:var(--madeira-escura)}
+.prose2{max-width:68ch}
+.prose2 p{margin:0 0 var(--sp-2);color:var(--madeira-escura)}
+.prose2 h2{font-size:var(--fs-3);margin:var(--sp-5) 0 var(--sp-2)}
+.prose2 h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);margin:var(--sp-4) 0 var(--sp-1)}
+.prose2 ul{padding-left:20px;margin:0 0 var(--sp-2)}.prose2 li{margin-bottom:6px;color:var(--madeira-escura)}
+.prose2 a{color:var(--roxinho)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .prose2 a{color:var(--bambu)}}
+:root[data-theme="dark"] .prose2 a{color:var(--bambu)}
+.split2{display:grid;gap:var(--sp-4)}
+@media(min-width:900px){.split2{grid-template-columns:7fr 5fr;gap:var(--sp-5);align-items:start}}
+.split2 figure{margin:0}.split2 figcaption{font:400 13px/1.5 var(--mono);color:var(--serra);margin-top:10px}
+.quotes{display:grid;gap:var(--sp-3)}@media(min-width:900px){.quotes{grid-template-columns:repeat(3,1fr);gap:var(--sp-4)}}
+.quotes blockquote{border-left:2px solid var(--latao);padding:4px 0 4px 18px;margin:0}
+.quotes p{font:400 var(--fs-2)/1.3 var(--display)}
+.quotes cite{display:block;margin-top:8px;font:500 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;font-style:normal;color:var(--serra)}
+.band2{background:var(--papel);border-top:1px solid var(--fio);border-bottom:1px solid var(--fio);padding:var(--sp-5) 0;margin-top:var(--sp-6)}
+.band2+.strip{margin-top:0;border-top:0}
+.band2 h2{font-size:var(--fs-3)}
+.band2 p{color:var(--serra);max-width:60ch;margin-top:var(--sp-2)}
+.steps2{list-style:none;counter-reset:s;max-width:820px;border-top:1px solid var(--fio)}
+.steps2 li{counter-increment:s;display:grid;grid-template-columns:56px 1fr;gap:var(--sp-2);padding:var(--sp-3) 0;border-bottom:1px solid var(--fio)}
+.steps2 li::before{content:counter(s,decimal-leading-zero);font:500 14px/1.9 var(--mono);color:var(--latao)}
+.steps2 h3{font-family:var(--display);font-weight:400;font-size:var(--fs-2);margin-bottom:4px;line-height:1.2}
+.steps2 p{color:var(--serra);font-size:15.5px}
+section.ph{padding-top:var(--sp-5)}
+.vids{grid-template-columns:1fr 1fr;gap:var(--sp-3) var(--sp-2)}
+@media(min-width:620px){.vids{gap:var(--sp-3)}}
+@media(max-width:520px){.vid .play::after{width:44px;height:44px;left:10px;bottom:10px;background-size:20px}.vid figcaption{font-size:12px}}
+main:has(>.band2:last-child)+.strip{margin-top:0;border-top:0}
+</style>
 <script data-goatcounter="https://igorbastosluthier.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
 document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a,button");if(!a||!window.goatcounter||!window.goatcounter.count)return;var h=(a.getAttribute("href")||""),t=(a.textContent||"").trim().slice(0,60),n="";
@@ -304,28 +449,36 @@ if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
 <body>
 <header class="site"><div class="in"><a class="brand" href="index.html">Igor Bastos<small>Luthier</small></a>
 <button class="burger" aria-expanded="false" aria-controls="menu">Menu</button>
-<nav><ul class="menu" id="menu"><li class="has"><a href="index.html#instrumentos">Instrumentos</a><ul><li><a href="transversais.html">Flautas transversais</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="nativas.html">Flautas nativas e totens</a></li><li><a href="rabecas.html">Rabecas</a></li></ul></li><li><a href="acessorios.html">Acessórios</a></li><li><a href="encomendas.html">Encomendas</a></li><li><a href="monte.html">Monte sua flauta</a></li><li><a href="aprender.html">Aprender</a></li><li><a href="tabelas.html">Tabelas de digitação</a></li><li><a href="oficinas.html">Oficinas</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="contato.html">Contato</a></li></ul></nav></div></header>
+<nav><ul class="menu" id="menu"><li class="has"><a href="index.html#instrumentos">Instrumentos</a><ul><li><a href="transversais.html">Flautas transversais</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="nativas.html">Flautas nativas e totens</a></li><li><a href="rabecas.html">Rabecas</a></li></ul></li><li><a href="acessorios.html">Acessórios</a></li><li><a href="encomendas.html">Encomendas</a></li><li><a href="monte.html">Monte sua flauta</a></li><li><a href="aprender.html">Aprender</a></li><li><a href="tabelas.html">Tabelas de digitação</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="contato.html">Contato</a></li></ul></nav></div></header>
 <main>
-<style>.leia{margin:36px 0 56px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:15px;line-height:1.9}.leia span{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--earth);margin-right:10px}.leia a{color:var(--wood)}</style><section class="ph"><div class="wrap"><div class="eyebrow">Artigos</div><h1>Cuidados com a sua flauta: umidade, óleo e amaciamento</h1><p></p></div></section><section class="cat" style="padding-top:8px"><div class="wrap prose"><p>A flauta de bambu ou de madeira reage ao sol, ao calor e à umidade. Com alguns cuidados simples ela dura muitos anos. Aqui eu explico o que eu faço e o que recomendo: hidratação com óleo, limpeza, onde guardar e o cuidado com a cortiça dos encaixes.</p>
-<h2>Flauta nova: o primeiro mês</h2>
-<p>Flauta nova pede óleo com mais frequência. Eu uso e recomendo <b>óleo de amêndoas extra virgem</b>.</p>
+<style>.leia{margin:36px 0 56px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:15px;line-height:1.9}.leia span{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--earth);margin-right:10px}.leia a{color:var(--wood)}</style><section class="ph"><div class="wrap"><div class="eyebrow">Artigos</div><h1>Cuidados com a sua flauta: umidade, óleo e limpeza</h1></div></section><section class="cat" style="padding-top:8px"><div class="wrap prose"><p>A flauta de bambu ou de madeira reage ao sol, ao calor e à umidade. Com alguns cuidados simples ela dura muitos anos. Aqui eu explico o que eu faço e o que recomendo: hidratação com óleo, limpeza, montagem, onde guardar e o cuidado com a cortiça dos encaixes.</p>
+<figure class="yt"><iframe src="https://www.youtube-nocookie.com/embed/EGEmwvWhCPI" title="Montagem, manutenção, hidratação e slide" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><figcaption>Montagem, manutenção, hidratação e slide</figcaption></figure>
+<h2>Flauta nova: pode tocar à vontade</h2>
+<p>Pode tocar a flauta à vontade, desde o primeiro dia. Não tem isso de tocar pouco no começo.</p>
+<p>O que a flauta nova pede é hidratação com mais frequência. Eu uso e recomendo <b>óleo de amêndoas extra virgem</b>:</p>
 <ul>
 <li><b>No primeiro mês:</b> 1 vez por semana.</li>
 <li><b>Depois disso:</b> 1 a 2 vezes por mês.</li>
 </ul>
-<p>O óleo hidrata por dentro e por fora. Na minha experiência, ele protege, conserva e ainda aviva o brilho do som.</p>
+<p>O óleo hidrata por dentro e por fora. Na minha experiência, ele protege, conserva e aviva o brilho do timbre. Em clima quente, vale manter a flauta mais hidratada, pra ela não ressecar nem rachar.</p>
+<h2>Como preparar a vareta</h2>
+<p>Prenda uma ponta do tecido de microfibra na fenda da vareta e estique o tecido ao longo dela. Não deixe embolar, senão o tecido trava dentro do tubo.</p>
 <h2>Depois de tocar: secar</h2>
-<p>Toda vez que terminar de tocar, seque por dentro. Use a vareta com o pano de microfibra na ponta e tire o excesso de umidade, por dentro e por fora. É rapidinho e faz muita diferença.</p>
-<h2>Limpeza mais caprichada</h2>
-<p>De vez em quando vale uma limpeza melhor. O jeito que eu recomendo:</p>
+<p>Depois de tocar bastante, passe a vareta com o tecido por dentro do tubo pra tirar a umidade, e tire o excesso por fora também.</p>
+<h2>Como passar o óleo</h2>
 <ol>
-<li>Desmonte e tire o stopper, pra deixar o tubo livre. (Nas minhas flautas com coroa, o topo desmonta. Foi pensado justamente pra isso.)</li>
-<li>Passe a vareta com estopa seca, pra tirar a sujeira.</li>
-<li>Depois de limpo, hidrate com óleo.</li>
-<li>Coloque o stopper de volta.</li>
+<li>Pingue algumas gotas de óleo dentro do tubo.</li>
+<li>Espalhe com a vareta de cerdas de nylon.</li>
+<li>Tire o excesso com o tecido de microfibra, por dentro e por fora.</li>
 </ol>
+<h2>Montar e desmontar a flauta com encaixe</h2>
+<p>A flauta irlandesa tem bocal, barrilete, corpo e pé. Pra encaixar e desencaixar, segure com as duas mãos perto da junção e vá girando e pressionando suave.</p>
+<h2>Limpeza mais completa</h2>
+<p>De vez em quando vale tirar o stopper pra deixar o tubo livre, limpar, hidratar e colocar de volta. Nas minhas flautas com coroa, o topo desmonta justamente pra isso. Como tirar, recolocar e achar a posição certa eu explico no artigo <a href="artigo-stopper.html">Coroa com stopper móvel: como ajustar</a>.</p>
 <p>Ao redor e dentro dos furos de digitação e da embocadura também costuma acumular impurezas. Dá pra limpar também, com cuidado.</p>
 <p><b>O mais importante:</b> não lixe, não raspe e não tire madeira da flauta, principalmente por dentro e nos furos. Qualquer alteração ali muda a afinação.</p>
+<h2>O slide de afinação</h2>
+<p>Nas flautas com slide: afastar o slide alonga o tubo e deixa a flauta mais grave; aproximar encurta e deixa mais aguda. Ele não muda todas as notas por igual, por isso vale conferir no afinador.</p>
 <h2>Nunca passe álcool</h2>
 <p><b>Nunca passe álcool</b>, nem álcool 70, nem álcool em gel, em flauta com goma-laca. O álcool dissolve a goma-laca e estraga o acabamento.</p>
 <p>Pra limpar por fora, use um pano seco ou levemente úmido. Só isso.</p>
@@ -346,6 +499,7 @@ if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
 <p>Guarde no estojo ou enrolada num pano. Flauta largada por aí pega poeira, rala, machuca.</p>
 <h2>Flauta com encaixe: a cortiça</h2>
 <p>Nas flautas segmentadas, os encaixes têm cortiça. Eu mando junto um lubrificante pra cortiça. Use. O encaixe entra e sai macio e a cortiça dura muito mais.</p>
+<p>Passe quando o encaixe ficar duro.</p>
 <h2>E se rachar?</h2>
 <p>Acontece, principalmente no bambu. Quando chega uma flauta minha rachada, eu selo a rachadura com cola, forçando ela a abrir pra cola penetrar, envolvo com fita de borracha pra juntar a colagem, raspo o excesso, lixo e renovo o acabamento e a hidratação. Num pífano de bambu, também já recomendei amarrar umas cordinhas em volta pra reforçar com o tempo. Ajuda até nas quedas.</p>
 <p>Se for defeito de fabricação, minhas flautas têm 6 meses de garantia: o conserto é sem custo; o frete de ida e de volta é por conta do cliente. Queda, batida, sol, calor ou umidade extremos e desgaste natural não entram. Depois dos 6 meses, faço a revisão e o conserto com preço combinado.</p>
@@ -354,6 +508,7 @@ if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
 <p>O kit tem vareta de limpeza, pano de microfibra e óleo.</p>
 <h2>Resumindo</h2>
 <ul>
+<li>Pode tocar à vontade desde o primeiro dia.</li>
 <li>Óleo de amêndoas extra virgem: 1x por semana no 1º mês, depois 1 a 2x por mês.</li>
 <li>Seque por dentro depois de tocar.</li>
 <li>Nada de álcool na goma-laca.</li>
@@ -361,27 +516,16 @@ if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
 <li>Lubrificante na cortiça dos encaixes.</li>
 </ul>
 <h2>Dúvidas</h2>
-<p>Me chama no <a href="https://wa.me/5575982901157" target="_blank" rel="noopener"><b>WhatsApp: (75) 98290-1157</b></a>. E se ainda não tem a sua, dá uma passada em <a href="monte.html"><b>Monte sua flauta</b></a>.</p></div></section><style>.prose h2{margin:36px 0 10px}.prose p,.prose li{margin:0 0 12px}.prose ul,.prose ol{padding-left:22px}</style><div class="wrap"><div class="leia"><span>Leia também</span> <a href="artigo-pifano.html">Bambu, PVC ou madeira: qual pífano escolher?</a> · <a href="artigo-tom.html">Qual tom escolher para a sua primeira flauta?</a> · <a href="artigo-naf-presente.html">A flauta nativa (NAF) é fácil? Um guia para quem vai presentear</a> · <a href="artigo-preco-prazo.html">Por que uma flauta feita à mão custa o que custa e leva o tempo que leva</a> · <a href="artigos.html">Todos os artigos</a></div></div>
+<p>Me chama no <a href="https://wa.me/5575982901157" target="_blank" rel="noopener"><b>WhatsApp: (75) 98290-1157</b></a>. E se ainda não tem a sua, dá uma passada em <a href="monte.html"><b>Monte sua flauta</b></a>.</p></div></section><style>.prose h2{margin:36px 0 10px}.prose p,.prose li{margin:0 0 12px}.prose ul,.prose ol{padding-left:22px}.yt{margin:24px 0}.yt iframe{width:100%;aspect-ratio:16/9;border:0;display:block}.yt figcaption{color:var(--muted);font-size:14px;margin-top:6px}</style><div class="wrap"><div class="leia"><span>Leia também</span> <a href="artigo-pifano.html">Bambu, PVC ou madeira: qual pífano escolher?</a> · <a href="artigo-tom.html">Qual tom escolher para a sua primeira flauta?</a> · <a href="artigo-naf-presente.html">A flauta nativa (NAF) é fácil? Um guia para quem vai presentear</a> · <a href="artigo-preco-prazo.html">Por que uma flauta feita à mão custa o que custa e leva o tempo que leva</a> · <a href="artigo-stopper.html">Coroa com stopper móvel: como ajustar</a> · <a href="artigos.html">Todos os artigos</a></div></div>
 </main>
-<section class="contact" id="contato"><div class="wrap">
-  <div class="eyebrow">Contato</div><h2>Encomendas</h2>
-  <p class="lead">Encomendas e orçamentos pelo WhatsApp ou Direct.</p>
-  <ul>
-    <li><a href="https://wa.me/5575982901157" target="_blank" rel="noopener"><small>WhatsApp</small><b>(75) 98290-1157</b></a></li>
-    <li><a href="https://instagram.com/igorbastos.luthier" target="_blank" rel="noopener"><small>Instagram</small><b>@igorbastos.luthier</b></a></li>
-    <li><a href="https://instagram.com/igorbastos.flauta" target="_blank" rel="noopener"><small>Portfólio de flautas</small><b>@igorbastos.flauta</b></a></li>
-    <li><a href="https://instagram.com/igorbastos.rabeca" target="_blank" rel="noopener"><small>Portfólio de rabecas</small><b>@igorbastos.rabeca</b></a></li>
-    <li><a href="https://www.facebook.com/igorbastos.luthier" target="_blank" rel="noopener"><small>Facebook</small><b>Igor Bastos Luthier</b></a></li>
-    <li><a href="mailto:igorbastosluthier@gmail.com"><small>E-mail</small><b>igorbastosluthier@gmail.com</b></a></li>
-  </ul>
-</div></section>
-<footer>Igor Bastos Luthier · Vale do Capão, Chapada Diamantina, Bahia</footer>
-<a class="fab" href="https://wa.me/5575982901157?text=Ol%C3%A1%20Igor%2C%20li%20o%20artigo%20%22Cuidados%20com%20a%20sua%20flauta%3A%20umidade%2C%20%C3%B3leo%20e%20amaciamento%22" target="_blank" rel="noopener">WhatsApp</a>
+<section class="strip"><div class="wrap"><p>Orçamento e dúvidas pelo WhatsApp (75) 98290-1157.</p><ul><li><a href="https://wa.me/5575982901157" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="https://instagram.com/igorbastos.luthier" target="_blank" rel="noopener">Instagram</a></li><li><a href="mailto:igorbastosluthier@gmail.com">E-mail</a></li><li><a href="contato.html">Todos os contatos</a></li></ul></div></section><footer>Igor Bastos Luthier · Vale do Capão, Chapada Diamantina, Bahia</footer>
+<a class="fab" href="https://wa.me/5575982901157?text=Ol%C3%A1%20Igor%2C%20li%20o%20artigo%20%22Cuidados%20com%20a%20sua%20flauta%3A%20umidade%2C%20%C3%B3leo%20e%20limpeza%22" target="_blank" rel="noopener">WhatsApp</a>
 <div class="lb" id="lb" role="dialog" aria-modal="true"><button class="x" aria-label="Fechar">×</button><button class="pv" aria-label="Anterior">‹</button><img alt=""><button class="nx" aria-label="Próxima">›</button></div>
 <script>
 (function(){
   var bg=document.querySelector('.burger');if(bg)bg.onclick=function(){var o=document.body.classList.toggle('nav-open');bg.setAttribute('aria-expanded',o);bg.textContent=o?'Fechar':'Menu'};
   document.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('nav-open')})});
+  document.querySelectorAll('.vid .play').forEach(function(b){b.addEventListener('click',function(){var st=b.parentNode,v=document.createElement('video');v.controls=true;v.playsInline=true;v.setAttribute('playsinline','');v.preload='auto';v.poster=b.dataset.poster;v.src=b.dataset.src;st.innerHTML='';st.appendChild(v);v.play().catch(function(){})})});
   var lb=document.getElementById('lb'),im=lb.querySelector('img'),list=[],i=0;
   document.querySelectorAll('.gal').forEach(function(g){g.querySelectorAll('img').forEach(function(x){if(!x.alt)x.alt=g.dataset.alt})});
   function show(){im.src=list[i].href;im.alt=list[i].querySelector('img').alt}
