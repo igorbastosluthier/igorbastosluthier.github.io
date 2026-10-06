@@ -747,3 +747,14 @@ section.ph{padding-top:calc(var(--sp-5) - 16px)}
 .enccard dl div{padding:12px 0;border-bottom:1px dashed var(--rule)}.enccard dl div:last-child{border:0}
 .enccard dt{font:600 11.5px var(--text);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
 .enccard dd{margin:4px 0 0;font:400 19px/1.3 var(--display)}
+/* processo: etapas em video */
+.etapas{list-style:none;margin:0;padding:0;counter-reset:e;display:grid;gap:var(--sp-5,48px)}
+.etapa{counter-increment:e;display:grid;grid-template-columns:1fr;gap:16px;align-items:center}
+.etapa .vid{width:100%;max-width:420px}
+.etapa .tx h3,.etapa-full h2{font-size:var(--fs-2);line-height:1.15;display:flex;gap:12px;align-items:baseline;margin:0 0 8px}
+.etapa .tx h3::before{content:counter(e,decimal-leading-zero);font:600 13px var(--text);color:var(--gold-ink);letter-spacing:.08em}
+.etapa .tx p,.etapa-full p{font-size:16.5px;line-height:1.6;color:var(--fg-1);max-width:46ch}
+.etapa-full{display:grid;grid-template-columns:1fr;gap:20px;align-items:center}
+.etapa-full .vid{width:100%;max-width:420px}
+@media(min-width:760px){.etapa,.etapa-full{grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:48px}.etapa:nth-child(even){grid-template-columns:minmax(0,1fr) minmax(0,360px)}.etapa:nth-child(even) .vid{order:2}.etapa:nth-child(even) .tx{justify-self:end}.etapa-full .tx{order:2}}
+.etapa .vid .play::after,.etapa-full .vid .play::after{left:auto;bottom:auto;right:14px;top:14px}
