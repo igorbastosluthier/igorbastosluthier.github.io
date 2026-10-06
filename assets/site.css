@@ -758,3 +758,15 @@ section.ph{padding-top:calc(var(--sp-5) - 16px)}
 .etapa-full .vid{width:100%;max-width:420px}
 @media(min-width:760px){.etapa,.etapa-full{grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:48px}.etapa:nth-child(even){grid-template-columns:minmax(0,1fr) minmax(0,360px)}.etapa:nth-child(even) .vid{order:2}.etapa:nth-child(even) .tx{justify-self:end}.etapa-full .tx{order:2}}
 .etapa .vid .play::after,.etapa-full .vid .play::after{left:auto;bottom:auto;right:14px;top:14px}
+/* v7: galerias grandes por modelo */
+.mg{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.mg .it{display:block;grid-column:span 2;overflow:hidden;border-radius:var(--r-1);background:var(--bg-2,#eee)}
+.mg .it img{display:block;width:100%;height:100%;aspect-ratio:4/5;object-fit:cover;transition:transform 1.2s var(--ease)}
+.mg .it:hover img{transform:scale(1.03)}
+.mg .it:nth-child(-n+3) img{aspect-ratio:3/4}
+.mg .it:nth-child(n+4){grid-column:span 1}
+@media (max-width:900px){.mg{grid-template-columns:repeat(4,1fr)}.mg .it:nth-child(-n+3){grid-column:span 4}.mg .it:nth-child(2),.mg .it:nth-child(3){grid-column:span 2}.mg .it:nth-child(n+4){grid-column:span 2}}
+@media (max-width:520px){.mg{gap:6px}}
+.mg-n{font:400 14px/1.5 var(--text);color:var(--fg-2);margin-top:10px}
+
+@media(max-width:899px){header.site{-webkit-backdrop-filter:none;backdrop-filter:none}} /* 06/10: o blur do cabeçalho prendia o menu fixo (abria com 6px no celular) */
