@@ -770,3 +770,5 @@ section.ph{padding-top:calc(var(--sp-5) - 16px)}
 .mg-n{font:400 14px/1.5 var(--text);color:var(--fg-2);margin-top:10px}
 
 @media(max-width:899px){header.site{-webkit-backdrop-filter:none;backdrop-filter:none}} /* 06/10: o blur do cabeçalho prendia o menu fixo (abria com 6px no celular) */
+
+@media(max-width:640px){.madeiras{grid-template-columns:1fr!important}} .madeira .bot{display:block;font-size:13px;letter-spacing:.02em;color:var(--fg-2,#8a7a6a);margin-bottom:10px} /* 06/10 madeiras: 1 coluna no celular, linha botanica */
