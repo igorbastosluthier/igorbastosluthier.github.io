@@ -772,3 +772,5 @@ section.ph{padding-top:calc(var(--sp-5) - 16px)}
 @media(max-width:899px){header.site{-webkit-backdrop-filter:none;backdrop-filter:none}} /* 06/10: o blur do cabeçalho prendia o menu fixo (abria com 6px no celular) */
 
 @media(max-width:640px){.madeiras{grid-template-columns:1fr!important}} .madeira .bot{display:block;font-size:13px;letter-spacing:.02em;color:var(--fg-2,#8a7a6a);margin-bottom:10px} /* 06/10 madeiras: 1 coluna no celular, linha botanica */
+
+[data-k=tone] .o>span{font:500 20px/1.2 var(--serif,Georgia,serif)!important;color:var(--fg-0,#2a2119)} [data-k=tone] .o b{font-weight:400!important;font-size:12px!important;color:var(--fg-2,#8a7a6a)!important;letter-spacing:.02em} /* 06/10 Igor: o tom em destaque, o preço discreto */
