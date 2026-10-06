@@ -119,6 +119,7 @@ function estojo(){var c=D.companions,m=M();if(!m||m.kind!=='transversal'||!S.par
 function gravTier(){var w=S.grav.trim().split(/\s+/).filter(Boolean).length;return w?(w<=2?'nome':'frase'):''}
 function region(){var d=S.cep.replace(/\D/g,'');if(d.length!==8)return null;var p=d.slice(0,2);return D.frete.regioes.filter(function(r){return p>=r.de&&p<=r.ate})[0]||null}
 function fix(){var m=M();if(!m){S.tone=S.wood=S.parts='';return}
+ VF.forEach(function(x){if(S.pers[x]&&!hasV(m,x))S.pers[x]=false});if(m.kind!=='transversal'||m.key==='pifano_pvc')D.consulta.forEach(function(c){S.pers[c.key]=false});
  if(!T())S.tone=m.tones.length===1?m.tones[0].key:'';var t=T();if(!t){S.wood=S.parts='';return}
  if(!W())S.wood=t.woods.length===1?t.woods[0].key:'';var w=W();if(!w){S.parts='';return}
  var ps=Object.keys(w.bodies);if(ps.indexOf(S.parts)<0)S.parts=ps.length===1?ps[0]:''}
@@ -137,7 +138,7 @@ function items(){var out=[],b=B(),m=M();if(!b)return out;var fv=b[vkey(cur())];
  else if(S.acc.kit)out.push({k:'k',l:'Kit de limpeza',v:D.companions.kit*100});
  return out}
 function totals(){var it=items(),sub=0,cons=[];it.forEach(function(i){if(i.v===null)cons.push(i.l);else sub+=i.v});
- var r=region(),fr=r?r[S.service][1]*100:null;var tot=sub+(fr||0);return{it:it,sub:sub,cons:cons,r:r,fr:fr,tot:tot,sinal:fr!==null?Math.ceil(tot/2):null}}
+ var r=region(),fr=r?r[S.service][1]*100:null;var tot=sub+(fr||0);var fc=it.some(function(i){return i.k==='flauta'&&i.v===null});return{it:it,sub:sub,cons:cons,r:r,fr:fr,tot:tot,fc:fc,sinal:fr!==null&&!fc?Math.ceil(tot/2):null}}
 function render(){fix();var m=M(),t=T(),w=W(),b=B();
  $('[data-k=model]').innerHTML=D.models.map(function(x){var mn=modelMin(x);return opt('radio','model',x.key,x.key===S.model,x.label,'',mn?'a partir de '+money(mn*100):'',0)}).join('');
  $('#s-tom').hidden=!m;if(m)$('[data-k=tone]').innerHTML=m.tones.map(function(x){var mn=toneMin(x);return opt('radio','tone',x.key,x.key===S.tone,x.label,'',mn?(x.woods.length>1||Object.keys(x.woods[0].bodies).length>1?'a partir de ':'')+money(mn*100):'sob consulta')}).join('');
@@ -166,13 +167,13 @@ function summary(){var x=totals(),r=x.r;
  if(B())li.push('<li><span>Acabamento: '+esc(S.finish)+'</span><b>sem custo</b></li>');
  li.push('<li class="t"><span>Subtotal</span><b>'+money(x.sub)+'</b></li>');
  li.push('<li><span>Frete '+S.service+' (estimativa)</span><b>'+(x.fr!==null?'até '+money(x.fr):'a calcular')+'</b></li>');
- li.push('<li class="t"><span>Total'+(x.fr!==null?' estimado':' sem frete')+'</span><b>'+money(x.tot)+'</b></li>');
+ li.push('<li class="t"><span>Total'+(x.fr!==null?' estimado':' sem frete')+'</span><b>'+(x.fc?'sob consulta':money(x.tot))+'</b></li>');
  li.push('<li class="s"><span>Sinal (50% do total com frete)</span><b>'+(x.sinal!==null?money(x.sinal):'com o frete')+'</b></li>');
  $('#itens').innerHTML=li.join('');
  $('#notas').textContent=(x.cons.length?'Sob consulta (fora do total): '+x.cons.join(', ')+'. Passo o valor no WhatsApp. ':'')+'Pedido '+('PED-'+S.code)+'.';
  if(B())$('#enviar').href='https://wa.me/'+WA+'?text='+encodeURIComponent(message(x));
  $('#bar-l').textContent=B()?(x.fr!==null?'Total estimado com frete · sinal '+money(x.sinal):'Total sem frete · informe o CEP'):'Escolha '+(!M()?'o modelo':!T()?'o tom':!W()?'a madeira':'o corpo');
- $('#bar-t').textContent=money(x.tot)}
+ $('#bar-t').textContent=x.fc?'sob consulta':money(x.tot)}
 function flName(){var m=M(),t=T(),w=W(),v=[];if(S.pers.marchetaria)v.push('com marchetaria');if(S.pers.resina)v.push('com resina epóxi');if(S.pers.drone)v.push('com drone');return [m.label,t.label,(m.tones.some(function(t){return t.woods.length>1})?w.label:''),partsLabel(S.parts).toLowerCase()].concat(v).filter(Boolean).join(', ')}
 function message(x){var m=M(),t=T(),w=W(),L=['Olá, Igor! Montei minha flauta no site.','Pedido PED-'+S.code,'Modelo: '+m.label,'Tom: '+t.label];
  if(m.tones.some(function(t){return t.woods.length>1}))L.push('Madeira: '+w.label);
@@ -183,7 +184,7 @@ function message(x){var m=M(),t=T(),w=W(),L=['Olá, Igor! Montei minha flauta no
  var o=S.obs.trim().replace(/\s+/g,' ');if(o)L.push('Observações: '+o);
  var d=S.cep.replace(/\D/g,'');if(d.length===8)L.push('CEP: '+d.slice(0,5)+'-'+d.slice(5));
  L.push('Subtotal: '+money(x.sub));
- if(x.fr!==null){L.push('Frete estimado ('+S.service+'): até '+money(x.fr));L.push('Total estimado: '+money(x.tot));L.push('Sinal (50% do total com frete): '+money(x.sinal))}
+ if(x.fr!==null&&!x.fc){L.push('Frete estimado ('+S.service+'): até '+money(x.fr));L.push('Total estimado: '+money(x.tot));L.push('Sinal (50% do total com frete): '+money(x.sinal))}
  else L.push('Frete: a calcular pelo CEP');
  if(x.cons.length)L.push('Itens sob consulta: o valor é combinado aqui.');
  L.push('O frete exato é confirmado aqui no WhatsApp.');
