@@ -64,3 +64,4 @@ html,body{overflow-x:clip}
 body:has(.monte) .fab{display:none}
 
 img[src*="v5-i-pifanos-bambu"],img[srcset*="v5-i-pifanos-bambu"]{object-position:center 8%} /* 07/10: mostrar o topo da flauta */
+.antigos{margin-top:28px;border-top:1px solid var(--rule);padding-top:14px}.antigos>summary{cursor:pointer;font-weight:600;padding:10px 0}.antigos[open]>summary{margin-bottom:14px}
