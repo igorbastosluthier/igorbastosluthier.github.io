@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-<meta name="robots" content="noindex">
+<head><meta name="robots" content="noindex">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Monte sua flauta · Igor Bastos</title>
@@ -218,9 +217,9 @@ var VZ=(function(){
    var art=function(svg,vb,at,tr){var e=el('svg',at,tr?el('g',{transform:tr},gb):gb);e.setAttribute('viewBox',vb);e.setAttribute('preserveAspectRatio','none');e.innerHTML=svg;return e};
    art(VZTOT,'105 65 390 170',{x:bx,y:cy-hw-1.5,width:bw,height:2*hw+3});
    var ties=function(){[.2,.8].forEach(function(f){el('rect',{x:bx+bw*f-1.3,y:cy-hw-1.2,width:2.6,height:2*hw+2.4,rx:.6,fill:'#5b3a22',stroke:'#2a160e','stroke-width':.3},gb)})};
-   if(c.totem){/* aguia tracada (silhueta vista de cima): cabeca ao bocal, asas sobre o(s) tubo(s) */
+   if(c.totem){/* aguia tracada (silhueta vista de cima): cabeca para o pe, asas sobre o(s) tubo(s) */
     var ws=Math.max(14,(hw/k)+9),u0=-1.4,su=36/678,sv=2*ws/1015;
-    var tf='matrix(0 '+(sv*k)+' '+(su*k)+' 0 '+(bx+u0*k)+' '+(cy-507.5*sv*k)+')';
+    var tf='matrix(0 '+(sv*k)+' '+(-su*k)+' 0 '+(bx+u0*k+678*su*k)+' '+(cy-507.5*sv*k)+')'; /* Igor 06/10: bico para o pe da flauta */
     art(VZAG,'0 0 1015 678',{x:0,y:0,width:1015,height:678},tf);
     ann.push([bx+bw/2,'totem']);rx_=ws*k}
    else{ann.push([bx+bw/2,'totem']);rx_=hw}
