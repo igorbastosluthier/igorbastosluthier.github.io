@@ -42,8 +42,8 @@ var P={'C':'Dó','C#':'Dó#','D':'Ré','Eb':'Ré#','E':'Mi','F':'Fá','F#':'Fá#
 var K=[['C','Dó (C)'],['C#','Dó# / Ré♭ (C#/D♭)'],['D','Ré (D)'],['Eb','Ré# / Mi♭ (D#/E♭)'],['E','Mi (E)'],['F','Fá (F)'],['F#','Fá# / Sol♭ (F#/G♭)'],['G','Sol (G)'],['G#','Sol# / Lá♭ (G#/A♭)'],['A','Lá (A)'],['Bb','Lá# / Si♭ (A#/B♭)'],['B','Si (B)']];
 function lab(n,t){if(t=='G')return n.replace('b','b');return S[N.indexOf(n)]}
 function flute(x,p){var s='<g transform="translate('+x+',0)">';
+ s+='<path d="M-9.2,8.5 L9.2,8.5 L9.2,240 Q9.2,246 3.2,246 L-3.2,246 Q-9.2,246 -9.2,240 Z" fill="#fff" stroke="#2a2119" stroke-width="1.6"/>';
  s+='<use href="#coroa" xlink:href="#coroa" x="-10" y="-10.5" width="20" height="20.5" fill="#2a2119"/>';
- s+='<rect x="-9" y="10" width="18" height="236" rx="6" fill="#fff" stroke="#2a2119" stroke-width="1.6"/>';
   s+='<ellipse cx="0" cy="30" rx="4.6" ry="6" fill="#fff" stroke="#2a2119" stroke-width="1.5"/>';
  for(var i=0;i<6;i++){var y=100+i*22,c=p[i];
   s+='<ellipse cx="0" cy="'+y+'" rx="5" ry="6.5" fill="'+(c=='F'?'#2a2119':'#fff')+'" stroke="#2a2119" stroke-width="1.5"/>';
