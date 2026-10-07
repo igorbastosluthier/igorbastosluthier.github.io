@@ -36,3 +36,8 @@ body{overflow-x:hidden}
 .prices thead th{white-space:normal;font-size:.8rem;line-height:1.25;vertical-align:bottom;min-width:64px}
 @media (max-width:520px){.prices th,.prices td{padding:6px 6px}.prices table{font-size:14px}}
 .opc .plist b{white-space:nowrap}
+.h4hero.cat{min-height:min(72svh,640px)}
+.h4hero h1{max-width:18ch}
+.h4hero .acts{display:flex;flex-wrap:wrap;gap:12px}
+@media (prefers-reduced-motion:no-preference){.h4hero picture img{animation:kb 12s ease-out both;transform-origin:50% 50%}@keyframes kb{from{transform:scale(1)}to{transform:scale(1.08)}}}
+.h4hero.cat::after{background:linear-gradient(180deg,rgba(14,10,8,.25) 0%,rgba(14,10,8,.1) 25%,rgba(14,10,8,.55) 55%,rgba(14,10,8,.88) 100%)}
