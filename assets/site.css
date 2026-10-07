@@ -805,3 +805,6 @@ section.ph{padding-top:calc(var(--sp-5) - 16px)}
 @media(min-width:760px){.igstrip{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .igstrip a{display:block;text-decoration:none;color:var(--fg-1);font-size:.78rem}.igstrip img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:var(--r-2);display:block;margin-bottom:4px}
 .trust.t3 ul{grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:520px){.trust.t3 ul{gap:8px}.trust.t3 b{font-size:1.05rem}.trust.t3 span{font-size:.72rem}}
+
+/* 07/10: no celular o cabeçalho é opaco (sem ver os botões por trás) */
+@media(max-width:1079px){header.site{background:var(--bg-0)}}
