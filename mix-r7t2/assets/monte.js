@@ -21,7 +21,7 @@ function calc(){var m=M(),tot=0,lin=[m.n],obs='',tom=null,parts=1,chk={};
  else{var w=m.w[mw.value];tom=m.t[mt.value];tot=w[1][mt.value];lin.push('Tom: '+tom);if(m.w.length>1)lin.push('Material: '+w[0]);
   if(m.march){tot+=w[0]==='Bambu'?m.march.Bambu:m.march['*'];lin.push('Com marchetaria')}}
  if(chk.encaixe)parts=2;
- var es=parts===2?D.est2:(parts>2?null:D.est[tom]);
+ var es=parts===2?D.est2:(parts>2?D.est3:D.est[tom]);
  m.add.forEach(function(a){
   if(a[0]==='estojo'){var b=ma.querySelector('b[data-k=estojo]');b.textContent=es?'+ '+br(es):'sob consulta'}
   if(!chk[a[0]])return;
