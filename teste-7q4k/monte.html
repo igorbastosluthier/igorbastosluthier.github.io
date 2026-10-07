@@ -183,7 +183,7 @@ var VZ=(function(){
  function joint(gb,x,ra){el('line',{x1:x,y1:-ra-1,x2:x,y2:ra+1,stroke:INK,'stroke-width':.7},gb);el('line',{x1:x+1.6,y1:-ra,x2:x+1.6,y2:ra,stroke:'#b98d5c','stroke-width':1},gb)}
  function gravOn(gb,c,gx,gw){if(!c.grav||gw<10)return;var dark=['bambu','pvc','jaqueira','arariba'].indexOf(c.wood)<0;
   var t=tx(gx,2.6,c.grav,7,gb,{'font-family':'Georgia,serif','font-style':'italic',fill:dark?'#e9cf9c':'#3a1a08'});var w=t.getComputedTextLength();if(w>gw){t.setAttribute('font-size',Math.max(3.5,7*gw/w).toFixed(2));if(t.getComputedTextLength()>gw){t.setAttribute('textLength',gw.toFixed(1));t.setAttribute('lengthAdjust','spacingAndGlyphs')}}}
- function drawOther(c){layer.innerHTML='';var gb=el('g',{transform:'rotate(90)'},layer),d=c.dim,ann=[],r,L,rr,lx0;
+ function drawOther(c){layer.innerHTML='';var gb=el('g',{transform:'rotate(90)'},layer),d=c.dim,ann=[],lr,r,L,rr,lx0;
   if(c.kind==='pvc'){r=(d.bore_mm+5)/2;var ex=14,b1=ex+d.emb_to_foot_mm;tube(gb,0,b1,r,r,WC.pvc);
    [-3,b1-1].forEach(function(x){el('rect',{x:x,y:-r-.8,width:4,height:2*r+1.6,rx:1,fill:'#9a9a96',stroke:INK,'stroke-width':.35},gb)});ann.push([0,'tampa']);
    el('ellipse',{cx:ex,cy:0,rx:5,ry:4,fill:'#140b07'},gb);d.holes_from_emb_mm.forEach(function(v,i){hole(gb,ex+v,d.hole_d_mm[i])});L=b1+3;rr=r;lx0=-r-7}
@@ -198,7 +198,7 @@ var VZ=(function(){
    if(c.aneis){var rs=[b0,hj-3,b-3];if(c.parts===4)rs.push(hj+67,b-93);rs.forEach(function(x){ring(gb,x,r)});ann.push([b-2,'anéis'])}
    el('ellipse',{cx:hx,cy:0,rx:6,ry:4.5,fill:'#140b07'},gb);d.holes_from_emb_mm.forEach(function(v,i){hole(gb,hx+v*1.03,d.hole_d_mm[i])});
    gravOn(gb,c,hx+90,90);if(c.crown==='stopper')ann.push([b0-2,'stopper']);L=b;rr=r;lx0=-r-7}
-  else{var L0=d.emb_to_foot_mm*1.1+110;r=(d.bore_mm+12)/2;var wd=WC[c.wood],sac=Math.round(L0*.26),fh=c.drone?2*r+2:0,bw=Math.max(44,r*3.6),bx=sac-bw*.45,jx=bx+bw+3,k=bw/34;
+  else{var rx_=0,L0=d.emb_to_foot_mm*1.1+110;r=(d.bore_mm+12)/2;var wd=WC[c.wood],sac=Math.round(L0*.26),fh=c.drone?2*r+2:0,bw=Math.max(44,r*3.6),bx=sac-bw*.45,jx=bx+bw+3,k=bw/34;
    var bwood=c.wood==='bambu'?'#8a4a2a':(['jaqueira','arariba'].indexOf(c.wood)>=0?'#3b2419':'#a0602e'),mp=c.wood==='bambu'?bwood:wd;
    [0].concat(c.drone?[fh]:[]).forEach(function(off,ti){var g2=el('g',{transform:'translate(0 '+off+')'},gb);tube(g2,0,L0,r,r,wd);
     // slow air chamber: closed bore from the mouthpiece to the plug, shown as a faint inner outline
@@ -211,20 +211,33 @@ var VZ=(function(){
     el('rect',{x:jx,y:-3,width:6,height:6,rx:.8,fill:'#140b07',stroke:INK,'stroke-width':.4},g2);
     if(ti===0)[.55,.61,.67,.75,.81,.87].forEach(function(f){hole(g2,L0*f,6)})});
    ann.push([-6,'bocal']);ann.push([sac*.5,'câmara de ar']);ann.push([jx+3,'janela']);if(c.drone)ann.push([L0*.4,'tubo de bordão']);
-   var Y0=-r,P=function(u,v){return (bx+u*k).toFixed(2)+' '+(Y0-v*k).toFixed(2)};
-   var base='M'+[[0,0],[1,4],[4,7],[30,7],[33,4.5],[34,0]].map(function(q){return P(q[0],q[1])}).join('L')+'Z';
-   el('path',{d:base,fill:bwood,stroke:INK,'stroke-width':.5,'stroke-linejoin':'round'},gb);el('path',{d:base,fill:'url(#vzlp)'},gb);
-   el('path',{d:'M'+P(5,2)+'Q'+P(17,4.5)+' '+P(29,2),stroke:'rgba(0,0,0,.35)','stroke-width':.5,fill:'none'},gb);
-   if(c.totem){/* pantera esculpida (como a NAF de roxinho com totem de felino): cabeça e peito saindo do bloco */
-    var C=function(l){return 'C'+l.map(function(q){return P(q[0],q[1])}).join(' ')},ad='M'+P(3,7)+C([[3,14],[5,20],[9,24]])+C([[9,28],[10,31.5],[12.5,32]])+C([[14,31.5],[14.5,29.5],[16,29.5]])+C([[20,30.5],[25,29.5],[28.5,26.5]])+C([[31.5,24.5],[33.5,22.5],[33.5,20.5]])+C([[33.5,18.5],[31.5,17.5],[29.5,17.5]])+C([[27.5,15.5],[26.5,13],[26.5,11]])+C([[27.5,9],[29.5,8],[31,7]])+'Z';
-    el('path',{d:ad,fill:bwood,stroke:INK,'stroke-width':.55,'stroke-linejoin':'round'},gb);el('path',{d:ad,fill:'url(#vzlp)'},gb);
-    [[[11,29.5],[12.5,30.5],[13,29]],[[8,16],[13,22],[19,24]],[[27,22],[30.5,21],[32,21.5]],[[29.5,18],[30.3,18.7],[31,19.2]]].forEach(function(l){el('path',{d:'M'+P(l[0][0],l[0][1])+'Q'+P(l[1][0],l[1][1])+' '+P(l[2][0],l[2][1]),stroke:'rgba(0,0,0,.45)','stroke-width':.5,fill:'none'},gb)});
-    el('path',{d:'M'+P(22,25.5)+'Q'+P(24,27)+' '+P(26,25.5)+'Q'+P(24,24.6)+' '+P(22,25.5)+'Z',fill:'#140b07'},gb);ann.push([bx+bw/2,'totem'])}else ann.push([bx+bw/2,'bloco']);
-   [.2,.8].forEach(function(f){el('rect',{x:bx+bw*f-1.3,y:Y0-6*k,width:2.6,height:2*r+fh+6*k,rx:.6,fill:'#5b3a22',stroke:'#2a160e','stroke-width':.3},gb)});
+   var cy=fh/2,hw=r+fh/2+2.5,E=function(u,v){return (bx+u*k).toFixed(2)+' '+(cy+v*k).toFixed(2)},Q=function(a,b,cc){return 'M'+E(a[0],a[1])+'Q'+E(b[0],b[1])+' '+E(cc[0],cc[1])};
+   /* vista de cima: bloco = retangulo arredondado sobre o(s) tubo(s) */
+   el('rect',{x:bx,y:cy-hw,width:bw,height:2*hw,rx:4,fill:bwood,stroke:INK,'stroke-width':.5},gb);el('rect',{x:bx,y:cy-hw,width:bw,height:2*hw,rx:4,fill:'url(#vzlp)'},gb);
+   el('path',{d:'M'+(bx+3)+' '+(cy-hw+2)+'L'+(bx+bw-3)+' '+(cy-hw+2),stroke:'rgba(255,255,255,.18)','stroke-width':.6,fill:'none'},gb);
+   var ties=function(){[.2,.8].forEach(function(f){el('rect',{x:bx+bw*f-1.3,y:cy-hw-1.2,width:2.6,height:2*hw+2.4,rx:.6,fill:'#5b3a22',stroke:'#2a160e','stroke-width':.3},gb)})};
+   if(c.totem){ties();/* aguia esculpida vista de cima: cabeca ao bocal, cauda a janela, asas abertas */
+    var ws=Math.max(14,(hw/k)+9);/* meia envergadura em unidades u */
+    var wing=function(s){return 'M'+E(9,1.5*s)+'Q'+E(7,ws*.55*s)+' '+E(10,ws*s)+'L'+E(14,ws*.92*s)+'L'+E(15.5,ws*.98*s)+'L'+E(18,ws*.82*s)+'L'+E(19.5,ws*.86*s)+'L'+E(21,ws*.66*s)+'L'+E(22.5,ws*.66*s)+'Q'+E(20,ws*.3*s)+' '+E(19,2*s)+'Z'};
+    var tail='M'+E(22,-2.6)+'L'+E(33,-5.5)+'L'+E(34,-2.5)+'L'+E(34.6,0)+'L'+E(34,2.5)+'L'+E(33,5.5)+'L'+E(22,2.6)+'Z';
+    var body='M'+E(5,-2.6)+'Q'+E(11,-4.6)+' '+E(17,-4)+'Q'+E(23,-3.2)+' '+E(24,0)+'Q'+E(23,3.2)+' '+E(17,4)+'Q'+E(11,4.6)+' '+E(5,2.6)+'Z';
+    var head='M'+E(1.2,0)+'Q'+E(1.6,-2.6)+' '+E(4,-2.9)+'Q'+E(7,-2.8)+' '+E(7.5,0)+'Q'+E(7,2.8)+' '+E(4,2.9)+'Q'+E(1.6,2.6)+' '+E(1.2,0)+'Z';
+    var beak='M'+E(1.6,-1.1)+'Q'+E(-.8,-.6)+' '+E(-1.4,0)+'Q'+E(-.8,.6)+' '+E(1.6,1.1)+'Z';
+    [wing(-1),wing(1),tail,body,head].forEach(function(dd){el('path',{d:dd,fill:bwood,stroke:INK,'stroke-width':.55,'stroke-linejoin':'round'},gb);el('path',{d:dd,fill:'url(#vzlp)'},gb)});
+    el('path',{d:beak,fill:'#6a3c1e',stroke:INK,'stroke-width':.5},gb);
+    var ln=function(dd,w){el('path',{d:dd,stroke:'rgba(0,0,0,.5)','stroke-width':w||.5,fill:'none','stroke-linecap':'round'},gb)};
+    [-1,1].forEach(function(s){/* penas: linhas de rémiges e coberteiras */
+     [[12,.62],[14.5,.74],[17,.72],[19.5,.6]].forEach(function(q){ln('M'+E(q[0]-2.5,ws*.3*s)+'L'+E(q[0],ws*q[1]*s))});
+     ln(Q([9.5,ws*.35*s],[13,ws*.42*s],[20,ws*.36*s]),.45);ln(Q([9,ws*.2*s],[14,ws*.26*s],[19.5,ws*.2*s]),.4);
+     el('circle',{cx:bx+4.6*k,cy:cy+1.4*s*k,r:.55*k,fill:'#140b07'},gb)});
+    [-3,-1,1,3].forEach(function(v){ln('M'+E(24.5,v*.6)+'L'+E(33,v*1.3),.45)});
+    [[10,0],[13.5,0],[17,0]].forEach(function(q){ln(Q([q[0],-2.6],[q[0]+1.6,0],[q[0],2.6]),.45)});
+    ann.push([bx+bw/2,'totem']);rx_=ws*k}
+   else{ties();el('path',{d:'M'+(bx+bw*.32)+' '+cy+'L'+(bx+bw*.68)+' '+cy,stroke:'rgba(0,0,0,.3)','stroke-width':.6,fill:'none'},gb);ann.push([bx+bw/2,'bloco']);rx_=hw}
    var mx=jx+12;if(c.marq){marqBand(mx,mx+26,r,gb);ann.push([mx+13,'marchetaria']);mx+=30}if(c.resina){el('rect',{x:mx,y:-r,width:18,height:2*r,fill:'url(#vzrs)'},gb);ann.push([mx+9,'resina']);mx+=22}
    if(c.aneis){[1,L0-4].forEach(function(x){ring(gb,x,r)});ann.push([L0-3,'anéis'])}
-   var ge=L0*.55-8;gravOn(gb,c,(mx+ge)/2,ge-mx);L=L0;rr=r+(c.totem?38*k:7*k)+2;lx0=-r-7}
-  labels(ann,c.kind==='naf'&&c.drone?r+2*r+2:r,L,c.kind==='naf'?-14:-4,rr)}
+   var ge=L0*.55-8;gravOn(gb,c,(mx+ge)/2,ge-mx);L=L0;rr=Math.max(r,rx_-cy)+2;lr=Math.max(r+fh,cy+rx_);lx0=-r-7}
+  labels(ann,c.kind==='naf'?lr:r,L,c.kind==='naf'?-14:-4,rr)}
  function photoMatch(c){var m=(c.marq||c.mosaico)?1:0,sg=c.parts>1?1:0,r=c.resina?1:0,l=c.lip?1:0,an=c.aneis?1:0,st=c.crown==='stopper'?1:0;
   if(c.kind==='irl')return c.marqb?[]:VZP.filter(function(p){return p.k==='irlandesa'&&p.p===c.parts&&p.an===an&&p.st===st});
   if(c.kind==='naf')return (m||r)?[]:VZP.filter(function(p){return p.k===c.model&&p.w===c.wood&&p.an===an&&p.dr===(c.drone?1:0)&&p.tt===(c.totem?1:0)});
