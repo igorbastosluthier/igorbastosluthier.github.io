@@ -1,0 +1,15 @@
+{
+ "primeira_publicacao_flauta": "2018-04-28",
+ "ano_inicio": 2018,
+ "publicacoes_total": 1173,
+ "publicacoes_flauta": 712,
+ "flautas_descritas": 232,
+ "marcadas_vendidas": 88,
+ "ultima_publicacao": "2026-08-01",
+ "como": {
+  "publicacoes_flauta": "posts do Instagram (agrupados por id de post) cuja legenda cita flauta/pífano/pife/NAF/irish/irlandesa",
+  "flautas_descritas": "desses, os que dão tom E madeira/bambu e não são de processo; legendas repetidas (120 primeiros caracteres normalizados) contadas uma vez",
+  "marcadas_vendidas": "posts de flauta com a palavra vendido/vendida(s) na legenda; post com várias flautas vendidas conta 1",
+  "ano_inicio": "data do post de flauta mais antigo da biblioteca"
+ }
+}
