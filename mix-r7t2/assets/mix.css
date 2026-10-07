@@ -25,3 +25,14 @@
 .faq summary{cursor:pointer;font-weight:600}
 .filtros{flex-wrap:wrap}
 body{overflow-x:hidden}
+.opc{background:var(--bg-1);border:1px solid var(--rule);border-radius:var(--r-2,10px);padding:16px 18px;margin:18px 0}
+.opc h3{margin:0 0 8px;font-size:1.05rem}
+.opc .plist{margin:0}
+.opcs{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.opcs .opc{margin:0}
+.prices h3{margin-top:28px}
+.prices tbody th{font-weight:600;font-size:1.02rem}
+.prices td{color:var(--fg-1);font-size:.92rem}
+.prices thead th{white-space:normal;font-size:.8rem;line-height:1.25;vertical-align:bottom;min-width:64px}
+@media (max-width:520px){.prices th,.prices td{padding:6px 6px}.prices table{font-size:14px}}
+.opc .plist b{white-space:nowrap}
