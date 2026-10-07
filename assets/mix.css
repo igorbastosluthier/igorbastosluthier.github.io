@@ -62,3 +62,5 @@ body{overflow-x:hidden}
 .menu .cta.monte a{white-space:nowrap}
 html,body{overflow-x:clip}
 body:has(.monte) .fab{display:none}
+
+img[src*="v5-i-pifanos-bambu"],img[srcset*="v5-i-pifanos-bambu"]{object-position:center 8%} /* 07/10: mostrar o topo da flauta */
