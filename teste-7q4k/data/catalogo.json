@@ -1,0 +1,5428 @@
+{
+ "gerado_por": "work/v9/catalogo.py",
+ "fontes": [
+  "data/precos.json (HERMES order_builder_data)",
+  "owner_addons.json",
+  "owner_notes.json"
+ ],
+ "madeiras": [
+  "Jacarandá",
+  "Muirapiranga",
+  "Roxinho",
+  "Maçaranduba",
+  "Araribá",
+  "Sebastião-de-arruda"
+ ],
+ "madeiras_ja_usadas": [
+  "jaqueira",
+  "mangueira",
+  "peroba-rosa",
+  "sucupira",
+  "cerejeira",
+  "putumuju"
+ ],
+ "bambu": "Bambusa tuldoides",
+ "tons": {
+  "pifano_pvc": [
+   "Dó",
+   "Si",
+   "Lá#",
+   "Lá",
+   "Sol#",
+   "Sol"
+  ],
+  "pifano_bambu": [
+   "Ré# agudo",
+   "Ré agudo",
+   "Dó#",
+   "Dó",
+   "Si",
+   "Lá#",
+   "Lá",
+   "Sol#",
+   "Sol",
+   "Fá#",
+   "Fá",
+   "Mi"
+  ],
+  "pifano_madeira": [
+   "Ré agudo",
+   "Dó#",
+   "Dó",
+   "Si",
+   "Lá#",
+   "Lá",
+   "Sol#",
+   "Sol",
+   "Fá#",
+   "Fá",
+   "Mi",
+   "Ré grave"
+  ],
+  "naf_bambu": [
+   "Ré agudo",
+   "Dó#",
+   "Dó",
+   "Si",
+   "Lá#",
+   "Lá",
+   "Sol#",
+   "Sol",
+   "Fá#",
+   "Fá"
+  ],
+  "naf_madeira": [
+   "Ré agudo",
+   "Dó#",
+   "Dó",
+   "Si",
+   "Lá#",
+   "Lá",
+   "Sol#",
+   "Sol",
+   "Fá#",
+   "Fá",
+   "Mi",
+   "Ré grave"
+  ],
+  "irlandesa": [
+   "Ré grave"
+  ]
+ },
+ "prazos": {
+  "madeira_1_2": "2 meses",
+  "madeira_3_4": "3 meses",
+  "bambu": "cerca de 1 mês",
+  "grande": "combinado conforme a agenda (até 3 meses)"
+ },
+ "afinacao": "Lá 440 Hz, ou 432 Hz sob pedido, conferida nas três oitavas",
+ "acabamentos": [
+  "goma-laca",
+  "óleo de amêndoas"
+ ],
+ "adicionais": {
+  "anéis de latão": 150,
+  "gravação a laser frase": 50,
+  "gravação a laser nome pequeno": 30,
+  "marchetaria no bocal": 260,
+  "parte extra (segmentar)": 400,
+  "porta-lábios": 100,
+  "stopper móvel": 180,
+  "totem 3d de catálogo": 350,
+  "totem 3d sob encomenda": 700
+ },
+ "acompanhamentos": {
+  "kit limpeza (vareta, microfibra, óleo)": 90,
+  "estojo mdf inteiriço com kit de limpeza (ré, dó, dó#, si, lá, lá#, sol, sol#)": 350,
+  "estojo mdf inteiriço com kit de limpeza (fá, fá#)": 390,
+  "estojo mdf inteiriço com kit de limpeza (mi)": 420,
+  "estojo mdf inteiriço com kit de limpeza (ré grave)": 450,
+  "estojo mdf 2 partes com kit de limpeza": 550,
+  "estojo mdf 3 partes com kit de limpeza": 670
+ },
+ "inclui": [
+  "tabela de digitação",
+  "fotos e vídeos da confecção"
+ ],
+ "estojo_inclui": "kit de limpeza: vareta, microfibra e óleo",
+ "pagamento": "Pix: sinal de 50% do total (com frete) para começar; o restante quando a flauta fica pronta, antes do envio",
+ "garantia": "6 meses contra defeito de fabricação",
+ "envio": "Correios, postado em Palmeiras (BA)",
+ "irlandesa": {
+  "tom": "Ré grave (Low D)",
+  "partes": [
+   "2",
+   "4"
+  ],
+  "madeiras": [
+   "Jacarandá",
+   "Roxinho",
+   "Muirapiranga"
+  ]
+ },
+ "precos": {
+  "schema": "igor-order-builder-v1",
+  "models": [
+   {
+    "key": "pifano_bambu",
+    "label": "Pífano de bambu",
+    "kind": "transversal",
+    "tones": [
+     {
+      "key": "re#",
+      "label": "Ré#",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 260
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "re",
+      "label": "Ré",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 280,
+          "marchetaria": 450,
+          "resina": 590,
+          "marchetaria+resina": 760
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "do#",
+      "label": "Dó#",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 300,
+          "marchetaria": 480,
+          "resina": 630,
+          "marchetaria+resina": 810
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "do",
+      "label": "Dó",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 325,
+          "marchetaria": 520,
+          "resina": 680,
+          "marchetaria+resina": 880
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "si",
+      "label": "Si",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 350,
+          "marchetaria": 560,
+          "resina": 740,
+          "marchetaria+resina": 950
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "la#",
+      "label": "Lá#",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 380,
+          "marchetaria": 610,
+          "resina": 800,
+          "marchetaria+resina": 1030
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "la",
+      "label": "Lá",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 410,
+          "marchetaria": 660,
+          "resina": 860,
+          "marchetaria+resina": 1110
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "sol#",
+      "label": "Sol#",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 440,
+          "marchetaria": 700,
+          "resina": 920,
+          "marchetaria+resina": 1180
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "sol",
+      "label": "Sol",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 475,
+          "marchetaria": 760,
+          "resina": 1000,
+          "marchetaria+resina": 1280
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "fa#",
+      "label": "Fá#",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 510,
+          "marchetaria": 820,
+          "resina": 1070,
+          "marchetaria+resina": 1380
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "fa",
+      "label": "Fá",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 550,
+          "marchetaria": 880,
+          "resina": 1160,
+          "marchetaria+resina": 1490
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "mi",
+      "label": "Mi",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "marchetaria": 960,
+          "base": 590
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "re_grave",
+      "label": "Ré grave",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "marchetaria": 1120
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "key": "pifano_pvc",
+    "label": "Pífano de PVC",
+    "kind": "transversal",
+    "tones": [
+     {
+      "key": "do",
+      "label": "Dó",
+      "woods": [
+       {
+        "key": "pvc",
+        "label": "PVC",
+        "bodies": {
+         "1": {
+          "base": 150
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "si",
+      "label": "Si",
+      "woods": [
+       {
+        "key": "pvc",
+        "label": "PVC",
+        "bodies": {
+         "1": {
+          "base": 160
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "la#",
+      "label": "Lá#",
+      "woods": [
+       {
+        "key": "pvc",
+        "label": "PVC",
+        "bodies": {
+         "1": {
+          "base": 175
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "la",
+      "label": "Lá",
+      "woods": [
+       {
+        "key": "pvc",
+        "label": "PVC",
+        "bodies": {
+         "1": {
+          "base": 190
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "sol#",
+      "label": "Sol#",
+      "woods": [
+       {
+        "key": "pvc",
+        "label": "PVC",
+        "bodies": {
+         "1": {
+          "base": 200
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "sol",
+      "label": "Sol",
+      "woods": [
+       {
+        "key": "pvc",
+        "label": "PVC",
+        "bodies": {
+         "1": {
+          "base": 220
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "key": "pifano_madeira",
+    "label": "Pífano de madeira",
+    "kind": "transversal",
+    "tones": [
+     {
+      "key": "re",
+      "label": "Ré",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 690,
+          "marchetaria": 1040,
+          "resina": 1450,
+          "marchetaria+resina": 1800
+         },
+         "2": {
+          "base": 1090,
+          "marchetaria": 1440,
+          "resina": 1850,
+          "marchetaria+resina": 2200,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1490,
+          "marchetaria": 1840,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2250,
+          "marchetaria+resina": 2600
+         },
+         "4": {
+          "base": 1890,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2240,
+          "resina": 2650,
+          "marchetaria+resina": 3000
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 840,
+          "marchetaria": 1260,
+          "resina": 1760,
+          "marchetaria+resina": 2180
+         },
+         "2": {
+          "base": 1240,
+          "marchetaria": 1660,
+          "resina": 2160,
+          "marchetaria+resina": 2580,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1640,
+          "marchetaria": 2060,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2560,
+          "marchetaria+resina": 2980
+         },
+         "4": {
+          "base": 2040,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2460,
+          "resina": 2960,
+          "marchetaria+resina": 3380
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 840,
+          "marchetaria": 1260,
+          "resina": 1760,
+          "marchetaria+resina": 2180
+         },
+         "2": {
+          "base": 1240,
+          "marchetaria": 1660,
+          "resina": 2160,
+          "marchetaria+resina": 2580,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1640,
+          "marchetaria": 2060,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2560,
+          "marchetaria+resina": 2980
+         },
+         "4": {
+          "base": 2040,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2460,
+          "resina": 2960,
+          "marchetaria+resina": 3380
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 690,
+          "marchetaria": 1040,
+          "resina": 1450,
+          "marchetaria+resina": 1800
+         },
+         "2": {
+          "base": 1090,
+          "marchetaria": 1440,
+          "resina": 1850,
+          "marchetaria+resina": 2200,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1490,
+          "marchetaria": 1840,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2250,
+          "marchetaria+resina": 2600
+         },
+         "4": {
+          "base": 1890,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2240,
+          "resina": 2650,
+          "marchetaria+resina": 3000
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 760,
+          "marchetaria": 1140,
+          "resina": 1600,
+          "marchetaria+resina": 1980
+         },
+         "2": {
+          "base": 1160,
+          "marchetaria": 1540,
+          "resina": 2000,
+          "marchetaria+resina": 2380,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1560,
+          "marchetaria": 1940,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2400,
+          "marchetaria+resina": 2780
+         },
+         "4": {
+          "base": 1960,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2340,
+          "resina": 2800,
+          "marchetaria+resina": 3180
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 710,
+          "marchetaria": 1060,
+          "resina": 1490,
+          "marchetaria+resina": 1840
+         },
+         "2": {
+          "base": 1110,
+          "marchetaria": 1460,
+          "resina": 1890,
+          "marchetaria+resina": 2240,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1510,
+          "marchetaria": 1860,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2290,
+          "marchetaria+resina": 2640
+         },
+         "4": {
+          "base": 1910,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2260,
+          "resina": 2690,
+          "marchetaria+resina": 3040
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "do#",
+      "label": "Dó#",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 750,
+          "marchetaria": 1120,
+          "resina": 1580,
+          "marchetaria+resina": 1950
+         },
+         "2": {
+          "base": 1150,
+          "marchetaria": 1520,
+          "resina": 1980,
+          "marchetaria+resina": 2350,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1550,
+          "marchetaria": 1920,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2380,
+          "marchetaria+resina": 2750
+         },
+         "4": {
+          "base": 1950,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2320,
+          "resina": 2780,
+          "marchetaria+resina": 3150
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 900,
+          "marchetaria": 1350,
+          "resina": 1890,
+          "marchetaria+resina": 2340
+         },
+         "2": {
+          "base": 1300,
+          "marchetaria": 1750,
+          "resina": 2290,
+          "marchetaria+resina": 2740,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1700,
+          "marchetaria": 2150,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2690,
+          "marchetaria+resina": 3140
+         },
+         "4": {
+          "base": 2100,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2550,
+          "resina": 3090,
+          "marchetaria+resina": 3540
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 900,
+          "marchetaria": 1350,
+          "resina": 1890,
+          "marchetaria+resina": 2340
+         },
+         "2": {
+          "base": 1300,
+          "marchetaria": 1750,
+          "resina": 2290,
+          "marchetaria+resina": 2740,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1700,
+          "marchetaria": 2150,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2690,
+          "marchetaria+resina": 3140
+         },
+         "4": {
+          "base": 2100,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2550,
+          "resina": 3090,
+          "marchetaria+resina": 3540
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 750,
+          "marchetaria": 1130,
+          "resina": 1580,
+          "marchetaria+resina": 1950
+         },
+         "2": {
+          "base": 1150,
+          "marchetaria": 1520,
+          "resina": 1980,
+          "marchetaria+resina": 2350,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1550,
+          "marchetaria": 1930,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2380,
+          "marchetaria+resina": 2750
+         },
+         "4": {
+          "base": 1950,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2330,
+          "resina": 2780,
+          "marchetaria+resina": 3150
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 820,
+          "marchetaria": 1230,
+          "resina": 1720,
+          "marchetaria+resina": 2130
+         },
+         "2": {
+          "base": 1220,
+          "marchetaria": 1630,
+          "resina": 2120,
+          "marchetaria+resina": 2530,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1620,
+          "marchetaria": 2030,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2520,
+          "marchetaria+resina": 2930
+         },
+         "4": {
+          "base": 2020,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2430,
+          "resina": 2920,
+          "marchetaria+resina": 3330
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 770,
+          "marchetaria": 1160,
+          "resina": 1620,
+          "marchetaria+resina": 2010
+         },
+         "2": {
+          "base": 1170,
+          "marchetaria": 1560,
+          "resina": 2020,
+          "marchetaria+resina": 2410,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1570,
+          "marchetaria": 1960,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2420,
+          "marchetaria+resina": 2810
+         },
+         "4": {
+          "base": 1970,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2360,
+          "resina": 2820,
+          "marchetaria+resina": 3210
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "do",
+      "label": "Dó",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 810,
+          "marchetaria": 1220,
+          "resina": 1700,
+          "marchetaria+resina": 2110
+         },
+         "2": {
+          "base": 1210,
+          "marchetaria": 1620,
+          "resina": 2100,
+          "marchetaria+resina": 2510,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1610,
+          "marchetaria": 2020,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2500,
+          "marchetaria+resina": 2910
+         },
+         "4": {
+          "base": 2010,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2420,
+          "resina": 2900,
+          "marchetaria+resina": 3310
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 960,
+          "marchetaria": 1440,
+          "resina": 2020,
+          "marchetaria+resina": 2500
+         },
+         "2": {
+          "base": 1360,
+          "marchetaria": 1840,
+          "resina": 2420,
+          "marchetaria+resina": 2900,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1760,
+          "marchetaria": 2240,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2820,
+          "marchetaria+resina": 3300
+         },
+         "4": {
+          "base": 2160,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2640,
+          "resina": 3220,
+          "marchetaria+resina": 3700
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 960,
+          "marchetaria": 1440,
+          "resina": 2020,
+          "marchetaria+resina": 2500
+         },
+         "2": {
+          "base": 1360,
+          "marchetaria": 1840,
+          "resina": 2420,
+          "marchetaria+resina": 2900,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1760,
+          "marchetaria": 2240,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2820,
+          "marchetaria+resina": 3300
+         },
+         "4": {
+          "base": 2160,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2640,
+          "resina": 3220,
+          "marchetaria+resina": 3700
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 810,
+          "marchetaria": 1220,
+          "resina": 1700,
+          "marchetaria+resina": 2110
+         },
+         "2": {
+          "base": 1210,
+          "marchetaria": 1620,
+          "resina": 2100,
+          "marchetaria+resina": 2510,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1610,
+          "marchetaria": 2020,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2500,
+          "marchetaria+resina": 2910
+         },
+         "4": {
+          "base": 2010,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2420,
+          "resina": 2900,
+          "marchetaria+resina": 3310
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 880,
+          "marchetaria": 1320,
+          "resina": 1850,
+          "marchetaria+resina": 2290
+         },
+         "2": {
+          "base": 1280,
+          "marchetaria": 1720,
+          "resina": 2250,
+          "marchetaria+resina": 2690,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1680,
+          "marchetaria": 2120,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2650,
+          "marchetaria+resina": 3090
+         },
+         "4": {
+          "base": 2080,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2520,
+          "resina": 3050,
+          "marchetaria+resina": 3490
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 830,
+          "marchetaria": 1240,
+          "resina": 1740,
+          "marchetaria+resina": 2150
+         },
+         "2": {
+          "base": 1230,
+          "marchetaria": 1640,
+          "resina": 2140,
+          "marchetaria+resina": 2550,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1630,
+          "marchetaria": 2040,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2540,
+          "marchetaria+resina": 2950
+         },
+         "4": {
+          "base": 2030,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2440,
+          "resina": 2940,
+          "marchetaria+resina": 3350
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "si",
+      "label": "Si",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 870,
+          "marchetaria": 1300,
+          "resina": 1830,
+          "marchetaria+resina": 2260
+         },
+         "2": {
+          "base": 1270,
+          "marchetaria": 1700,
+          "resina": 2230,
+          "marchetaria+resina": 2660,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1670,
+          "marchetaria": 2100,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2630,
+          "marchetaria+resina": 3060
+         },
+         "4": {
+          "base": 2070,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2500,
+          "resina": 3030,
+          "marchetaria+resina": 3460
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1020,
+          "marchetaria": 1530,
+          "resina": 2140,
+          "marchetaria+resina": 2650
+         },
+         "2": {
+          "base": 1420,
+          "marchetaria": 1930,
+          "resina": 2540,
+          "marchetaria+resina": 3050,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1820,
+          "marchetaria": 2330,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2940,
+          "marchetaria+resina": 3450
+         },
+         "4": {
+          "base": 2220,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2730,
+          "resina": 3340,
+          "marchetaria+resina": 3850
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1020,
+          "marchetaria": 1530,
+          "resina": 2140,
+          "marchetaria+resina": 2650
+         },
+         "2": {
+          "base": 1420,
+          "marchetaria": 1930,
+          "resina": 2540,
+          "marchetaria+resina": 3050,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1820,
+          "marchetaria": 2330,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2940,
+          "marchetaria+resina": 3450
+         },
+         "4": {
+          "base": 2220,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2730,
+          "resina": 3340,
+          "marchetaria+resina": 3850
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 870,
+          "marchetaria": 1310,
+          "resina": 1830,
+          "marchetaria+resina": 2260
+         },
+         "2": {
+          "base": 1270,
+          "marchetaria": 1700,
+          "resina": 2230,
+          "marchetaria+resina": 2660,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1670,
+          "marchetaria": 2110,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2630,
+          "marchetaria+resina": 3060
+         },
+         "4": {
+          "base": 2070,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2510,
+          "resina": 3030,
+          "marchetaria+resina": 3460
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 940,
+          "marchetaria": 1410,
+          "resina": 1970,
+          "marchetaria+resina": 2440
+         },
+         "2": {
+          "base": 1340,
+          "marchetaria": 1810,
+          "resina": 2370,
+          "marchetaria+resina": 2840,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1740,
+          "marchetaria": 2210,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2770,
+          "marchetaria+resina": 3240
+         },
+         "4": {
+          "base": 2140,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2610,
+          "resina": 3170,
+          "marchetaria+resina": 3640
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 890,
+          "marchetaria": 1340,
+          "resina": 1870,
+          "marchetaria+resina": 2320
+         },
+         "2": {
+          "base": 1290,
+          "marchetaria": 1740,
+          "resina": 2270,
+          "marchetaria+resina": 2720,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1690,
+          "marchetaria": 2140,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2670,
+          "marchetaria+resina": 3120
+         },
+         "4": {
+          "base": 2090,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2540,
+          "resina": 3070,
+          "marchetaria+resina": 3520
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "la#",
+      "label": "Lá#",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 940,
+          "marchetaria": 1410,
+          "resina": 1970,
+          "marchetaria+resina": 2440
+         },
+         "2": {
+          "base": 1340,
+          "marchetaria": 1810,
+          "resina": 2370,
+          "marchetaria+resina": 2840,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1740,
+          "marchetaria": 2210,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2770,
+          "marchetaria+resina": 3240
+         },
+         "4": {
+          "base": 2140,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2610,
+          "resina": 3170,
+          "marchetaria+resina": 3640
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1100,
+          "marchetaria": 1650,
+          "resina": 2310,
+          "marchetaria+resina": 2860
+         },
+         "2": {
+          "base": 1500,
+          "marchetaria": 2050,
+          "resina": 2710,
+          "marchetaria+resina": 3260,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1900,
+          "marchetaria": 2450,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3110,
+          "marchetaria+resina": 3660
+         },
+         "4": {
+          "base": 2300,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2850,
+          "resina": 3510,
+          "marchetaria+resina": 4060
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1100,
+          "marchetaria": 1650,
+          "resina": 2310,
+          "marchetaria+resina": 2860
+         },
+         "2": {
+          "base": 1500,
+          "marchetaria": 2050,
+          "resina": 2710,
+          "marchetaria+resina": 3260,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1900,
+          "marchetaria": 2450,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3110,
+          "marchetaria+resina": 3660
+         },
+         "4": {
+          "base": 2300,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2850,
+          "resina": 3510,
+          "marchetaria+resina": 4060
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 940,
+          "marchetaria": 1410,
+          "resina": 1980,
+          "marchetaria+resina": 2440
+         },
+         "2": {
+          "base": 1340,
+          "marchetaria": 1810,
+          "resina": 2370,
+          "marchetaria+resina": 2840,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1740,
+          "marchetaria": 2210,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2780,
+          "marchetaria+resina": 3240
+         },
+         "4": {
+          "base": 2140,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2610,
+          "resina": 3180,
+          "marchetaria+resina": 3640
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1020,
+          "marchetaria": 1530,
+          "resina": 2140,
+          "marchetaria+resina": 2650
+         },
+         "2": {
+          "base": 1420,
+          "marchetaria": 1930,
+          "resina": 2540,
+          "marchetaria+resina": 3050,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1820,
+          "marchetaria": 2330,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2940,
+          "marchetaria+resina": 3450
+         },
+         "4": {
+          "base": 2220,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2730,
+          "resina": 3340,
+          "marchetaria+resina": 3850
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 960,
+          "marchetaria": 1440,
+          "resina": 2020,
+          "marchetaria+resina": 2500
+         },
+         "2": {
+          "base": 1360,
+          "marchetaria": 1840,
+          "resina": 2420,
+          "marchetaria+resina": 2900,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1760,
+          "marchetaria": 2240,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2820,
+          "marchetaria+resina": 3300
+         },
+         "4": {
+          "base": 2160,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2640,
+          "resina": 3220,
+          "marchetaria+resina": 3700
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "la",
+      "label": "Lá",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1020,
+          "marchetaria": 1530,
+          "resina": 2140,
+          "marchetaria+resina": 2650
+         },
+         "2": {
+          "base": 1420,
+          "marchetaria": 1930,
+          "resina": 2540,
+          "marchetaria+resina": 3050,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1820,
+          "marchetaria": 2330,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2940,
+          "marchetaria+resina": 3450
+         },
+         "4": {
+          "base": 2220,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2730,
+          "resina": 3340,
+          "marchetaria+resina": 3850
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1170,
+          "marchetaria": 1760,
+          "resina": 2460,
+          "marchetaria+resina": 3050
+         },
+         "2": {
+          "base": 1570,
+          "marchetaria": 2160,
+          "resina": 2860,
+          "marchetaria+resina": 3450,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1970,
+          "marchetaria": 2560,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3260,
+          "marchetaria+resina": 3850
+         },
+         "4": {
+          "base": 2370,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2960,
+          "resina": 3660,
+          "marchetaria+resina": 4250
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1170,
+          "marchetaria": 1760,
+          "resina": 2460,
+          "marchetaria+resina": 3050
+         },
+         "2": {
+          "base": 1570,
+          "marchetaria": 2160,
+          "resina": 2860,
+          "marchetaria+resina": 3450,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1970,
+          "marchetaria": 2560,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3260,
+          "marchetaria+resina": 3850
+         },
+         "4": {
+          "base": 2370,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2960,
+          "resina": 3660,
+          "marchetaria+resina": 4250
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1020,
+          "marchetaria": 1530,
+          "resina": 2140,
+          "marchetaria+resina": 2650
+         },
+         "2": {
+          "base": 1420,
+          "marchetaria": 1930,
+          "resina": 2540,
+          "marchetaria+resina": 3050,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1820,
+          "marchetaria": 2330,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2940,
+          "marchetaria+resina": 3450
+         },
+         "4": {
+          "base": 2220,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2730,
+          "resina": 3340,
+          "marchetaria+resina": 3850
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1100,
+          "marchetaria": 1650,
+          "resina": 2310,
+          "marchetaria+resina": 2860
+         },
+         "2": {
+          "base": 1500,
+          "marchetaria": 2050,
+          "resina": 2710,
+          "marchetaria+resina": 3260,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1900,
+          "marchetaria": 2450,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3110,
+          "marchetaria+resina": 3660
+         },
+         "4": {
+          "base": 2300,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2850,
+          "resina": 3510,
+          "marchetaria+resina": 4060
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1040,
+          "marchetaria": 1560,
+          "resina": 2180,
+          "marchetaria+resina": 2700
+         },
+         "2": {
+          "base": 1440,
+          "marchetaria": 1960,
+          "resina": 2580,
+          "marchetaria+resina": 3100,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1840,
+          "marchetaria": 2360,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2980,
+          "marchetaria+resina": 3500
+         },
+         "4": {
+          "base": 2240,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2760,
+          "resina": 3380,
+          "marchetaria+resina": 3900
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "sol#",
+      "label": "Sol#",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1100,
+          "marchetaria": 1650,
+          "resina": 2310,
+          "marchetaria+resina": 2860
+         },
+         "2": {
+          "base": 1500,
+          "marchetaria": 2050,
+          "resina": 2710,
+          "marchetaria+resina": 3260,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1900,
+          "marchetaria": 2450,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3110,
+          "marchetaria+resina": 3660
+         },
+         "4": {
+          "base": 2300,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2850,
+          "resina": 3510,
+          "marchetaria+resina": 4060
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1240,
+          "marchetaria": 1860,
+          "resina": 2600,
+          "marchetaria+resina": 3220
+         },
+         "2": {
+          "base": 1640,
+          "marchetaria": 2260,
+          "resina": 3000,
+          "marchetaria+resina": 3620,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2040,
+          "marchetaria": 2660,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3400,
+          "marchetaria+resina": 4020
+         },
+         "4": {
+          "base": 2440,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3060,
+          "resina": 3800,
+          "marchetaria+resina": 4420
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1240,
+          "marchetaria": 1860,
+          "resina": 2600,
+          "marchetaria+resina": 3220
+         },
+         "2": {
+          "base": 1640,
+          "marchetaria": 2260,
+          "resina": 3000,
+          "marchetaria+resina": 3620,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2040,
+          "marchetaria": 2660,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3400,
+          "marchetaria+resina": 4020
+         },
+         "4": {
+          "base": 2440,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3060,
+          "resina": 3800,
+          "marchetaria+resina": 4420
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1100,
+          "marchetaria": 1650,
+          "resina": 2310,
+          "marchetaria+resina": 2860
+         },
+         "2": {
+          "base": 1500,
+          "marchetaria": 2050,
+          "resina": 2710,
+          "marchetaria+resina": 3260,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1900,
+          "marchetaria": 2450,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3110,
+          "marchetaria+resina": 3660
+         },
+         "4": {
+          "base": 2300,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2850,
+          "resina": 3510,
+          "marchetaria+resina": 4060
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1170,
+          "marchetaria": 1760,
+          "resina": 2460,
+          "marchetaria+resina": 3050
+         },
+         "2": {
+          "base": 1570,
+          "marchetaria": 2160,
+          "resina": 2860,
+          "marchetaria+resina": 3450,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1970,
+          "marchetaria": 2560,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3260,
+          "marchetaria+resina": 3850
+         },
+         "4": {
+          "base": 2370,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2960,
+          "resina": 3660,
+          "marchetaria+resina": 4250
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1120,
+          "marchetaria": 1680,
+          "resina": 2350,
+          "marchetaria+resina": 2910
+         },
+         "2": {
+          "base": 1520,
+          "marchetaria": 2080,
+          "resina": 2750,
+          "marchetaria+resina": 3310,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1920,
+          "marchetaria": 2480,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3150,
+          "marchetaria+resina": 3710
+         },
+         "4": {
+          "base": 2320,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2880,
+          "resina": 3550,
+          "marchetaria+resina": 4110
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "sol",
+      "label": "Sol",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1180,
+          "marchetaria": 1770,
+          "resina": 2480,
+          "marchetaria+resina": 3070
+         },
+         "2": {
+          "base": 1580,
+          "marchetaria": 2170,
+          "resina": 2880,
+          "marchetaria+resina": 3470,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1980,
+          "marchetaria": 2570,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3280,
+          "marchetaria+resina": 3870
+         },
+         "4": {
+          "base": 2380,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2970,
+          "resina": 3680,
+          "marchetaria+resina": 4270
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1340,
+          "marchetaria": 2010,
+          "resina": 2810,
+          "marchetaria+resina": 3480
+         },
+         "2": {
+          "base": 1740,
+          "marchetaria": 2410,
+          "resina": 3210,
+          "marchetaria+resina": 3880,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2140,
+          "marchetaria": 2810,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3610,
+          "marchetaria+resina": 4280
+         },
+         "4": {
+          "base": 2540,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3210,
+          "resina": 4010,
+          "marchetaria+resina": 4680
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1340,
+          "marchetaria": 2010,
+          "resina": 2810,
+          "marchetaria+resina": 3480
+         },
+         "2": {
+          "base": 1740,
+          "marchetaria": 2410,
+          "resina": 3210,
+          "marchetaria+resina": 3880,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2140,
+          "marchetaria": 2810,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3610,
+          "marchetaria+resina": 4280
+         },
+         "4": {
+          "base": 2540,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3210,
+          "resina": 4010,
+          "marchetaria+resina": 4680
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1180,
+          "marchetaria": 1770,
+          "resina": 2480,
+          "marchetaria+resina": 3070
+         },
+         "2": {
+          "base": 1580,
+          "marchetaria": 2170,
+          "resina": 2880,
+          "marchetaria+resina": 3470,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1980,
+          "marchetaria": 2570,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3280,
+          "marchetaria+resina": 3870
+         },
+         "4": {
+          "base": 2380,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2970,
+          "resina": 3680,
+          "marchetaria+resina": 4270
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1260,
+          "marchetaria": 1890,
+          "resina": 2650,
+          "marchetaria+resina": 3280
+         },
+         "2": {
+          "base": 1660,
+          "marchetaria": 2290,
+          "resina": 3050,
+          "marchetaria+resina": 3680,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2060,
+          "marchetaria": 2690,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3450,
+          "marchetaria+resina": 4080
+         },
+         "4": {
+          "base": 2460,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3090,
+          "resina": 3850,
+          "marchetaria+resina": 4480
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1200,
+          "marchetaria": 1800,
+          "resina": 2520,
+          "marchetaria+resina": 3120
+         },
+         "2": {
+          "base": 1600,
+          "marchetaria": 2200,
+          "resina": 2920,
+          "marchetaria+resina": 3520,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2000,
+          "marchetaria": 2600,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3320,
+          "marchetaria+resina": 3920
+         },
+         "4": {
+          "base": 2400,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3000,
+          "resina": 3720,
+          "marchetaria+resina": 4320
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "fa#",
+      "label": "Fá#",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1280,
+          "marchetaria": 1920,
+          "resina": 2690,
+          "marchetaria+resina": 3330
+         },
+         "2": {
+          "base": 1680,
+          "marchetaria": 2320,
+          "resina": 3090,
+          "marchetaria+resina": 3730,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2080,
+          "marchetaria": 2720,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3490,
+          "marchetaria+resina": 4130
+         },
+         "4": {
+          "base": 2480,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3120,
+          "resina": 3890,
+          "marchetaria+resina": 4530
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1420,
+          "marchetaria": 2130,
+          "resina": 2980,
+          "marchetaria+resina": 3690
+         },
+         "2": {
+          "base": 1820,
+          "marchetaria": 2530,
+          "resina": 3380,
+          "marchetaria+resina": 4090,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2220,
+          "marchetaria": 2930,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3780,
+          "marchetaria+resina": 4490
+         },
+         "4": {
+          "base": 2620,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3330,
+          "resina": 4180,
+          "marchetaria+resina": 4890
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1420,
+          "marchetaria": 2130,
+          "resina": 2980,
+          "marchetaria+resina": 3690
+         },
+         "2": {
+          "base": 1820,
+          "marchetaria": 2530,
+          "resina": 3380,
+          "marchetaria+resina": 4090,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2220,
+          "marchetaria": 2930,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3780,
+          "marchetaria+resina": 4490
+         },
+         "4": {
+          "base": 2620,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3330,
+          "resina": 4180,
+          "marchetaria+resina": 4890
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1280,
+          "marchetaria": 1920,
+          "resina": 2680,
+          "marchetaria+resina": 3330
+         },
+         "2": {
+          "base": 1680,
+          "marchetaria": 2320,
+          "resina": 3090,
+          "marchetaria+resina": 3730,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2080,
+          "marchetaria": 2720,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3480,
+          "marchetaria+resina": 4130
+         },
+         "4": {
+          "base": 2480,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3120,
+          "resina": 3880,
+          "marchetaria+resina": 4530
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1350,
+          "marchetaria": 2020,
+          "resina": 2840,
+          "marchetaria+resina": 3510
+         },
+         "2": {
+          "base": 1750,
+          "marchetaria": 2420,
+          "resina": 3240,
+          "marchetaria+resina": 3910,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2150,
+          "marchetaria": 2820,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3640,
+          "marchetaria+resina": 4310
+         },
+         "4": {
+          "base": 2550,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3220,
+          "resina": 4040,
+          "marchetaria+resina": 4710
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1300,
+          "marchetaria": 1950,
+          "resina": 2730,
+          "marchetaria+resina": 3380
+         },
+         "2": {
+          "base": 1700,
+          "marchetaria": 2350,
+          "resina": 3130,
+          "marchetaria+resina": 3780,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2100,
+          "marchetaria": 2750,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3530,
+          "marchetaria+resina": 4180
+         },
+         "4": {
+          "base": 2500,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3150,
+          "resina": 3930,
+          "marchetaria+resina": 4580
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "fa",
+      "label": "Fá",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1380,
+          "marchetaria": 2070,
+          "resina": 2900,
+          "marchetaria+resina": 3590
+         },
+         "2": {
+          "base": 1780,
+          "marchetaria": 2470,
+          "resina": 3300,
+          "marchetaria+resina": 3990,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2180,
+          "marchetaria": 2870,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3700,
+          "marchetaria+resina": 4390
+         },
+         "4": {
+          "base": 2580,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3270,
+          "resina": 4100,
+          "marchetaria+resina": 4790
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1530,
+          "marchetaria": 2300,
+          "resina": 3210,
+          "marchetaria+resina": 3980
+         },
+         "2": {
+          "base": 1930,
+          "marchetaria": 2700,
+          "resina": 3610,
+          "marchetaria+resina": 4380,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2330,
+          "marchetaria": 3100,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4010,
+          "marchetaria+resina": 4780
+         },
+         "4": {
+          "base": 2730,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3500,
+          "resina": 4410,
+          "marchetaria+resina": 5180
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1530,
+          "marchetaria": 2300,
+          "resina": 3210,
+          "marchetaria+resina": 3980
+         },
+         "2": {
+          "base": 1930,
+          "marchetaria": 2700,
+          "resina": 3610,
+          "marchetaria+resina": 4380,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2330,
+          "marchetaria": 3100,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4010,
+          "marchetaria+resina": 4780
+         },
+         "4": {
+          "base": 2730,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3500,
+          "resina": 4410,
+          "marchetaria+resina": 5180
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1380,
+          "marchetaria": 2070,
+          "resina": 2900,
+          "marchetaria+resina": 3590
+         },
+         "2": {
+          "base": 1780,
+          "marchetaria": 2470,
+          "resina": 3300,
+          "marchetaria+resina": 3990,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2180,
+          "marchetaria": 2870,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3700,
+          "marchetaria+resina": 4390
+         },
+         "4": {
+          "base": 2580,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3270,
+          "resina": 4100,
+          "marchetaria+resina": 4790
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1460,
+          "marchetaria": 2190,
+          "resina": 3070,
+          "marchetaria+resina": 3800
+         },
+         "2": {
+          "base": 1860,
+          "marchetaria": 2590,
+          "resina": 3470,
+          "marchetaria+resina": 4200,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2260,
+          "marchetaria": 2990,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3870,
+          "marchetaria+resina": 4600
+         },
+         "4": {
+          "base": 2660,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3390,
+          "resina": 4270,
+          "marchetaria+resina": 5000
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1400,
+          "marchetaria": 2100,
+          "resina": 2940,
+          "marchetaria+resina": 3640
+         },
+         "2": {
+          "base": 1800,
+          "marchetaria": 2500,
+          "resina": 3340,
+          "marchetaria+resina": 4040,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2200,
+          "marchetaria": 2900,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3740,
+          "marchetaria+resina": 4440
+         },
+         "4": {
+          "base": 2600,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3300,
+          "resina": 4140,
+          "marchetaria+resina": 4840
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "mi",
+      "label": "Mi",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1500,
+          "marchetaria": 2250,
+          "resina": 3150,
+          "marchetaria+resina": 3900
+         },
+         "2": {
+          "base": 1900,
+          "marchetaria": 2650,
+          "resina": 3550,
+          "marchetaria+resina": 4300,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2300,
+          "marchetaria": 3050,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3950,
+          "marchetaria+resina": 4700
+         },
+         "4": {
+          "base": 2700,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3450,
+          "resina": 4350,
+          "marchetaria+resina": 5100
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1650,
+          "marchetaria": 2480,
+          "resina": 3460,
+          "marchetaria+resina": 4290
+         },
+         "2": {
+          "base": 2050,
+          "marchetaria": 2880,
+          "resina": 3860,
+          "marchetaria+resina": 4690,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2450,
+          "marchetaria": 3280,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4260,
+          "marchetaria+resina": 5090
+         },
+         "4": {
+          "base": 2850,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3680,
+          "resina": 4660,
+          "marchetaria+resina": 5490
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1650,
+          "marchetaria": 2480,
+          "resina": 3460,
+          "marchetaria+resina": 4290
+         },
+         "2": {
+          "base": 2050,
+          "marchetaria": 2880,
+          "resina": 3860,
+          "marchetaria+resina": 4690,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2450,
+          "marchetaria": 3280,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4260,
+          "marchetaria+resina": 5090
+         },
+         "4": {
+          "base": 2850,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3680,
+          "resina": 4660,
+          "marchetaria+resina": 5490
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1500,
+          "marchetaria": 2250,
+          "resina": 3150,
+          "marchetaria+resina": 3900
+         },
+         "2": {
+          "base": 1900,
+          "marchetaria": 2650,
+          "resina": 3550,
+          "marchetaria+resina": 4300,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2300,
+          "marchetaria": 3050,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3950,
+          "marchetaria+resina": 4700
+         },
+         "4": {
+          "base": 2700,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3450,
+          "resina": 4350,
+          "marchetaria+resina": 5100
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1580,
+          "marchetaria": 2370,
+          "resina": 3320,
+          "marchetaria+resina": 4110
+         },
+         "2": {
+          "base": 1980,
+          "marchetaria": 2770,
+          "resina": 3720,
+          "marchetaria+resina": 4510,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2380,
+          "marchetaria": 3170,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4120,
+          "marchetaria+resina": 4910
+         },
+         "4": {
+          "base": 2780,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3570,
+          "resina": 4520,
+          "marchetaria+resina": 5310
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1520,
+          "marchetaria": 2280,
+          "resina": 3190,
+          "marchetaria+resina": 3950
+         },
+         "2": {
+          "base": 1920,
+          "marchetaria": 2680,
+          "resina": 3590,
+          "marchetaria+resina": 4350,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2320,
+          "marchetaria": 3080,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3990,
+          "marchetaria+resina": 4750
+         },
+         "4": {
+          "base": 2720,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3480,
+          "resina": 4390,
+          "marchetaria+resina": 5150
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "re_grave",
+      "label": "Ré grave",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1740,
+          "marchetaria": 2610,
+          "resina": 3650,
+          "marchetaria+resina": 4520
+         },
+         "2": {
+          "base": 2140,
+          "marchetaria": 3010,
+          "resina": 4050,
+          "marchetaria+resina": 4920,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2540,
+          "marchetaria": 3410,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4450,
+          "marchetaria+resina": 5320
+         },
+         "4": {
+          "base": 2940,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3810,
+          "resina": 4850,
+          "marchetaria+resina": 5720
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1890,
+          "marchetaria": 2840,
+          "resina": 3970,
+          "marchetaria+resina": 4920
+         },
+         "2": {
+          "base": 2290,
+          "marchetaria": 3240,
+          "resina": 4370,
+          "marchetaria+resina": 5320,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2690,
+          "marchetaria": 3640,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4770,
+          "marchetaria+resina": 5720
+         },
+         "4": {
+          "base": 3090,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 4040,
+          "resina": 5170,
+          "marchetaria+resina": 6120
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1890,
+          "marchetaria": 2840,
+          "resina": 3970,
+          "marchetaria+resina": 4920
+         },
+         "2": {
+          "base": 2290,
+          "marchetaria": 3240,
+          "resina": 4370,
+          "marchetaria+resina": 5320,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2690,
+          "marchetaria": 3640,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4770,
+          "marchetaria+resina": 5720
+         },
+         "4": {
+          "base": 3090,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 4040,
+          "resina": 5170,
+          "marchetaria+resina": 6120
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1740,
+          "marchetaria": 2610,
+          "resina": 3650,
+          "marchetaria+resina": 4520
+         },
+         "2": {
+          "base": 2140,
+          "marchetaria": 3010,
+          "resina": 4050,
+          "marchetaria+resina": 4920,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2540,
+          "marchetaria": 3410,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4450,
+          "marchetaria+resina": 5320
+         },
+         "4": {
+          "base": 2940,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3810,
+          "resina": 4850,
+          "marchetaria+resina": 5720
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1820,
+          "marchetaria": 2730,
+          "resina": 3820,
+          "marchetaria+resina": 4730
+         },
+         "2": {
+          "base": 2220,
+          "marchetaria": 3130,
+          "resina": 4220,
+          "marchetaria+resina": 5130,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2620,
+          "marchetaria": 3530,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4620,
+          "marchetaria+resina": 5530
+         },
+         "4": {
+          "base": 3020,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3930,
+          "resina": 5020,
+          "marchetaria+resina": 5930
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1760,
+          "marchetaria": 2640,
+          "resina": 3700,
+          "marchetaria+resina": 4580
+         },
+         "2": {
+          "base": 2160,
+          "marchetaria": 3040,
+          "resina": 4100,
+          "marchetaria+resina": 4980,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2560,
+          "marchetaria": 3440,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4500,
+          "marchetaria+resina": 5380
+         },
+         "4": {
+          "base": 2960,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3840,
+          "resina": 4900,
+          "marchetaria+resina": 5780
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "key": "naf_bambu",
+    "label": "NAF de bambu",
+    "kind": "naf",
+    "tones": [
+     {
+      "key": "re",
+      "label": "Ré",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 380,
+          "drone": 680,
+          "marchetaria": 610,
+          "resina": 800,
+          "drone+marchetaria": 910,
+          "drone+resina": 1100
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "do#",
+      "label": "Dó#",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 400,
+          "drone": 720,
+          "marchetaria": 640,
+          "resina": 840,
+          "drone+marchetaria": 960,
+          "drone+resina": 1160
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "do",
+      "label": "Dó",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 440,
+          "drone": 790,
+          "marchetaria": 700,
+          "resina": 920,
+          "drone+marchetaria": 1050,
+          "drone+resina": 1270
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "si",
+      "label": "Si",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 470,
+          "drone": 850,
+          "marchetaria": 750,
+          "resina": 990,
+          "drone+marchetaria": 1130,
+          "drone+resina": 1370
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "la#",
+      "label": "Lá#",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 510,
+          "drone": 920,
+          "marchetaria": 820,
+          "resina": 1070,
+          "drone+marchetaria": 1230,
+          "drone+resina": 1480
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "la",
+      "label": "Lá",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 550,
+          "drone": 990,
+          "marchetaria": 880,
+          "resina": 1160,
+          "drone+marchetaria": 1320,
+          "drone+resina": 1600
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "sol#",
+      "label": "Sol#",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 590,
+          "drone": 1060,
+          "marchetaria": 940,
+          "resina": 1240,
+          "drone+marchetaria": 1410,
+          "drone+resina": 1710
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "sol",
+      "label": "Sol",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 640,
+          "drone": 1150,
+          "marchetaria": 1020,
+          "resina": 1340,
+          "drone+marchetaria": 1530,
+          "drone+resina": 1850
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "fa#",
+      "label": "Fá#",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 690,
+          "drone": 1240,
+          "marchetaria": 1100,
+          "resina": 1450,
+          "drone+marchetaria": 1650,
+          "drone+resina": 2000
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "fa",
+      "label": "Fá",
+      "woods": [
+       {
+        "key": "bambu",
+        "label": "Bambu",
+        "bodies": {
+         "1": {
+          "base": 740,
+          "drone": 1330,
+          "marchetaria": 1180,
+          "resina": 1550,
+          "drone+marchetaria": 1770,
+          "drone+resina": 2140
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "key": "naf_madeira",
+    "label": "NAF de madeira",
+    "kind": "naf",
+    "tones": [
+     {
+      "key": "re",
+      "label": "Ré",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 930,
+          "drone": 1670,
+          "marchetaria": 1400,
+          "resina": 1950,
+          "drone+marchetaria": 2140,
+          "drone+resina": 2690
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1130,
+          "drone": 2030,
+          "marchetaria": 1700,
+          "resina": 2370,
+          "drone+marchetaria": 2600,
+          "drone+resina": 3270
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1130,
+          "drone": 2030,
+          "marchetaria": 1700,
+          "resina": 2370,
+          "drone+marchetaria": 2600,
+          "drone+resina": 3270
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 930,
+          "drone": 1670,
+          "marchetaria": 1400,
+          "resina": 1950,
+          "drone+marchetaria": 2140,
+          "drone+resina": 2690
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1030,
+          "drone": 1850,
+          "marchetaria": 1540,
+          "resina": 2160,
+          "drone+marchetaria": 2360,
+          "drone+resina": 2980
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 960,
+          "drone": 1730,
+          "marchetaria": 1440,
+          "resina": 2020,
+          "drone+marchetaria": 2210,
+          "drone+resina": 2790
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "do#",
+      "label": "Dó#",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1010,
+          "drone": 1820,
+          "marchetaria": 1520,
+          "resina": 2120,
+          "drone+marchetaria": 2330,
+          "drone+resina": 2930
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1220,
+          "drone": 2200,
+          "marchetaria": 1830,
+          "resina": 2560,
+          "drone+marchetaria": 2810,
+          "drone+resina": 3540
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1220,
+          "drone": 2200,
+          "marchetaria": 1830,
+          "resina": 2560,
+          "drone+marchetaria": 2810,
+          "drone+resina": 3540
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1010,
+          "drone": 1820,
+          "marchetaria": 1520,
+          "resina": 2120,
+          "drone+marchetaria": 2330,
+          "drone+resina": 2930
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1110,
+          "drone": 2000,
+          "marchetaria": 1660,
+          "resina": 2330,
+          "drone+marchetaria": 2550,
+          "drone+resina": 3220
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1040,
+          "drone": 1870,
+          "marchetaria": 1560,
+          "resina": 2180,
+          "drone+marchetaria": 2390,
+          "drone+resina": 3010
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "do",
+      "label": "Dó",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1090,
+          "drone": 1960,
+          "marchetaria": 1640,
+          "resina": 2290,
+          "drone+marchetaria": 2510,
+          "drone+resina": 3160
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1300,
+          "drone": 2340,
+          "marchetaria": 1950,
+          "resina": 2730,
+          "drone+marchetaria": 2990,
+          "drone+resina": 3770
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1300,
+          "drone": 2340,
+          "marchetaria": 1950,
+          "resina": 2730,
+          "drone+marchetaria": 2990,
+          "drone+resina": 3770
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1090,
+          "drone": 1960,
+          "marchetaria": 1640,
+          "resina": 2290,
+          "drone+marchetaria": 2510,
+          "drone+resina": 3160
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1190,
+          "drone": 2140,
+          "marchetaria": 1780,
+          "resina": 2500,
+          "drone+marchetaria": 2730,
+          "drone+resina": 3450
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1120,
+          "drone": 2020,
+          "marchetaria": 1680,
+          "resina": 2350,
+          "drone+marchetaria": 2580,
+          "drone+resina": 3250
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "si",
+      "label": "Si",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1170,
+          "drone": 2110,
+          "marchetaria": 1760,
+          "resina": 2460,
+          "drone+marchetaria": 2700,
+          "drone+resina": 3400
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1380,
+          "drone": 2480,
+          "marchetaria": 2070,
+          "resina": 2900,
+          "drone+marchetaria": 3170,
+          "drone+resina": 4000
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1380,
+          "drone": 2480,
+          "marchetaria": 2070,
+          "resina": 2900,
+          "drone+marchetaria": 3170,
+          "drone+resina": 4000
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1170,
+          "drone": 2110,
+          "marchetaria": 1760,
+          "resina": 2460,
+          "drone+marchetaria": 2700,
+          "drone+resina": 3400
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1270,
+          "drone": 2290,
+          "marchetaria": 1900,
+          "resina": 2670,
+          "drone+marchetaria": 2920,
+          "drone+resina": 3690
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1200,
+          "drone": 2160,
+          "marchetaria": 1800,
+          "resina": 2520,
+          "drone+marchetaria": 2760,
+          "drone+resina": 3480
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "la#",
+      "label": "Lá#",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1270,
+          "drone": 2290,
+          "marchetaria": 1900,
+          "resina": 2670,
+          "drone+marchetaria": 2920,
+          "drone+resina": 3690
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1480,
+          "drone": 2660,
+          "marchetaria": 2220,
+          "resina": 3110,
+          "drone+marchetaria": 3400,
+          "drone+resina": 4290
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1480,
+          "drone": 2660,
+          "marchetaria": 2220,
+          "resina": 3110,
+          "drone+marchetaria": 3400,
+          "drone+resina": 4290
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1270,
+          "drone": 2290,
+          "marchetaria": 1900,
+          "resina": 2670,
+          "drone+marchetaria": 2920,
+          "drone+resina": 3690
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1380,
+          "drone": 2480,
+          "marchetaria": 2070,
+          "resina": 2900,
+          "drone+marchetaria": 3170,
+          "drone+resina": 4000
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1300,
+          "drone": 2340,
+          "marchetaria": 1950,
+          "resina": 2730,
+          "drone+marchetaria": 2990,
+          "drone+resina": 3770
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "la",
+      "label": "Lá",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1380,
+          "drone": 2480,
+          "marchetaria": 2070,
+          "resina": 2900,
+          "drone+marchetaria": 3170,
+          "drone+resina": 4000
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1580,
+          "drone": 2840,
+          "marchetaria": 2370,
+          "resina": 3320,
+          "drone+marchetaria": 3630,
+          "drone+resina": 4580
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1580,
+          "drone": 2840,
+          "marchetaria": 2370,
+          "resina": 3320,
+          "drone+marchetaria": 3630,
+          "drone+resina": 4580
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1380,
+          "drone": 2480,
+          "marchetaria": 2070,
+          "resina": 2900,
+          "drone+marchetaria": 3170,
+          "drone+resina": 4000
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1480,
+          "drone": 2660,
+          "marchetaria": 2220,
+          "resina": 3110,
+          "drone+marchetaria": 3400,
+          "drone+resina": 4290
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1400,
+          "drone": 2520,
+          "marchetaria": 2100,
+          "resina": 2940,
+          "drone+marchetaria": 3220,
+          "drone+resina": 4060
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "sol#",
+      "label": "Sol#",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1480,
+          "drone": 2660,
+          "marchetaria": 2220,
+          "resina": 3110,
+          "drone+marchetaria": 3400,
+          "drone+resina": 4290
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1670,
+          "drone": 3010,
+          "marchetaria": 2500,
+          "resina": 3510,
+          "drone+marchetaria": 3840,
+          "drone+resina": 4850
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1670,
+          "drone": 3010,
+          "marchetaria": 2500,
+          "resina": 3510,
+          "drone+marchetaria": 3840,
+          "drone+resina": 4850
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1480,
+          "drone": 2660,
+          "marchetaria": 2220,
+          "resina": 3110,
+          "drone+marchetaria": 3400,
+          "drone+resina": 4290
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1580,
+          "drone": 2840,
+          "marchetaria": 2370,
+          "resina": 3320,
+          "drone+marchetaria": 3630,
+          "drone+resina": 4580
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1510,
+          "drone": 2720,
+          "marchetaria": 2260,
+          "resina": 3170,
+          "drone+marchetaria": 3470,
+          "drone+resina": 4380
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "sol",
+      "label": "Sol",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1590,
+          "drone": 2860,
+          "marchetaria": 2380,
+          "resina": 3340,
+          "drone+marchetaria": 3650,
+          "drone+resina": 4610
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1810,
+          "drone": 3260,
+          "marchetaria": 2720,
+          "resina": 3800,
+          "drone+marchetaria": 4170,
+          "drone+resina": 5250
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1810,
+          "drone": 3260,
+          "marchetaria": 2720,
+          "resina": 3800,
+          "drone+marchetaria": 4170,
+          "drone+resina": 5250
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1590,
+          "drone": 2860,
+          "marchetaria": 2380,
+          "resina": 3340,
+          "drone+marchetaria": 3650,
+          "drone+resina": 4610
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1700,
+          "drone": 3060,
+          "marchetaria": 2550,
+          "resina": 3570,
+          "drone+marchetaria": 3910,
+          "drone+resina": 4930
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1620,
+          "drone": 2920,
+          "marchetaria": 2430,
+          "resina": 3400,
+          "drone+marchetaria": 3730,
+          "drone+resina": 4700
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "fa#",
+      "label": "Fá#",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1730,
+          "drone": 3110,
+          "marchetaria": 2600,
+          "resina": 3630,
+          "drone+marchetaria": 3980,
+          "drone+resina": 5010
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 1920,
+          "drone": 3460,
+          "marchetaria": 2880,
+          "resina": 4030,
+          "drone+marchetaria": 4420,
+          "drone+resina": 5570
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 1920,
+          "drone": 3460,
+          "marchetaria": 2880,
+          "resina": 4030,
+          "drone+marchetaria": 4420,
+          "drone+resina": 5570
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1730,
+          "drone": 3110,
+          "marchetaria": 2600,
+          "resina": 3630,
+          "drone+marchetaria": 3980,
+          "drone+resina": 5010
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1820,
+          "drone": 3280,
+          "marchetaria": 2730,
+          "resina": 3820,
+          "drone+marchetaria": 4190,
+          "drone+resina": 5280
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1760,
+          "drone": 3170,
+          "marchetaria": 2640,
+          "resina": 3700,
+          "drone+marchetaria": 4050,
+          "drone+resina": 5110
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "fa",
+      "label": "Fá",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 1860,
+          "drone": 3350,
+          "marchetaria": 2790,
+          "resina": 3910,
+          "drone+marchetaria": 4280,
+          "drone+resina": 5400
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 2070,
+          "drone": 3730,
+          "marchetaria": 3100,
+          "resina": 4350,
+          "drone+marchetaria": 4760,
+          "drone+resina": 6010
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 2070,
+          "drone": 3730,
+          "marchetaria": 3100,
+          "resina": 4350,
+          "drone+marchetaria": 4760,
+          "drone+resina": 6010
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 1860,
+          "drone": 3350,
+          "marchetaria": 2790,
+          "resina": 3910,
+          "drone+marchetaria": 4280,
+          "drone+resina": 5400
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 1970,
+          "drone": 3550,
+          "marchetaria": 2960,
+          "resina": 4140,
+          "drone+marchetaria": 4540,
+          "drone+resina": 5720
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 1890,
+          "drone": 3400,
+          "marchetaria": 2840,
+          "resina": 3970,
+          "drone+marchetaria": 4350,
+          "drone+resina": 5480
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "mi",
+      "label": "Mi",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 2030,
+          "drone": 3650,
+          "marchetaria": 3040,
+          "resina": 4260,
+          "drone+marchetaria": 4660,
+          "drone+resina": 5880
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 2230,
+          "drone": 4010,
+          "marchetaria": 3340,
+          "resina": 4680,
+          "drone+marchetaria": 5120,
+          "drone+resina": 6460
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 2230,
+          "drone": 4010,
+          "marchetaria": 3340,
+          "resina": 4680,
+          "drone+marchetaria": 5120,
+          "drone+resina": 6460
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 2030,
+          "drone": 3650,
+          "marchetaria": 3040,
+          "resina": 4260,
+          "drone+marchetaria": 4660,
+          "drone+resina": 5880
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 2130,
+          "drone": 3830,
+          "marchetaria": 3200,
+          "resina": 4470,
+          "drone+marchetaria": 4900,
+          "drone+resina": 6170
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 2050,
+          "drone": 3690,
+          "marchetaria": 3080,
+          "resina": 4300,
+          "drone+marchetaria": 4720,
+          "drone+resina": 5940
+         }
+        }
+       }
+      ]
+     },
+     {
+      "key": "re_grave",
+      "label": "Ré grave",
+      "woods": [
+       {
+        "key": "arariba",
+        "label": "Araribá",
+        "bodies": {
+         "1": {
+          "base": 2350,
+          "drone": 4230,
+          "marchetaria": 3520,
+          "resina": 4940,
+          "drone+marchetaria": 5400,
+          "drone+resina": 6820
+         }
+        }
+       },
+       {
+        "key": "jacaranda",
+        "label": "Jacarandá",
+        "bodies": {
+         "1": {
+          "base": 2550,
+          "drone": 4590,
+          "marchetaria": 3820,
+          "resina": 5360,
+          "drone+marchetaria": 5860,
+          "drone+resina": 7400
+         }
+        }
+       },
+       {
+        "key": "sebastiao",
+        "label": "Sebastião-de-arruda",
+        "bodies": {
+         "1": {
+          "base": 2550,
+          "drone": 4590,
+          "marchetaria": 3820,
+          "resina": 5360,
+          "drone+marchetaria": 5860,
+          "drone+resina": 7400
+         }
+        }
+       },
+       {
+        "key": "massaranduba",
+        "label": "Maçaranduba",
+        "bodies": {
+         "1": {
+          "base": 2350,
+          "drone": 4230,
+          "marchetaria": 3520,
+          "resina": 4940,
+          "drone+marchetaria": 5400,
+          "drone+resina": 6820
+         }
+        }
+       },
+       {
+        "key": "muirapiranga",
+        "label": "Muirapiranga",
+        "bodies": {
+         "1": {
+          "base": 2460,
+          "drone": 4430,
+          "marchetaria": 3690,
+          "resina": 5170,
+          "drone+marchetaria": 5660,
+          "drone+resina": 7140
+         }
+        }
+       },
+       {
+        "key": "roxinho",
+        "label": "Roxinho",
+        "bodies": {
+         "1": {
+          "base": 2380,
+          "drone": 4280,
+          "marchetaria": 3570,
+          "resina": 5000,
+          "drone+marchetaria": 5470,
+          "drone+resina": 6900
+         }
+        }
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "key": "irlandesa",
+    "label": "Flauta irlandesa (Low D)",
+    "kind": "transversal",
+    "tones": [
+     {
+      "key": "re_grave",
+      "label": "Ré grave",
+      "woods": [
+       {
+        "key": "-",
+        "label": "",
+        "bodies": {
+         "2": {
+          "base": 2100
+         },
+         "4": {
+          "base": 2700
+         }
+        }
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "addons": [
+   {
+    "key": "aneis",
+    "label": "Anéis de latão",
+    "value": 150,
+    "photo": "A_aneis_latao.jpg",
+    "models": [
+     "pifano_bambu",
+     "pifano_madeira",
+     "naf_bambu",
+     "naf_madeira",
+     "irlandesa"
+    ]
+   },
+   {
+    "key": "marchet_bocal",
+    "label": "Marchetaria no bocal",
+    "value": 260,
+    "photo": "A_marchetaria_bocal.jpg",
+    "models": [
+     "irlandesa"
+    ]
+   },
+   {
+    "key": "porta_labios",
+    "label": "Porta-lábios (disco oval sobre o bocal)",
+    "value": 100,
+    "photo": "A_porta_classico_close.jpg",
+    "models": [
+     "pifano_bambu",
+     "pifano_madeira"
+    ]
+   },
+   {
+    "key": "stopper",
+    "label": "Coroa com stopper móvel",
+    "value": 180,
+    "photo": "A_stopper.jpg",
+    "models": [
+     "pifano_madeira",
+     "irlandesa"
+    ]
+   },
+   {
+    "key": "totem_catalogo",
+    "label": "Totem 3D de catálogo",
+    "value": 350,
+    "photo": "A_totem_pantera.jpg",
+    "models": [
+     "naf_bambu",
+     "naf_madeira"
+    ]
+   },
+   {
+    "key": "totem_encomenda",
+    "label": "Totem 3D sob encomenda",
+    "value": 700,
+    "photo": "A_totem_pantera.jpg",
+    "models": [
+     "naf_bambu",
+     "naf_madeira"
+    ]
+   }
+  ],
+  "gravacao": {
+   "nome": 30,
+   "frase": 50
+  },
+  "consulta": [
+   {
+    "key": "mosaico",
+    "label": "Flauta toda marchetada (mosaico)",
+    "photo": null,
+    "note": "em torno de R$ 2.500 em Sol, valor confirmado no WhatsApp"
+   }
+  ],
+  "companions": {
+   "kit": 90,
+   "estojo_tom": {
+    "re": 350,
+    "do": 350,
+    "do#": 350,
+    "si": 350,
+    "la": 350,
+    "la#": 350,
+    "sol": 350,
+    "sol#": 350,
+    "fa": 390,
+    "fa#": 390,
+    "mi": 420,
+    "re_grave": 450
+   },
+   "estojo_partes": {
+    "2": 550,
+    "3": 670
+   }
+  },
+  "finishes": [
+   "goma-laca",
+   "óleo de amêndoas"
+  ],
+  "extra_part": 400,
+  "stats": {
+   "rows": 1826,
+   "combinations": 1120,
+   "derived_by_rule": 576,
+   "conflicts": []
+  },
+  "frete": {
+   "kind": "faixas",
+   "origem": "46940-000 (Vale do Capão, Palmeiras-BA)",
+   "caixa": "11 x 11 x 60 cm, 1 kg",
+   "nota": "estimativa; o frete exato é confirmado no WhatsApp",
+   "regioes": [
+    {
+     "de": "40",
+     "ate": "48",
+     "label": "Bahia",
+     "PAC": [
+      25,
+      45
+     ],
+     "SEDEX": [
+      40,
+      80
+     ]
+    },
+    {
+     "de": "49",
+     "ate": "49",
+     "label": "Sergipe",
+     "PAC": [
+      35,
+      60
+     ],
+     "SEDEX": [
+      60,
+      110
+     ]
+    },
+    {
+     "de": "50",
+     "ate": "59",
+     "label": "Pernambuco, Alagoas, Paraíba e Rio Grande do Norte",
+     "PAC": [
+      35,
+      65
+     ],
+     "SEDEX": [
+      60,
+      120
+     ]
+    },
+    {
+     "de": "60",
+     "ate": "65",
+     "label": "Ceará, Piauí e Maranhão",
+     "PAC": [
+      40,
+      75
+     ],
+     "SEDEX": [
+      70,
+      140
+     ]
+    },
+    {
+     "de": "66",
+     "ate": "69",
+     "label": "Norte (Pará, Amapá, Amazonas, Roraima, Acre)",
+     "PAC": [
+      55,
+      110
+     ],
+     "SEDEX": [
+      100,
+      200
+     ]
+    },
+    {
+     "de": "30",
+     "ate": "39",
+     "label": "Minas Gerais",
+     "PAC": [
+      40,
+      70
+     ],
+     "SEDEX": [
+      65,
+      130
+     ]
+    },
+    {
+     "de": "20",
+     "ate": "29",
+     "label": "Rio de Janeiro e Espírito Santo",
+     "PAC": [
+      45,
+      80
+     ],
+     "SEDEX": [
+      75,
+      145
+     ]
+    },
+    {
+     "de": "01",
+     "ate": "19",
+     "label": "São Paulo",
+     "PAC": [
+      45,
+      80
+     ],
+     "SEDEX": [
+      75,
+      150
+     ]
+    },
+    {
+     "de": "70",
+     "ate": "77",
+     "label": "Distrito Federal, Goiás e Tocantins",
+     "PAC": [
+      45,
+      80
+     ],
+     "SEDEX": [
+      75,
+      150
+     ]
+    },
+    {
+     "de": "78",
+     "ate": "79",
+     "label": "Mato Grosso, Mato Grosso do Sul e Rondônia",
+     "PAC": [
+      55,
+      100
+     ],
+     "SEDEX": [
+      95,
+      180
+     ]
+    },
+    {
+     "de": "80",
+     "ate": "89",
+     "label": "Paraná e Santa Catarina",
+     "PAC": [
+      50,
+      90
+     ],
+     "SEDEX": [
+      85,
+      165
+     ]
+    },
+    {
+     "de": "90",
+     "ate": "99",
+     "label": "Rio Grande do Sul",
+     "PAC": [
+      55,
+      95
+     ],
+     "SEDEX": [
+      95,
+      180
+     ]
+    }
+   ]
+  }
+ },
+ "modelos_cards": [
+  {
+   "id": "taquara",
+   "modelo": "Pífano de bambu",
+   "tons": "Do Ré# agudo ao Mi",
+   "material": "bambu (Bambusa tuldoides)",
+   "a_partir_de": 260,
+   "pagina": "pifanos.html#bambu",
+   "foto": "v7-pbambu-07",
+   "linha": "pifano"
+  },
+  {
+   "id": "morrao",
+   "modelo": "Pífano de madeira",
+   "tons": "Do Ré agudo ao Ré grave",
+   "material": "jacarandá, muirapiranga, roxinho, maçaranduba, araribá, sebastião-de-arruda",
+   "a_partir_de": 690,
+   "pagina": "pifanos.html#madeira",
+   "foto": "v7-pmadeira-05",
+   "linha": "pifano"
+  },
+  {
+   "id": "sempreviva",
+   "modelo": "Pífano marchetado",
+   "tons": "Do Ré agudo ao Ré grave",
+   "material": "mosaico de mais de dez madeiras brasileiras",
+   "a_partir_de": 1040,
+   "pagina": "pifanos.html#marchetados",
+   "foto": "v7-pmarchetados-07",
+   "linha": "pifano"
+  },
+  {
+   "id": "fumaca",
+   "modelo": "Pífano segmentado · 2 partes",
+   "tons": "Do Ré agudo ao Ré grave",
+   "material": "jacarandá, muirapiranga, roxinho, maçaranduba, araribá, sebastião-de-arruda",
+   "a_partir_de": 1090,
+   "pagina": "pifanos.html#segmentados",
+   "foto": "v7-psegmentados-01",
+   "linha": "pifano"
+  },
+  {
+   "id": "sabia",
+   "modelo": "Flauta irlandesa · 2 partes",
+   "tons": "Ré grave (Low D)",
+   "material": "jacarandá, roxinho ou muirapiranga",
+   "a_partir_de": 2100,
+   "pagina": "irlandesa.html#valores",
+   "foto": "v7-irl-08",
+   "linha": "irlandesa"
+  },
+  {
+   "id": "juriti",
+   "modelo": "Flauta irlandesa · 4 partes",
+   "tons": "Ré grave (Low D)",
+   "material": "jacarandá, roxinho ou muirapiranga",
+   "a_partir_de": 2700,
+   "pagina": "irlandesa.html#valores",
+   "foto": "v7-irl-06",
+   "linha": "irlandesa"
+  },
+  {
+   "id": "cipo",
+   "modelo": "Flauta nativa de bambu",
+   "tons": "Do Ré agudo ao Fá",
+   "material": "bambu, totem em madeira",
+   "a_partir_de": 380,
+   "pagina": "nativas.html",
+   "foto": "v7-naf-04",
+   "linha": "nativa"
+  },
+  {
+   "id": "lapa",
+   "modelo": "Flauta nativa de madeira",
+   "tons": "Do Ré agudo ao Ré grave",
+   "material": "jacarandá, muirapiranga, roxinho, maçaranduba, araribá, sebastião-de-arruda",
+   "a_partir_de": 930,
+   "pagina": "nativas.html",
+   "foto": "",
+   "linha": "nativa"
+  },
+  {
+   "id": "gaviao",
+   "modelo": "Flauta nativa com totem",
+   "tons": "Do Ré agudo ao Fá",
+   "material": "bambu ou madeira; totem em madeira",
+   "a_partir_de": 730,
+   "pagina": "nativas.html",
+   "foto": "v7-naf-08",
+   "linha": "nativa"
+  },
+  {
+   "id": "duasaguas",
+   "modelo": "Flauta nativa dupla (com drone)",
+   "tons": "Do Ré agudo ao Fá",
+   "material": "bambu ou madeira",
+   "a_partir_de": 680,
+   "pagina": "nativas.html",
+   "foto": "v7-naf-16",
+   "linha": "nativa"
+  },
+  {
+   "id": "ninho",
+   "modelo": "Estojo sob medida",
+   "tons": "conforme a sua flauta",
+   "material": "sob medida, forro de pelúcia",
+   "a_partir_de": 350,
+   "pagina": "estojos.html",
+   "foto": "v7-est-08",
+   "linha": "estojo"
+  }
+ ]
+}
