@@ -11,10 +11,10 @@
   "Roxinho",
   "Maçaranduba",
   "Araribá",
+  "Jaqueira",
   "Sebastião-de-arruda"
  ],
  "madeiras_ja_usadas": [
-  "jaqueira",
   "mangueira",
   "peroba-rosa",
   "sucupira",
@@ -138,7 +138,15 @@
    "Jacarandá",
    "Roxinho",
    "Muirapiranga"
-  ]
+  ],
+  "simples": {
+   "2": 1770,
+   "4": 2370
+  },
+  "completa": {
+   "2": 2100,
+   "4": 2700
+  }
  },
  "precos": {
   "schema": "igor-order-builder-v1",
@@ -615,6 +623,50 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 690,
+          "marchetaria": 1040,
+          "resina": 1450,
+          "marchetaria+resina": 1800
+         },
+         "2": {
+          "base": 1090,
+          "marchetaria": 1440,
+          "resina": 1850,
+          "marchetaria+resina": 2200,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1490,
+          "marchetaria": 1840,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2250,
+          "marchetaria+resina": 2600
+         },
+         "4": {
+          "base": 1890,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2240,
+          "resina": 2650,
+          "marchetaria+resina": 3000
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -881,6 +933,50 @@
           "marchetaria": 2550,
           "resina": 3090,
           "marchetaria+resina": 3540
+         }
+        }
+       },
+       {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 750,
+          "marchetaria": 1120,
+          "resina": 1580,
+          "marchetaria+resina": 1950
+         },
+         "2": {
+          "base": 1150,
+          "marchetaria": 1520,
+          "resina": 1980,
+          "marchetaria+resina": 2350,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1550,
+          "marchetaria": 1920,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2380,
+          "marchetaria+resina": 2750
+         },
+         "4": {
+          "base": 1950,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2320,
+          "resina": 2780,
+          "marchetaria+resina": 3150
          }
         }
        },
@@ -1155,6 +1251,50 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 810,
+          "marchetaria": 1220,
+          "resina": 1700,
+          "marchetaria+resina": 2110
+         },
+         "2": {
+          "base": 1210,
+          "marchetaria": 1620,
+          "resina": 2100,
+          "marchetaria+resina": 2510,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1610,
+          "marchetaria": 2020,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2500,
+          "marchetaria+resina": 2910
+         },
+         "4": {
+          "base": 2010,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2420,
+          "resina": 2900,
+          "marchetaria+resina": 3310
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -1421,6 +1561,50 @@
           "marchetaria": 2730,
           "resina": 3340,
           "marchetaria+resina": 3850
+         }
+        }
+       },
+       {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 870,
+          "marchetaria": 1300,
+          "resina": 1830,
+          "marchetaria+resina": 2260
+         },
+         "2": {
+          "base": 1270,
+          "marchetaria": 1700,
+          "resina": 2230,
+          "marchetaria+resina": 2660,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1670,
+          "marchetaria": 2100,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2630,
+          "marchetaria+resina": 3060
+         },
+         "4": {
+          "base": 2070,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2500,
+          "resina": 3030,
+          "marchetaria+resina": 3460
          }
         }
        },
@@ -1695,6 +1879,50 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 940,
+          "marchetaria": 1410,
+          "resina": 1970,
+          "marchetaria+resina": 2440
+         },
+         "2": {
+          "base": 1340,
+          "marchetaria": 1810,
+          "resina": 2370,
+          "marchetaria+resina": 2840,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1740,
+          "marchetaria": 2210,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2770,
+          "marchetaria+resina": 3240
+         },
+         "4": {
+          "base": 2140,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2610,
+          "resina": 3170,
+          "marchetaria+resina": 3640
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -1961,6 +2189,50 @@
           "marchetaria": 2960,
           "resina": 3660,
           "marchetaria+resina": 4250
+         }
+        }
+       },
+       {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1020,
+          "marchetaria": 1530,
+          "resina": 2140,
+          "marchetaria+resina": 2650
+         },
+         "2": {
+          "base": 1420,
+          "marchetaria": 1930,
+          "resina": 2540,
+          "marchetaria+resina": 3050,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1820,
+          "marchetaria": 2330,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 2940,
+          "marchetaria+resina": 3450
+         },
+         "4": {
+          "base": 2220,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2730,
+          "resina": 3340,
+          "marchetaria+resina": 3850
          }
         }
        },
@@ -2235,6 +2507,50 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1100,
+          "marchetaria": 1650,
+          "resina": 2310,
+          "marchetaria+resina": 2860
+         },
+         "2": {
+          "base": 1500,
+          "marchetaria": 2050,
+          "resina": 2710,
+          "marchetaria+resina": 3260,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1900,
+          "marchetaria": 2450,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3110,
+          "marchetaria+resina": 3660
+         },
+         "4": {
+          "base": 2300,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2850,
+          "resina": 3510,
+          "marchetaria+resina": 4060
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -2501,6 +2817,50 @@
           "marchetaria": 3210,
           "resina": 4010,
           "marchetaria+resina": 4680
+         }
+        }
+       },
+       {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1180,
+          "marchetaria": 1770,
+          "resina": 2480,
+          "marchetaria+resina": 3070
+         },
+         "2": {
+          "base": 1580,
+          "marchetaria": 2170,
+          "resina": 2880,
+          "marchetaria+resina": 3470,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 1980,
+          "marchetaria": 2570,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3280,
+          "marchetaria+resina": 3870
+         },
+         "4": {
+          "base": 2380,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 2970,
+          "resina": 3680,
+          "marchetaria+resina": 4270
          }
         }
        },
@@ -2775,6 +3135,50 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1280,
+          "marchetaria": 1920,
+          "resina": 2690,
+          "marchetaria+resina": 3330
+         },
+         "2": {
+          "base": 1680,
+          "marchetaria": 2320,
+          "resina": 3090,
+          "marchetaria+resina": 3730,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2080,
+          "marchetaria": 2720,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3490,
+          "marchetaria+resina": 4130
+         },
+         "4": {
+          "base": 2480,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3120,
+          "resina": 3890,
+          "marchetaria+resina": 4530
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -3041,6 +3445,50 @@
           "marchetaria": 3500,
           "resina": 4410,
           "marchetaria+resina": 5180
+         }
+        }
+       },
+       {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1380,
+          "marchetaria": 2070,
+          "resina": 2900,
+          "marchetaria+resina": 3590
+         },
+         "2": {
+          "base": 1780,
+          "marchetaria": 2470,
+          "resina": 3300,
+          "marchetaria+resina": 3990,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2180,
+          "marchetaria": 2870,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3700,
+          "marchetaria+resina": 4390
+         },
+         "4": {
+          "base": 2580,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3270,
+          "resina": 4100,
+          "marchetaria+resina": 4790
          }
         }
        },
@@ -3315,6 +3763,50 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1500,
+          "marchetaria": 2250,
+          "resina": 3150,
+          "marchetaria+resina": 3900
+         },
+         "2": {
+          "base": 1900,
+          "marchetaria": 2650,
+          "resina": 3550,
+          "marchetaria+resina": 4300,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2300,
+          "marchetaria": 3050,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 3950,
+          "marchetaria+resina": 4700
+         },
+         "4": {
+          "base": 2700,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3450,
+          "resina": 4350,
+          "marchetaria+resina": 5100
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -3581,6 +4073,50 @@
           "marchetaria": 4040,
           "resina": 5170,
           "marchetaria+resina": 6120
+         }
+        }
+       },
+       {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1740,
+          "marchetaria": 2610,
+          "resina": 3650,
+          "marchetaria+resina": 4520
+         },
+         "2": {
+          "base": 2140,
+          "marchetaria": 3010,
+          "resina": 4050,
+          "marchetaria+resina": 4920,
+          "regra": [
+           "marchetaria+resina"
+          ]
+         },
+         "3": {
+          "base": 2540,
+          "marchetaria": 3410,
+          "regra": [
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "resina": 4450,
+          "marchetaria+resina": 5320
+         },
+         "4": {
+          "base": 2940,
+          "regra": [
+           "base",
+           "marchetaria",
+           "resina",
+           "marchetaria+resina"
+          ],
+          "marchetaria": 3810,
+          "resina": 4850,
+          "marchetaria+resina": 5720
          }
         }
        },
@@ -3979,6 +4515,20 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 930,
+          "drone": 1670,
+          "marchetaria": 1400,
+          "resina": 1950,
+          "drone+marchetaria": 2140,
+          "drone+resina": 2690
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -4065,6 +4615,20 @@
           "resina": 2560,
           "drone+marchetaria": 2810,
           "drone+resina": 3540
+         }
+        }
+       },
+       {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1010,
+          "drone": 1820,
+          "marchetaria": 1520,
+          "resina": 2120,
+          "drone+marchetaria": 2330,
+          "drone+resina": 2930
          }
         }
        },
@@ -4159,6 +4723,20 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1090,
+          "drone": 1960,
+          "marchetaria": 1640,
+          "resina": 2290,
+          "drone+marchetaria": 2510,
+          "drone+resina": 3160
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -4245,6 +4823,20 @@
           "resina": 2900,
           "drone+marchetaria": 3170,
           "drone+resina": 4000
+         }
+        }
+       },
+       {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1170,
+          "drone": 2110,
+          "marchetaria": 1760,
+          "resina": 2460,
+          "drone+marchetaria": 2700,
+          "drone+resina": 3400
          }
         }
        },
@@ -4339,6 +4931,20 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1270,
+          "drone": 2290,
+          "marchetaria": 1900,
+          "resina": 2670,
+          "drone+marchetaria": 2920,
+          "drone+resina": 3690
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -4425,6 +5031,20 @@
           "resina": 3320,
           "drone+marchetaria": 3630,
           "drone+resina": 4580
+         }
+        }
+       },
+       {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1380,
+          "drone": 2480,
+          "marchetaria": 2070,
+          "resina": 2900,
+          "drone+marchetaria": 3170,
+          "drone+resina": 4000
          }
         }
        },
@@ -4519,6 +5139,20 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1480,
+          "drone": 2660,
+          "marchetaria": 2220,
+          "resina": 3110,
+          "drone+marchetaria": 3400,
+          "drone+resina": 4290
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -4605,6 +5239,20 @@
           "resina": 3800,
           "drone+marchetaria": 4170,
           "drone+resina": 5250
+         }
+        }
+       },
+       {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1590,
+          "drone": 2860,
+          "marchetaria": 2380,
+          "resina": 3340,
+          "drone+marchetaria": 3650,
+          "drone+resina": 4610
          }
         }
        },
@@ -4699,6 +5347,20 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1730,
+          "drone": 3110,
+          "marchetaria": 2600,
+          "resina": 3630,
+          "drone+marchetaria": 3980,
+          "drone+resina": 5010
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -4785,6 +5447,20 @@
           "resina": 4350,
           "drone+marchetaria": 4760,
           "drone+resina": 6010
+         }
+        }
+       },
+       {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 1860,
+          "drone": 3350,
+          "marchetaria": 2790,
+          "resina": 3910,
+          "drone+marchetaria": 4280,
+          "drone+resina": 5400
          }
         }
        },
@@ -4879,6 +5555,20 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 2030,
+          "drone": 3650,
+          "marchetaria": 3040,
+          "resina": 4260,
+          "drone+marchetaria": 4660,
+          "drone+resina": 5880
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -4969,6 +5659,20 @@
         }
        },
        {
+        "key": "jaqueira",
+        "label": "Jaqueira",
+        "bodies": {
+         "1": {
+          "base": 2350,
+          "drone": 4230,
+          "marchetaria": 3520,
+          "resina": 4940,
+          "drone+marchetaria": 5400,
+          "drone+resina": 6820
+         }
+        }
+       },
+       {
         "key": "massaranduba",
         "label": "Maçaranduba",
         "bodies": {
@@ -5028,10 +5732,10 @@
         "label": "",
         "bodies": {
          "2": {
-          "base": 2100
+          "base": 1770
          },
          "4": {
-          "base": 2700
+          "base": 2370
          }
         }
        }
@@ -5328,7 +6032,7 @@
    "id": "morrao",
    "modelo": "Pífano de madeira",
    "tons": "Do Ré agudo ao Ré grave",
-   "material": "jacarandá, muirapiranga, roxinho, maçaranduba, araribá, sebastião-de-arruda",
+   "material": "jacarandá, muirapiranga, roxinho, maçaranduba, araribá, jaqueira, sebastião-de-arruda",
    "a_partir_de": 690,
    "pagina": "pifanos.html#madeira",
    "foto": "v7-pmadeira-05",
@@ -5348,7 +6052,7 @@
    "id": "fumaca",
    "modelo": "Pífano segmentado · 2 partes",
    "tons": "Do Ré agudo ao Ré grave",
-   "material": "jacarandá, muirapiranga, roxinho, maçaranduba, araribá, sebastião-de-arruda",
+   "material": "jacarandá, muirapiranga, roxinho, maçaranduba, araribá, jaqueira, sebastião-de-arruda",
    "a_partir_de": 1090,
    "pagina": "pifanos.html#segmentados",
    "foto": "v7-psegmentados-01",
@@ -5359,7 +6063,7 @@
    "modelo": "Flauta irlandesa · 2 partes",
    "tons": "Ré grave (Low D)",
    "material": "jacarandá, roxinho ou muirapiranga",
-   "a_partir_de": 2100,
+   "a_partir_de": 1770,
    "pagina": "irlandesa.html#valores",
    "foto": "v7-irl-08",
    "linha": "irlandesa"
@@ -5369,7 +6073,7 @@
    "modelo": "Flauta irlandesa · 4 partes",
    "tons": "Ré grave (Low D)",
    "material": "jacarandá, roxinho ou muirapiranga",
-   "a_partir_de": 2700,
+   "a_partir_de": 2370,
    "pagina": "irlandesa.html#valores",
    "foto": "v7-irl-06",
    "linha": "irlandesa"
@@ -5388,7 +6092,7 @@
    "id": "lapa",
    "modelo": "Flauta nativa de madeira",
    "tons": "Do Ré agudo ao Ré grave",
-   "material": "jacarandá, muirapiranga, roxinho, maçaranduba, araribá, sebastião-de-arruda",
+   "material": "jacarandá, muirapiranga, roxinho, maçaranduba, araribá, jaqueira, sebastião-de-arruda",
    "a_partir_de": 930,
    "pagina": "nativas.html",
    "foto": "",
