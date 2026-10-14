@@ -69,7 +69,7 @@
   }
 
   function desenho(r, e) {
-    var W = 1000, x0 = 20, total = r.rolha + 25 + r.bocaAoPe, esc = (W - 40 - (VIS.tubo ? 150 : 0)) / total;
+    var W = 1000, x0 = VIS.rolha ? 80 : 20, total = r.rolha + 25 + r.bocaAoPe, esc = (W - x0 - 20 - (VIS.tubo ? 150 : 0)) / total;
     var topo = 18 + (VIS.notas ? 18 : 0) + (VIS.diametros ? 16 : 0);
     /* escala real: a mesma em comprimento e em largura (1 mm = esc px) */
     var ext = e.D + 2 * e.parede, h = ext * esc, cy = topo + h / 2, hi = e.D * esc;
@@ -83,10 +83,11 @@
       var xc = pe + 22;
       s += '<g stroke="#9A3B1F" stroke-width="1.2"><line x1="' + xc + '" y1="' + (cy - hi / 2) + '" x2="' + xc + '" y2="' + (cy + hi / 2) + '"/><line x1="' + (xc - 5) + '" y1="' + (cy - hi / 2) + '" x2="' + (xc + 5) + '" y2="' + (cy - hi / 2) + '"/><line x1="' + (xc - 5) + '" y1="' + (cy + hi / 2) + '" x2="' + (xc + 5) + '" y2="' + (cy + hi / 2) + '"/>';
       s += '<line x1="' + (pe - 4) + '" y1="' + (cy - hi / 2) + '" x2="' + xc + '" y2="' + (cy - hi / 2) + '" stroke-dasharray="2 2"/><line x1="' + (pe - 4) + '" y1="' + (cy + hi / 2) + '" x2="' + xc + '" y2="' + (cy + hi / 2) + '" stroke-dasharray="2 2"/></g>';
+      var dy = Math.max(h / 2 + 2, 16); /* rótulos com pelo menos 16 px entre si, mesmo em tubo fino */
       s += '<text x="' + (xc + 8) + '" y="' + (cy + 4) + '" font-size="12" fill="#9A3B1F">Ø interno ' + mm(e.D) + '</text>';
       s += '<g stroke="#7E2A5E" stroke-width="1.2"><line x1="' + (xc + 4) + '" y1="' + (cy - h / 2) + '" x2="' + (xc + 4) + '" y2="' + (cy - hi / 2) + '"/></g>';
-      s += '<text x="' + (xc + 8) + '" y="' + (cy - hi / 2 - 2) + '" font-size="12" fill="#7E2A5E">parede ' + mm(e.parede) + '</text>';
-      s += '<text x="' + (xc + 8) + '" y="' + (cy + h / 2 + 2) + '" font-size="11" fill="#7a5a1c">Ø externo ' + mm(ext) + '</text>';
+      s += '<text x="' + (xc + 8) + '" y="' + (cy - dy) + '" font-size="12" fill="#7E2A5E">parede ' + mm(e.parede) + '</text>';
+      s += '<text x="' + (xc + 8) + '" y="' + (cy + dy + 8) + '" font-size="11" fill="#7a5a1c">Ø externo ' + mm(ext) + '</text>';
     }
     var xr = boca - r.rolha * esc;
     s += '<line x1="' + xr + '" y1="' + (cy - h / 2) + '" x2="' + xr + '" y2="' + (cy + h / 2) + '" stroke="#9A3B1F" stroke-width="3" stroke-dasharray="4 3"/>';
@@ -136,8 +137,15 @@
   }
 
   function desenhoVertical(r, e) {
-    var H = 900, y0 = 20, total = r.rolha + 25 + r.bocaAoPe, esc = (H - 60) / total;
-    var ext = e.D + 2 * e.parede, w = ext * esc, cx = 150, x1 = cx - w / 2;
+    /* colunas fixas, alocadas conforme o que está ligado: [rótulos] [tubo] [espaços] [da boca] [comprimento] */
+    var total = r.rolha + 25 + r.bocaAoPe, H = 900, y0 = 24, esc = (H - 60) / total;
+    var ext = e.D + 2 * e.parede, w = ext * esc;
+    var esq = 8 + (VIS.numeros || VIS.notas || VIS.diametros || VIS.rolha ? (VIS.diametros ? 150 : 104) : 50);
+    var x1 = esq, cx = x1 + w / 2, col = x1 + w + 14;
+    var colEsp = col; if (VIS.espacos) col += 62;
+    var colBoca = col; if (VIS.boca) col += 92;
+    var colTot = col; if (VIS.total) col += 60;
+    var W = Math.max(col + 6, x1 + w + 20, 220);
     var boca = y0 + (r.rolha + 25) * esc, pe = boca + r.bocaAoPe * esc, s = "";
     s += '<rect x="' + x1 + '" y="' + y0 + '" width="' + w + '" height="' + (pe - y0) + '" rx="2" fill="#D9A33A" stroke="#7a5a1c" stroke-width="2"/>';
     if (VIS.tubo) s += '<rect x="' + (cx - e.D * esc / 2) + '" y="' + y0 + '" width="' + (e.D * esc) + '" height="' + (pe - y0) + '" fill="#f0c56a"/>';
@@ -145,26 +153,28 @@
     s += '<line x1="' + x1 + '" y1="' + yr + '" x2="' + (x1 + w) + '" y2="' + yr + '" stroke="#9A3B1F" stroke-width="3" stroke-dasharray="4 3"/>';
     var eC = e.embForma === "oval" ? e.embC : e.emb, eL = e.embForma === "oval" ? e.embL : e.emb;
     s += '<ellipse cx="' + cx + '" cy="' + boca + '" rx="' + (eL * esc / 2) + '" ry="' + (eC * esc / 2) + '" fill="#2D4839"/>';
-    s += '<text x="' + (x1 - 14) + '" y="' + (boca + 5) + '" text-anchor="end" font-size="15" fill="#2D4839">sopro</text>';
-    if (VIS.rolha) s += '<text x="' + (x1 - 14) + '" y="' + (yr + 5) + '" text-anchor="end" font-size="14" fill="#9A3B1F">rolha ' + mm(r.rolha) + '</text>';
+    var tx = function (y, t, cor, tam) { return '<text x="' + (x1 - 8) + '" y="' + (y + 5) + '" text-anchor="end" font-size="' + (tam || 14) + '" fill="' + (cor || "#2D4839") + '">' + t + '</text>'; };
+    s += tx(boca, "sopro");
+    if (VIS.rolha) s += tx(yr - 4, "rolha " + mm(r.rolha), "#9A3B1F", 13);
     var ant = pe;
     r.furos.forEach(function (f) {
       var y = boca + f.daBoca * esc;
       s += '<circle cx="' + cx + '" cy="' + y + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"/>';
-      var rot = (VIS.numeros ? (f.indice + 1) + "º " : "") + (VIS.notas ? f.nota : "") + (VIS.diametros ? " · Ø" + mm(f.diametro) : "");
-      if (rot) s += '<text x="' + (x1 - 10) + '" y="' + (y + 5) + '" text-anchor="end" font-size="15" fill="#2D4839">' + rot + '</text>';
-      if (VIS.espacos) s += cotaV(x1 + w + 14, ant, y, mm(f.espaco));
-      if (VIS.boca) s += '<text x="' + (x1 + w + 52) + '" y="' + (y + 5) + '" font-size="12" fill="#2D4839">' + mm(f.daBoca) + ' da boca</text>';
+      var rot = [VIS.numeros ? (f.indice + 1) + "º" : "", VIS.notas ? f.nota : "", VIS.diametros ? "Ø" + mm(f.diametro) : ""].filter(Boolean).join(" · ");
+      if (rot) s += tx(y, rot);
+      if (VIS.espacos) s += cotaV(colEsp, ant, y, mm(f.espaco));
+      if (VIS.boca) s += '<line x1="' + (x1 + w) + '" y1="' + y + '" x2="' + (colBoca - 4) + '" y2="' + y + '" stroke="#b9ad93" stroke-dasharray="2 3"/><text x="' + colBoca + '" y="' + (y + 4) + '" font-size="12" fill="#2D4839">' + mm(f.daBoca) + ' da boca</text>';
       ant = y;
     });
-    if (VIS.espacos) s += cotaV(x1 + w + 14, ant, boca, mm(r.furos[5].daBoca));
-    if (VIS.total) s += cotaV(x1 + w + 92, pe, boca, mm(r.bocaAoPe), "#9A3B1F");
-    if (VIS.rolha) s += cotaV(x1 - 6, boca, yr, "", "#9A3B1F");
-    s += '<text x="' + (x1 - 10) + '" y="' + (pe - 4) + '" text-anchor="end" font-size="14" fill="#2D4839">pé</text>';
-    var bas = pe + 26;
-    if (VIS.total) s += '<text x="150" y="' + bas + '" text-anchor="middle" font-size="15" fill="#9A3B1F">da boca ao pé: ' + mm(r.bocaAoPe) + ' mm</text>';
-    if (VIS.tubo) s += '<text x="150" y="' + (bas + 22) + '" text-anchor="middle" font-size="13" fill="#7a5a1c">Ø interno ' + mm(e.D) + ' · parede ' + mm(e.parede) + ' · Ø externo ' + mm(ext) + '</text>';
-    return '<svg class="pc-vert" viewBox="0 0 360 ' + (bas + 40) + '" role="img" aria-label="Desenho do pífano em pé, com os furos e as medidas">' + s + '</svg>';
+    if (VIS.espacos) s += cotaV(colEsp, ant, boca, mm(r.furos[5].daBoca));
+    if (VIS.total) s += cotaV(colTot, pe, boca, mm(r.bocaAoPe), "#9A3B1F");
+    s += tx(pe - 6, "pé", "#2D4839", 13);
+    var bas = pe + 24, mid = W / 2, extra = "";
+    if (VIS.total) extra += '<text x="' + mid + '" y="' + bas + '" text-anchor="middle" font-size="14" fill="#9A3B1F">da boca ao pé: ' + mm(r.bocaAoPe) + ' mm</text>';
+    if (VIS.tubo) { var yt = bas + (VIS.total ? 20 : 0);
+      extra += '<text x="' + mid + '" y="' + yt + '" text-anchor="middle" font-size="12" fill="#7a5a1c">Ø interno ' + mm(e.D) + ' · parede ' + mm(e.parede) + '</text>';
+      extra += '<text x="' + mid + '" y="' + (yt + 17) + '" text-anchor="middle" font-size="12" fill="#7a5a1c">Ø externo ' + mm(ext) + '</text>'; bas += 17; }
+    return '<svg class="pc-vert" viewBox="0 0 ' + W + ' ' + (bas + 36) + '" role="img" aria-label="Desenho do pífano em pé, com os furos e as medidas">' + s + extra + '</svg>';
   }
 
   function painelVis() {
