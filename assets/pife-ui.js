@@ -271,6 +271,12 @@
       inp.previousElementSibling.textContent = (k + 1) + "º · " + r.furos[k].nota;
     });
     $("pc-desenho").innerHTML = (window.matchMedia && window.matchMedia("(max-width: 640px)").matches) ? desenhoVertical(r, e) : desenho(r, e);
+    /* celular: um cartão curto por furo, no lugar da tabela larga */
+    $("pc-cartoes").innerHTML = r.furos.slice().reverse().map(function (f) {
+      return '<div class="pc-cartao"><div class="pc-c1"><b>' + (f.indice + 1) + 'º</b> ' + f.nota + ' <span>Ø ' + mm(f.diametro) + '</span></div>' +
+        '<div class="pc-c2"><b>' + mm(f.daBoca) + '</b> da boca · ' + mm(f.espaco) + ' até o de baixo</div>' +
+        '<div class="pc-c3">' + selo(f.razaoCorte) + '</div></div>';
+    }).join("");
     $("pc-tabela").querySelector("tbody").innerHTML = r.furos.map(function (f) {
       return "<tr><th scope=\"row\">" + (f.indice + 1) + "º</th><td>" + f.nota + "</td><td>" + mm(f.diametro) + " mm</td><td><b>" + mm(f.daBoca) + " mm</b></td><td>" + mm(f.doPe) + " mm</td><td>" + mm(f.espaco) + " mm</td><td>" + selo(f.razaoCorte) + "</td></tr>";
     }).join("");
