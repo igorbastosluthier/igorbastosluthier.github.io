@@ -65,3 +65,9 @@ body:has(.monte) .fab{display:none}
 
 img[src*="v5-i-pifanos-bambu"],img[srcset*="v5-i-pifanos-bambu"]{object-position:center 8%} /* 07/10: mostrar o topo da flauta */
 .antigos{margin-top:28px;border-top:1px solid var(--rule);padding-top:14px}.antigos>summary{cursor:pointer;font-weight:600;padding:10px 0}.antigos[open]>summary{margin-bottom:14px}
+
+/* 14/10: na galeria o botão do vídeo diz o que faz (ver o vídeo, com som) — antes era só um círculo que parecia "ouvir" */
+.peca.gal .vid .play::after{content:"\25B6\00a0 Ver o vídeo \00b7  com som";width:auto;height:auto;left:12px;bottom:12px;padding:10px 16px 10px 14px;border-radius:999px;background:rgba(243,239,231,.96);color:#5E2C3B;font:600 15px/1 var(--text,system-ui),sans-serif;letter-spacing:.01em;white-space:nowrap}
+.peca.gal .vid .stage::before{content:"VÍDEO";position:absolute;z-index:1;top:10px;left:10px;padding:4px 8px;border-radius:4px;background:rgba(13,10,9,.72);color:#F3EFE7;font:600 11px/1 var(--text,system-ui),sans-serif;letter-spacing:.08em;pointer-events:none}
+.peca.gal .vid .stage:has(video)::before{display:none}
+@media(max-width:520px){.peca.gal .vid .play::after{width:auto;height:auto;left:8px;bottom:8px;padding:8px 12px;font-size:13px;background-size:auto}}
