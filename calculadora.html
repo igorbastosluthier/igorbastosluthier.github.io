@@ -52,7 +52,7 @@
 .af-linha{display:flex;gap:16px;flex-wrap:wrap;align-items:baseline}.af-linha b{font-size:1.3em}
 #af-graf{width:100%;height:auto;display:block;margin-top:10px;background:#faf6ee;border-radius:8px}
 .af-painel{margin-top:16px}#af-mapa{width:100%}#af-mapa td,#af-mapa th{white-space:nowrap;padding:6px 10px;text-align:left}
-.pc-dig{margin-top:28px}.pc-dig img{width:100%;max-width:260px;height:auto;display:block;border:1px solid rgba(45,72,57,.2);border-radius:10px;background:#fff}@media (min-width:860px){.pc-grid{grid-template-columns:repeat(3,1fr)}}@media (max-width:640px){
+.pc-dig{margin-top:28px;text-align:center}.pc-dig img{margin:0 auto;width:100%;max-width:300px;height:auto;display:block;border:1px solid rgba(45,72,57,.2);border-radius:10px;background:#fff}@media (min-width:860px){.pc-grid{grid-template-columns:repeat(3,1fr)}}@media (max-width:640px){
  .pc-desenho svg.pc-vert{min-width:0;width:100%;max-width:360px;margin:6px auto 16px}
  .pc-grid fieldset{padding:10px 12px}.pc-grid label{margin:8px 0}
  .pc-furos #pc-furos{grid-template-columns:repeat(3,1fr)}
@@ -60,7 +60,7 @@
  .pc-vis{gap:4px 10px}.pc-vis label{font-size:.85em}
  .af-nota span{font-size:2em}.pc-lista li{margin:8px 0}
  .pc-qt{padding:14px}.pc-qt-topo{flex-direction:column;align-items:flex-start}
- .pc-fig{overflow-x:auto;-webkit-overflow-scrolling:touch}.pc-fig svg{min-width:560px}.pc-fig::after{content:"arraste para o lado para ver o desenho todo";display:block;font-size:.78em;opacity:.65;margin-top:4px}
+ .pc-fig svg{min-width:0;width:100%}
  .ph{padding-bottom:8px}
 }
 .pc-desenho svg,.pc-fig svg{background:#F6EFE2;border-radius:10px}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pc-alcance,:root:not([data-theme="light"]) .pc-qt,:root:not([data-theme="light"]) .af-visor,:root:not([data-theme="light"]) .pc-dig img{background:#2a201c;border-color:rgba(246,239,226,.18)}
@@ -84,6 +84,29 @@
 .pc-vis label:has(input:checked){background:#2D4839;color:#F6EFE2;border-color:#2D4839}
 .pc-vis input{accent-color:#D9A33A;margin:0}
 @media (max-width:640px){.pc-vis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pc-acoes{justify-content:center}
+.pc-res>h2,.pc-dig h3,.pc-af>.wrap>h2,.pc-af>.wrap>p{text-align:center}
+.af-modos{justify-content:center}
+@media (max-width:640px){
+ .pc-acoes{display:grid!important;grid-template-columns:1fr;gap:10px}.pc-acoes .btn{width:100%;justify-content:center}
+ .af-modos{display:grid!important;grid-template-columns:1fr 1fr;gap:8px}
+ .af-modos label{padding:8px 10px;border:1px solid rgba(45,72,57,.25);border-radius:999px;font-size:.88em;background:rgba(255,255,255,.5)}
+ .af-modos .pc-mini{grid-column:1/-1;text-align:center}
+ #af-ligar{width:100%}
+ .pc-ajuste-linha{display:grid!important;grid-template-columns:1fr 1fr;gap:10px}.pc-ajuste-linha .btn{grid-column:1/-1}
+ .pc-qt-campo{align-self:center}
+}
+@media (max-width:640px){
+ .blk{padding-top:22px!important;padding-bottom:22px!important}
+ .ph{padding-top:18px!important}.ph .wrap{padding-bottom:0}
+ .pc-indice{display:grid!important;grid-template-columns:1fr 1fr;gap:8px}
+ .pc-indice a:last-child{grid-column:1/-1}
+ .af-modos[aria-label="Sensibilidade do afinador"]{grid-template-columns:1fr 1fr 1fr}
+ .af-modos[aria-label="Sensibilidade do afinador"] label{text-align:center;justify-content:center}
+ .pc-indice a{display:block;padding:8px 10px;border:1px solid rgba(126,42,94,.3);border-radius:10px;text-decoration:none;text-align:center;font-size:.9em}
+ .pc-af .af-visor{margin-top:6px}
+ .pc-guia h2{margin-top:1.2em}
+}
 .pc-molde{display:none}[hidden]{display:none!important}#pc-tabela{width:100%}
 @media print{
   body>*:not(main),main>*:not(#pc-molde){display:none!important}
@@ -159,10 +182,11 @@
   <label><input type="radio" name="af-modo" value="ref"> Nota de referência</label>
 </div>
 <div class="af-modos" role="radiogroup" aria-label="Sensibilidade do afinador"><span class="pc-mini">Quanto a agulha reage à variação do sopro:</span>
-  <label><input type="radio" name="af-sens" value="estavel"> Calma (mostra só a tendência)</label>
+  <label><input type="radio" name="af-sens" value="estavel"> Calma</label>
   <label><input type="radio" name="af-sens" value="normal" checked> Normal</label>
-  <label><input type="radio" name="af-sens" value="sensivel"> Detalhada (mostra cada tremida)</label>
+  <label><input type="radio" name="af-sens" value="sensivel"> Detalhada</label>
 </div>
+<p class="pc-mini" style="text-align:center">Calma mostra só a tendência da nota; Detalhada mostra cada tremida do sopro.</p>
 <p><button type="button" id="af-ligar" class="btn">Ligar o afinador</button> <span id="af-erro" class="pc-mini"></span></p>
 <div class="af-visor">
   <div class="af-nota"><span id="af-nota">—</span><small id="af-nota-sub"></small></div>
@@ -195,7 +219,7 @@
   <p>O objetivo é toda nota marcar <b>0</b> no afinador (afinada). Se uma nota marcou outro número, digite aqui: positivo (+) é nota alta, negativo (−) é nota baixa. A calculadora diz o que fazer no furo.</p>
   <div class="pc-ajuste-linha">
     <label>Qual furo<select id="pc-aj-furo"></select></label>
-    <label>Quanto o afinador marcou<input id="pc-aj-cents" type="number" step="1" value="0"></label>
+    <label>Afinador marcou<input id="pc-aj-cents" type="number" step="1" value="0"></label>
     <button type="button" id="pc-aj-btn" class="btn">Ver correção</button>
   </div>
   <p id="pc-aj-res" class="pc-aj-res"></p>
