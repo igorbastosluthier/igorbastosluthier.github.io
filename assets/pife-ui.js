@@ -128,6 +128,13 @@
   }
 
   /* Celular: a flauta desenhada em pé (escala real), notas e furos à esquerda, medidas à direita */
+  function cotaV(x, ya, yb, txt, cor) {
+    cor = cor || "#7E2A5E";
+    var s = '<g stroke="' + cor + '" stroke-width="1.4"><line x1="' + x + '" y1="' + ya + '" x2="' + x + '" y2="' + yb + '"/>' +
+      '<line x1="' + (x - 5) + '" y1="' + ya + '" x2="' + (x + 5) + '" y2="' + ya + '"/><line x1="' + (x - 5) + '" y1="' + yb + '" x2="' + (x + 5) + '" y2="' + yb + '"/></g>';
+    return s + (txt ? '<text x="' + (x + 7) + '" y="' + ((ya + yb) / 2 + 5) + '" font-size="13" fill="' + cor + '">' + txt + '</text>' : "");
+  }
+
   function desenhoVertical(r, e) {
     var H = 900, y0 = 20, total = r.rolha + 25 + r.bocaAoPe, esc = (H - 60) / total;
     var ext = e.D + 2 * e.parede, w = ext * esc, cx = 150, x1 = cx - w / 2;
@@ -138,24 +145,26 @@
     s += '<line x1="' + x1 + '" y1="' + yr + '" x2="' + (x1 + w) + '" y2="' + yr + '" stroke="#9A3B1F" stroke-width="3" stroke-dasharray="4 3"/>';
     var eC = e.embForma === "oval" ? e.embC : e.emb, eL = e.embForma === "oval" ? e.embL : e.emb;
     s += '<ellipse cx="' + cx + '" cy="' + boca + '" rx="' + (eL * esc / 2) + '" ry="' + (eC * esc / 2) + '" fill="#2D4839"/>';
-    s += '<text x="' + (x1 - 10) + '" y="' + (boca + 5) + '" text-anchor="end" font-size="15" fill="#2D4839">sopro</text>';
-    if (VIS.rolha) s += '<text x="' + (x1 - 10) + '" y="' + (yr + 5) + '" text-anchor="end" font-size="14" fill="#9A3B1F">rolha ' + mm(r.rolha) + '</text>';
+    s += '<text x="' + (x1 - 14) + '" y="' + (boca + 5) + '" text-anchor="end" font-size="15" fill="#2D4839">sopro</text>';
+    if (VIS.rolha) s += '<text x="' + (x1 - 14) + '" y="' + (yr + 5) + '" text-anchor="end" font-size="14" fill="#9A3B1F">rolha ' + mm(r.rolha) + '</text>';
     var ant = pe;
     r.furos.forEach(function (f) {
       var y = boca + f.daBoca * esc;
       s += '<circle cx="' + cx + '" cy="' + y + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"/>';
       var rot = (VIS.numeros ? (f.indice + 1) + "º " : "") + (VIS.notas ? f.nota : "") + (VIS.diametros ? " · Ø" + mm(f.diametro) : "");
       if (rot) s += '<text x="' + (x1 - 10) + '" y="' + (y + 5) + '" text-anchor="end" font-size="15" fill="#2D4839">' + rot + '</text>';
-      if (VIS.espacos) s += '<text x="' + (x1 + w + 12) + '" y="' + ((y + ant) / 2 + 5) + '" font-size="14" fill="#7E2A5E">↕ ' + mm(f.espaco) + '</text>';
-      if (VIS.boca) s += '<text x="' + (x1 + w + 12) + '" y="' + (y + 5) + '" font-size="13" fill="#2D4839">' + mm(f.daBoca) + ' da boca</text>';
+      if (VIS.espacos) s += cotaV(x1 + w + 14, ant, y, mm(f.espaco));
+      if (VIS.boca) s += '<text x="' + (x1 + w + 52) + '" y="' + (y + 5) + '" font-size="12" fill="#2D4839">' + mm(f.daBoca) + ' da boca</text>';
       ant = y;
     });
-    if (VIS.espacos) s += '<text x="' + (x1 + w + 12) + '" y="' + ((boca + ant) / 2 + 5) + '" font-size="14" fill="#7E2A5E">↕ ' + mm(r.furos[5].daBoca) + '</text>';
+    if (VIS.espacos) s += cotaV(x1 + w + 14, ant, boca, mm(r.furos[5].daBoca));
+    if (VIS.total) s += cotaV(x1 + w + 92, pe, boca, mm(r.bocaAoPe), "#9A3B1F");
+    if (VIS.rolha) s += cotaV(x1 - 6, boca, yr, "", "#9A3B1F");
     s += '<text x="' + (x1 - 10) + '" y="' + (pe - 4) + '" text-anchor="end" font-size="14" fill="#2D4839">pé</text>';
     var bas = pe + 26;
     if (VIS.total) s += '<text x="150" y="' + bas + '" text-anchor="middle" font-size="15" fill="#9A3B1F">da boca ao pé: ' + mm(r.bocaAoPe) + ' mm</text>';
     if (VIS.tubo) s += '<text x="150" y="' + (bas + 22) + '" text-anchor="middle" font-size="13" fill="#7a5a1c">Ø interno ' + mm(e.D) + ' · parede ' + mm(e.parede) + ' · Ø externo ' + mm(ext) + '</text>';
-    return '<svg class="pc-vert" viewBox="0 0 330 ' + (bas + 40) + '" role="img" aria-label="Desenho do pífano em pé, com os furos e as medidas">' + s + '</svg>';
+    return '<svg class="pc-vert" viewBox="0 0 360 ' + (bas + 40) + '" role="img" aria-label="Desenho do pífano em pé, com os furos e as medidas">' + s + '</svg>';
   }
 
   function painelVis() {
