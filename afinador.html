@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head><meta name="color-scheme" content="light">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Calculadora de pife · Igor Bastos</title>
+<meta name="description" content="Calculadora gratuita de furos de pífano: posição de cada furo em qualquer tom, desenho e molde em tamanho real para imprimir.">
+<link rel="icon" href="img/marca/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Figtree:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=0710b">
+<link rel="stylesheet" href="assets/mix.css">
+<style>
+.pc-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:28px}
+.pc-grid fieldset{min-width:0;border:1px solid rgba(45,72,57,.25);border-radius:12px;padding:14px 16px;margin:0}
+.pc-grid legend{font-weight:600;padding:0 6px}
+.pc-grid label{display:block;margin:10px 0}
+.pc-grid input,.pc-grid select{display:block;width:100%;margin-top:4px;padding:9px 10px;border:1px solid rgba(45,72,57,.35);border-radius:8px;font:inherit;background:#fff;box-sizing:border-box}
+.pc-grid small,.pc-mini{display:block;font-size:.85em;opacity:.75;margin-top:3px}
+.pc-furos{grid-column:1/-1}.pc-furos #pc-furos{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:4px 12px}
+.pc-furos label{margin:4px 0}.pc-n{font-size:.9em}
+.pc-q{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#2D4839;color:#fff;font-size:.8em;text-decoration:none;margin-left:4px}
+.pc-desenho{overflow-x:auto;-webkit-overflow-scrolling:touch}.pc-desenho svg{width:100%;min-width:760px;height:auto;display:block;margin:6px 0 16px}
+.pc-aviso{border-left:4px solid #9A3B1F;background:rgba(154,59,31,.07);padding:10px 14px;border-radius:6px;margin:14px 0}
+.pc-aviso ul{margin:6px 0 0 18px;padding:0}.pc-ok{color:#2D4839;font-weight:600}
+.pc-acoes{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:18px 0 30px}
+.pc-ajuste{border:1px solid rgba(45,72,57,.25);border-radius:12px;padding:16px;margin-top:10px}
+.pc-ajuste-linha{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.pc-ajuste-linha label{display:flex;flex-direction:column;gap:4px}
+.pc-ajuste-linha input,.pc-ajuste-linha select{padding:8px 10px;border:1px solid rgba(45,72,57,.35);border-radius:8px;font:inherit}
+.pc-aj-res{font-weight:600;margin-top:12px}
+.pc-fig svg{width:100%;max-width:720px;height:auto}.pc-guia h2{margin-top:1.6em}.pc-lista li{margin:6px 0}
+.pc-glossario dt{font-weight:600;margin-top:10px}.pc-glossario dd{margin:2px 0 0 0}
+.btn.ghost{background:transparent;color:inherit;border:1px solid currentColor}
+.pc-selo{color:var(--c);font-weight:600;white-space:nowrap}.pc-alcance{border-left:5px solid var(--c);background:#fff;padding:10px 14px;border-radius:6px;margin:6px 0 10px}.pc-vis{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;margin:8px 0}.pc-vis label{display:inline-flex;gap:6px;align-items:center;font-size:.92em;cursor:pointer}.pc-link-btn{background:none;border:0;padding:0;color:#7E2A5E;text-decoration:underline;font:inherit;cursor:pointer}.pc-dois{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.pc-check{display:flex!important;gap:8px;align-items:center}.pc-check input{width:auto!important;margin:0!important}.pc-qt{background:#fff;border:1px solid rgba(45,72,57,.2);border-radius:14px;padding:18px 20px;margin:14px 0 22px}
+.pc-qt-topo{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+.pc-qt h3{margin:0 0 2px}
+.pc-qt-campo{display:flex;align-items:center;gap:6px;font-weight:600}
+.pc-qt-campo input{width:90px;padding:10px;font:inherit;font-size:1.15em;border:1px solid rgba(45,72,57,.35);border-radius:8px;text-align:center}
+.pc-qt-melhor{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:16px 0 8px}
+.pc-qt-melhor b{font-size:1.35em}
+.pc-qt-chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 6px}
+.pc-chip{border:1px solid rgba(45,72,57,.35);border-radius:999px;padding:5px 12px;background:transparent;font:inherit;font-size:.92em;cursor:pointer}
+.pc-chip:hover{background:rgba(45,72,57,.08)}
+.pc-qt-det summary{cursor:pointer;margin-top:10px;color:#7E2A5E}
+.pc-indice{display:flex;flex-wrap:wrap;gap:8px 14px;margin:6px 0 18px}.pc-indice a{color:#7E2A5E}.pc-af .af-modos{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 14px}
+.af-visor{background:#fff;border:1px solid rgba(45,72,57,.2);border-radius:14px;padding:16px 18px;margin-bottom:12px}
+.af-nota{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}.af-nota span{font-size:2.6em;font-weight:600;color:#2D4839}.af-nota small{opacity:.75}
+.af-escala{position:relative;height:38px;margin:10px 0;display:flex;justify-content:space-between;align-items:flex-end;font-size:.8em;opacity:.9;border-bottom:2px solid #b9ad93}
+.af-centro{position:absolute;left:50%;top:0;bottom:0;width:2px;background:#2D4839}
+.af-agulha{position:absolute;left:50%;top:2px;width:12px;height:30px;margin-left:-6px;border-radius:6px;background:#b9ad93;transition:left .08s linear}
+.af-linha{display:flex;gap:16px;flex-wrap:wrap;align-items:baseline}.af-linha b{font-size:1.3em}
+#af-graf{width:100%;height:auto;display:block;margin-top:10px;background:#faf6ee;border-radius:8px}
+.af-painel{margin-top:16px}#af-mapa{width:100%}#af-mapa td,#af-mapa th{white-space:nowrap;padding:6px 10px;text-align:left}
+.pc-dig{margin-top:28px;text-align:center}.pc-dig img{margin:0 auto;width:100%;max-width:300px;height:auto;display:block;border:1px solid rgba(45,72,57,.2);border-radius:10px;background:#fff}@media (min-width:860px){.pc-grid{grid-template-columns:repeat(3,1fr)}}@media (max-width:640px){
+ .pc-desenho svg.pc-vert{min-width:0;width:100%;max-width:360px;margin:6px auto 16px}
+ .pc-grid fieldset{padding:10px 12px}.pc-grid label{margin:8px 0}
+ .pc-furos #pc-furos{grid-template-columns:repeat(3,1fr)}
+ #pc-tabela{font-size:.86em}#pc-tabela th,#pc-tabela td{padding:6px 4px}
+ .pc-vis{gap:4px 10px}.pc-vis label{font-size:.85em}
+ .af-nota span{font-size:2em}.pc-lista li{margin:8px 0}
+ .pc-qt{padding:14px}.pc-qt-topo{flex-direction:column;align-items:flex-start}
+ .pc-fig svg{min-width:0;width:100%}
+ .ph{padding-bottom:8px}
+}
+.pc-desenho svg,.pc-fig svg{background:#F6EFE2;border-radius:10px}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pc-alcance,:root:not([data-theme="light"]) .pc-qt,:root:not([data-theme="light"]) .af-visor,:root:not([data-theme="light"]) .pc-dig img{background:#2a201c;border-color:rgba(246,239,226,.18)}
+:root:not([data-theme="light"]) .pc-grid input,:root:not([data-theme="light"]) .pc-grid select,:root:not([data-theme="light"]) .pc-ajuste-linha input,:root:not([data-theme="light"]) .pc-ajuste-linha select,:root:not([data-theme="light"]) .pc-qt-campo input{background:#2a201c;color:#F6EFE2;border-color:rgba(246,239,226,.3)}
+:root:not([data-theme="light"]) .pc-ok,:root:not([data-theme="light"]) .af-nota span{color:#9fc6a8}
+:root:not([data-theme="light"]) .pc-selo[style*="2D4839"]{color:#9fc6a8!important}
+:root:not([data-theme="light"]) .pc-indice a,:root:not([data-theme="light"]) .pc-qt-det summary,:root:not([data-theme="light"]) .pc-link-btn{color:#D9A33A}
+:root:not([data-theme="light"]) #af-graf{background:#1c1512}
+:root:not([data-theme="light"]) .pc-q{background:#D9A33A;color:#1c1410}}
+.pc-cartoes{display:none}
+@media (max-width:640px){
+ .pc-res .tw{display:none}.pc-cartoes{display:grid;gap:6px;margin:8px 0 14px}
+ .pc-cartao{display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:8px 10px;border:1px solid rgba(45,72,57,.18);border-radius:10px;background:rgba(255,255,255,.55);font-size:.92em}
+ .pc-c1 span{opacity:.7;font-size:.9em}.pc-c2{grid-column:1/-1;font-size:.9em;opacity:.9}.pc-c3{grid-row:1;grid-column:2;font-size:.85em}
+ #pc-resumo li{font-size:.9em;padding:6px 0}
+ .pc-res h2{margin-bottom:6px}
+}
+.pc-vis{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 16px!important;margin:10px 0}
+.pc-vis-t{grid-column:1/-1}
+.pc-vis label{display:flex!important;align-items:center;gap:8px;font-size:.92em!important;cursor:pointer}
+.pc-vis input{margin:0;width:18px;height:18px}
+@media (max-width:640px){.pc-vis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pc-acoes{justify-content:center}
+.pc-res>h2,.pc-dig h3,.pc-af>.wrap>h2,.pc-af>.wrap>p{text-align:center}
+.af-modos{justify-content:center}
+@media (max-width:640px){
+ .pc-acoes{display:grid!important;grid-template-columns:1fr;gap:10px}.pc-acoes .btn{width:100%;justify-content:center}
+ .af-modos{display:grid!important;grid-template-columns:1fr 1fr;gap:8px}
+ .af-modos label{padding:8px 10px;border:1px solid rgba(45,72,57,.25);border-radius:999px;font-size:.88em;background:rgba(255,255,255,.5)}
+ .af-modos .pc-mini{grid-column:1/-1;text-align:center}
+ #af-ligar{width:100%}
+ .pc-ajuste-linha{display:grid!important;grid-template-columns:1fr 1fr;gap:10px}.pc-ajuste-linha .btn{grid-column:1/-1}
+ .pc-qt-campo{align-self:center}
+}
+@media (max-width:640px){
+ .blk{padding-top:22px!important;padding-bottom:22px!important}
+ .ph{padding-top:18px!important}.ph .wrap{padding-bottom:0}
+ .pc-indice{display:grid!important;grid-template-columns:1fr 1fr;gap:8px}
+ .pc-indice a:last-child{grid-column:1/-1}
+ .af-modos[aria-label="Sensibilidade do afinador"]{grid-template-columns:1fr 1fr 1fr}
+ .af-modos[aria-label="Sensibilidade do afinador"] label{text-align:center;justify-content:center}
+ .pc-indice a{display:block;padding:8px 10px;border:1px solid rgba(126,42,94,.3);border-radius:10px;text-decoration:none;text-align:center;font-size:.9em}
+ .pc-af .af-visor{margin-top:6px}
+ .pc-guia h2{margin-top:1.2em}
+}
+.pc-molde{display:none}[hidden]{display:none!important}#pc-tabela{width:100%}
+@media print{
+  body>*:not(main),main>*:not(#pc-molde){display:none!important}
+  .pc-molde{display:block!important}.pc-pag{page-break-after:always;break-after:page}
+  @page{size:A4 portrait;margin:12mm 15mm}body{background:#fff!important}
+}
+</style>
+<script>window.__af=true;</script>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a><header class="site"><div class="in"><a class="brand" href="index.html" aria-label="Igor Bastos, luthier · início"><svg xmlns="http://www.w3.org/2000/svg" viewBox="150 125 700 465" class="mz" aria-hidden="true" focusable="false"><defs><clipPath id="mzc"><polygon points="0,580 150,566 240,520 300,450 335,370 352,300 352,222 360,200 380,194 400,190 425,193 450,190 470,198 486,214 503,214 512,170 530,146 560,138 592,142 612,158 622,200 628,262 640,320 668,390 720,460 800,520 900,560 1000,580"/></clipPath></defs><g clip-path="url(#mzc)"><polygon fill="#7E2A5E" points="0,35.0 1000,-35.0 1000,187.0 0,257.0"/><polygon fill="#D9A33A" points="0,257.0 1000,187.0 1000,265.0 0,335.0"/><polygon fill="#9A3B1F" points="0,335.0 1000,265.0 1000,350.0 0,420.0"/><polygon fill="#EAD9B8" points="0,420.0 1000,350.0 1000,447.0 0,517.0"/><polygon fill="#2D4839" points="0,517.0 1000,447.0 1000,665.0 0,735.0"/><line x1="0" y1="257.0" x2="1000" y2="187.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="335.0" x2="1000" y2="265.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="420.0" x2="1000" y2="350.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="517.0" x2="1000" y2="447.0" stroke="#F6EFE2" stroke-width="7"/><line x1="506" y1="120" x2="500" y2="222.0" stroke="#F6EFE2" stroke-width="7"/><rect x="0" y="574" width="1000" height="40" fill="#2D4839"/></g></svg><span><b>Igor Bastos</b><small>luthier</small></span></a><button class="burger" aria-expanded="false" aria-controls="menu">Menu</button><nav aria-label="Principal"><ul class="menu" id="menu"><li><a href="index.html">Início</a></li><li><a href="pifanos.html">Pífanos</a></li><li><a href="irlandesa.html">Irlandesa</a></li><li><a href="nativas.html">Nativas</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="galeria.html">Galeria</a></li><li><a href="valores.html">Valores</a></li><li><a href="perguntas.html">Perguntas</a></li><li><a href="tabelas.html">Tabelas</a></li><li><a href="calculadora.html" aria-current="page">Calculadora</a></li><li><a href="sobre.html">Sobre</a></li><li class="cta monte"><a href="monte.html">Monte a sua</a></li><li class="cta"><a href="https://wa.me/5575982901157?text=Ol%C3%A1%2C%20Igor%21%20Vi%20os%20valores%20no%20site%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">WhatsApp</a></li></ul></nav></div></header>
+<main id="conteudo">
+<section class="ph"><div class="wrap"><div class="eyebrow">Ferramenta gratuita</div><h1>Calculadora de pife</h1><p>Onde furar o seu pífano, em qualquer tom. Meça o tubo, escolha o tom e a calculadora mostra a posição de cada furo, desenha a flauta e gera um molde em tamanho real para imprimir.</p><div class="faixa"></div></div></section>
+
+<section class="blk pc"><div class="wrap">
+<form id="pc-form" class="pc-grid" autocomplete="off" onsubmit="return false">
+  <fieldset><legend>1. O pife</legend>
+    <label>Tom do pife<select id="pc-tom"></select><small>O tom é a nota com todos os furos fechados.</small></label>
+    <label>Afinação<select id="pc-la"><option value="440">Lá = 440 Hz (padrão)</option><option value="432">Lá = 432 Hz</option></select><small>Use 440 se for tocar com outros instrumentos.</small></label>
+    <label>Temperatura do lugar (°C)<input id="pc-temp" type="number" min="0" max="45" step="1" value="25"><small>O som muda com o calor: afine na temperatura em que vai tocar.</small></label>
+  </fieldset>
+  <fieldset><legend>2. O tubo <a href="#medir" class="pc-q" aria-label="Como medir">?</a></legend>
+    <label>Diâmetro interno (mm)<input id="pc-D" type="number" min="8" max="40" step="0.1" value="18"><small>A largura do buraco do tubo. <span id="pc-dica-tubo"></span></small></label>
+    <label>Espessura da parede (mm)<input id="pc-parede" type="number" min="1" max="10" step="0.1" value="4"><small>A grossura do tubo (26 por fora e 18 por dentro = 4 mm). <span id="pc-dica-parede"></span></small></label>
+
+      <label class="pc-check"><input id="pc-cone" type="checkbox"> Cabeça cônica (modelo Boehm)</label>
+    <small class="pc-mini">Se a cabeça estreita até a rolha (bambu cônico ou cabeça alargada por dentro). <a href="#cabeca">O que é</a></small>
+  </fieldset>
+  <fieldset><legend>3. O bocal</legend>
+    <label>Formato do furo do sopro<select id="pc-emb-forma"><option value="redondo">Redondo</option><option value="oval">Oval</option></select></label>
+    <label id="pc-emb-r">Diâmetro do furo do sopro (mm)<input id="pc-emb" type="number" min="4" max="20" step="0.1" value="10"><small>Ainda não fez esse furo? Comece com 10 mm num tubo de 18 mm por dentro.</small></label>
+    <div id="pc-emb-o" class="pc-dois" hidden>
+      <label>Largura, mm<input id="pc-emb-l" type="number" min="4" max="20" step="0.1" value="9"><small>Atravessando o tubo.</small></label>
+      <label>Compr., mm<input id="pc-emb-c" type="number" min="4" max="24" step="0.1" value="11"><small>Ao longo do tubo.</small></label>
+    </div>
+    <label class="pc-check"><input id="pc-lip-sim" type="checkbox"> Tem porta-lábios</label>
+    <label id="pc-lip-box" hidden>Espessura do porta-lábios (mm)<input id="pc-lip" type="number" min="0.5" max="10" step="0.5" value="3"><small>A peça colada em cima do furo do sopro. Ela deixa o furo mais "fundo", e isso abaixa a afinação: a calculadora encurta o tubo para compensar.</small></label>
+  </fieldset>
+  <fieldset class="pc-furos"><legend>4. Furos dos dedos (mm) <a href="#furos" class="pc-q" aria-label="Sobre o tamanho dos furos">?</a></legend>
+    <p class="pc-mini">Já vem um tamanho testado na prática, na proporção do seu tubo. Pode mudar: o lugar do furo muda junto. Furo 1 é o mais perto do pé.</p>
+    <div id="pc-furos"></div>
+    <button type="button" id="pc-sugerir" class="btn ghost">Voltar aos tamanhos sugeridos</button>
+  </fieldset>
+</form>
+
+<div class="pc-res" aria-live="polite">
+  <h2>Resultado</h2>
+  <div id="pc-alcance"></div><div id="pc-vis" class="pc-vis"></div><div id="pc-desenho" class="pc-desenho"></div>
+  <div id="pc-cartoes" class="pc-cartoes"></div><div class="tw"><table id="pc-tabela"><caption>Posição de cada furo, medida do centro do furo do sopro e da ponta do pé</caption>
+    <thead><tr><th scope="col">Furo</th><th scope="col">Nota</th><th scope="col">Diâmetro</th><th scope="col">Da boca</th><th scope="col">Do pé</th><th scope="col">Até o de baixo</th><th scope="col">Alcance</th></tr></thead><tbody></tbody></table></div>
+  <ul id="pc-resumo" class="plist"></ul>
+  <div id="pc-avisos"></div>
+  <div class="pc-acoes">
+    <button type="button" id="pc-imprimir" class="btn">Imprimir molde em tamanho real</button>
+    <button type="button" id="pc-link" class="btn ghost">Copiar link deste cálculo</button>
+    <span id="pc-copiado" class="pc-mini" hidden>Link copiado.</span>
+  </div>
+</div>
+
+<div class="pc-dig" id="digitacao">
+  <h3>Tabela de digitação</h3>
+  <p class="pc-mini">Para o tom escolhido, nas três oitavas. Toque na imagem para ver grande e imprimir.</p>
+  <a id="pc-dig-link" href="img/tabelas/tabela_G.png" target="_blank" rel="noopener"><img id="pc-dig-img" src="img/tabelas/tabela_G.webp" alt="Tabela de digitação do pife em Sol" loading="lazy"></a>
+</div>
+</div></section>
+
+<section class="blk pc-af" id="afinador"><div class="wrap">
+<h2>Afinador para flauta</h2>
+<p>Use o microfone do celular ou do computador. Nada é gravado. Toque uma nota de cada vez, segurando firme.</p>
+<div class="af-modos" role="radiogroup" aria-label="Modo do afinador">
+  <label><input type="radio" name="af-modo" value="cromatico" checked> Cromático</label>
+  <label><input type="radio" name="af-modo" value="pife"> Afinar este pife</label>
+  <label><input type="radio" name="af-modo" value="oitavas"> Teste de oitavas</label>
+  <label><input type="radio" name="af-modo" value="ref"> Nota de referência</label>
+</div>
+<div class="af-modos" role="radiogroup" aria-label="Sensibilidade do afinador"><span class="pc-mini">Quanto a agulha reage à variação do sopro:</span>
+  <label><input type="radio" name="af-sens" value="estavel"> Calma</label>
+  <label><input type="radio" name="af-sens" value="normal" checked> Normal</label>
+  <label><input type="radio" name="af-sens" value="sensivel"> Detalhada</label>
+</div>
+<p class="pc-mini" style="text-align:center">Calma mostra só a tendência da nota; Detalhada mostra cada tremida do sopro.</p>
+<p><button type="button" id="af-ligar" class="btn">Ligar o afinador</button> <span id="af-erro" class="pc-mini"></span></p>
+<div class="af-visor">
+  <div class="af-nota"><span id="af-nota">—</span><small id="af-nota-sub"></small></div>
+  <div class="af-escala"><span>−50</span><span>0</span><span>+50</span><div class="af-centro"></div><div id="af-agulha" class="af-agulha"></div></div>
+  <div class="af-linha"><b id="af-cents">—</b><span id="af-dica"></span><span id="af-hz"></span></div>
+  <canvas id="af-graf" width="800" height="120" aria-label="Gráfico da afinação nos últimos segundos"></canvas>
+  <p class="pc-mini">O gráfico mostra a afinação nos últimos segundos: linha reta = sopro firme; linha que sobe e desce = sopro instável.</p>
+</div>
+<div id="af-painel-pife" class="af-painel" hidden>
+  <h3>Mapa de afinação deste pife</h3>
+  <p class="pc-mini">Usa o tom escolhido na calculadora. Toque cada nota e segure um pouco: o resultado entra na tabela (cents acima + ou abaixo − do afinado). Assim você vê de uma vez quais notas e quais oitavas precisam de ajuste.</p>
+  <div class="tw"><table id="af-mapa"></table></div>
+  <button type="button" id="af-limpar" class="btn ghost">Limpar o mapa</button>
+</div>
+<div id="af-painel-oitavas" class="af-painel" hidden>
+  <h3>Teste de oitavas (para ajustar a rolha)</h3>
+  <p class="pc-mini">Toque a nota grave com tudo fechado e segure. Depois, com a mesma posição, toque a 2ª oitava. O afinador mostra se a 2ª oitava está alta ou baixa em relação à oitava perfeita e o que fazer com a rolha.</p>
+  <p id="af-oitavas" class="pc-aj-res">Toque a nota grave.</p>
+</div>
+<div id="af-painel-ref" class="af-painel" hidden>
+  <h3>Nota de referência</h3>
+  <p class="pc-mini">Toca um som na nota escolhida, para afinar de ouvido ou conferir o tom.</p>
+  <div class="pc-ajuste-linha"><label>Nota<select id="af-ref-nota"></select></label><button type="button" id="af-ref-tocar" class="btn">Tocar nota de referência</button></div>
+</div>
+</div></section>
+
+<section class="blk"><div class="wrap">
+<div class="pc-ajuste" id="ajuste">
+  <h2>Ajuste fino depois de furar</h2>
+  <p>O objetivo é toda nota marcar <b>0</b> no afinador (afinada). Se uma nota marcou outro número, digite aqui: positivo (+) é nota alta, negativo (−) é nota baixa. A calculadora diz o que fazer no furo.</p>
+  <div class="pc-ajuste-linha">
+    <label>Qual furo<select id="pc-aj-furo"></select></label>
+    <label>Afinador marcou<input id="pc-aj-cents" type="number" step="1" value="0"></label>
+    <button type="button" id="pc-aj-btn" class="btn">Ver correção</button>
+  </div>
+  <p id="pc-aj-res" class="pc-aj-res"></p>
+</div>
+</div></section>
+
+<section class="blk pc-guia"><div class="wrap">
+<h2 id="guia">Guia: do bambu ao pife afinado</h2>
+<p>Este guia vai na ordem em que o pife é feito: entender como ele funciona, escolher e medir o tubo, preparar a cabeça (rolha e furo do sopro), fazer os furos dos dedos e afinar.</p>
+<nav class="pc-indice" aria-label="Partes do guia"><a href="#funciona">1. Como funciona</a><a href="#tubo">2. O tubo certo</a><a href="#medir">3. Como medir</a><a href="#cabeca-guia">4. A cabeça</a><a href="#dedos">5. Os furos dos dedos</a><a href="#passo">6. Passo a passo</a><a href="#referencias">Referências</a></nav>
+
+<h2 id="funciona">1. Como um pife funciona</h2>
+<p>Quando você sopra na borda do furo do sopro, o ar dentro do tubo vibra. Quanto mais comprido o tubo que vibra, mais grave a nota. Os furos dos dedos servem para "encurtar" o tubo: abrindo um furo, o ar vibra só até ali, e a nota sobe. Com os seis furos fechados sai a nota mais grave, o <b>tom</b> do pife (num pife em Sol 4, o Sol de 392 Hz).</p>
+<p>Soprando mais firme, a mesma posição dos dedos dá a mesma nota uma <b>oitava</b> acima (2ª oitava), e mais firme ainda, a 3ª oitava. Um pife bom é aquele em que cada nota fica afinada <b>nas três oitavas ao mesmo tempo</b>. Quase tudo o que vem a seguir (a grossura do tubo, a parede, a rolha, a cabeça cônica, o tamanho e o acabamento dos furos) serve para isso: deixar as oitavas afinadas entre si e o som cheio.</p>
+
+<h2 id="tubo">2. Escolher o tubo certo para cada tom</h2>
+<p>Cada tom pede uma grossura de tubo. Um bambu <b>curto e grosso</b> não fica bom, nem um <b>longo e fino demais</b>: a flauta precisa estar dentro de uma proporção para responder bem. Por isso, antes de cortar, olhe o tubo que você tem nas mãos e escolha o tom que combina com ele. A calculadora mostra, embaixo do diâmetro interno, a medida indicada para cada tom.</p>
+<ul class="pc-lista">
+  <li><b>Tubo mais fino</b> que o indicado favorece os médios e os agudos, e pode até aumentar o alcance de oitavas.</li>
+  <li><b>Tubo mais grosso</b> favorece os graves.</li>
+  <li>Mas existe um limite: fino demais ou grosso demais para o tom, o pife deixa de responder bem nos graves ou nos agudos. O ideal é ficar perto da medida indicada.</li>
+</ul>
+<figure class="pc-fig"><svg viewBox="0 0 720 280" role="img" aria-label="Três tubos: curto e grosso, longo e fino demais, e um na proporção certa."><rect x="40" y="47.0" width="150" height="46" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.5"/><ellipse cx="190" cy="70" rx="8.28" ry="23.0" fill="#c48f2c" stroke="#7a5a1c" stroke-width="1.5"/><ellipse cx="55.0" cy="70" rx="7.36" ry="5.98" fill="#2D4839"/><path d="M107 22 l16 16 M123 22 l-16 16" stroke="#9A3B1F" stroke-width="4" stroke-linecap="round"/><text x="115" y="125" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="normal">curto e grosso</text><text x="115" y="142" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">grave abafado, agudo falha</text><rect x="260" y="64.0" width="420" height="12" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.5"/><ellipse cx="680" cy="70" rx="2.16" ry="6.0" fill="#c48f2c" stroke="#7a5a1c" stroke-width="1.5"/><ellipse cx="302.0" cy="70" rx="1.92" ry="1.56" fill="#2D4839"/><path d="M462 32 l16 16 M478 32 l-16 16" stroke="#9A3B1F" stroke-width="4" stroke-linecap="round"/><text x="470" y="125" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="normal">longo e fino demais</text><text x="470" y="142" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">grave fraco, som magro</text><rect x="40" y="200.0" width="640" height="30" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.5"/><ellipse cx="680" cy="215" rx="5.3999999999999995" ry="15.0" fill="#c48f2c" stroke="#7a5a1c" stroke-width="1.5"/><ellipse cx="104.0" cy="215" rx="4.8" ry="3.9000000000000004" fill="#2D4839"/><circle cx="334.40000000000003" cy="215" r="3.5999999999999996" fill="#2D4839"/><circle cx="382.40000000000003" cy="215" r="3.5999999999999996" fill="#2D4839"/><circle cx="430.4" cy="215" r="3.5999999999999996" fill="#2D4839"/><circle cx="478.40000000000003" cy="215" r="3.5999999999999996" fill="#2D4839"/><circle cx="526.4" cy="215" r="3.5999999999999996" fill="#2D4839"/><circle cx="574.4" cy="215" r="3.5999999999999996" fill="#2D4839"/><path d="M351 180 l6 7 l13 -15" stroke="#2D4839" stroke-width="4" fill="none" stroke-linecap="round"/><text x="360" y="260" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="normal">proporção certa: tubo de uns 18 mm de diâmetro interno para um pife em Sol 4</text></svg></figure>
+<div id="qual-tom" class="pc-qt">
+  <div class="pc-qt-topo">
+    <div><h3>Qual tom fazer com o seu tubo?</h3><p class="pc-mini">Digite o diâmetro interno do bambu ou tubo que você tem.</p></div>
+    <label class="pc-qt-campo"><input id="pc-qt-d" type="number" min="8" max="35" step="0.5" value="18" aria-label="Diâmetro interno em mm"><span>mm</span></label>
+  </div>
+  <div id="pc-qt-res"></div>
+  <details class="pc-qt-det"><summary>Tabela completa: tom e diâmetro interno</summary><div class="tw"><table id="pc-qt-tab"><thead><tr><th scope="col">Tom</th><th scope="col">Diâmetro indicado</th><th scope="col">Ainda funciona bem</th></tr></thead><tbody></tbody></table></div></details>
+</div>
+<h3>Prefira bambu de entrenó longo</h3>
+<figure class="pc-fig"><svg viewBox="0 0 720 214" role="img" aria-label="Dois bambus cortados ao meio no comprimento: um de entrenó longo, liso por dentro; outro com dois nós no meio, com o anel de fora mais grosso e, por dentro, a sobra do diafragma formando um degrau que estreita o tubo."><rect x="30" y="60.0" width="300" height="40" fill="#E9E1CF"/><rect x="30" y="52.0" width="300" height="8" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="30" y="100.0" width="300" height="8" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><path d="M171 26 l6 7 l13 -15" stroke="#2D4839" stroke-width="4" fill="none" stroke-linecap="round"/><text x="180" y="135" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="normal">entrenó longo: por dentro, liso e igual</text><rect x="390" y="60.0" width="300" height="40" fill="#E9E1CF"/><rect x="390" y="52.0" width="300" height="8" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="390" y="100.0" width="300" height="8" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="473" y="48.0" width="14" height="12" rx="3" fill="#b9862a" stroke="#7a5a1c" stroke-width="1.2"/><rect x="473" y="100.0" width="14" height="12" rx="3" fill="#b9862a" stroke="#7a5a1c" stroke-width="1.2"/><path d="M468 60.0 C473 60.0 474 72.8 480 72.8 C486 72.8 487 60.0 492 60.0 Z" fill="#9A3B1F" stroke="#9A3B1F" stroke-width="1"/><path d="M468 100.0 C473 100.0 474 87.2 480 87.2 C486 87.2 487 100.0 492 100.0 Z" fill="#9A3B1F" stroke="#9A3B1F" stroke-width="1"/><line x1="480" y1="72.8" x2="480" y2="87.2" stroke="#9A3B1F" stroke-width="1" stroke-dasharray="2 2"/><rect x="603" y="48.0" width="14" height="12" rx="3" fill="#b9862a" stroke="#7a5a1c" stroke-width="1.2"/><rect x="603" y="100.0" width="14" height="12" rx="3" fill="#b9862a" stroke="#7a5a1c" stroke-width="1.2"/><path d="M598 60.0 C603 60.0 604 72.8 610 72.8 C616 72.8 617 60.0 622 60.0 Z" fill="#9A3B1F" stroke="#9A3B1F" stroke-width="1"/><path d="M598 100.0 C603 100.0 604 87.2 610 87.2 C616 87.2 617 100.0 622 100.0 Z" fill="#9A3B1F" stroke="#9A3B1F" stroke-width="1"/><line x1="610" y1="72.8" x2="610" y2="87.2" stroke="#9A3B1F" stroke-width="1" stroke-dasharray="2 2"/><path d="M532 18 l16 16 M548 18 l-16 16" stroke="#9A3B1F" stroke-width="4" stroke-linecap="round"/><text x="540" y="135" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="normal">nós no meio: por dentro sobra um degrau</text><text x="540" y="152" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">que estreita o tubo; lixe até ficar liso</text><text x="360" y="186" font-size="12" fill="#2D4839" text-anchor="middle" font-weight="normal">Bambu cortado ao meio, no comprimento. No nó, o anel de fora engrossa e, por dentro,</text><text x="360" y="202" font-size="12" fill="#2D4839" text-anchor="middle" font-weight="normal">sobra o resto da parede que fechava o bambu (em vermelho; o tracejado é onde ela ficava).</text></svg></figure>
+
+<p>O melhor é um bambu com <b>entrenó longo</b>, em que a flauta inteira caiba entre dois nós. Cada nó no meio do tubo forma um estreitamento por dentro. Se esse nó não for totalmente lixado e retificado por dentro, até ficar liso e na mesma medida do resto, ele atrapalha o som e a afinação não sai como a calculadora prevê.</p>
+<h3>A parede certa</h3>
+<p>No Sol 4, uma parede de uns <b>4 mm</b> costuma dar ótimo resultado; nos outros tons vale a mesma proporção com o diâmetro interno (a calculadora mostra o valor de cada tom). Parede muito fina dá pouca sustentação ao som; para isso existe o <a href="#porta-labios">porta-lábios</a>.</p>
+<h2 id="medir">3. Como medir o tubo</h2>
+<p>Você precisa de 3 medidas. Um paquímetro simples resolve todas; se não tiver, dá para usar brocas e régua.</p>
+<figure class="pc-fig"><svg viewBox="0 0 640 230" role="img" aria-label="À esquerda, o tubo visto de frente, cortado: o buraco é o diâmetro interno e a borda é a parede. À direita, o tubo visto de lado: a rolha fica acima do furo do sopro, a uma distância igual ao diâmetro interno.">
+  <circle cx="110" cy="115" r="80" fill="#D9A33A" stroke="#7a5a1c" stroke-width="2"/>
+  <circle cx="110" cy="115" r="58" fill="#F6EFE2" stroke="#7a5a1c" stroke-width="2"/>
+  <line x1="52" y1="115" x2="168" y2="115" stroke="#9A3B1F" stroke-width="2.5"/>
+  <polygon points="52,115 62,110 62,120" fill="#9A3B1F"/><polygon points="168,115 158,110 158,120" fill="#9A3B1F"/>
+  <text x="110" y="105" text-anchor="middle" font-size="14" fill="#9A3B1F">diâmetro interno</text>
+  <line x1="168" y1="115" x2="190" y2="115" stroke="#7E2A5E" stroke-width="3"/><line x1="190" y1="107" x2="190" y2="123" stroke="#7E2A5E" stroke-width="2"/>
+  <text x="196" y="120" font-size="14" fill="#7E2A5E">parede</text>
+  <text x="110" y="222" text-anchor="middle" font-size="13" fill="#2D4839">o tubo visto de frente</text>
+  <rect x="270" y="90" width="350" height="50" rx="1" fill="#D9A33A" stroke="#7a5a1c" stroke-width="2"/>
+  <rect x="300" y="92" width="14" height="46" fill="#9A3B1F"/>
+  <ellipse cx="390" cy="90" rx="13" ry="5" fill="#2D4839"/>
+  <line x1="307" y1="60" x2="390" y2="60" stroke="#9A3B1F" stroke-width="2"/><line x1="307" y1="52" x2="307" y2="68" stroke="#9A3B1F" stroke-width="2"/><line x1="390" y1="52" x2="390" y2="68" stroke="#9A3B1F" stroke-width="2"/>
+  <text x="348" y="32" text-anchor="middle" font-size="13" fill="#9A3B1F">distância da rolha ao centro do sopro</text><text x="348" y="48" text-anchor="middle" font-size="12" fill="#9A3B1F">(mesmo número do diâmetro interno)</text>
+  <text x="307" y="165" text-anchor="middle" font-size="13" fill="#9A3B1F">rolha</text>
+  <text x="390" y="165" text-anchor="middle" font-size="13" fill="#2D4839">furo do sopro</text>
+  <text x="560" y="165" text-anchor="middle" font-size="13" fill="#2D4839">furos dos dedos →</text>
+  <text x="445" y="222" text-anchor="middle" font-size="13" fill="#2D4839">o tubo visto de lado</text>
+</svg></figure>
+<ol class="pc-lista">
+  <li><b>Diâmetro interno</b> é a largura do buraco do tubo. Com paquímetro, use as pontas de cima, as que medem por dentro. Sem paquímetro, procure a maior broca que entra justa no tubo: o número dela é o diâmetro. Bambu não é bem redondo, então meça nas duas pontas e use a média.</li>
+  <li><b>Parede</b> é a grossura do tubo. Meça o tubo por fora, tire o diâmetro interno e divida por 2. Exemplo: 26 mm por fora e 18 mm por dentro dá uma parede de 4 mm.</li>
+  <li><b>Porta-lábios</b>: se a flauta tiver, meça a espessura dele (a altura da peça, sem contar o tubo) e marque "Tem porta-lábios". Quanto mais grosso, mais fundo fica o furo do sopro e mais grave a flauta: a calculadora já desconta isso no comprimento.</li>
+  <li><b>Furo do sopro</b>: meça a largura do furo onde você sopra. Ainda não fez esse furo? Comece pequeno: num tubo de 18 mm por dentro, um furo de 10 mm. Num tubo mais fino ou mais grosso, o furo acompanha (tubo de 15 mm, uns 8 mm; tubo de 23 mm, uns 12 mm). Se o furo for oval, escolha "Oval" e digite a largura (atravessando o tubo) e o comprimento (ao longo do tubo): a calculadora faz a conta.</li>
+</ol>
+<p><b>E a rolha?</b> Rolha é a tampa (de cortiça ou madeira) que fecha a cabeça do pife, acima do furo do sopro. Ela não precisa ser medida: a calculadora mostra no resultado onde colocá-la, e a <a href="#rolha">parte 4</a> explica como ajustar.</p>
+
+<h2 id="cabeca-guia">4. A cabeça: rolha, furo do sopro e conicidade</h2>
+<p>A cabeça é a parte acima e em volta do furo do sopro. É ali que se decide boa parte do equilíbrio entre as oitavas.</p>
+<h3 id="rolha">A rolha e o equilíbrio entre as oitavas</h3>
+<figure class="pc-fig"><svg viewBox="0 0 720 262" role="img" aria-label="Três cabeças de pife cortadas, com a rolha colada, na distância certa e longe do sopro, e o efeito na afinação das três oitavas da nota fundamental."><text x="125" y="26" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="600">rolha colada no sopro</text><rect x="20" y="55.0" width="210" height="8" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="20" y="97.0" width="210" height="8" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="20" y="63.0" width="210" height="34" fill="#E9E1CF"/><rect x="110" y="63" width="12" height="34" fill="#9A3B1F"/><rect x="123" y="55" width="14" height="8" fill="#E9E1CF"/><line x1="116" y1="44" x2="130" y2="44" stroke="#9A3B1F" stroke-width="1.5"/><line x1="116" y1="39" x2="116" y2="49" stroke="#9A3B1F" stroke-width="1.5"/><line x1="130" y1="39" x2="130" y2="49" stroke="#9A3B1F" stroke-width="1.5"/><text x="136" y="38" font-size="1" fill="#2D4839" text-anchor="middle" font-weight="normal"></text><text x="130" y="118" font-size="11" fill="#2D4839" text-anchor="middle" font-weight="normal">sopro</text><text x="116" y="132" font-size="11" fill="#9A3B1F" text-anchor="middle" font-weight="normal">rolha</text><text x="83" y="154" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">1ª</text><line x1="90" y1="150" x2="180" y2="150" stroke="#b9ad93" stroke-width="2"/><line x1="135" y1="144" x2="135" y2="156" stroke="#2D4839" stroke-width="2"/><circle cx="135" cy="150" r="6" fill="#2D4839" opacity="0.45"/><text x="83" y="176" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">2ª</text><line x1="90" y1="172" x2="180" y2="172" stroke="#b9ad93" stroke-width="2"/><line x1="135" y1="166" x2="135" y2="178" stroke="#2D4839" stroke-width="2"/><circle cx="153" cy="172" r="6" fill="#9A3B1F"/><text x="83" y="198" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">3ª</text><line x1="90" y1="194" x2="180" y2="194" stroke="#b9ad93" stroke-width="2"/><line x1="135" y1="188" x2="135" y2="200" stroke="#2D4839" stroke-width="2"/><circle cx="169" cy="194" r="6" fill="#9A3B1F"/><text x="125" y="224" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">grave abafado · 2ª alta · 3ª mais alta</text><text x="360" y="26" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="600">rolha na distância certa</text><rect x="255" y="55.0" width="210" height="8" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="255" y="97.0" width="210" height="8" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="255" y="63.0" width="210" height="34" fill="#E9E1CF"/><rect x="327" y="63" width="12" height="34" fill="#9A3B1F"/><rect x="358" y="55" width="14" height="8" fill="#E9E1CF"/><line x1="333" y1="44" x2="365" y2="44" stroke="#9A3B1F" stroke-width="1.5"/><line x1="333" y1="39" x2="333" y2="49" stroke="#9A3B1F" stroke-width="1.5"/><line x1="365" y1="39" x2="365" y2="49" stroke="#9A3B1F" stroke-width="1.5"/><text x="371" y="38" font-size="1" fill="#2D4839" text-anchor="middle" font-weight="normal"></text><text x="365" y="118" font-size="11" fill="#2D4839" text-anchor="middle" font-weight="normal">sopro</text><text x="333" y="132" font-size="11" fill="#9A3B1F" text-anchor="middle" font-weight="normal">rolha</text><text x="318" y="154" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">1ª</text><line x1="325" y1="150" x2="415" y2="150" stroke="#b9ad93" stroke-width="2"/><line x1="370" y1="144" x2="370" y2="156" stroke="#2D4839" stroke-width="2"/><circle cx="370" cy="150" r="6" fill="#2D4839"/><text x="318" y="176" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">2ª</text><line x1="325" y1="172" x2="415" y2="172" stroke="#b9ad93" stroke-width="2"/><line x1="370" y1="166" x2="370" y2="178" stroke="#2D4839" stroke-width="2"/><circle cx="370" cy="172" r="6" fill="#2D4839"/><text x="318" y="198" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">3ª</text><line x1="325" y1="194" x2="415" y2="194" stroke="#b9ad93" stroke-width="2"/><line x1="370" y1="188" x2="370" y2="200" stroke="#2D4839" stroke-width="2"/><circle cx="370" cy="194" r="6" fill="#2D4839"/><text x="360" y="224" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">as três oitavas afinadas</text><text x="595" y="26" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="600">rolha longe do sopro</text><rect x="490" y="55.0" width="210" height="8" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="490" y="97.0" width="210" height="8" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="490" y="63.0" width="210" height="34" fill="#E9E1CF"/><rect x="536" y="63" width="12" height="34" fill="#9A3B1F"/><rect x="593" y="55" width="14" height="8" fill="#E9E1CF"/><line x1="542" y1="44" x2="600" y2="44" stroke="#9A3B1F" stroke-width="1.5"/><line x1="542" y1="39" x2="542" y2="49" stroke="#9A3B1F" stroke-width="1.5"/><line x1="600" y1="39" x2="600" y2="49" stroke="#9A3B1F" stroke-width="1.5"/><text x="606" y="38" font-size="1" fill="#2D4839" text-anchor="middle" font-weight="normal"></text><text x="600" y="118" font-size="11" fill="#2D4839" text-anchor="middle" font-weight="normal">sopro</text><text x="542" y="132" font-size="11" fill="#9A3B1F" text-anchor="middle" font-weight="normal">rolha</text><text x="553" y="154" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">1ª</text><line x1="560" y1="150" x2="650" y2="150" stroke="#b9ad93" stroke-width="2"/><line x1="605" y1="144" x2="605" y2="156" stroke="#2D4839" stroke-width="2"/><circle cx="605" cy="150" r="6" fill="#2D4839"/><text x="553" y="176" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">2ª</text><line x1="560" y1="172" x2="650" y2="172" stroke="#b9ad93" stroke-width="2"/><line x1="605" y1="166" x2="605" y2="178" stroke="#2D4839" stroke-width="2"/><circle cx="587" cy="172" r="6" fill="#9A3B1F"/><text x="553" y="198" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">3ª</text><line x1="560" y1="194" x2="650" y2="194" stroke="#b9ad93" stroke-width="2"/><line x1="605" y1="188" x2="605" y2="200" stroke="#2D4839" stroke-width="2"/><circle cx="571" cy="194" r="6" fill="#9A3B1F"/><text x="595" y="224" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">grave livre · 2ª baixa · 3ª mais baixa</text><text x="360" y="250" font-size="11" fill="#2D4839" text-anchor="middle" font-weight="normal">Bolinha no centro = afinada. Para a direita = alta; para a esquerda = baixa (nota fundamental, tudo fechado).</text></svg></figure>
+
+<p>A rolha (o stopper) parece um detalhe, mas é o <b>primeiro ajuste</b> da afinação entre as oitavas. Ela regula, ao mesmo tempo, o grave e as notas de cima:</p>
+<ul class="pc-lista">
+  <li><b>Rolha mais perto do furo do sopro:</b> a 2ª e a 3ª oitava sobem, mas o grave fica abafado.</li>
+  <li><b>Rolha mais longe:</b> o grave fica livre e cheio, mas a 2ª e a 3ª oitava caem (a nota "subtona" lá em cima).</li>
+</ul>
+<p><b>Um teste clássico:</b> encoste bem a rolha no furo do sopro e toque a nota fundamental (tudo fechado) nas três oitavas. O grave sai abafado, a 2ª oitava sai alta e a 3ª mais alta ainda. Agora vá afastando a rolha aos poucos: o grave vai se soltando e a 2ª e a 3ª oitava vão descendo. O ponto certo é onde as três oitavas da fundamental ficam afinadas entre si, com o grave ainda livre. Comece pela distância que a calculadora indica (cerca de um diâmetro interno) e ajuste a partir dela.</p>
+<figure class="pc-fig"><svg viewBox="0 0 720 280" role="img" aria-label="Duas cabeças de pife cortadas: na cabeça reta a rolha precisa ficar bem perto do sopro e o grave abafa; na cabeça cônica a rolha fica mais longe, as oitavas continuam afinadas e o grave fica livre."><text x="180" y="22" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="600">cabeça reta (cilíndrica)</text><text x="180" y="38" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">para as oitavas baterem, a rolha tem que ir bem perto</text><rect x="30" y="72.0" width="300" height="56" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><polygon points="30.0,80.0 37.5,80.0 45.0,80.0 52.5,80.0 60.0,80.0 67.5,80.0 75.0,80.0 82.5,80.0 90.0,80.0 97.5,80.0 105.0,80.0 112.5,80.0 120.0,80.0 127.5,80.0 135.0,80.0 142.5,80.0 150.0,80.0 157.5,80.0 165.0,80.0 172.5,80.0 180.0,80.0 187.5,80.0 195.0,80.0 202.5,80.0 210.0,80.0 217.5,80.0 225.0,80.0 232.5,80.0 240.0,80.0 247.5,80.0 255.0,80.0 262.5,80.0 270.0,80.0 277.5,80.0 285.0,80.0 292.5,80.0 300.0,80.0 307.5,80.0 315.0,80.0 322.5,80.0 330.0,80.0 330.0,120.0 322.5,120.0 315.0,120.0 307.5,120.0 300.0,120.0 292.5,120.0 285.0,120.0 277.5,120.0 270.0,120.0 262.5,120.0 255.0,120.0 247.5,120.0 240.0,120.0 232.5,120.0 225.0,120.0 217.5,120.0 210.0,120.0 202.5,120.0 195.0,120.0 187.5,120.0 180.0,120.0 172.5,120.0 165.0,120.0 157.5,120.0 150.0,120.0 142.5,120.0 135.0,120.0 127.5,120.0 120.0,120.0 112.5,120.0 105.0,120.0 97.5,120.0 90.0,120.0 82.5,120.0 75.0,120.0 67.5,120.0 60.0,120.0 52.5,120.0 45.0,120.0 37.5,120.0 30.0,120.0" fill="#E9E1CF"/><rect x="91" y="71.0" width="18" height="10" fill="#E9E1CF"/><rect x="68" y="80.0" width="10" height="40" fill="#9A3B1F"/><line x1="78" y1="58.0" x2="100" y2="58.0" stroke="#9A3B1F" stroke-width="1.5"/><line x1="78" y1="53.0" x2="78" y2="63.0" stroke="#9A3B1F" stroke-width="1.5"/><line x1="100" y1="53.0" x2="100" y2="63.0" stroke="#9A3B1F" stroke-width="1.5"/><text x="100" y="144.0" font-size="11" fill="#2D4839" text-anchor="middle" font-weight="normal">sopro</text><text x="73" y="144.0" font-size="11" fill="#9A3B1F" text-anchor="end" font-weight="normal">rolha</text><text x="143" y="172" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">1ª</text><line x1="150" y1="168" x2="240" y2="168" stroke="#b9ad93" stroke-width="2"/><line x1="195" y1="162" x2="195" y2="174" stroke="#2D4839" stroke-width="2"/><circle cx="195" cy="168" r="6" fill="#2D4839" opacity="0.45"/><text x="143" y="194" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">2ª</text><line x1="150" y1="190" x2="240" y2="190" stroke="#b9ad93" stroke-width="2"/><line x1="195" y1="184" x2="195" y2="196" stroke="#2D4839" stroke-width="2"/><circle cx="195" cy="190" r="6" fill="#2D4839"/><text x="143" y="216" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">3ª</text><line x1="150" y1="212" x2="240" y2="212" stroke="#b9ad93" stroke-width="2"/><line x1="195" y1="206" x2="195" y2="218" stroke="#2D4839" stroke-width="2"/><circle cx="195" cy="212" r="6" fill="#2D4839"/><text x="180" y="242" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">grave abafado · 2ª e 3ª afinadas</text><text x="540" y="22" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="600">cabeça cônica</text><text x="540" y="38" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">o cone já sobe a 2ª e a 3ª oitava: a rolha fica mais longe</text><rect x="390" y="72.0" width="300" height="56" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><polygon points="390.0,85.2 397.5,85.2 405.0,85.2 412.5,85.1 420.0,85.0 427.5,84.9 435.0,84.8 442.5,84.7 450.0,84.5 457.5,84.3 465.0,84.1 472.5,83.9 480.0,83.7 487.5,83.4 495.0,83.1 502.5,82.8 510.0,82.4 517.5,82.1 525.0,81.7 532.5,81.3 540.0,80.9 547.5,80.5 555.0,80.0 562.5,80.0 570.0,80.0 577.5,80.0 585.0,80.0 592.5,80.0 600.0,80.0 607.5,80.0 615.0,80.0 622.5,80.0 630.0,80.0 637.5,80.0 645.0,80.0 652.5,80.0 660.0,80.0 667.5,80.0 675.0,80.0 682.5,80.0 690.0,80.0 690.0,120.0 682.5,120.0 675.0,120.0 667.5,120.0 660.0,120.0 652.5,120.0 645.0,120.0 637.5,120.0 630.0,120.0 622.5,120.0 615.0,120.0 607.5,120.0 600.0,120.0 592.5,120.0 585.0,120.0 577.5,120.0 570.0,120.0 562.5,120.0 555.0,120.0 547.5,119.5 540.0,119.1 532.5,118.7 525.0,118.3 517.5,117.9 510.0,117.6 502.5,117.2 495.0,116.9 487.5,116.6 480.0,116.3 472.5,116.1 465.0,115.9 457.5,115.7 450.0,115.5 442.5,115.3 435.0,115.2 427.5,115.1 420.0,115.0 412.5,114.9 405.0,114.8 397.5,114.8 390.0,114.8" fill="#E9E1CF"/><rect x="451" y="71.0" width="18" height="15.2" fill="#E9E1CF"/><rect x="402" y="85.10755555555556" width="10" height="29.784888888888887" fill="#9A3B1F"/><line x1="412" y1="58.0" x2="460" y2="58.0" stroke="#9A3B1F" stroke-width="1.5"/><line x1="412" y1="53.0" x2="412" y2="63.0" stroke="#9A3B1F" stroke-width="1.5"/><line x1="460" y1="53.0" x2="460" y2="63.0" stroke="#9A3B1F" stroke-width="1.5"/><text x="460" y="144.0" font-size="11" fill="#2D4839" text-anchor="middle" font-weight="normal">sopro</text><text x="407" y="144.0" font-size="11" fill="#9A3B1F" text-anchor="end" font-weight="normal">rolha</text><text x="503" y="172" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">1ª</text><line x1="510" y1="168" x2="600" y2="168" stroke="#b9ad93" stroke-width="2"/><line x1="555" y1="162" x2="555" y2="174" stroke="#2D4839" stroke-width="2"/><circle cx="555" cy="168" r="6" fill="#2D4839"/><text x="503" y="194" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">2ª</text><line x1="510" y1="190" x2="600" y2="190" stroke="#b9ad93" stroke-width="2"/><line x1="555" y1="184" x2="555" y2="196" stroke="#2D4839" stroke-width="2"/><circle cx="555" cy="190" r="6" fill="#2D4839"/><text x="503" y="216" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">3ª</text><line x1="510" y1="212" x2="600" y2="212" stroke="#b9ad93" stroke-width="2"/><line x1="555" y1="206" x2="555" y2="218" stroke="#2D4839" stroke-width="2"/><circle cx="555" cy="212" r="6" fill="#2D4839"/><text x="540" y="242" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">grave livre · 2ª e 3ª afinadas</text><text x="360" y="268" font-size="11" fill="#2D4839" text-anchor="middle" font-weight="normal">Bolinha clara no grave = som abafado. Nas duas, as três oitavas da nota fundamental ficam afinadas.</text></svg></figure>
+<p><b>Na cabeça cônica:</b> o cone já empurra a 2ª e a 3ª oitava para cima por natureza. Por isso a rolha não precisa ficar tão colada no sopro para as oitavas baterem: ela fica um pouco mais longe, e isso libera o grave. Numa cabeça reta, para conseguir o mesmo equilíbrio, a rolha tem que chegar mais perto, e o grave abafa. É por isso que a cabeça cônica dá um pife afinado nas três oitavas e com grave cheio ao mesmo tempo.</p>
+<h3>A conicidade natural do bambu</h3>
+<p>Alguns bambus vão estreitando por dentro perto do nó. Essa conicidade, usada do jeito certo, <b>melhora a afinação</b> do pife: ponha a parte que estreita do lado da cabeça. Assim a tônica não fica baixa na 2ª e na 3ª oitava.</p>
+<h3 id="cabeca">Onde fazer o furo do sopro no cone: a cabeça do Boehm</h3>
+<figure class="pc-fig"><svg viewBox="0 0 720 285" role="img" aria-label="Cabeça de flauta cortada no comprimento: o corpo é reto e a cabeça estreita em curva até a rolha; o furo do sopro fica na parte estreitada. Abaixo, a cunha de Fajardo dentro de uma cabeça reta."><rect x="70" y="57.0" width="610" height="76" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.5"/><polygon points="70.0,74.8 80.2,74.8 90.3,74.8 100.5,74.7 110.7,74.6 120.8,74.5 131.0,74.4 141.2,74.2 151.3,74.0 161.5,73.8 171.7,73.6 181.8,73.3 192.0,73.1 202.2,72.8 212.3,72.4 222.5,72.1 232.7,71.7 242.8,71.3 253.0,70.8 263.2,70.4 273.3,69.9 283.5,69.4 293.7,68.9 303.8,68.3 314.0,67.7 324.2,67.1 334.3,67.0 344.5,67.0 354.7,67.0 364.8,67.0 375.0,67.0 385.2,67.0 395.3,67.0 405.5,67.0 415.7,67.0 425.8,67.0 436.0,67.0 446.2,67.0 456.3,67.0 466.5,67.0 476.7,67.0 486.8,67.0 497.0,67.0 507.2,67.0 517.3,67.0 527.5,67.0 537.7,67.0 547.8,67.0 558.0,67.0 568.2,67.0 578.3,67.0 588.5,67.0 598.7,67.0 608.8,67.0 619.0,67.0 629.2,67.0 639.3,67.0 649.5,67.0 659.7,67.0 669.8,67.0 680.0,67.0 680.0,123.0 669.8,123.0 659.7,123.0 649.5,123.0 639.3,123.0 629.2,123.0 619.0,123.0 608.8,123.0 598.7,123.0 588.5,123.0 578.3,123.0 568.2,123.0 558.0,123.0 547.8,123.0 537.7,123.0 527.5,123.0 517.3,123.0 507.2,123.0 497.0,123.0 486.8,123.0 476.7,123.0 466.5,123.0 456.3,123.0 446.2,123.0 436.0,123.0 425.8,123.0 415.7,123.0 405.5,123.0 395.3,123.0 385.2,123.0 375.0,123.0 364.8,123.0 354.7,123.0 344.5,123.0 334.3,123.0 324.2,122.9 314.0,122.3 303.8,121.7 293.7,121.1 283.5,120.6 273.3,120.1 263.2,119.6 253.0,119.2 242.8,118.7 232.7,118.3 222.5,117.9 212.3,117.6 202.2,117.2 192.0,116.9 181.8,116.7 171.7,116.4 161.5,116.2 151.3,116.0 141.2,115.8 131.0,115.6 120.8,115.5 110.7,115.4 100.5,115.3 90.3,115.2 80.2,115.2 70.0,115.2" fill="#E9E1CF"/><line x1="70" y1="67.0" x2="680" y2="67.0" stroke="#2D4839" stroke-dasharray="5 4"/><line x1="70" y1="123.0" x2="680" y2="123.0" stroke="#2D4839" stroke-dasharray="5 4"/><rect x="70" y="74.84" width="10" height="40.32" fill="#9A3B1F"/><rect x="118.6" y="56.0" width="18" height="18.96" fill="#E9E1CF"/><text x="127.6" y="49.0" font-size="12" fill="#2D4839" text-anchor="middle" font-weight="normal">furo do sopro</text><text x="75" y="151.0" font-size="12" fill="#9A3B1F" text-anchor="middle" font-weight="normal">rolha</text><line x1="70" y1="167.0" x2="326.2" y2="167.0" stroke="#7E2A5E" stroke-width="1.5"/><line x1="70" y1="162.0" x2="70" y2="172.0" stroke="#7E2A5E" stroke-width="1.5"/><line x1="326.2" y1="162.0" x2="326.2" y2="172.0" stroke="#7E2A5E" stroke-width="1.5"/><text x="198.1" y="187.0" font-size="12" fill="#7E2A5E" text-anchor="middle" font-weight="normal">cabeça: estreita em curva (parábola), cerca de 1/4 da flauta</text><text x="503.1" y="187.0" font-size="12" fill="#7E2A5E" text-anchor="middle" font-weight="normal">corpo: reto (cilíndrico)</text><text x="190" y="100" font-size="11" fill="#9A3B1F" text-anchor="start" font-weight="normal">na rolha: 10% mais estreito</text><text x="670" y="49.0" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">tracejado = tubo reto, para comparar (estreitamento exagerado no desenho)</text><rect x="430" y="205" width="250" height="44" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="430" y="212" width="250" height="30" fill="#E9E1CF"/><rect x="440" y="212" width="8" height="30" fill="#9A3B1F"/><rect x="468" y="204" width="16" height="9" fill="#E9E1CF"/><polygon points="448,242 448,226 600,242" fill="#7E2A5E"/><text x="476" y="199" font-size="10" text-anchor="middle" fill="#2D4839">sopro</text><text x="444" y="259" font-size="10" text-anchor="middle" fill="#9A3B1F">rolha</text><text x="560" y="259" font-size="10" text-anchor="middle" fill="#7E2A5E">cunha</text><text x="555" y="278" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">cunha de Fajardo: cabeça reta com cunha por dentro</text></svg></figure>
+
+<p>O "melhor ponto" não precisa ser no olho. Theobald Boehm, que criou a flauta moderna, mediu e descreveu a cabeça ideal: o tubo é reto (cilíndrico) no corpo, e na cabeça ele <b>estreita em curva</b> (uma parábola, não um cone reto). O estreitamento começa a <b>1/4 do comprimento</b> da flauta, contando a partir da rolha, e termina na rolha com o diâmetro <b>10% menor</b>. Numa flauta de 19 mm, a rolha fica em uns 17,1 mm. Como a curva é suave no começo e mais forte perto da rolha, o furo do sopro acaba ficando onde o tubo já está com cerca de <b>90 a 91%</b> do diâmetro do corpo.</p>
+<p>Adaptando para o pife: procure no seu bambu o ponto onde o diâmetro interno tem uns 90 a 91% do diâmetro da região dos furos dos dedos (por exemplo, 16,3 mm num tubo de 18 mm), faça ali o centro do furo do sopro, e ponha a rolha a cerca de um diâmetro interno acima. Se marcar "Cabeça cônica" na calculadora, ela leva isso em conta no cálculo e mostra as medidas da cabeça do seu pife no modelo do Boehm.</p>
+<p><b>Parábola e cone reto:</b> na parábola o diâmetro muda pouco no começo e mais perto da rolha; no cone reto muda sempre igual. Boehm achou a parábola melhor para a afinação das oitavas. Fabricar parábola é difícil, por isso muita flauta comercial usa cone reto, que chega perto.</p>
+<p><b>A cunha de Fajardo:</b> Raoul Fajardo inventou um outro caminho: em vez de estreitar o tubo, ele põe uma cunha (uma peça inclinada) dentro de uma cabeça reta, que estreita o espaço por dentro do mesmo jeito. Girando ou empurrando a cunha, dá para afinar as três oitavas entre si. É uma boa ideia para quem usa tubo reto, como PVC ou metal.</p>
+<p>Observação: mesmo com "Cabeça cônica" marcada, os furos dos dedos são calculados para um corpo reto. Num bambu que também afina ao longo do corpo, use a medida da região dos furos e confira no afinador.</p>
+<h3 id="porta-labios">Porta-lábios</h3>
+<figure class="pc-fig"><svg viewBox="0 0 720 195" role="img" aria-label="Corte de um tubo de parede fina no furo do sopro: sem porta-lábios a chaminé é baixa; com porta-lábios ela fica mais funda."><text x="180" y="28" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="600">sem porta-lábios</text><rect x="40" y="79.0" width="280" height="6" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="40" y="135.0" width="280" height="6" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="40" y="85.0" width="280" height="50" fill="#E9E1CF"/><rect x="169" y="78" width="22" height="8" fill="#E9E1CF"/><line x1="256" y1="79" x2="256" y2="85" stroke="#9A3B1F" stroke-width="2"/><line x1="247" y1="79" x2="257" y2="79" stroke="#9A3B1F" stroke-width="2"/><line x1="247" y1="85" x2="257" y2="85" stroke="#9A3B1F" stroke-width="2"/><text x="264" y="86.0" font-size="11" fill="#9A3B1F" text-anchor="start" font-weight="normal">chaminé</text><text x="180" y="165" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">parede fina: pouca sustentação</text><text x="530" y="28" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="600">com porta-lábios</text><rect x="390" y="79.0" width="280" height="6" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="390" y="135.0" width="280" height="6" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.2"/><rect x="390" y="85.0" width="280" height="50" fill="#E9E1CF"/><rect x="519" y="78" width="22" height="8" fill="#E9E1CF"/><rect x="470" y="65" width="49" height="14" fill="#8a4a1e" stroke="#7a5a1c"/><rect x="541" y="65" width="49" height="14" fill="#8a4a1e" stroke="#7a5a1c"/><line x1="606" y1="65" x2="606" y2="85" stroke="#9A3B1F" stroke-width="2"/><line x1="597" y1="65" x2="607" y2="65" stroke="#9A3B1F" stroke-width="2"/><line x1="597" y1="85" x2="607" y2="85" stroke="#9A3B1F" stroke-width="2"/><text x="614" y="79.0" font-size="11" fill="#9A3B1F" text-anchor="start" font-weight="normal">chaminé</text><text x="530" y="165" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">mais funda: mais sustentação,</text><text x="530" y="180" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">oitavas mais equilibradas</text></svg></figure>
+
+<p>Em tubo de parede fina, o porta-lábios "reengrossa" a parede no furo do sopro. Isso dá mais <b>sustentação</b> ao som e, ao mesmo tempo, melhora o equilíbrio entre a 1ª e a 2ª oitava de cada furo dos dedos, principalmente das notas mais perto do bocal, que tendem a ficar baixas (subtonar) na 2ª oitava. Se a sua flauta tiver um, marque "Tem porta-lábios" na calculadora: ele deixa o furo do sopro mais fundo, e a calculadora encurta o tubo para compensar.</p>
+<h2 id="dedos">5. Os furos dos dedos</h2>
+<h3 id="furos">Tamanho dos furos</h3>
+<p>Você pode escolher o tamanho de cada furo: a calculadora muda o lugar dele para a nota continuar afinada. Furo maior fica mais perto do pé e dá som mais forte. Furo menor fica mais perto da boca e deixa os furos mais juntos, bom para mãos pequenas. O 3º furo (contando a partir do pé) faz só meio tom de diferença, por isso costuma ser o menor.</p>
+
+<h3 id="alcance">Alcance: quantas oitavas cada furo dá</h3>
+<p>Cada furo tem um limite de agudo, que depende do tamanho dele e da distância até o furo de baixo (os técnicos chamam de <i>frequência de corte</i>). Furo grande e perto do vizinho deixa as notas agudas saírem fácil; furo pequeno e longe "abafa" a 2ª e a 3ª oitava. A calculadora mostra isso em cores:</p>
+<ul class="pc-lista"><li><b style="color:#2D4839">● Ótimo</b>: 2 oitavas e meia ou mais, agudos fáceis.</li><li><b style="color:#5b7d3a">● Bom</b>: 2 oitavas tranquilas.</li><li><b style="color:#b9861f">● Limitado</b>: a 2ª oitava exige sopro firme. Aumente esse furo.</li><li><b style="color:#9A3B1F">● Fraco</b>: a nota sai abafada. Aumente bem esse furo.</li></ul>
+<p>O alcance do pife é o do pior furo. Aumentar um furo muda a posição dele; a calculadora já recalcula.</p>
+<h3 id="parede">Chaminé e undercut: afinando as oitavas de cada furo</h3>
+<p>O furo não é só um buraco: ele tem uma <b>altura</b>, que é a espessura da parede naquele ponto. Os flauteiros chamam esse "canal" de <b>chaminé</b>. A altura e o formato da chaminé mudam o som e a afinação.</p>
+<figure class="pc-fig"><svg viewBox="0 0 744 288" role="img" aria-label="Três formatos de furo dos dedos, de lado: furo reto em parede grossa, com a 2ª oitava baixa; undercut, que sobe a 2ª oitava; borda de fora chanfrada, que sobe mais a 1ª oitava."><defs><marker id="seta2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2D4839"/></marker></defs><text x="115" y="20" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="600">Furo reto</text><text x="115" y="36" font-size="10" fill="#7E2A5E" text-anchor="middle" font-weight="normal">parede grossa, sem acabamento</text><rect x="40" y="108" width="150" height="56" fill="#E9E1CF"/><text x="115.0" y="152" font-size="11" fill="#7a5a1c" text-anchor="middle" font-weight="normal">dentro do tubo</text><polygon points="40,74 100.0,74 100.0,108 40,108" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.5"/><polygon points="130.0,74 190,74 190,108 130.0,108" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.5"/><path d="M115.0 138 L115.0 62" stroke="#2D4839" stroke-width="2" fill="none" marker-end="url(#seta2)"/><text x="73" y="196" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">1ª</text><line x1="81" y1="192" x2="165" y2="192" stroke="#b9ad93" stroke-width="2"/><line x1="123" y1="186" x2="123" y2="198" stroke="#2D4839" stroke-width="2"/><circle cx="123" cy="192" r="6" fill="#2D4839"/><text x="73" y="218" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">2ª</text><line x1="81" y1="214" x2="165" y2="214" stroke="#b9ad93" stroke-width="2"/><line x1="123" y1="208" x2="123" y2="220" stroke="#2D4839" stroke-width="2"/><circle cx="101" cy="214" r="6" fill="#9A3B1F"/><text x="115" y="250" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">2ª oitava baixa</text><text x="355" y="20" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="600">Undercut</text><text x="355" y="36" font-size="10" fill="#7E2A5E" text-anchor="middle" font-weight="normal">borda de dentro alargada</text><rect x="280" y="108" width="150" height="56" fill="#E9E1CF"/><text x="355.0" y="152" font-size="11" fill="#7a5a1c" text-anchor="middle" font-weight="normal">dentro do tubo</text><polygon points="280,74 340.0,74 327.0,108 280,108" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.5"/><polygon points="370.0,74 430,74 430,108 383.0,108" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.5"/><path d="M355.0 138 L355.0 62" stroke="#2D4839" stroke-width="2" fill="none" marker-end="url(#seta2)"/><text x="313" y="196" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">1ª</text><line x1="321" y1="192" x2="405" y2="192" stroke="#b9ad93" stroke-width="2"/><line x1="363" y1="186" x2="363" y2="198" stroke="#2D4839" stroke-width="2"/><circle cx="367" cy="192" r="6" fill="#2D4839"/><text x="313" y="218" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">2ª</text><line x1="321" y1="214" x2="405" y2="214" stroke="#b9ad93" stroke-width="2"/><line x1="363" y1="208" x2="363" y2="220" stroke="#2D4839" stroke-width="2"/><circle cx="363" cy="214" r="6" fill="#2D4839"/><text x="355" y="250" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">sobe a 2ª oitava</text><text x="595" y="20" font-size="13" fill="#2D4839" text-anchor="middle" font-weight="600">Borda de fora</text><text x="595" y="36" font-size="10" fill="#7E2A5E" text-anchor="middle" font-weight="normal">chanfro ou desgaste por fora</text><rect x="520" y="108" width="150" height="56" fill="#E9E1CF"/><text x="595.0" y="152" font-size="11" fill="#7a5a1c" text-anchor="middle" font-weight="normal">dentro do tubo</text><polygon points="520,74 567.0,74 580.0,88 580.0,108 520,108" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.5"/><polygon points="623.0,74 670,74 670,108 610.0,108 610.0,88" fill="#D9A33A" stroke="#7a5a1c" stroke-width="1.5"/><path d="M595.0 138 L595.0 62" stroke="#2D4839" stroke-width="2" fill="none" marker-end="url(#seta2)"/><text x="553" y="196" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">1ª</text><line x1="561" y1="192" x2="645" y2="192" stroke="#b9ad93" stroke-width="2"/><line x1="603" y1="186" x2="603" y2="198" stroke="#2D4839" stroke-width="2"/><circle cx="617" cy="192" r="6" fill="#9A3B1F"/><text x="553" y="218" font-size="11" fill="#2D4839" text-anchor="end" font-weight="normal">2ª</text><line x1="561" y1="214" x2="645" y2="214" stroke="#b9ad93" stroke-width="2"/><line x1="603" y1="208" x2="603" y2="220" stroke="#2D4839" stroke-width="2"/><circle cx="587" cy="214" r="6" fill="#9A3B1F"/><text x="595" y="250" font-size="11" fill="#7E2A5E" text-anchor="middle" font-weight="normal">sobe mais a 1ª oitava</text><text x="372" y="276" font-size="11" fill="#2D4839" text-anchor="middle" font-weight="normal">Corte de um furo dos dedos, de lado (em cima o lado de fora). Abaixo, a mesma nota na 1ª e na 2ª oitava: bolinha no centro = afinada.</text></svg></figure>
+<ul class="pc-lista">
+  <li><b>Parede grossa e furo reto:</b> o ar faz um caminho um pouco mais longo e encontra mais resistência. A nota fica um pouco mais grave e "segura". Às vezes é isso que se quer, às vezes não. A calculadora já leva a parede em conta: com parede mais grossa, ela sobe os furos.</li>
+  <li><b>Chaminé do furo do sopro:</b> uma boa altura é de 4 a 4,3 mm (4,3 é a medida que o Theobald Boehm recomenda). Chaminé alta demais dificulta passar para a 2ª oitava. Em tubo de parede fina, use <a href="#porta-labios">porta-lábios</a>.</li>
+  <li><b>Por que a 2ª oitava fica baixa:</b> a chaminé funciona como um pedacinho a mais de tubo em cada furo. Esse "pedaço extra" pesa mais nas notas agudas do que nas graves. Por isso, quanto mais grossa a parede, mais alta a chaminé e mais a 2ª oitava daquela nota tende a sair baixa em relação à 1ª.</li>
+  <li><b>Undercut</b> é alargar a borda de <b>dentro</b> do furo, deixando o furo em forma de funil por dentro. Ele encurta esse "pedaço extra" justamente para as notas agudas, e assim <b>sobe a 2ª oitava</b> daquela nota. Regra prática: quanto mais grossa a parede, mais undercut é preciso para a 2ª oitava subir e ficar afinada com a 1ª. É mais necessário em bambu de parede grossa e em flautas pequenas, mas vale usar sempre um pouco. Ele tem limite: o primeiro ajuste das oitavas é a rolha; o undercut vem depois, para o detalhe. Uma micro-retífica com ponta cônica faz bem o serviço.</li>
+  <li><b>Desgaste por fora</b> (chanfrar ou arredondar a borda de <b>fora</b> do furo) tende a subir mais a <b>1ª oitava</b> daquela nota.</li>
+  <li><b>Tamanho dos furos dos dedos:</b> furos de até uns 11 mm, com undercut, dão som cheio. Maiores que isso, quem está começando costuma reclamar; tocadores experientes e de pife gostam de furos mais largos. Furos estreitos ficam entre 7 e 8 mm.</li>
+  <li><b>Qual lado furar:</b> se a parede varia ao redor do tubo, faça os furos no lado em que ela tem cerca de 4 a 4,3 mm. E, se o tubo tiver uma ponta cônica (estreitando por dentro), faça o furo do sopro nessa ponta, de preferência: veja <a href="#cabeca">a cabeça do Boehm</a>.</li>
+</ul>
+<p class="note">A calculadora não calcula o undercut: ele é parte do ajuste fino, depois de furar, conferindo no afinador.</p>
+
+
+<h3>O que mais melhora um pife</h3>
+<p>Não é uma coisa só, é o conjunto das escolhas: tubo na proporção certa, bocal na região cônica, porta-lábios em tubo de parede fina, furos dos dedos de bom tamanho, acabamento no furo do sopro e bambu bem selado por dentro. Cada item ajuda um pouco.</p>
+
+<h2 id="passo">6. Passo a passo para fazer o pife</h2>
+<ol class="pc-lista">
+  <li>Escolha o tubo, meça e preencha a calculadora.</li>
+  <li><b>Primeiro a cabeça:</b> faça o furo do sopro perto de uma ponta e coloque a rolha acima dele, na distância que a calculadora mostra.</li>
+  <li><b>Depois o tom:</b> deixe o tubo uns 2 cm mais comprido do que "da boca ao pé" e vá cortando aos poucos, tocando com tudo aberto no fim do tubo, até a nota fundamental bater no afinador. Cortar sobe a nota; não dá para voltar, então corte pouco de cada vez.</li>
+  <li>Com o tom achado, imprima o molde, confira a régua de 10 cm com uma régua de verdade, cole no tubo e marque os centros dos furos.</li>
+  <li>Fure <b>menor</b> do que o indicado (1 mm a menos basta). Comece pelo furo 1, perto do pé, e vá alargando aos poucos até a nota bater no afinador. Depois o furo 2, e assim por diante.</li>
+  <li>Confira cada nota também na 2ª oitava e use o ajuste fino acima (alargar, undercut, rolha) para equilibrar as oitavas.</li>
+</ol>
+<h3 id="sopro">Quem sopra também afina</h3>
+<p>Cada flautista tem um jeito de soprar. Sopro mais forte tende a subir a afinação; sopro mais fraco, a baixar. O ponto onde o jato de ar bate na borda do furo do sopro, e o quanto o lábio cobre esse furo, também mudam a nota. Uma embocadura treinada tira um som nítido e afinado; quem está começando costuma tocar mais baixo (subtonado) e com som soproso.</p>
+<p>Por isso, a mesma flauta pode soar bem diferente nas mãos de um iniciante e de um flautista experiente. Na hora de afinar, sopre do jeito que você (ou quem vai tocar) sopra normalmente, sem forçar, e afine para esse sopro. Se puder, peça para alguém mais experiente conferir.</p>
+
+
+<h2>Palavras que aparecem aqui</h2>
+<dl class="pc-glossario">
+  <dt>Cents</dt><dd>Medida pequena de afinação: 100 cents são um semitom. O afinador do celular mostra.</dd>
+  <dt>Embocadura</dt><dd>O furo onde se sopra.</dd><dt>Rolha</dt><dd>A tampa que fecha a cabeça do pife, acima do furo do sopro.</dd>
+  <dt>Alcance (frequência de corte)</dt><dd>Indica até onde os agudos saem bem naquele furo. Veja a explicação de alcance acima.</dd>
+  
+</dl>
+<h2 id="referencias">Referências</h2>
+<p>De onde vêm as informações deste guia:</p>
+<ul class="pc-lista">
+  <li><b>Chaminé mais alta abaixa a nota:</b> a altura do furo funciona como o "pescoço" de um ressonador; mais alto, mais ar para mover, nota mais grave. <i>Colunas de ar e orifícios tonais</i> (tradução de guia de construção de flautas); Benade, <i>Fundamentos da Acústica Musical</i>, cap. 21 (correção de comprimento dos furos abertos, espessura efetiva t + 0,75d, a mesma conta desta calculadora).</li>
+  <li><b>Undercut sobe a nota e é usado para reafinar:</b> "escarear por baixo tem efeito semelhante ao alargamento do orifício… permite elevar o tom", e pode afetar outras notas. <i>Colunas de ar e orifícios tonais</i>.</li>
+  <li><b>Undercut mexe nas oitavas de forma diferente:</b> mudar o undercut de um furo "afeta a 1ª e a 2ª oitava" daquela nota. <i>The Hole in the Middle: Transverse Flute</i>.</li>
+  <li><b>Undercut deixa o som mais limpo:</b> diminui os redemoinhos de ar nas bordas vivas do furo e concentra mais energia na nota fundamental. Lasickas et al., <i>J. Acoust. Soc. Am.</i>, 2025 (medição com PIV).</li>
+  <li><b>Os construtores antigos já faziam:</b> nos traversos holandeses dos séculos XVII e XVIII, todos os furos do sopro e quase todos os furos dos dedos são undercut, em graus diferentes. <i>Dutch Traversos</i> (catálogo de medições).</li>
+  <li><b>Chaminé funda e undercut no sopro:</b> chaminé mais funda dá um timbre melhor, e o undercut compensa o furo menor e a chaminé funda. <i>Irish Flute Design Optimization</i>; o bocal moderno usa undercut embaixo e leve chanfro por cima (<i>Flute Headjoints</i>).</li>
+  <li><b>Chaminé de 4,3 mm no sopro:</b> medida de Theobald Boehm.</li>
+  <li><b>A rolha muda a afinação das oitavas de cima:</b> Fletcher, Strong e Silk mediram a mesma cabeça de flauta com a rolha a 15, 17 e 19 mm do centro do sopro e mostraram que essa distância muda a afinação das ressonâncias mais agudas (<i>Acoustical characterization of flute head joints</i>, J. Acoust. Soc. Am. 71, 1982). Na flauta Boehm, a rolha fica a cerca de 17 mm. Em <i>Colunas de ar e orifícios tonais</i>: "a posição da rolha afeta a resposta e a afinação do registro".</li>
+  <li><b>A cabeça estreita corrige as oitavas num corpo reto:</b> Rindel, <i>Flute acoustics</i>, BNAM 2021.</li>
+  <li><b>Cabeça parabólica do Boehm</b> (estreitamento a partir de 1/4 do comprimento, diâmetro 10% menor na rolha, curva de parábola): Boehm, citado em Rindel, <i>Flute acoustics</i>, BNAM 2021; Fletcher et al., 1982.</li>
+  <li><b>Cunha acústica</b>: Raoul J. Fajardo, patente "Junta de cabeça cilíndrica com cunha acústica para flauta de concerto", traduzida no apêndice 4 de <i>Colunas de ar e orifícios tonais</i>.</li>
+  <li><b>Detecção de altura do afinador:</b> método YIN, de Cheveigné e Kawahara, <i>J. Acoust. Soc. Am.</i> 111, 2002.</li>
+  <li><b>Regras práticas</b> (tubo por tom; parede de 4 mm no Sol 4; o teste da rolha; parede grossa pede mais undercut para a 2ª oitava; desgaste por fora sobe mais a 1ª oitava; furos até 11 mm): experiência de Igor Bastos em anos de construção de pífanos e flautas.</li>
+</ul>
+<p>Tabelas de digitação: <a href="tabelas.html">veja aqui</a>.</p>
+<p class="note">Como funciona: motor de cálculo próprio, feito a partir das fórmulas publicadas do método de comprimento efetivo (Flutomat, de Pete Kosel, baseado no trabalho de Hans Bracker e C. J. Nederveen). O resultado é um ponto de partida: cada tubo é um, por isso fure menor e ajuste no afinador.</p>
+</div></section>
+
+<div id="pc-molde" class="pc-molde" aria-hidden="true"></div>
+<script src="assets/pife-calc.js?v=6"></script>
+<script src="assets/pife-ui.js?v=14"></script>
+<script src="assets/pife-afinador.js?v=6"></script>
+</main>
+<footer class="f4"><div class="in"><div><a class="brand" href="index.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="150 125 700 465" class="mz" aria-hidden="true" focusable="false"><defs><clipPath id="mzc"><polygon points="0,580 150,566 240,520 300,450 335,370 352,300 352,222 360,200 380,194 400,190 425,193 450,190 470,198 486,214 503,214 512,170 530,146 560,138 592,142 612,158 622,200 628,262 640,320 668,390 720,460 800,520 900,560 1000,580"/></clipPath></defs><g clip-path="url(#mzc)"><polygon fill="#7E2A5E" points="0,35.0 1000,-35.0 1000,187.0 0,257.0"/><polygon fill="#D9A33A" points="0,257.0 1000,187.0 1000,265.0 0,335.0"/><polygon fill="#9A3B1F" points="0,335.0 1000,265.0 1000,350.0 0,420.0"/><polygon fill="#EAD9B8" points="0,420.0 1000,350.0 1000,447.0 0,517.0"/><polygon fill="#2D4839" points="0,517.0 1000,447.0 1000,665.0 0,735.0"/><line x1="0" y1="257.0" x2="1000" y2="187.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="335.0" x2="1000" y2="265.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="420.0" x2="1000" y2="350.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="517.0" x2="1000" y2="447.0" stroke="#F6EFE2" stroke-width="7"/><line x1="506" y1="120" x2="500" y2="222.0" stroke="#F6EFE2" stroke-width="7"/><rect x="0" y="574" width="1000" height="40" fill="#2D4839"/></g></svg><span><b>Igor Bastos</b><small>luthier</small></span></a><h2 style="margin-top:22px">Encomendas</h2><p>Cada flauta é feita sob encomenda. Escreva no WhatsApp com o modelo e o tom que procura. Se ainda não sabe qual escolher, tire suas dúvidas comigo e eu indico a flauta certa.</p><a class="btn wa" href="https://wa.me/5575982901157?text=Ol%C3%A1%2C%20Igor%21%20Vi%20os%20valores%20no%20site%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">(75) 98290-1157</a></div><div><h3>Flautas</h3><ul><li><a href="pifanos.html">Pífanos</a></li><li><a href="irlandesa.html">Flauta irlandesa</a></li><li><a href="nativas.html">Flautas nativas</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="galeria.html">Galeria</a></li></ul></div><div><h3>Encomendas</h3><ul><li><a href="valores.html">Valores</a></li><li><a href="perguntas.html">Perguntas</a></li><li><a href="monte.html">Monte a sua flauta</a></li><li><a href="tabelas.html">Tabelas de digitação</a></li><li><a href="calculadora.html">Calculadora de pife</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="privacidade.html">Privacidade</a></li></ul></div><div><h3>Contato</h3><ul><li><a href="https://wa.me/5575982901157?text=Ol%C3%A1%2C%20Igor%21%20Vi%20os%20valores%20no%20site%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">WhatsApp (75) 98290-1157</a></li><li><a href="https://instagram.com/igorbastos.luthier" target="_blank" rel="noopener">Instagram @igorbastos.luthier</a></li><li><a href="mailto:igorbastosluthier@gmail.com">igorbastosluthier@gmail.com</a></li></ul></div></div><div class="bot"><span>Igor Bastos · Vale do Capão, Chapada Diamantina, Bahia</span><span>Envio pelos Correios, postado em Palmeiras (BA)</span></div></footer>
+<a class="fab" href="https://wa.me/5575982901157?text=Ol%C3%A1%2C%20Igor%21%20Vi%20os%20valores%20no%20site%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener" aria-label="Conversar no WhatsApp"><span>WhatsApp</span></a>
+<div class="lb" id="lb" role="dialog" aria-modal="true"><button class="x" aria-label="Fechar">×</button><button class="pv" aria-label="Anterior">‹</button><img alt=""><button class="nx" aria-label="Próxima">›</button></div>
+<script>
+(function(){
+  var bg=document.querySelector('.burger');if(bg)bg.onclick=function(){var o=document.body.classList.toggle('nav-open');bg.setAttribute('aria-expanded',o);bg.textContent=o?'Fechar':'Menu'};
+  var fb=document.querySelectorAll('.filtros button');function fl(f){fb.forEach(function(x){x.setAttribute('aria-pressed',x.dataset.f===f)});document.querySelectorAll('.pecas .peca').forEach(function(g){var c=g.dataset.c;g.hidden=!(f==='todas'||c===f||(f==='pifano'&&c.indexOf('pifano')===0))})}
+  fb.forEach(function(b){b.addEventListener('click',function(){fl(b.dataset.f);history.replaceState(null,'','#'+b.dataset.f)})});if(fb.length&&location.hash.length>1)fl(location.hash.slice(1));
+  document.querySelectorAll('.vid .play').forEach(function(b){b.addEventListener('click',function(){var st=b.parentNode,v=document.createElement('video');v.controls=true;v.playsInline=true;v.setAttribute('playsinline','');v.preload='auto';v.poster=b.dataset.poster;v.src=b.dataset.src;st.innerHTML='';st.appendChild(v);v.play().catch(function(){})})});
+  var lb=document.getElementById('lb'),im=lb.querySelector('img'),list=[],i=0;
+  document.querySelectorAll('.gal').forEach(function(g){g.querySelectorAll('img').forEach(function(x){if(!x.alt)x.alt=g.dataset.alt})});
+  function show(){im.src=list[i].href;im.alt=list[i].querySelector('img').alt;var c=lb.querySelector('.lbcap');if(!c){c=document.createElement('p');c.className='lbcap';c.style.cssText='position:absolute;left:0;right:0;bottom:12px;margin:0;padding:0 56px;text-align:center;color:#fff;font-size:15px;text-shadow:0 1px 3px #000';lb.appendChild(c)}var ii=list[i].querySelector('img');c.textContent=ii.dataset.cap||ii.alt}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('.gal .it');if(!a)return;e.preventDefault();
+    list=[].slice.call(a.closest('.gal').querySelectorAll('.it'));i=list.indexOf(a);show();lb.classList.add('on');
+  });
+  function step(d){i=(i+d+list.length)%list.length;show()}
+  lb.querySelector('.x').onclick=function(){lb.classList.remove('on')};
+  lb.querySelector('.pv').onclick=function(e){e.stopPropagation();step(-1)};
+  lb.querySelector('.nx').onclick=function(e){e.stopPropagation();step(1)};
+  lb.onclick=function(e){if(e.target===lb)lb.classList.remove('on')};
+  document.addEventListener('keydown',function(e){if(!lb.classList.contains('on'))return;if(e.key==='Escape')lb.classList.remove('on');if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1)});
+  var sx=0;lb.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});
+  lb.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)step(dx<0?1:-1)});
+})();
+</script>
+<script>(function(){if(!window.__af)return;var a=document.getElementById("afinador"),m=document.getElementById("conteudo");if(a&&m){m.insertBefore(a,m.firstChild);document.title="Afinador para flauta | Igor Bastos Luthier";}function go(){window.scrollTo(0,0)}go();window.addEventListener("load",function(){setTimeout(go,50)})})();</script>
+</body>
+</html>
