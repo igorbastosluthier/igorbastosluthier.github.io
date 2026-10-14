@@ -191,9 +191,9 @@
   }
 
   function painelVis() {
-    var nomes = { tubo: "Diâmetro e parede do tubo", notas: "Notas", numeros: "Número dos furos", espacos: "Distância entre furos", boca: "Distância de cada furo até a boca",
-      total: "Comprimento", rolha: "Rolha (stopper)", diametros: "Diâmetro dos furos" };
-    $("pc-vis").innerHTML = '<span class="pc-mini">Mostrar no desenho:</span>' + Object.keys(nomes).map(function (k) {
+    var nomes = { notas: "Notas", numeros: "Nº dos furos", diametros: "Ø dos furos", espacos: "Entre furos",
+      boca: "Até a boca", total: "Comprimento", rolha: "Rolha", tubo: "Tubo e parede" };
+    $("pc-vis").innerHTML = '<span class="pc-mini pc-vis-t">Mostrar no desenho:</span>' + Object.keys(nomes).map(function (k) {
       return '<label><input type="checkbox" data-vis="' + k + '"' + (VIS[k] ? " checked" : "") + '> ' + nomes[k] + '</label>';
     }).join("");
   }
