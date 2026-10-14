@@ -136,16 +136,27 @@
     return s + (txt ? '<text x="' + (x + 7) + '" y="' + ((ya + yb) / 2 + 5) + '" font-size="13" fill="' + cor + '">' + txt + '</text>' : "");
   }
 
+  /* cota vertical com o texto girado ao longo da linha (como no desenho deitado do PC) */
+  function cotaVR(x, ya, yb, txt, cor) {
+    cor = cor || "#7E2A5E";
+    var m = (ya + yb) / 2;
+    var s = '<g stroke="' + cor + '" stroke-width="1.3"><line x1="' + x + '" y1="' + ya + '" x2="' + x + '" y2="' + yb + '"/>' +
+      '<line x1="' + (x - 4) + '" y1="' + ya + '" x2="' + (x + 4) + '" y2="' + ya + '"/><line x1="' + (x - 4) + '" y1="' + yb + '" x2="' + (x + 4) + '" y2="' + yb + '"/></g>';
+    return s + (txt ? '<text x="' + (x - 3) + '" y="' + m + '" font-size="11" fill="' + cor + '" text-anchor="middle" transform="rotate(-90 ' + (x - 3) + ' ' + m + ')">' + txt + '</text>' : "");
+  }
+
+  /* Celular: o mesmo desenho do PC, em pé. Da esquerda para a direita: rótulos, tubo, espaços entre furos,
+     uma linha da boca até cada furo, rolha, boca ao pé e tubo inteiro. */
   function desenhoVertical(r, e) {
-    /* colunas fixas, alocadas conforme o que está ligado: [rótulos] [tubo] [espaços] [da boca] [comprimento] */
-    var total = r.rolha + 25 + r.bocaAoPe, H = 900, y0 = 24, esc = (H - 60) / total;
+    var total = r.rolha + 25 + r.bocaAoPe, H = 860, y0 = 30, esc = (H - 60) / total;
     var ext = e.D + 2 * e.parede, w = ext * esc;
-    var esq = 8 + (VIS.numeros || VIS.notas || VIS.diametros || VIS.rolha ? (VIS.diametros ? 150 : 104) : 50);
-    var x1 = esq, cx = x1 + w / 2, col = x1 + w + 14;
-    var colEsp = col; if (VIS.espacos) col += 62;
-    var colBoca = col; if (VIS.boca) col += 92;
-    var colTot = col; if (VIS.total) col += 60;
-    var W = Math.max(col + 6, x1 + w + 20, 220);
+    var esq = 6 + (VIS.notas || VIS.numeros ? 52 : 34) + (VIS.diametros ? 0 : 0);
+    var x1 = esq, cx = x1 + w / 2, col = x1 + w + 16;
+    var colEsp = col; if (VIS.espacos) col += 18;
+    var colBoca = col; if (VIS.boca) col += 6 * 16;
+    var colTot = col; if (VIS.total) col += 2 * 16;
+    var colRol = col; if (VIS.rolha) col += 64;
+    var W = Math.max(col + 8, x1 + w + 20);
     var boca = y0 + (r.rolha + 25) * esc, pe = boca + r.bocaAoPe * esc, s = "";
     s += '<rect x="' + x1 + '" y="' + y0 + '" width="' + w + '" height="' + (pe - y0) + '" rx="2" fill="#D9A33A" stroke="#7a5a1c" stroke-width="2"/>';
     if (VIS.tubo) s += '<rect x="' + (cx - e.D * esc / 2) + '" y="' + y0 + '" width="' + (e.D * esc) + '" height="' + (pe - y0) + '" fill="#f0c56a"/>';
@@ -153,28 +164,31 @@
     s += '<line x1="' + x1 + '" y1="' + yr + '" x2="' + (x1 + w) + '" y2="' + yr + '" stroke="#9A3B1F" stroke-width="3" stroke-dasharray="4 3"/>';
     var eC = e.embForma === "oval" ? e.embC : e.emb, eL = e.embForma === "oval" ? e.embL : e.emb;
     s += '<ellipse cx="' + cx + '" cy="' + boca + '" rx="' + (eL * esc / 2) + '" ry="' + (eC * esc / 2) + '" fill="#2D4839"/>';
-    var tx = function (y, t, cor, tam) { return '<text x="' + (x1 - 8) + '" y="' + (y + 5) + '" text-anchor="end" font-size="' + (tam || 14) + '" fill="' + (cor || "#2D4839") + '">' + t + '</text>'; };
-    s += tx(boca, "sopro");
-    if (VIS.rolha) s += tx(yr - 4, "rolha " + mm(r.rolha), "#9A3B1F", 13);
+    var tx = function (y, t, cor, tam) { return '<text x="' + (x1 - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="' + (tam || 12) + '" fill="' + (cor || "#2D4839") + '">' + t + '</text>'; };
+    s += tx(boca, "sopro", null, 11);
     var ant = pe;
-    r.furos.forEach(function (f) {
+    r.furos.forEach(function (f, k) {
       var y = boca + f.daBoca * esc;
       s += '<circle cx="' + cx + '" cy="' + y + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"/>';
-      var rot = [VIS.numeros ? (f.indice + 1) + "º" : "", VIS.notas ? f.nota : "", VIS.diametros ? "Ø" + mm(f.diametro) : ""].filter(Boolean).join(" · ");
-      if (rot) s += tx(y, rot);
-      if (VIS.espacos) s += cotaV(colEsp, ant, y, mm(f.espaco));
-      if (VIS.boca) s += '<line x1="' + (x1 + w) + '" y1="' + y + '" x2="' + (colBoca - 4) + '" y2="' + y + '" stroke="#b9ad93" stroke-dasharray="2 3"/><text x="' + colBoca + '" y="' + (y + 4) + '" font-size="12" fill="#2D4839">' + mm(f.daBoca) + ' da boca</text>';
+      var l1 = [VIS.numeros ? (f.indice + 1) + "º" : "", VIS.notas ? f.nota : ""].filter(Boolean).join(" ");
+      if (l1) s += tx(y - (VIS.diametros ? 4 : 0), l1);
+      if (VIS.diametros) s += tx(y + (l1 ? 9 : 0), "Ø" + mm(f.diametro), "#7a5a1c", 10);
+      if (VIS.espacos) s += cotaVR(colEsp, ant, y, mm(f.espaco));
+      if (VIS.boca) s += cotaVR(colBoca + (5 - k) * 16, boca, y, f.nota + ": " + mm(f.daBoca), "#2D4839");
       ant = y;
     });
-    if (VIS.espacos) s += cotaV(colEsp, ant, boca, mm(r.furos[5].daBoca));
-    if (VIS.total) s += cotaV(colTot, pe, boca, mm(r.bocaAoPe), "#9A3B1F");
-    s += tx(pe - 6, "pé", "#2D4839", 13);
-    var bas = pe + 24, mid = W / 2, extra = "";
-    if (VIS.total) extra += '<text x="' + mid + '" y="' + bas + '" text-anchor="middle" font-size="14" fill="#9A3B1F">da boca ao pé: ' + mm(r.bocaAoPe) + ' mm</text>';
-    if (VIS.tubo) { var yt = bas + (VIS.total ? 20 : 0);
-      extra += '<text x="' + mid + '" y="' + yt + '" text-anchor="middle" font-size="12" fill="#7a5a1c">Ø interno ' + mm(e.D) + ' · parede ' + mm(e.parede) + '</text>';
-      extra += '<text x="' + mid + '" y="' + (yt + 17) + '" text-anchor="middle" font-size="12" fill="#7a5a1c">Ø externo ' + mm(ext) + '</text>'; bas += 17; }
-    return '<svg class="pc-vert" viewBox="0 0 ' + W + ' ' + (bas + 36) + '" role="img" aria-label="Desenho do pífano em pé, com os furos e as medidas">' + s + extra + '</svg>';
+    if (VIS.espacos) s += cotaVR(colEsp, ant, boca, mm(r.furos[5].daBoca));
+    var xt = colTot;
+    if (VIS.rolha) s += cotaVR(colRol, yr, boca, "", "#9A3B1F") + '<text x="' + (colRol + 7) + '" y="' + ((yr + boca) / 2 + 4) + '" font-size="11" fill="#9A3B1F">rolha ' + mm(r.rolha) + '</text>';
+    if (VIS.total) { s += cotaVR(xt, boca, pe, "boca ao pé: " + mm(r.bocaAoPe), "#9A3B1F"); s += cotaVR(xt + 16, y0, pe, "tubo inteiro: " + mm(r.bocaAoPe + r.rolha + 25), "#7a5a1c"); }
+    s += tx(pe - 4, "pé", null, 11);
+    W = Math.max(W, 120); var bas = pe + 22, mid = W / 2, extra = "";
+    if (VIS.tubo) {
+      ["Ø interno " + mm(e.D), "parede " + mm(e.parede), "Ø externo " + mm(ext)].forEach(function (t, k) {
+        extra += '<text x="' + mid + '" y="' + (bas + k * 15) + '" text-anchor="middle" font-size="11" fill="#7a5a1c">' + t + '</text>';
+      }); bas += 30;
+    }
+    return '<svg class="pc-vert" viewBox="0 0 ' + W + ' ' + (bas + 18) + '" role="img" aria-label="Desenho do pífano em pé, com os furos e as medidas">' + s + extra + '</svg>';
   }
 
   function painelVis() {
