@@ -150,12 +150,11 @@
   function desenhoVertical(r, e) {
     var total = r.rolha + 25 + r.bocaAoPe, H = 860, y0 = 30, esc = (H - 60) / total;
     var ext = e.D + 2 * e.parede, w = ext * esc;
-    var esq = 6 + (VIS.notas || VIS.numeros ? 52 : 34) + (VIS.diametros ? 0 : 0);
+    var esq = 6 + Math.max(VIS.notas || VIS.numeros ? 52 : 34, VIS.rolha ? 62 : 0);
     var x1 = esq, cx = x1 + w / 2, col = x1 + w + 16;
     var colEsp = col; if (VIS.espacos) col += 18;
     var colBoca = col; if (VIS.boca) col += 6 * 16;
     var colTot = col; if (VIS.total) col += 2 * 16;
-    var colRol = col; if (VIS.rolha) col += 64;
     var W = Math.max(col + 8, x1 + w + 20);
     var boca = y0 + (r.rolha + 25) * esc, pe = boca + r.bocaAoPe * esc, s = "";
     s += '<rect x="' + x1 + '" y="' + y0 + '" width="' + w + '" height="' + (pe - y0) + '" rx="2" fill="#D9A33A" stroke="#7a5a1c" stroke-width="2"/>';
@@ -165,7 +164,7 @@
     var eC = e.embForma === "oval" ? e.embC : e.emb, eL = e.embForma === "oval" ? e.embL : e.emb;
     s += '<ellipse cx="' + cx + '" cy="' + boca + '" rx="' + (eL * esc / 2) + '" ry="' + (eC * esc / 2) + '" fill="#2D4839"/>';
     var tx = function (y, t, cor, tam) { return '<text x="' + (x1 - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="' + (tam || 12) + '" fill="' + (cor || "#2D4839") + '">' + t + '</text>'; };
-    s += tx(boca, "sopro", null, 11);
+    s += '<text x="' + (x1 - 12) + '" y="' + (boca + 4) + '" text-anchor="end" font-size="11" fill="#2D4839">sopro</text>';
     var ant = pe;
     r.furos.forEach(function (f, k) {
       var y = boca + f.daBoca * esc;
@@ -179,7 +178,7 @@
     });
     if (VIS.espacos) s += cotaVR(colEsp, ant, boca, mm(r.furos[5].daBoca));
     var xt = colTot;
-    if (VIS.rolha) s += cotaVR(colRol, yr, boca, "", "#9A3B1F") + '<text x="' + (colRol + 7) + '" y="' + ((yr + boca) / 2 + 4) + '" font-size="11" fill="#9A3B1F">rolha ' + mm(r.rolha) + '</text>';
+    if (VIS.rolha) s += cotaVR(x1 - 6, yr, boca, "", "#9A3B1F") + '<text x="' + (x1 - 12) + '" y="' + (yr + 3) + '" text-anchor="end" font-size="11" fill="#9A3B1F">rolha ' + mm(r.rolha) + '</text>';
     if (VIS.total) { s += cotaVR(xt, boca, pe, "boca ao pé: " + mm(r.bocaAoPe), "#9A3B1F"); s += cotaVR(xt + 16, y0, pe, "tubo inteiro: " + mm(r.bocaAoPe + r.rolha + 25), "#7a5a1c"); }
     s += tx(pe - 4, "pé", null, 11);
     W = Math.max(W, 120); var bas = pe + 22, mid = W / 2, extra = "";
