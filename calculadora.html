@@ -52,7 +52,17 @@
 .af-linha{display:flex;gap:16px;flex-wrap:wrap;align-items:baseline}.af-linha b{font-size:1.3em}
 #af-graf{width:100%;height:auto;display:block;margin-top:10px;background:#faf6ee;border-radius:8px}
 .af-painel{margin-top:16px}#af-mapa{width:100%}#af-mapa td,#af-mapa th{white-space:nowrap;padding:6px 10px;text-align:left}
-.pc-dig{margin-top:28px}.pc-dig img{width:100%;max-width:260px;height:auto;display:block;border:1px solid rgba(45,72,57,.2);border-radius:10px;background:#fff}@media (min-width:860px){.pc-grid{grid-template-columns:repeat(3,1fr)}}.pc-molde{display:none}[hidden]{display:none!important}#pc-tabela{width:100%}
+.pc-dig{margin-top:28px}.pc-dig img{width:100%;max-width:260px;height:auto;display:block;border:1px solid rgba(45,72,57,.2);border-radius:10px;background:#fff}@media (min-width:860px){.pc-grid{grid-template-columns:repeat(3,1fr)}}@media (max-width:640px){
+ .pc-desenho svg.pc-vert{min-width:0;width:100%;max-width:360px;margin:6px auto 16px}
+ .pc-grid fieldset{padding:10px 12px}.pc-grid label{margin:8px 0}
+ .pc-furos #pc-furos{grid-template-columns:repeat(3,1fr)}
+ #pc-tabela{font-size:.86em}#pc-tabela th,#pc-tabela td{padding:6px 4px}
+ .pc-vis{gap:4px 10px}.pc-vis label{font-size:.85em}
+ .af-nota span{font-size:2em}.pc-lista li{margin:8px 0}
+ .pc-qt{padding:14px}.pc-qt-topo{flex-direction:column;align-items:flex-start}
+ .pc-fig svg{min-width:0}
+}
+.pc-molde{display:none}[hidden]{display:none!important}#pc-tabela{width:100%}
 @media print{
   body>*:not(main),main>*:not(#pc-molde){display:none!important}
   .pc-molde{display:block!important}.pc-pag{page-break-after:always;break-after:page}

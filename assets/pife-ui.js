@@ -127,6 +127,37 @@
     return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Desenho do pífano com os furos e as medidas">' + s + '</svg>';
   }
 
+  /* Celular: a flauta desenhada em pé (escala real), notas e furos à esquerda, medidas à direita */
+  function desenhoVertical(r, e) {
+    var H = 900, y0 = 20, total = r.rolha + 25 + r.bocaAoPe, esc = (H - 60) / total;
+    var ext = e.D + 2 * e.parede, w = ext * esc, cx = 150, x1 = cx - w / 2;
+    var boca = y0 + (r.rolha + 25) * esc, pe = boca + r.bocaAoPe * esc, s = "";
+    s += '<rect x="' + x1 + '" y="' + y0 + '" width="' + w + '" height="' + (pe - y0) + '" rx="2" fill="#D9A33A" stroke="#7a5a1c" stroke-width="2"/>';
+    if (VIS.tubo) s += '<rect x="' + (cx - e.D * esc / 2) + '" y="' + y0 + '" width="' + (e.D * esc) + '" height="' + (pe - y0) + '" fill="#f0c56a"/>';
+    var yr = boca - r.rolha * esc;
+    s += '<line x1="' + x1 + '" y1="' + yr + '" x2="' + (x1 + w) + '" y2="' + yr + '" stroke="#9A3B1F" stroke-width="3" stroke-dasharray="4 3"/>';
+    var eC = e.embForma === "oval" ? e.embC : e.emb, eL = e.embForma === "oval" ? e.embL : e.emb;
+    s += '<ellipse cx="' + cx + '" cy="' + boca + '" rx="' + (eL * esc / 2) + '" ry="' + (eC * esc / 2) + '" fill="#2D4839"/>';
+    s += '<text x="' + (x1 - 10) + '" y="' + (boca + 5) + '" text-anchor="end" font-size="15" fill="#2D4839">sopro</text>';
+    if (VIS.rolha) s += '<text x="' + (x1 - 10) + '" y="' + (yr + 5) + '" text-anchor="end" font-size="14" fill="#9A3B1F">rolha ' + mm(r.rolha) + '</text>';
+    var ant = pe;
+    r.furos.forEach(function (f) {
+      var y = boca + f.daBoca * esc;
+      s += '<circle cx="' + cx + '" cy="' + y + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"/>';
+      var rot = (VIS.numeros ? (f.indice + 1) + "º " : "") + (VIS.notas ? f.nota : "") + (VIS.diametros ? " · Ø" + mm(f.diametro) : "");
+      if (rot) s += '<text x="' + (x1 - 10) + '" y="' + (y + 5) + '" text-anchor="end" font-size="15" fill="#2D4839">' + rot + '</text>';
+      if (VIS.espacos) s += '<text x="' + (x1 + w + 12) + '" y="' + ((y + ant) / 2 + 5) + '" font-size="14" fill="#7E2A5E">↕ ' + mm(f.espaco) + '</text>';
+      if (VIS.boca) s += '<text x="' + (x1 + w + 12) + '" y="' + (y + 5) + '" font-size="13" fill="#2D4839">' + mm(f.daBoca) + ' da boca</text>';
+      ant = y;
+    });
+    if (VIS.espacos) s += '<text x="' + (x1 + w + 12) + '" y="' + ((boca + ant) / 2 + 5) + '" font-size="14" fill="#7E2A5E">↕ ' + mm(r.furos[5].daBoca) + '</text>';
+    s += '<text x="' + (x1 - 10) + '" y="' + (pe - 4) + '" text-anchor="end" font-size="14" fill="#2D4839">pé</text>';
+    var bas = pe + 26;
+    if (VIS.total) s += '<text x="150" y="' + bas + '" text-anchor="middle" font-size="15" fill="#9A3B1F">da boca ao pé: ' + mm(r.bocaAoPe) + ' mm</text>';
+    if (VIS.tubo) s += '<text x="150" y="' + (bas + 22) + '" text-anchor="middle" font-size="13" fill="#7a5a1c">Ø interno ' + mm(e.D) + ' · parede ' + mm(e.parede) + ' · Ø externo ' + mm(ext) + '</text>';
+    return '<svg class="pc-vert" viewBox="0 0 330 ' + (bas + 40) + '" role="img" aria-label="Desenho do pífano em pé, com os furos e as medidas">' + s + '</svg>';
+  }
+
   function painelVis() {
     var nomes = { tubo: "Diâmetro e parede do tubo", notas: "Notas", numeros: "Número dos furos", espacos: "Distância entre furos", boca: "Distância de cada furo até a boca",
       total: "Comprimento", rolha: "Rolha (stopper)", diametros: "Diâmetro dos furos" };
@@ -207,7 +238,7 @@
     entradasFuro.forEach(function (inp, k) {
       inp.previousElementSibling.textContent = (k + 1) + "º · " + r.furos[k].nota;
     });
-    $("pc-desenho").innerHTML = desenho(r, e);
+    $("pc-desenho").innerHTML = (window.matchMedia && window.matchMedia("(max-width: 640px)").matches) ? desenhoVertical(r, e) : desenho(r, e);
     $("pc-tabela").querySelector("tbody").innerHTML = r.furos.map(function (f) {
       return "<tr><th scope=\"row\">" + (f.indice + 1) + "º</th><td>" + f.nota + "</td><td>" + mm(f.diametro) + " mm</td><td><b>" + mm(f.daBoca) + " mm</b></td><td>" + mm(f.doPe) + " mm</td><td>" + mm(f.espaco) + " mm</td><td>" + selo(f.razaoCorte) + "</td></tr>";
     }).join("");
@@ -280,5 +311,6 @@
   }).join("");
   $("pc-qt-d").addEventListener("input", qualTom);
   qualTom();
+  if (window.matchMedia) { var mq = window.matchMedia("(max-width: 640px)"); (mq.addEventListener ? mq.addEventListener("change", atualizar) : mq.addListener(atualizar)); }
   atualizar();
 })();
