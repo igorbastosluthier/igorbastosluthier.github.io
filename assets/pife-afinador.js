@@ -16,6 +16,69 @@
   var SENS = PRESETS.normal;
   var modo = "cromatico", historico = [], suave = null, mapa = {}, oitavas = { a: null, b: null };
 
+  /* limiar de ruído ajustável (como o AP Tuner): sons mais fracos que a marca são ignorados */
+  var limiarDb = -40;
+  function limiarRms() { return Math.pow(10, limiarDb / 20); }
+  function nivel(rms) {
+    var db = 20 * Math.log10(rms || 1e-9), pct = function (v) { return Math.max(0, Math.min(100, (v + 70) / 55 * 100)); };
+    var el = $("af-nivel"); if (el) { el.style.width = pct(db) + "%"; el.style.background = db < limiarDb ? "#b9ad93" : "#2D4839"; }
+  }
+  function marcarLimiar() { var m = $("af-limiar-marca"); if (m) m.style.left = Math.max(0, Math.min(100, (limiarDb + 70) / 55 * 100)) + "%"; }
+
+  /* Harmônicos: força de cada harmônico (1 a 8) em relação à fundamental, medida por DFT com janela de Hann
+     exatamente nas frequências k·f0 (busca fina de ±40 cents, porque a fundamental medida tem pequeno erro). */
+  var harm = null, harmRef = null, hann = null;
+  function forcaEm(x, sr, f) {
+    var w = 2 * Math.PI * f / sr, re = 0, im = 0;
+    for (var n = 0; n < x.length; n++) { var v = x[n] * hann[n]; re += v * Math.cos(w * n); im -= v * Math.sin(w * n); }
+    return Math.sqrt(re * re + im * im);
+  }
+  function harmonicos(x, sr, f0) {
+    if (!hann || hann.length !== x.length) { hann = new Float32Array(x.length); for (var n = 0; n < x.length; n++) hann[n] = 0.5 - 0.5 * Math.cos(2 * Math.PI * n / (x.length - 1)); }
+    var res = [];
+    for (var k = 1; k <= 8; k++) {
+      if (k * f0 > sr / 2 - 200) break;
+      var melhor = 0;
+      for (var c = -40; c <= 40; c += 10) melhor = Math.max(melhor, forcaEm(x, sr, k * f0 * Math.pow(2, c / 1200)));
+      res.push(melhor);
+    }
+    var base = res[0] || 1e-9;
+    return res.map(function (a) { return 20 * Math.log10((a || 1e-9) / base); });
+  }
+  function desenharHarm() {
+    var cv = $("af-harm"); if (!cv) return;
+    var estreito = cv.clientWidth > 0 && cv.clientWidth < 560;
+    if (cv.width !== (estreito ? 420 : 800)) { cv.width = estreito ? 420 : 800; cv.height = estreito ? 260 : 220; }
+    var g = cv.getContext("2d"), w = cv.width, h = cv.height, topo = 22, base = h - 26, n = 8, esq = 64, larg = (w - esq) / n;
+    g.clearRect(0, 0, w, h);
+    g.font = "15px system-ui, sans-serif"; g.textAlign = "center";
+    [0, -20, -40, -60].forEach(function (db) {
+      var y = topo + (-db / 60) * (base - topo);
+      g.strokeStyle = "#e3dac6"; g.lineWidth = 1; g.beginPath(); g.moveTo(esq, y); g.lineTo(w, y); g.stroke();
+      g.fillStyle = "#8a7f6a"; g.textAlign = "right"; g.fillText(String(db).replace("-", "−") + " dB", esq - 8, y + 5); g.textAlign = "center";
+    });
+    for (var k = 0; k < n; k++) {
+      var cx = esq + larg * k + larg / 2;
+      [[harmRef, "rgba(126,42,94,.28)", -larg * 0.16], [harm, "#7E2A5E", larg * 0.16]].forEach(function (p) {
+        if (!p[0] || p[0][k] == null) return;
+        var db = Math.max(-60, Math.min(0, p[0][k])), y = topo + (-db / 60) * (base - topo);
+        g.fillStyle = p[1]; g.fillRect(cx + p[2] - larg * 0.14, y, larg * 0.28, base - y);
+      });
+      g.fillStyle = "#3b3226"; g.fillText(String(k + 1), cx, h - 8);
+    }
+  }
+  function fmtDb(v) { var r = Math.round(v); return (r < 0 ? "−" : "") + Math.abs(r); }
+  function textoHarm() {
+    if (!harm) return;
+    var h2 = harm[1], h3 = harm[2], t = "2º harmônico " + (h2 == null ? "—" : fmtDb(h2) + " dB") + ", 3º " + (h3 == null ? "—" : fmtDb(h3) + " dB") + " em relação à fundamental. ";
+    t += h2 == null ? "" : h2 > -12 ? "Som cheio e brilhante." : h2 > -25 ? "Som equilibrado." : "Som doce ou soproso (harmônicos fracos).";
+    if (harmRef && harmRef[1] != null && h2 != null) {
+      var d = h2 - harmRef[1];
+      t += " Comparado ao som guardado: 2º harmônico " + (Math.round(d) > 0 ? "+" : "") + fmtDb(d) + " dB" + (Math.round(d) === 0 ? " (igual)." : ".");
+    }
+    $("af-harm-res").textContent = t;
+  }
+
   function la() { return parseFloat(($("pc-la") || {}).value) || 440; }
   function midiDeFreq(f) { return 69 + 12 * Math.log2(f / la()); }
   function freqDeMidi(m) { return la() * Math.pow(2, (m - 69) / 12); }
@@ -28,7 +91,8 @@
     var rms = 0;
     for (var i = 0; i < x.length; i++) rms += x[i] * x[i];
     rms = Math.sqrt(rms / x.length);
-    if (rms < SENS.rms) return null;
+    nivel(rms);
+    if (rms < limiarRms()) return null;
     for (var tau = 1; tau <= tauMax; tau++) {
       var soma = 0;
       for (var j = 0; j < meio; j++) { var dif = x[j] - x[j + tau]; soma += dif * dif; }
@@ -102,6 +166,7 @@
     $("af-mapa").innerHTML = html + "</tbody>";
   }
 
+  var quadroN = 0;
   var estavel = { midi: null, n: 0, soma: 0 };
   function registrar(m, c) {
     /* uma nota segurada uns 0,6 s entra no mapa com a média dos cents */
@@ -129,6 +194,11 @@
       historico.push(c);
       if (modo === "pife" && Math.abs(c) < 50) registrar(alvo, c);
       if (modo === "oitavas") oitavasQuadro(suave);
+      if (modo === "harm" && (quadroN++ % 4 === 0)) {
+        var hh = harmonicos(buf, ctx.sampleRate, r.f);
+        harm = harm && harm.length === hh.length ? harm.map(function (v, i) { return v * 0.7 + hh[i] * 0.3; }) : hh;
+        desenharHarm(); textoHarm();
+      }
     } else {
       suave = null; historico.push(null);
       estavel = { midi: null, n: 0, soma: 0 };
@@ -182,6 +252,7 @@
       $("af-painel-pife").hidden = modo !== "pife";
       $("af-painel-oitavas").hidden = modo !== "oitavas";
       $("af-painel-ref").hidden = modo !== "ref";
+      if ($("af-painel-harm")) { $("af-painel-harm").hidden = modo !== "harm"; desenharHarm(); }
       if (modo === "pife") mostrarMapa();
     });
   });
@@ -190,6 +261,21 @@
   });
   try { var salvo = localStorage.getItem("pifeCalc.afSens"); if (salvo && PRESETS[salvo]) { SENS = PRESETS[salvo]; document.querySelector("[name=af-sens][value=" + salvo + "]").checked = true; } } catch (x) { /* padrão */ }
   $("af-limpar").addEventListener("click", function () { mapa = {}; mostrarMapa(); });
+  if ($("af-limiar")) {
+    try { var lim = parseFloat(localStorage.getItem("pifeCalc.afLimiar")); if (lim >= -70 && lim <= -15) { limiarDb = lim; $("af-limiar").value = lim; } } catch (x) { /* padrão */ }
+    $("af-limiar").addEventListener("input", function () {
+      limiarDb = parseFloat($("af-limiar").value); marcarLimiar();
+      try { localStorage.setItem("pifeCalc.afLimiar", String(limiarDb)); } catch (x) { /* sem armazenamento */ }
+    });
+    marcarLimiar();
+  }
+  if ($("af-harm-guardar")) {
+    $("af-harm-guardar").addEventListener("click", function () {
+      if (!harm) { $("af-harm-res").textContent = "Ligue o afinador e toque uma nota antes de guardar."; return; }
+      harmRef = harm.slice(); $("af-harm-esquecer").hidden = false; desenharHarm(); textoHarm();
+    });
+    $("af-harm-esquecer").addEventListener("click", function () { harmRef = null; $("af-harm-esquecer").hidden = true; desenharHarm(); textoHarm(); });
+  }
 
   /* nota de referência: um som suave na nota escolhida */
   function preencherRef() {
