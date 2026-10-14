@@ -60,7 +60,8 @@
  .pc-vis{gap:4px 10px}.pc-vis label{font-size:.85em}
  .af-nota span{font-size:2em}.pc-lista li{margin:8px 0}
  .pc-qt{padding:14px}.pc-qt-topo{flex-direction:column;align-items:flex-start}
- .pc-fig svg{min-width:0}
+ .pc-fig{overflow-x:auto;-webkit-overflow-scrolling:touch}.pc-fig svg{min-width:560px}.pc-fig::after{content:"arraste para o lado para ver o desenho todo";display:block;font-size:.78em;opacity:.65;margin-top:4px}
+ .ph{padding-bottom:8px}
 }
 .pc-desenho svg,.pc-fig svg{background:#F6EFE2;border-radius:10px}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pc-alcance,:root:not([data-theme="light"]) .pc-qt,:root:not([data-theme="light"]) .af-visor,:root:not([data-theme="light"]) .pc-dig img{background:#2a201c;border-color:rgba(246,239,226,.18)}
 :root:not([data-theme="light"]) .pc-grid input,:root:not([data-theme="light"]) .pc-grid select,:root:not([data-theme="light"]) .pc-ajuste-linha input,:root:not([data-theme="light"]) .pc-ajuste-linha select,:root:not([data-theme="light"]) .pc-qt-campo input{background:#2a201c;color:#F6EFE2;border-color:rgba(246,239,226,.3)}
