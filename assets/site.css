@@ -444,7 +444,7 @@ main:has(>.band2:last-child)+.strip{margin-top:0;border-top:0}
   --sp-1:8px;--sp-2:16px;--sp-3:24px;--sp-4:40px;--sp-5:72px;--sp-6:120px;--col:1200px;
   --r-1:3px;--r-2:6px;--shadow:0 18px 40px -24px rgba(30,21,18,.45);
   --ease:cubic-bezier(.2,.7,.2,1);
-  --faixa:url("../img/arte/faixa.jpg");
+  --faixa:none;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -471,7 +471,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible,
 .skip:focus{left:8px}
 /* o antigo gesto dos furos sai; entra a faixa de marchetaria */
 .cat>.wrap>header::before,.ph .wrap>div:first-child::before,.ph .wrap>.eyebrow:first-child::before,.about .wrap>div:first-child::before,.band .wrap::before{display:none}
-.faixa{height:10px;background:var(--faixa) repeat-x left center/auto 10px;border-radius:1px;opacity:.95}
+.faixa{display:none}
 .faixa.fina{height:6px;background-size:auto 6px}
 .faixa.larga{height:18px;background-size:auto 18px}
 
