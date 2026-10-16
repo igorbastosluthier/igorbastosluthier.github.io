@@ -45,7 +45,8 @@
       embForma: $("pc-emb-forma").value, embL: parseFloat($("pc-emb-l").value) || 9, embC: parseFloat($("pc-emb-c").value) || 11,
       cone: $("pc-cone").checked,
       lip: $("pc-lip-sim").checked ? (parseFloat($("pc-lip").value) || 0) : 0,
-      furos: Array.prototype.map.call(entradasFuro, function (x) { return parseFloat(x.value) || 8; })
+      furos: Array.prototype.map.call(entradasFuro, function (x) { return parseFloat(x.value) || 8; }),
+      manual: manual
     };
   }
 
@@ -55,6 +56,7 @@
     $("pc-emb-forma").value = e.embForma || "redondo"; if (e.embL) $("pc-emb-l").value = e.embL; if (e.embC) $("pc-emb-c").value = e.embC;
     $("pc-lip-sim").checked = !!e.lip; $("pc-cone").checked = !!e.cone; if (e.lip) $("pc-lip").value = e.lip;
     entradasFuro.forEach(function (x, k) { if (e.furos && e.furos[k]) x.value = e.furos[k]; });
+    manual = !!e.manual; /* furos digitados pela pessoa continuam valendo ao reabrir o link */
   }
 
   /* Opções de visualização do desenho (marcar/desmarcar). */
@@ -162,6 +164,9 @@
     var yr = boca - r.rolha * esc;
     s += '<line x1="' + x1 + '" y1="' + yr + '" x2="' + (x1 + w) + '" y2="' + yr + '" stroke="#9A3B1F" stroke-width="3" stroke-dasharray="4 3"/>';
     var eC = e.embForma === "oval" ? e.embC : e.emb, eL = e.embForma === "oval" ? e.embL : e.emb;
+    /* porta-lábios também no desenho do celular (antes só aparecia no do PC) */
+    if (e.lip) s += '<rect x="' + (cx - w * 0.42) + '" y="' + (boca - eC * esc * 1.7) + '" width="' + (w * 0.84) + '" height="' + (eC * esc * 3.4) + '" rx="' + (w * 0.2) + '" fill="#9A3B1F" stroke="#5e2414"/>' +
+      '<text x="' + (x1 - 12) + '" y="' + (boca + 17) + '" text-anchor="end" font-size="10" fill="#9A3B1F">porta-lábios ' + mm(e.lip) + '</text>';
     s += '<ellipse cx="' + cx + '" cy="' + boca + '" rx="' + (eL * esc / 2) + '" ry="' + (eC * esc / 2) + '" fill="#2D4839"/>';
     var tx = function (y, t, cor, tam) { return '<text x="' + (x1 - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="' + (tam || 12) + '" fill="' + (cor || "#2D4839") + '">' + t + '</text>'; };
     s += '<text x="' + (x1 - 12) + '" y="' + (boca + 4) + '" text-anchor="end" font-size="11" fill="#2D4839">sopro</text>';
@@ -283,6 +288,7 @@
     $("pc-alcance").innerHTML = alcance(r);
     $("pc-resumo").innerHTML =
       "<li><span>Da boca (centro do sopro) até o pé</span><b>" + mm(r.bocaAoPe) + " mm</b></li>" +
+      (e.lip ? "<li><span>Chaminé do sopro (parede + porta-lábios " + mm(e.lip) + " mm)</span><b>" + mm(e.parede + e.lip) + " mm</b></li>" : "") +
       "<li><span>Distância da rolha até o centro do furo do sopro</span><b>" + mm(r.rolha) + " mm</b></li>" +
       (e.cone ? "<li><span>Cabeça cônica: diâmetro interno no centro do sopro</span><b>" + mm(cabeca(e, r).sopro) + " mm</b></li>" +
       "<li><span>Cabeça cônica: diâmetro interno na rolha</span><b>" + mm(e.D * 0.9) + " mm</b></li>" +
