@@ -56,5 +56,11 @@
   lb.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)step(dx<0?1:-1)});
 })();
 </script>
+<script data-goatcounter="https://igorbastosluthier.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a,button");if(!a||!window.goatcounter||!window.goatcounter.count)return;var h=(a.getAttribute("href")||""),t=(a.textContent||"").trim().slice(0,60),n="";
+if(h.indexOf("wa.me")>=0)n=(t.indexOf("pedido")>=0||t.indexOf("Pedido")>=0)?"clique-pedido-whatsapp":"clique-whatsapp";else if(h.indexOf("ig.me")>=0||h.indexOf("instagram.com")>=0)n="clique-instagram";else if(h.indexOf("facebook.com")>=0)n="clique-facebook";else if(h.indexOf("mailto:")===0)n="clique-email";else if(h.indexOf("bracker")>=0)n="clique-calculadora-furos";else if(/Baixar PNG|Imprimir/.test(t))n="tabela-"+t.toLowerCase().replace(/\s+/g,"-");
+if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
+</script>
 </body>
 </html>
