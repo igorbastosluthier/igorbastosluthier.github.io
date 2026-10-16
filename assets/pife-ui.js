@@ -166,7 +166,9 @@
     var eC = e.embForma === "oval" ? e.embC : e.emb, eL = e.embForma === "oval" ? e.embL : e.emb;
     /* porta-lábios também no desenho do celular (antes só aparecia no do PC) */
     if (e.lip) s += '<rect x="' + (cx - w * 0.42) + '" y="' + (boca - eC * esc * 1.7) + '" width="' + (w * 0.84) + '" height="' + (eC * esc * 3.4) + '" rx="' + (w * 0.2) + '" fill="#9A3B1F" stroke="#5e2414"/>' +
-      '<text x="' + (x1 - 12) + '" y="' + (boca + 17) + '" text-anchor="end" font-size="10" fill="#9A3B1F">porta-lábios ' + mm(e.lip) + '</text>';
+      /* 16/10: em uma linha o rótulo passava da borda no celular ("ta-lábios"): duas linhas curtas */
+      '<text x="' + (x1 - 12) + '" y="' + (boca + 17) + '" text-anchor="end" font-size="10" fill="#9A3B1F">porta-</text>' +
+      '<text x="' + (x1 - 12) + '" y="' + (boca + 29) + '" text-anchor="end" font-size="10" fill="#9A3B1F">lábios ' + mm(e.lip) + '</text>';
     s += '<ellipse cx="' + cx + '" cy="' + boca + '" rx="' + (eL * esc / 2) + '" ry="' + (eC * esc / 2) + '" fill="#2D4839"/>';
     var tx = function (y, t, cor, tam) { return '<text x="' + (x1 - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="' + (tam || 12) + '" fill="' + (cor || "#2D4839") + '">' + t + '</text>'; };
     s += '<text x="' + (x1 - 12) + '" y="' + (boca + 4) + '" text-anchor="end" font-size="11" fill="#2D4839">sopro</text>';
