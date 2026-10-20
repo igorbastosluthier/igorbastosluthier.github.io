@@ -22,7 +22,7 @@
 <p>Só para responder você, fazer orçamento, combinar a encomenda e enviar a flauta. Uso um assistente de software (HERMES) que organiza as conversas e sugere respostas; toda resposta é revisada e aprovada por mim antes de sair. Não vendo, não alugo e não compartilho seus dados com ninguém para publicidade.</p>
 <h2>Com quem os dados passam</h2>
 <p>As mensagens passam pelas plataformas da Meta (Instagram, Messenger, WhatsApp), que têm as próprias políticas. Para o envio, os dados de endereço vão para os Correios ou para a transportadora escolhida.</p>
-<h2>Por quanto tempo</h2>
+<h2>Estatísticas e feedback do site</h2><p>O site conta visitas e as respostas do botão Feedback com o GoatCounter, sem cookies e sem guardar nada que identifique você (nem IP). O feedback é só de clique: assunto, nota e opções marcadas.</p><h2>Por quanto tempo</h2>
 <p>Guardo as conversas e os dados de encomenda enquanto houver atendimento ou garantia em andamento e pelo prazo exigido pela lei fiscal. Depois disso, ou quando você pedir, eles são apagados.</p>
 <h2 id="exclusao">Como pedir a exclusão dos seus dados</h2>
 <p>Mande um e-mail para <a href="mailto:igorbastosluthier@gmail.com">igorbastosluthier@gmail.com</a> ou uma mensagem no WhatsApp (75) 98290-1157 pedindo a exclusão, com o seu nome de perfil. Apago tudo em até 30 dias e confirmo para você. Você também pode pedir para ver ou corrigir seus dados, conforme a LGPD (Lei 13.709/2018).</p>
@@ -62,5 +62,7 @@ document.addEventListener("click",function(e){var a=e.target.closest&&e.target.c
 if(h.indexOf("wa.me")>=0)n=(t.indexOf("pedido")>=0||t.indexOf("Pedido")>=0)?"clique-pedido-whatsapp":"clique-whatsapp";else if(h.indexOf("ig.me")>=0||h.indexOf("instagram.com")>=0)n="clique-instagram";else if(h.indexOf("facebook.com")>=0)n="clique-facebook";else if(h.indexOf("mailto:")===0)n="clique-email";else if(h.indexOf("bracker")>=0)n="clique-calculadora-furos";else if(/Baixar PNG|Imprimir/.test(t))n="tabela-"+t.toLowerCase().replace(/\s+/g,"-");
 if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
 </script>
+<link rel="stylesheet" href="assets/feedback.css?v=1">
+<script src="assets/feedback.js?v=1" defer></script>
 </body>
 </html>
