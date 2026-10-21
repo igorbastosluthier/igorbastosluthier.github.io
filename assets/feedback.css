@@ -1,7 +1,7 @@
-/* Feedback (assets/feedback.js). WhatsApp fica à direita; o feedback, à esquerda. */
-.fbk-fab{position:fixed;left:16px;bottom:16px;z-index:30;background:var(--papel,#EFEDE7);color:var(--roxinho,#5E2C3B);border:1px solid var(--fio,#CBC5B9);border-radius:999px;padding:10px 16px;font:600 14px var(--text,system-ui,sans-serif);cursor:pointer;box-shadow:0 8px 20px -10px rgba(0,0,0,.4)}
-.fbk-fab:hover,.fbk-fab[aria-expanded="true"]{background:var(--roxinho,#5E2C3B);color:#F6EFE2}
-.fbk-box{position:fixed;left:16px;bottom:68px;z-index:31;width:min(360px,calc(100vw - 32px));max-height:calc(100vh - 100px);overflow:auto;background:var(--papel,#EFEDE7);color:var(--madeira-escura,#2a2119);border:1px solid var(--fio,#CBC5B9);border-radius:14px;padding:18px 18px 14px;box-shadow:0 18px 40px -16px rgba(0,0,0,.45);font:400 15px var(--text,system-ui,sans-serif)}
+/* Feedback (assets/feedback.js): um link discreto no rodapé; a janela abre por cima só quando pedida. */
+.fbk-link{background:none;border:0;padding:0;color:inherit;font:inherit;text-decoration:underline;text-underline-offset:3px;opacity:.85;cursor:pointer}
+.fbk-link:hover{opacity:1}
+.fbk-box{position:fixed;left:16px;bottom:16px;z-index:31;width:min(360px,calc(100vw - 32px));max-height:calc(100vh - 100px);overflow:auto;background:var(--papel,#EFEDE7);color:var(--madeira-escura,#2a2119);border:1px solid var(--fio,#CBC5B9);border-radius:14px;padding:18px 18px 14px;box-shadow:0 18px 40px -16px rgba(0,0,0,.45);font:400 15px var(--text,system-ui,sans-serif)}
 .fbk-box h2{margin:0 28px 6px 0;font-size:20px}
 .fbk-l{margin:12px 0 6px;font-weight:600;font-size:14px}
 .fbk-g{display:flex;flex-wrap:wrap;gap:6px}
@@ -12,4 +12,4 @@
 .fbk-note{margin:10px 0 0;font-size:13px;color:var(--serra,#5C574F)}
 .fbk-calc{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0;padding:12px 14px;border:1px dashed var(--fio,#CBC5B9);border-radius:10px}
 .fbk-calc span{font-weight:600;margin-right:4px}
-@media print{.fbk-fab,.fbk-box,.fbk-calc{display:none!important}}
+@media print{.fbk-link,.fbk-box,.fbk-calc{display:none!important}}

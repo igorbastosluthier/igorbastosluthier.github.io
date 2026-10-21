@@ -42,7 +42,8 @@
   }
   function escolhidos(g) { return [].map.call(g.querySelectorAll('[aria-pressed="true"]'), function (b) { return b.dataset.v; }); }
 
-  var botao = el("button", "fbk-fab", "Feedback"); botao.type = "button"; botao.setAttribute("aria-haspopup", "dialog");
+  // Nada fixo na tela (dono, 2026-10-20: o botão flutuante era invasivo): um link discreto no rodapé.
+  var botao = el("button", "fbk-link", "Dar feedback sobre o site"); botao.type = "button"; botao.setAttribute("aria-haspopup", "dialog");
   var caixa = el("div", "fbk-box"); caixa.setAttribute("role", "dialog"); caixa.setAttribute("aria-modal", "false");
   caixa.setAttribute("aria-labelledby", "fbk-t"); caixa.hidden = true;
   var fechar = el("button", "fbk-x", "×"); fechar.type = "button"; fechar.setAttribute("aria-label", "Fechar");
@@ -90,7 +91,9 @@
     resumo.parentNode.insertBefore(q, resumo.nextSibling);
   }
   function liga() {
-    document.body.appendChild(botao); document.body.appendChild(caixa);
+    var rodape = document.querySelector("footer .bot") || document.querySelector("footer");
+    if (rodape) rodape.appendChild(botao);
+    document.body.appendChild(caixa);
     var r = document.getElementById("pc-resumo");
     if (r && pagina === "calculadora") {
       var feito = false;
