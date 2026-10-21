@@ -56,8 +56,15 @@
   [fechar, tit, el("p", "fbk-l", "Sobre o que é?"), gA, el("p", "fbk-l", "Nota"), gN,
     el("p", "fbk-l", "O que achou? (pode marcar várias)"), gO, enviar, aviso].forEach(function (x) { caixa.appendChild(x); });
 
-  function abre(v) { caixa.hidden = !v; botao.setAttribute("aria-expanded", String(v)); if (v) gA.querySelector("button").focus(); else botao.focus(); }
-  botao.onclick = function () { abre(caixa.hidden); };
+  function abre(v) {
+    var inline = caixa.classList.contains("fbk-inline");
+    caixa.hidden = !v; botao.setAttribute("aria-expanded", String(v));
+    if (v) gA.querySelector("button").focus(); else if (!inline) botao.focus();
+  }
+  botao.onclick = function () {
+    if (caixa.classList.contains("fbk-inline")) { caixa.classList.remove("fbk-inline"); document.body.appendChild(caixa); caixa.hidden = true; }
+    abre(caixa.hidden);
+  };
   fechar.onclick = function () { abre(false); };
   caixa.addEventListener("keydown", function (e) { if (e.key === "Escape") abre(false); });
   enviar.onclick = function () {
@@ -76,7 +83,11 @@
     var q = el("div", "fbk-calc"); q.appendChild(el("span", null, "Esse resultado ajudou?"));
     var sim = el("button", "fbk-chip", "Sim"), nao = el("button", "fbk-chip", "Não"); sim.type = nao.type = "button";
     q.appendChild(sim); q.appendChild(nao);
-    function fim(t) { q.innerHTML = ""; q.appendChild(el("span", null, t)); }
+    // Depois do sim/não, a janela principal aparece ali mesmo, no fluxo da página (dono, 2026-10-20).
+    function fim(t) {
+      q.innerHTML = ""; q.appendChild(el("span", null, t + " Quer contar mais?"));
+      caixa.classList.add("fbk-inline"); q.parentNode.insertBefore(caixa, q.nextSibling); caixa.hidden = false;
+    }
     sim.onclick = function () { conta("calculadora/ajudou-sim", "Calculadora ajudou: sim"); fim("Obrigado!"); };
     nao.onclick = function () {
       conta("calculadora/ajudou-nao", "Calculadora ajudou: não");

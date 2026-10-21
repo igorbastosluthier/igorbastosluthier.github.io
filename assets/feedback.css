@@ -13,3 +13,4 @@
 .fbk-calc{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0;padding:12px 14px;border:1px dashed var(--fio,#CBC5B9);border-radius:10px}
 .fbk-calc span{font-weight:600;margin-right:4px}
 @media print{.fbk-link,.fbk-box,.fbk-calc{display:none!important}}
+.fbk-box.fbk-inline{position:static;width:auto;max-height:none;margin:0 0 18px;box-shadow:none}
