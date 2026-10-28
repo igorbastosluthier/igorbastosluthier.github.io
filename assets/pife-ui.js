@@ -114,8 +114,8 @@
       y += 26;
     }
     if (VIS.boca) {
-      r.furos.slice().reverse().forEach(function (f, k) {
-        s += cota(boca, boca + f.daBoca * esc, y + 14 + k * 18, f.nota + ": " + mm(f.daBoca), "#2D4839");
+      r.furos.forEach(function (f, k) {
+        s += cota(pe, boca + f.daBoca * esc, y + 14 + k * 18, f.nota + ": " + mm(f.doPe), "#2D4839");
       });
       y += 18 * 6 + 8;
     }
@@ -180,7 +180,7 @@
       if (l1) s += tx(y - (VIS.diametros ? 4 : 0), l1);
       if (VIS.diametros) s += tx(y + (l1 ? 9 : 0), "Ø" + mm(f.diametro), "#7a5a1c", 10);
       if (VIS.espacos) s += cotaVR(colEsp, ant, y, mm(f.espaco));
-      if (VIS.boca) s += cotaVR(colBoca + (5 - k) * 16, boca, y, f.nota + ": " + mm(f.daBoca), "#2D4839");
+      if (VIS.boca) s += cotaVR(colBoca + k * 16, pe, y, f.nota + ": " + mm(f.doPe), "#2D4839");
       ant = y;
     });
     if (VIS.espacos) s += cotaVR(colEsp, ant, boca, mm(r.furos[5].daBoca));
@@ -199,7 +199,7 @@
 
   function painelVis() {
     var nomes = { notas: "Notas", numeros: "Nº dos furos", diametros: "Ø dos furos", espacos: "Entre furos",
-      boca: "Até a boca", total: "Comprimento", rolha: "Rolha", tubo: "Tubo e parede" };
+      boca: "Até o pé", total: "Comprimento", rolha: "Rolha", tubo: "Tubo e parede" };
     $("pc-vis").innerHTML = '<span class="pc-mini pc-vis-t">Mostrar no desenho:</span>' + Object.keys(nomes).map(function (k) {
       return '<label><input type="checkbox" data-vis="' + k + '"' + (VIS[k] ? " checked" : "") + '> ' + nomes[k] + '</label>';
     }).join("");
