@@ -44,10 +44,19 @@ t("Sol 4 / A4=440: fundamental e alvos da pentatônica menor", function () {
   f.forEach((hz, i) => assert.ok(Math.abs(hz - esperadas[i + 1]) < 0.006, "alvo " + (i + 1) + ": " + hz));
   assert.deepStrictEqual(N.escala("pentatonica-menor", m, 5).map(N.nomeEn), ["Bb4", "C5", "D5", "F5", "G5"]);
 });
+/* 2b. NAF de 6 furos (Flutopedia Basic-Six, furos contados do pé): 5 notas da pentatônica + 1 furo EXTRA (o 4º do pé, +8) */
+t("6 furos: furo 4 do pé é o extra (6ª menor), os outros 5 são a pentatônica", function () {
+  const m = 67, e6 = N.escala("pentatonica-menor", m, 6);
+  assert.deepStrictEqual(e6.map(N.nomeEn), ["Bb4", "C5", "D5", "Eb5", "F5", "G5"]);
+  assert.deepStrictEqual(e6.map(x => x - m), [3, 5, 7, 8, 10, 12]);
+  assert.strictEqual(N.FURO_EXTRA[6], 3);
+  assert.ok(Math.abs(N.freqNota(e6[3], 440) - 622.254) < 0.001, "Eb5 = 622,25 Hz");
+  assert.deepStrictEqual(e6.filter((x, i) => i !== 3).map(x => x - m), [3, 5, 7, 10, 12]); /* sem o extra = 3-2-2-3-2 */
+});
 
 function cfg(n, over) {
   const notas = N.escala("pentatonica-menor", 67, n), sug = N.sugerir({ furos: n, midi: 67 });
-  const e = Object.assign({}, sug, { furos: n, fundamental: "G4", a4: 440, temperatura: 20 });
+  const e = Object.assign({}, sug, { furos: n, fundamental: "G4", a4: 440, temperatura: 20, escala: "pentatonica-menor" });
   e.linhas = notas.map((m, i) => ({ nota: N.nomeEn(m), diametro: sug.diametros[i], ativo: true }));
   return Object.assign(e, over || {});
 }
@@ -69,11 +78,14 @@ t("5 furos calcula 5; 6 furos calcula 6; sem resíduos", function () {
   assert.ok(r5.ok && r6.ok, JSON.stringify([r5.erros, r6.erros]));
   assert.strictEqual(r5.furos.length, 5); assert.strictEqual(r6.furos.length, 6);
   assert.deepStrictEqual(r6.furos.map(f => f.linha), [1, 2, 3, 4, 5, 6]);
+  assert.deepStrictEqual(r6.furos.map(f => f.extra), [false, false, false, true, false, false]);
+  assert.ok(r5.furos.every(f => !f.extra));
+  assert.deepStrictEqual(r6.furos.map(f => f.nota), ["Si♭ 4", "Dó 5", "Ré 5", "Mi♭ 5", "Fá 5", "Sol 5"]);
   const e = cfg(5); e.linhas.push({ nota: "Sib 5", diametro: 8, ativo: true }); /* linha sobrando é ignorada */
   assert.strictEqual(N.calcular(e).furos.length, 5);
 });
 t("linha inativa não vira furo de diâmetro zero", function () {
-  const e = cfg(6); e.linhas[3].ativo = false;
+  const e = cfg(6); e.linhas[3].ativo = false; /* desativa o furo extra */
   const r = N.calcular(e);
   assert.ok(r.ok, JSON.stringify(r.erros));
   assert.strictEqual(r.furos.length, 5); assert.ok(r.furos.every(f => f.diametro > 0 && f.linha !== 4));
@@ -84,7 +96,7 @@ t("ordem: furo 1 é o mais perto do pé; conversão Bracker coerente", function 
   const r = N.calcular(cfg(6));
   for (let i = 1; i < r.furos.length; i++) { assert.ok(r.furos[i].doPe > r.furos[i - 1].doPe); assert.ok(r.furos[i].hz > r.furos[i - 1].hz); assert.ok(r.furos[i].daJanela < r.furos[i - 1].daJanela); }
   assert.ok(r.furos[5].daJanela > 0 && r.furos[0].doPe > 0 && r.furos[0].doPe < r.janelaDoPe);
-  assert.deepStrictEqual(N.LINHAS_BRACKER[6], [0, 2, 3, 4, 5, 6]); assert.deepStrictEqual(N.LINHAS_BRACKER[5], [2, 3, 4, 5, 6]);
+  assert.deepStrictEqual(N.LINHAS_BRACKER[6], [0, 2, 3, 4, 5, 6]); assert.deepStrictEqual(N.LINHAS_BRACKER[5], [0, 2, 3, 4, 5]);
   r.furos.forEach((f, i) => { if (i) perto(f.espacoAbaixo, f.doPe - r.furos[i - 1].doPe, 1e-12, "espaço"); });
   const e = cfg(5); e.linhas.reverse(); const x = N.calcular(e); /* notas invertidas */
   assert.strictEqual(x.ok, false); assert.ok(/Ordem de notas/.test(x.erros[0].msg));
@@ -92,7 +104,7 @@ t("ordem: furo 1 é o mais perto do pé; conversão Bracker coerente", function 
 
 /* 6. sanidade geométrica */
 t("entradas inválidas são rejeitadas sem NaN/Infinity", function () {
-  [{ parede: 14 }, { diametroExterno: "abc" }, { janelaCompr: 0 }, { a4: -1 }, { temperatura: NaN }, { fundamental: "H9" }, { fundamental: "C6" }, { ponta: -3 }, { furos: 7 }].forEach(function (o) {
+  [{ parede: 14 }, { escala: "x", furos: 4 }, { diametroExterno: "abc" }, { janelaCompr: 0 }, { a4: -1 }, { temperatura: NaN }, { fundamental: "H9" }, { fundamental: "C6" }, { ponta: -3 }, { furos: 7 }].forEach(function (o) {
     const r = N.calcular(cfg(5, o)); assert.strictEqual(r.ok, false, JSON.stringify(o)); assert.ok(r.erros[0].msg && r.erros[0].campo);
   });
   const e = cfg(5); e.linhas[2].diametro = 0; assert.strictEqual(N.calcular(e).ok, false);
@@ -120,6 +132,17 @@ t("avisos não alteram posições nem a entrada", function () {
   const w = cfg(5, { diametroExterno: 28, parede: 2.6 }); const rw = N.calcular(w);
   assert.ok(rw.ok, JSON.stringify(rw.erros)); assert.ok(rw.avisos.length > 0, "tubo largo demais deve avisar");
   assert.strictEqual(JSON.stringify(w), JSON.stringify(cfg(5, { diametroExterno: 28, parede: 2.6 })));
+});
+
+/* 8b. sugestões iniciais sempre geram um resultado válido (5 e 6 furos, várias fundamentais) */
+t("sugestões iniciais têm solução no modelo", function () {
+  [[5, 67], [6, 67], [5, 69], [6, 69], [5, 62], [6, 64]].forEach(function ([n, m]) {
+    const sug = N.sugerir({ furos: n, midi: m }), notas = N.escala("pentatonica-menor", m, n);
+    const r = N.calcular({ furos: n, fundamental: N.nomeEn(m), a4: 440, temperatura: 20, escala: "pentatonica-menor", diametroExterno: sug.diametroExterno, parede: sug.parede,
+      janelaCompr: sug.janelaCompr, janelaLarg: sug.janelaLarg, janelaAltura: sug.janelaAltura, cabeca: sug.cabeca, ponta: 0,
+      linhas: notas.map((x, i) => ({ nota: N.nomeEn(x), diametro: sug.diametros[i] })) });
+    assert.ok(r.ok, n + " furos, midi " + m + ": " + JSON.stringify(r.erros));
+  });
 });
 
 /* 9. parser de notas */

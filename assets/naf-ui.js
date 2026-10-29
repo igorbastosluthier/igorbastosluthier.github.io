@@ -77,11 +77,15 @@
   }
   function sugerirTudo() { manualDim = false; aplicarMedidas(sugestao()); montarLinhas(false); }
 
+  /* NAF de 6 furos na pentatônica: o 4º furo contado do pé é o extra, fora da escala (Flutopedia, Basic-Six) */
+  function ehExtra(k) { return nFuros() === 6 && $("naf-escala").value === "pentatonica-menor" && N.FURO_EXTRA[6] === k; }
+  var TEXTO_EXTRA = " Furo extra: fora da pentatônica (sugestão: 6ª menor, +8 semitons; é o Ré do exemplo em Fá# menor da Flutopedia). Na digitação principal ele fica fechado. Pode editar a nota ou os Hz.";
+
   function desenharLinhas() {
     var cx = $("naf-linhas"); cx.innerHTML = "";
     linhas.forEach(function (l, k) {
       var div = document.createElement("div"); div.className = "naf-lin"; div.setAttribute("role", "group"); div.setAttribute("aria-label", "Furo " + (k + 1));
-      div.innerHTML = '<label class="naf-ativo"><input type="checkbox" data-k="' + k + '" data-c="a"> <b>Furo ' + (k + 1) + '</b></label>' +
+      div.innerHTML = '<label class="naf-ativo"><input type="checkbox" data-k="' + k + '" data-c="a"> <b>Furo ' + (k + 1) + '<span class="naf-xt" data-k="' + k + '"></span></b></label>' +
         '<label>Nota-alvo<input type="text" list="naf-notas" autocomplete="off" data-k="' + k + '" data-c="nota"></label>' +
         '<label>Frequência (Hz)<input type="text" inputmode="decimal" autocomplete="off" data-k="' + k + '" data-c="hz"></label>' +
         '<label>Ø do furo (mm)<input type="number" min="1" max="40" step="0.5" data-k="' + k + '" data-c="d"></label>' +
@@ -95,7 +99,7 @@
   /* ---- leitura do formulário (valores crus; a validação é do motor) ---- */
   function lerEntrada() {
     return {
-      furos: nFuros(), fundamental: $("naf-fund").value, a4: $("naf-a4").value, temperatura: $("naf-temp").value,
+      furos: nFuros(), escala: $("naf-escala").value, fundamental: $("naf-fund").value, a4: $("naf-a4").value, temperatura: $("naf-temp").value,
       diametroExterno: $("naf-od").value, parede: $("naf-parede").value, janelaCompr: $("naf-jc").value, janelaLarg: $("naf-jl").value,
       janelaAltura: $("naf-ja").value, cabeca: $("naf-cabeca").value, ponta: $("naf-ponta").value,
       linhas: linhas.map(function (l) { return { nota: l.nota, hz: l.hz, diametro: l.d, ativo: l.a }; })
@@ -217,6 +221,7 @@
     derivarInterno();
     var e = lerEntrada(), r = N.calcular(e);
     document.querySelectorAll("#naf-linhas .naf-info").forEach(function (el) { el.textContent = ""; });
+    document.querySelectorAll("#naf-linhas .naf-xt").forEach(function (el) { el.textContent = ehExtra(parseInt(el.getAttribute("data-k"), 10)) ? " (extra)" : ""; });
     marcarErros(r.ok ? [] : r.erros);
     if (!r.ok) {
       ultimo = null;
@@ -227,16 +232,16 @@
     ultimo = r; $("naf-erros").innerHTML = ""; $("naf-saida").hidden = false;
     r.furos.forEach(function (f) {
       var el = document.querySelector('#naf-linhas .naf-info[data-k="' + (f.linha - 1) + '"]'); if (!el) return;
-      el.textContent = f.fonteHz === "hz" ? "Hz digitado vale como alvo (≈ " + f.notaProxima.nota + (Math.abs(f.notaProxima.cents) >= 0.5 ? (f.notaProxima.cents > 0 ? " +" : " −") + Math.round(Math.abs(f.notaProxima.cents)) + " cents" : "") + ")" : "Hz da nota: " + mm(f.hz, 2);
+      el.textContent = (f.extra ? TEXTO_EXTRA.trim() + " " : "") + (f.fonteHz === "hz" ? "Hz digitado vale como alvo (≈ " + f.notaProxima.nota + (Math.abs(f.notaProxima.cents) >= 0.5 ? (f.notaProxima.cents > 0 ? " +" : " −") + Math.round(Math.abs(f.notaProxima.cents)) + " cents" : "") + ")" : "Hz da nota: " + mm(f.hz, 2));
     });
     $("naf-desenho").innerHTML = desenho(r);
     $("naf-cartoes").innerHTML = r.furos.slice().reverse().map(function (f) {
-      return '<div class="pc-cartao"><div class="pc-c1"><b>' + f.linha + 'º</b> ' + f.nota + ' <span>Ø ' + mm(f.diametro) + ' · ' + mm(f.hz, 2) + ' Hz</span></div>' +
+      return '<div class="pc-cartao"><div class="pc-c1"><b>' + f.linha + 'º</b> ' + f.nota + (f.extra ? ' (extra)' : '') + ' <span>Ø ' + mm(f.diametro) + ' · ' + mm(f.hz, 2) + ' Hz</span></div>' +
         '<div class="pc-c2"><b>' + mm(f.doPe) + '</b> do pé · ' + mm(f.daJanela) + ' da janela' + (f.espacoAbaixo === null ? "" : " · " + mm(f.espacoAbaixo) + " ao furo de baixo") + '</div>' +
         '<div class="pc-c3">' + selo(f.razaoCorte) + '</div></div>';
     }).join("");
     $("naf-tabela").querySelector("tbody").innerHTML = r.furos.map(function (f) {
-      return '<tr><th scope="row">' + f.linha + 'º</th><td>' + f.nota + ' <small>(' + f.notaIng + ')</small></td><td>' + mm(f.hz, 2) + (f.fonteHz === "hz" ? " <small>digitado</small>" : "") + '</td><td>' + mm(f.diametro) + ' mm</td><td><b>' + mm(f.doPe) + ' mm</b></td><td>' +
+      return '<tr><th scope="row">' + f.linha + 'º</th><td>' + f.nota + ' <small>(' + f.notaIng + (f.extra ? ', extra' : '') + ')</small></td><td>' + mm(f.hz, 2) + (f.fonteHz === "hz" ? " <small>digitado</small>" : "") + '</td><td>' + mm(f.diametro) + ' mm</td><td><b>' + mm(f.doPe) + ' mm</b></td><td>' +
         mm(f.daJanela) + ' mm</td><td>' + (f.espacoAbaixo === null ? "—" : mm(f.espacoAbaixo) + " mm") + '</td><td>' + selo(f.razaoCorte) + '</td></tr>';
     }).join("");
     $("naf-resumo").innerHTML =

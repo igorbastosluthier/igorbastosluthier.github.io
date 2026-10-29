@@ -37,12 +37,19 @@
   /* Bracker: chaves da calculadora vão de G5 (índice 1) a C3 (índice 32): MIDI 79 a 48 */
   var MIDI_MIN = 48, MIDI_MAX = 79;
 
-  /* Pentatônica menor: semitons acima da fundamental, do furo do pé para a boca (1º furo abre a 3ª menor). */
-  var ESCALAS = { "pentatonica-menor": [3, 5, 7, 10, 12, 15, 17, 19, 22] };
+  /* Pentatônica menor (passos 3-2-2-3-2), semitons acima da fundamental, do furo do pé para a boca:
+     3ª menor, 4ª, 5ª, 7ª menor, oitava. Fonte: Flutopedia (int3_penta_minor.htm e tuning_basic6.htm).
+     NAF de 6 furos (Flutopedia "Basic-Six", furos numerados a partir do PÉ): furo 1=3ª menor, 2=4ª, 3=5ª, 4=EXTRA
+     (fora da pentatônica; no exemplo em Fá# menor é o Ré, 6ª menor = +8), 5=7ª menor, 6=oitava. O furo extra fica
+     fechado na digitação principal do Modo 1 ("o quarto furo a partir de baixo fica sempre fechado", tuning_Grealish.htm).
+     O +8 do furo extra é uma SUGESTÃO editável (a página só rotula o furo 4 como "D" no exemplo de Fá# menor). */
+  var ESCALAS = { 5: [3, 5, 7, 10, 12], 6: [3, 5, 7, 8, 10, 12] };
+  var FURO_EXTRA = { 6: 3 }; /* índice (0 = furo do pé) do furo extra na pentatônica de 6 furos */
 
   /* Linhas do Bracker, da embocadura para o pé: L1 LTh L2 L3 R1 R2 R3 (índices 0..6; LTh = polegar, não usado na NAF).
-     6 furos: L1 L2 L3 R1 R2 R3; 5 furos: L2 L3 R1 R2 R3 (a linha L1 fica inativa, o furo do pé segue sendo R3). */
-  var LINHAS_BRACKER = { 6: [0, 2, 3, 4, 5, 6], 5: [2, 3, 4, 5, 6] };
+     Topologia do Flute Lab (instrument_family.py: NAF 5 furos = L1 L2 L3 R1 R2; NAF 6 furos = L1 L2 L3 R1 R2 R3; a
+     linha R3 fica livre na de 5 e a do polegar nunca é usada). O vetor é lido do furo da boca (0) ao do pé. */
+  var LINHAS_BRACKER = { 6: [0, 2, 3, 4, 5, 6], 5: [0, 2, 3, 4, 5] };
 
   /* ---- modelo Bracker (ramo Whistle), tudo em mm ---- */
   function Estado(p) { /* p: {bore, wall, emb1, emb2, embWall, temp, fend, freqs[7], diams[7]} */
@@ -103,28 +110,43 @@
 
   /* ---- sugestões editáveis (sementes do Flute Lab 6.1.1 / auto_design: NAF), não são regra universal ---- */
   function r1(x) { return Math.round(x * 10) / 10; }
-  function sugerir(o) {
-    o = o || {};
-    var n = o.furos === 5 ? 5 : 6, a4 = o.a4 || 440, midi = typeof o.midi === "number" ? o.midi : 67;
+  function sementeSugestao(n, midi, a4, fator) {
     var f0 = freqFundamental(midi, a4);
     var otimo = Math.max(7, Math.min(38, 2620 * Math.pow(f0, -5 / 6)));
-    var bore = Math.max(7, Math.min(38, otimo * 1.15));
+    var bore = Math.max(7, Math.min(38, otimo * fator));
     var wall = Math.max(2.4, Math.min(5.5, bore * 0.14));
     var ref = [8.0, 9.0, 8.0, 7.0, 8.0, 10.5, 9.0].slice(0, n).reverse(); /* da boca ao pé -> do pé à boca */
     var esc = Math.max(0.7, Math.min(1.4, bore / 19.0));
     var diams = ref.map(function (v) { return Math.max(2.5, Math.min(bore * 0.72, Math.round(v * esc * 2) / 2)); });
+    /* o furo extra (6 furos) é pequeno: com o Bracker ele só tem solução se for bem menor que os vizinhos */
+    if (n === 6) diams[FURO_EXTRA[6]] = Math.max(2.5, Math.round(bore * 0.3 * 2) / 2);
     return {
       diametroExterno: r1(bore + 2 * wall), parede: r1(wall),
       janelaCompr: r1(Math.max(3, bore * 0.5)), janelaLarg: r1(Math.max(3, bore * 0.55)),
       janelaAltura: r1(Math.max(0.7, bore * 0.07)), cabeca: Math.round(bore * 5.2), ponta: 0, diametros: diams
     };
   }
+  /* Parte da semente do Flute Lab (bore = 1,15 × o ótimo do Bracker) e, se o modelo não achar posições em ordem
+     para essa geometria (acontece com o furo extra em tubo largo), reduz o tubo em passos até achar. É só uma
+     sugestão editável: se nada servir, devolve a semente original. */
+  function sugerir(o) {
+    o = o || {};
+    var n = o.furos === 5 ? 5 : 6, a4 = o.a4 || 440, midi = typeof o.midi === "number" ? o.midi : 67;
+    var fatores = [1.15, 1.05, 0.95, 0.9, 0.85, 0.8, 0.75], primeira = null;
+    for (var i = 0; i < fatores.length; i++) {
+      var s = sementeSugestao(n, midi, a4, fatores[i]);
+      if (!primeira) primeira = s;
+      var e = { furos: n, fundamental: nomeEn(midi), a4: a4, temperatura: 20, diametroExterno: s.diametroExterno, parede: s.parede,
+        janelaCompr: s.janelaCompr, janelaLarg: s.janelaLarg, janelaAltura: s.janelaAltura, cabeca: s.cabeca, ponta: 0,
+        linhas: escala("pentatonica-menor", midi, n).map(function (m, k) { return { nota: nomeEn(m), diametro: s.diametros[k] }; }) };
+      if (midi >= MIDI_MIN && midi <= MIDI_MAX && calcular(e).ok) return s;
+    }
+    return primeira;
+  }
 
+  /* notas (MIDI) dos furos do pé para a boca; n = 5 ou 6 */
   function escala(tipo, midiFund, n) {
-    var s = ESCALAS[tipo] || ESCALAS["pentatonica-menor"];
-    var out = [];
-    for (var k = 0; k < n; k++) out.push(midiFund + s[k]);
-    return out;
+    return ESCALAS[n === 5 ? 5 : 6].map(function (x) { return midiFund + x; });
   }
 
   /* ---- validação ---- */
@@ -236,7 +258,7 @@
         nome = mp !== null ? nomePt(mp) : nomePt(nm.midi); nomeI = mp !== null ? nomeEn(mp) : nomeEn(nm.midi);
       }
       furos.push({
-        linha: l.linha, nota: nome, notaIng: nomeI, hz: l.hz, fonteHz: l.fonte, notaProxima: aprox ? { nota: nomePt(aprox.midi), cents: aprox.cents } : null,
+        linha: l.linha, extra: !!(e.escala === "pentatonica-menor" && FURO_EXTRA[n] === l.linha - 1), nota: nome, notaIng: nomeI, hz: l.hz, fonteHz: l.fonte, notaProxima: aprox ? { nota: nomePt(aprox.midi), cents: aprox.cents } : null,
         diametro: l.diametro, doPe: pos, doPeAcustico: doPeAc, daJanela: da, espacoAbaixo: null,
         corte: isFinite(rc) ? rc * l.hz : null, razaoCorte: isFinite(rc) ? rc : null
       });
@@ -249,7 +271,7 @@
     if (v.cabeca < v.janelaCompr / 2) avisos.push("A cabeça informada é menor que metade do comprimento da janela.");
     furos.forEach(function (f, i) {
       var r = "Furo " + f.linha + " (" + f.nota + ")";
-      if (f.razaoCorte === null) avisos.push(r + ": alcance (cutoff) indisponível para essa combinação.");
+      if (f.razaoCorte === null) avisos.push(r + ": alcance (cutoff) indisponível" + (n === 5 && i === 0 ? " (o código Bracker/Flute Lab não calcula o cutoff do furo do pé quando a linha final R3 está livre, como na NAF de 5 furos)." : " para essa combinação."));
       else if (f.razaoCorte < 1.5) avisos.push(r + ": alcance (cutoff) crítico (razão " + f.razaoCorte.toFixed(2).replace(".", ",") + "): a 2ª oitava tende a não sair. Aumentar o furo ou afastá-lo do vizinho melhora.");
       else if (f.razaoCorte < 2) avisos.push(r + ": alcance (cutoff) limitado (razão " + f.razaoCorte.toFixed(2).replace(".", ",") + ").");
       if (f.diametro > bore * 0.72) avisos.push(r + ": furo acima de 72% do diâmetro interno (limite usado nas sugestões do modelo).");
@@ -275,6 +297,6 @@
   }
 
   var api = { calcular: calcular, validar: validar, sugerir: sugerir, escala: escala, parseNota: parseNota, nomePt: nomePt, nomeEn: nomeEn,
-    freqNota: freqNota, freqFundamental: freqFundamental, notaMaisProxima: notaMaisProxima, MIDI_MIN: MIDI_MIN, MIDI_MAX: MIDI_MAX, LINHAS_BRACKER: LINHAS_BRACKER };
+    FURO_EXTRA: FURO_EXTRA, freqNota: freqNota, freqFundamental: freqFundamental, notaMaisProxima: notaMaisProxima, MIDI_MIN: MIDI_MIN, MIDI_MAX: MIDI_MAX, LINHAS_BRACKER: LINHAS_BRACKER };
   if (typeof module === "object" && module.exports) module.exports = api; else root.NafCalc = api;
 })(this);

@@ -10,7 +10,8 @@ from flute_app.acoustics.bracker_quick_engine import (
 from flute_app.acoustics.notes import note_to_frequency
 
 # linhas Bracker (da embocadura para o pe) usadas por NAF de N furos
-SLOTS = {6: ["L1", "L2", "L3", "R1", "R2", "R3"], 5: ["L2", "L3", "R1", "R2", "R3"]}
+# Topologia do Lab (instrument_family.py): NAF 5 furos = L1 L2 L3 R1 R2; NAF 6 furos = L1..R3
+SLOTS = {6: ["L1", "L2", "L3", "R1", "R2", "R3"], 5: ["L1", "L2", "L3", "R1", "R2"]}
 
 def caso(nome, furos, key="G4", a4=440.0, temp=20.0, od=26.0, wall=2.6, janL=10.4, janW=11.4, janH=1.5,
          cabeca=100.0, ponta=0.0, notas=None, hz=None, diam=None, ativos=None):
@@ -44,18 +45,21 @@ def caso(nome, furos, key="G4", a4=440.0, temp=20.0, od=26.0, wall=2.6, janL=10.
         furosBoca2Pe=furos_out, comprimentoAcustico=o.acoustic_length_mm, comprimentoFisico=o.physical_length_mm,
         correcao=o.correction_mm, furoInterno=o.bore_mm, furoOtimo=o.optimum_bore_mm))
 
-p = ["Bb4", "C5", "D5", "F5", "G5", "Bb5"]       # pentatonica menor de Sol, do pe para a boca
-d6 = [10.5, 8.0, 7.0, 8.0, 9.0, 8.0]
+p5 = ["Bb4", "C5", "D5", "F5", "G5"]              # pentatonica menor de Sol, do pe para a boca (5 furos)
+p = ["Bb4", "C5", "D5", "Eb5", "F5", "G5"]        # 6 furos: furo 4 do pe = EXTRA (+8, 6a menor), Flutopedia Basic-Six
+d6 = [10.5, 8.0, 7.0, 5.0, 9.0, 8.0]              # furo 4 (extra) pequeno: o modelo so resolve com ele pequeno
+T6 = dict(od=22.0, wall=2.6)                       # tubo estreito o bastante para o modelo achar posicoes
 casos = [
-    caso("sol4-5furos", 5, notas=p[:5], diam=[10.5, 8.0, 7.0, 8.0, 9.0]),
-    caso("sol4-6furos", 6, notas=p, diam=d6),
-    caso("sol4-5furos-a432-30C", 5, a4=432.0, temp=30.0, notas=p[:5], diam=[9, 8, 7.5, 8, 9]),
-    caso("sol4-5furos-hz-explicito", 5, notas=p[:5], hz=[470.0, None, 590.0, None, None], diam=[10.5, 8.0, 7.0, 8.0, 9.0]),
-    caso("sol4-6furos-diam-alterado", 6, notas=p, diam=[12.0, 8.0, 7.0, 8.0, 9.0, 8.0]),
-    caso("erro-linha-inativa-sem-solucao", 6, notas=p, diam=d6, ativos=[True, True, False, True, True, True]),
-    caso("sol4-6furos-linha-inativa-F5", 6, notas=p, diam=d6, ativos=[True, True, True, False, True, True]),
-    caso("sol4-6furos-linha-inativa-pe", 6, notas=p, diam=d6, ativos=[False, True, True, True, True, True]),
-    caso("sol4-6furos-ponta15", 6, notas=p, diam=d6, ponta=15.0, cabeca=90.0),
+    caso("sol4-5furos", 5, notas=p5, diam=[10.5, 8.0, 7.0, 8.0, 9.0]),
+    caso("sol4-6furos-extra", 6, notas=p, diam=d6, **T6),
+    caso("sol4-5furos-a432-30C", 5, a4=432.0, temp=30.0, notas=p5, diam=[9, 8, 7.5, 8, 9]),
+    caso("sol4-5furos-hz-explicito", 5, notas=p5, hz=[470.0, None, 590.0, None, None], diam=[10.5, 8.0, 7.0, 8.0, 9.0]),
+    caso("sol4-6furos-diam-alterado", 6, notas=p, diam=[12.0, 8.0, 7.0, 5.0, 9.0, 8.0], **T6),
+    caso("sol4-6furos-extra-hz-explicito", 6, notas=p, hz=[None, None, None, 620.0, None, None], diam=d6, **T6),
+    caso("sol4-6furos-extra-inativo", 6, notas=p, diam=d6, ativos=[True, True, True, False, True, True], **T6),
+    caso("sol4-6furos-linha-inativa-pe", 6, notas=p, diam=d6, ativos=[False, True, True, True, True, True], **T6),
+    caso("sol4-6furos-ponta15", 6, notas=p, diam=d6, ponta=15.0, cabeca=90.0, **T6),
+    caso("erro-6furos-extra-tubo-largo", 6, notas=p, diam=d6),
     caso("la3-5furos", 5, key="A3", od=30.0, wall=3.0, janL=12.0, janW=13.0, janH=1.8, notas=["C4", "D4", "E4", "G4", "A4"], diam=[11, 9, 8, 9, 10]),
     caso("erro-ordem-invertida", 5, notas=["G5", "F5", "D5", "C5", "Bb4"], diam=[10.5, 8.0, 7.0, 8.0, 9.0]),
 ]

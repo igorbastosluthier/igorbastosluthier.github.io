@@ -181,7 +181,7 @@
   <fieldset><legend>1. Instrumento e afinação</legend>
     <label>Quantidade de furos<select id="naf-furos"><option value="5">5 furos</option><option value="6">6 furos</option></select></label>
     <label>Nota fundamental (todos os furos fechados)<select id="naf-fund"></select><small>Com a oitava: Sol 4 é o G4 de 392 Hz.</small></label>
-    <label>Escala dos furos<select id="naf-escala"><option value="pentatonica-menor">Pentatônica menor</option><option value="personalizada">Personalizada</option></select><small>Pentatônica menor: 1º furo abre a 3ª menor acima da fundamental. Na personalizada, digite a nota ou os Hz de cada furo.</small></label>
+    <label>Escala dos furos<select id="naf-escala"><option value="pentatonica-menor">Pentatônica menor</option><option value="personalizada">Personalizada</option></select><small>Pentatônica menor (passos 3-2-2-3-2): o 1º furo, contado do pé, abre a 3ª menor. Com 6 furos, o 4º furo do pé é um <b>furo extra</b>, fora da escala (na digitação principal fica fechado). Na personalizada, digite a nota ou os Hz de cada furo.</small></label>
     <label>Referência A4 (Hz)<input id="naf-a4" type="number" min="380" max="480" step="0.1" value="440"><small>440 é o padrão.</small></label>
     <label>Temperatura ambiente (°C)<input id="naf-temp" type="number" min="-10" max="50" step="1" value="20"><small>O som muda com o calor: use a temperatura em que vai tocar.</small></label>
   </fieldset>
@@ -198,7 +198,7 @@
     <label>Cabeça: da ponta da cabeça ao centro da janela (mm)<input id="naf-cabeca" type="number" min="0" max="400" step="0.5"><small>Só soma ao comprimento total. Não é a distância da janela ao pé.</small></label>
   </fieldset>
   <fieldset class="pc-furos"><legend>4. Furos, do pé para a embocadura</legend>
-    <p class="pc-mini">O furo 1 é o mais perto do pé. Escolha a nota ou digite os Hz: <b>se digitar Hz, esse valor é o alvo</b>, mesmo que a nota mais próxima tenha outro nome. Desmarque um furo para tirá-lo do cálculo. As medidas iniciais são sugestões editáveis; mudar o diâmetro muda a posição.</p>
+    <p class="pc-mini">O furo 1 é o mais perto do pé. Escolha a nota ou digite os Hz: <b>se digitar Hz, esse valor é o alvo</b>, mesmo que a nota mais próxima tenha outro nome. Desmarque um furo para tirá-lo do cálculo. <b>Furo extra (6 furos):</b> o modelo Bracker calcula a posição dele supondo todos os furos de baixo abertos; na prática ele é afinado com o 3º furo fechado, então confira com o afinador. Ele só tem solução se for bem menor que os vizinhos e o tubo não for largo. As medidas iniciais são sugestões editáveis; mudar o diâmetro muda a posição.</p>
     <div id="naf-linhas"></div>
     <datalist id="naf-notas"></datalist>
     <button type="button" id="naf-sugerir" class="btn ghost">Voltar às medidas sugeridas</button>
