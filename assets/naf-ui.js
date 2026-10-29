@@ -58,6 +58,7 @@
 
   function sugestao() { return N.sugerir({ furos: nFuros(), midi: midiFund(), a4: parseFloat($("naf-a4").value) || 440 }); }
   function derivarInterno() {
+    if (document.activeElement === $("naf-di")) return; /* não reescreve o campo enquanto a pessoa digita nele */
     var od = parseFloat($("naf-od").value), p = parseFloat($("naf-parede").value);
     $("naf-di").value = isFinite(od) && isFinite(p) ? (Math.round((od - 2 * p) * 100) / 100) : "";
   }
