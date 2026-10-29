@@ -171,7 +171,7 @@
     var v = {};
     v.furos = e.furos === 5 ? 5 : e.furos === 6 ? 6 : NaN;
     if (!isFinite(v.furos)) erros.push({ campo: "furos", msg: "Quantidade de furos: escolha 5 ou 6." });
-    v.a4 = req("a4", "Referência A4", e.a4, 380, 480, " Hz");
+    v.a4 = req("a4", "Afinação (Lá)", e.a4, 380, 480, " Hz");
     v.temperatura = req("temperatura", "Temperatura", e.temperatura, -10, 50, " °C");
     v.diametroExterno = req("diametroExterno", "Diâmetro externo", e.diametroExterno, 8, 80, " mm");
     v.parede = req("parede", "Espessura da parede", e.parede, 0.3, 20, " mm");
@@ -179,15 +179,15 @@
     v.janelaLarg = req("janelaLarg", "Largura da janela", e.janelaLarg, 1, 60, " mm");
     v.janelaAltura = req("janelaAltura", "Altura da janela", e.janelaAltura, 0.1, 30, " mm");
     var cab = num(e.cabeca);
-    if (!isFinite(cab)) erros.push({ campo: "cabeca", msg: "Cabeça (ponta da cabeça ao centro da janela): informe um número em mm." });
-    else if (cab < 0 || cab > 400) erros.push({ campo: "cabeca", msg: "Cabeça (ponta da cabeça ao centro da janela): use um valor entre 0 e 400 mm." }); else v.cabeca = cab;
+    if (!isFinite(cab)) erros.push({ campo: "cabeca", msg: "Cabeça: informe um número em mm." });
+    else if (cab < 0 || cab > 400) erros.push({ campo: "cabeca", msg: "Cabeça: use um valor entre 0 e 400 mm." }); else v.cabeca = cab;
     var po = e.ponta === undefined || e.ponta === "" ? 0 : num(e.ponta);
-    if (!isFinite(po) || po < 0 || po > 200) erros.push({ campo: "ponta", msg: "Extensão na ponta do pé: use um valor entre 0 e 200 mm." }); else v.ponta = po;
+    if (!isFinite(po) || po < 0 || po > 200) erros.push({ campo: "ponta", msg: "Extensão na ponta: use um valor entre 0 e 200 mm." }); else v.ponta = po;
     if (isFinite(v.diametroExterno) && isFinite(v.parede) && v.diametroExterno <= 2 * v.parede)
       erros.push({ campo: "parede", msg: "O diâmetro externo (" + fmt(v.diametroExterno) + " mm) precisa ser maior que duas vezes a parede (" + fmt(2 * v.parede) + " mm)." });
     var midi = parseNota(e.fundamental);
-    if (midi === null) erros.push({ campo: "fundamental", msg: "Nota fundamental inválida. Exemplos: Sol 4, G4, Lá 3, Sib 3." });
-    else if (midi < MIDI_MIN || midi > MIDI_MAX) erros.push({ campo: "fundamental", msg: "O modelo Bracker cobre fundamentais de Dó 3 a Sol 5." });
+    if (midi === null) erros.push({ campo: "fundamental", msg: "Nota grave inválida. Exemplos: Sol 4, Lá 3, Sib 3." });
+    else if (midi < MIDI_MIN || midi > MIDI_MAX) erros.push({ campo: "fundamental", msg: "A nota grave precisa estar entre Dó 3 e Sol 5." });
     v.midi = midi;
     var linhas = Array.isArray(e.linhas) ? e.linhas.slice(0, isFinite(v.furos) ? v.furos : 6) : [];
     if (isFinite(v.furos) && linhas.length < v.furos) erros.push({ campo: "linhas", msg: "Faltam linhas de furos (esperadas " + v.furos + ")." });
@@ -221,10 +221,10 @@
     if (!ativas.length) return { ok: false, erros: [{ campo: "linhas", msg: "Ative ao menos um furo." }] };
 
     /* ordem: do pé para a boca as frequências sobem; a fundamental é a mais grave */
-    var ant = fend, antRot = "a fundamental";
+    var ant = fend, antRot = "a nota grave";
     for (var q = 0; q < ativas.length; q++) {
       if (!(ativas[q].hz > ant)) {
-        return { ok: false, erros: [{ campo: "furo" + (ativas[q].linha - 1) + "-hz", msg: "Ordem de notas incompatível com a topologia: o furo " + ativas[q].linha + " (" + ativas[q].hz.toFixed(2).replace(".", ",") + " Hz) precisa ser mais agudo que " + antRot + " (" + ant.toFixed(2).replace(".", ",") + " Hz). Os furos sobem em frequência do pé para a boca." }] };
+        return { ok: false, erros: [{ campo: "furo" + (ativas[q].linha - 1) + "-hz", msg: "Ordem das notas: o furo " + ativas[q].linha + " (" + ativas[q].hz.toFixed(2).replace(".", ",") + " Hz) precisa soar mais agudo que " + antRot + " (" + ant.toFixed(2).replace(".", ",") + " Hz). As notas sobem do pé para a boca." }] };
       }
       ant = ativas[q].hz; antRot = "o furo " + ativas[q].linha;
     }
@@ -242,13 +242,13 @@
 
     var compAc = s.xend - s.xemb;
     function falha(msg, campo) { return { ok: false, erros: [{ campo: campo || "geometria", msg: msg }] }; }
-    if (!isFinite(compAc) || compAc <= 0) return falha("O modelo não encontrou um comprimento acústico válido para estes parâmetros. Revise o diâmetro, a parede e a janela.");
+    if (!isFinite(compAc) || compAc <= 0) return falha("Não foi possível calcular com estas medidas. Revise o diâmetro, a parede e a janela.");
     var previo = Infinity, doFim = [];
     for (k = n - 1; k >= 0; k--) { /* boca -> pé */
       if (!v.linhas[k].ativo) continue;
       var x = s.xend - s.xf[slotDe[k]];
       if (!isFinite(x) || x <= 0 || x >= compAc || x >= previo)
-        return falha("O modelo não encontrou posições físicas em ordem para as notas e diâmetros informados (primeira inconsistência no furo " + (k + 1) + "). Revise a ordem das notas, os diâmetros e a relação diâmetro/parede.", "furo" + k + "-d");
+        return falha("Não foi possível posicionar o furo " + (k + 1) + " com estas medidas. Tente um tubo mais estreito ou furos menores, ou revise a ordem das notas.", "furo" + k + "-d");
       doFim[k] = x; previo = x;
     }
 
@@ -276,28 +276,22 @@
 
     var otimo = 2620 * Math.pow(fend, -5 / 6);
     if (Math.abs(bore - otimo) / otimo > 0.18)
-      avisos.push("O diâmetro interno (" + fmt(bore) + " mm) está longe do que o modelo Bracker recomenda para essa fundamental (" + fmt(otimo) + " mm). Os furos continuam calculados, mas o resultado pode ficar fraco ou instável.");
-    if (v.cabeca < v.janelaCompr / 2) avisos.push("A cabeça informada é menor que metade do comprimento da janela.");
+      avisos.push("Tubo fora do ideal para essa nota: o ideal é perto de " + fmt(otimo) + " mm de diâmetro interno (o seu tem " + fmt(bore) + " mm).");
+    if (v.cabeca < v.janelaCompr / 2) avisos.push("A cabeça está curta demais para a janela.");
     furos.forEach(function (f, i) {
       var r = "Furo " + f.linha + " (" + f.nota + ")";
-      if (f.razaoCorte === null) avisos.push(r + ": não foi possível estimar o alcance deste furo com estas medidas.");
-      else {
-        if (f.corteEstimado) avisos.push(r + ": o modelo original (Bracker) não calcula o alcance do furo do pé quando ele é o último furo da flauta (caso da NAF de 5 furos); o valor mostrado é uma estimativa feita com a regra do último furo (distância até o fim do tubo). As posições dos furos não dependem disso.");
-        var est = f.corteEstimado ? ", estimada" : "";
-        if (f.razaoCorte < 1.5) avisos.push(r + ": alcance (cutoff) crítico (razão " + f.razaoCorte.toFixed(2).replace(".", ",") + est + "): a 2ª oitava tende a não sair. Aumentar o furo ou afastá-lo do vizinho melhora.");
-        else if (f.razaoCorte < 2) avisos.push(r + ": alcance (cutoff) limitado (razão " + f.razaoCorte.toFixed(2).replace(".", ",") + est + ").");
-      }
-      if (f.diametro > bore * 0.72) avisos.push(r + ": furo acima de 72% do diâmetro interno (limite usado nas sugestões do modelo).");
-      if (f.doPeAcustico - f.diametro / 2 < 0) avisos.push(r + ": o furo encosta na ponta do pé.");
-      if (f.daJanela - f.diametro / 2 < v.janelaCompr / 2) avisos.push(r + ": o furo toca a janela (centro a " + fmt(f.daJanela) + " mm do centro da janela).");
+      if (f.razaoCorte !== null && f.razaoCorte < 1.5) avisos.push(r + ": os agudos vão sair com dificuldade. Aumente o furo ou afaste-o do vizinho.");
+      if (f.diametro > bore * 0.72) avisos.push(r + ": furo grande demais para o tubo.");
+      if (f.doPeAcustico - f.diametro / 2 < 0) avisos.push(r + ": o furo encosta na ponta do tubo.");
+      if (f.daJanela - f.diametro / 2 < v.janelaCompr / 2) avisos.push(r + ": o furo encosta na janela.");
       if (i > 0) {
         var p = furos[i - 1], d = f.doPe - p.doPe;
-        if (d < (f.diametro + p.diametro) / 2) avisos.push(r + ": sobreposto ao furo " + p.linha + " (centros a " + fmt(d) + " mm; os furos se cruzam).");
-        else if (d < Math.max(12, f.diametro + 4)) avisos.push(r + ": furo muito próximo do furo " + p.linha + " (centros a " + fmt(d) + " mm).");
+        if (d < (f.diametro + p.diametro) / 2) avisos.push(r + ": cruza o furo " + p.linha + " (centros a " + fmt(d) + " mm).");
+        else if (d < Math.max(12, f.diametro + 4)) avisos.push(r + ": muito perto do furo " + p.linha + " (centros a " + fmt(d) + " mm).");
       }
     });
     return {
-      ok: true, modelo: "Bracker (Flute Lab 6.1.1), excitação Whistle/janela",
+      ok: true, modelo: "bracker-whistle",
       entrada: { furos: n, fundamental: v.midi, a4: v.a4, temperatura: v.temperatura, diametroExterno: v.diametroExterno, parede: v.parede, janelaCompr: v.janelaCompr, janelaLarg: v.janelaLarg, janelaAltura: v.janelaAltura, cabeca: v.cabeca, ponta: v.ponta },
       fundamental: { midi: v.midi, nome: nomePt(v.midi), nomeIng: nomeEn(v.midi), hz: fend },
       diametroInterno: bore, velocidadeSom: s.c, furoOtimo: otimo,
