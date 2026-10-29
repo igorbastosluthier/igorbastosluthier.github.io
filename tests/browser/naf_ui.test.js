@@ -72,5 +72,18 @@ module.exports = async (p, base) => {
   await p.goto(base + "/calculadora.html"); await ev("document.getElementById('modo-aba-naf').click()"); await p.sleep(300);
   ok((await ev("document.getElementById('naf-temp').value")) === "31", "B4 aba NAF mostra o cálculo salvo mesmo abrindo primeiro no Pífano");
 
+  /* C1: caso do dono (5 furos, Dó 5): cutoff do furo do pé estimado e explicado; parágrafo do furo extra só com 6 furos */
+  await abrir();
+  await set("naf-fund", "C5", "change"); await set("naf-temp", "25"); await set("naf-od", "22.4"); await set("naf-parede", "3"); await set("naf-jc", "5"); await set("naf-jl", "12"); await set("naf-ja", "8"); await set("naf-cabeca", "85");
+  for (const [k, d] of [[0, 9], [1, 8], [2, 9], [3, 11], [4, 9]]) await ev("(()=>{const e=document.querySelector('#naf-linhas [data-k=\"" + k + "\"][data-c=\"d\"]');e.value='" + d + "';e.dispatchEvent(new Event('input',{bubbles:true}));})()");
+  ok((await erro()) === "" && (await linhasTab()) === 5, "C1 caso do dono calcula 5 furos", await erro());
+  const cel1 = await ev("document.querySelector('#naf-tabela tbody tr td:last-child').innerText");
+  ok(/\(estimado\)/.test(cel1) && !/indispon|NaN|null/.test(cel1), "C1 cutoff do furo 1 estimado na tabela", cel1);
+  const av = await ev("document.getElementById('naf-avisos').innerText");
+  ok(/estimativa/.test(av) && !/R3|NaN|null|indispon|undefined/.test(av), "C1 aviso em português simples", av);
+  ok(await ev("document.getElementById('naf-ajuda-extra').hidden"), "C1 parágrafo do furo extra oculto com 5 furos");
+  await set("naf-furos", "6", "change");
+  ok(!(await ev("document.getElementById('naf-ajuda-extra').hidden")), "C1 parágrafo do furo extra visível com 6 furos");
+
   console.log(falhas ? "RESULTADO: " + falhas + " falha(s)" : "RESULTADO: tudo OK");
 };
