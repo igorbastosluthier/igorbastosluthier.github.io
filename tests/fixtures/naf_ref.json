@@ -1,0 +1,1389 @@
+{
+ "origem": "Flute Lab 6.1.1 bracker_quick_engine.calculate_quick_design",
+ "casos": [
+  {
+   "nome": "sol4-5furos",
+   "entrada": {
+    "furos": 5,
+    "fundamental": "G4",
+    "a4": 440.0,
+    "temperatura": 20.0,
+    "diametroExterno": 26.0,
+    "parede": 2.6,
+    "janelaCompr": 10.4,
+    "janelaLarg": 11.4,
+    "janelaAltura": 1.5,
+    "cabeca": 100.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "Bb4",
+      "hz": null,
+      "diametro": 10.5,
+      "ativo": true
+     },
+     {
+      "nota": "C5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "D5",
+      "hz": null,
+      "diametro": 7.0,
+      "ativo": true
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     }
+    ]
+   },
+   "saida": {
+    "furosBoca2Pe": [
+     {
+      "rotulo": "L1",
+      "hz": 783.9908719634985,
+      "diametro": 9.0,
+      "doPe": 227.2090824691182,
+      "doPeAcustico": 227.2090824691182,
+      "daJanela": 180.16684512338645,
+      "espaco": null,
+      "corte": 2064.09583003277,
+      "razaoCorte": 2.6328059469152487,
+      "avisos": []
+     },
+     {
+      "rotulo": "L2",
+      "hz": 698.4564628660078,
+      "diametro": 8.0,
+      "doPe": 213.3161093324494,
+      "doPeAcustico": 213.3161093324494,
+      "daJanela": 194.05981826005524,
+      "espaco": 13.892973136668786,
+      "corte": 1085.4948612114576,
+      "razaoCorte": 1.554133892264806,
+      "avisos": [
+       "cutoff baixo"
+      ]
+     },
+     {
+      "rotulo": "L3",
+      "hz": 587.3295358348151,
+      "diametro": 7.0,
+      "doPe": 170.16345842456923,
+      "doPeAcustico": 170.16345842456923,
+      "daJanela": 237.2124691679354,
+      "espaco": 43.15265090788017,
+      "corte": 1047.8019751278118,
+      "razaoCorte": 1.784010357385642,
+      "avisos": [
+       "cutoff baixo"
+      ]
+     },
+     {
+      "rotulo": "R1",
+      "hz": 523.2511306011972,
+      "diametro": 8.0,
+      "doPe": 131.31717283837082,
+      "doPeAcustico": 131.31717283837082,
+      "daJanela": 276.0587547541338,
+      "espaco": 38.846285586198405,
+      "corte": 1101.0985899076184,
+      "razaoCorte": 2.104340584305082,
+      "avisos": []
+     },
+     {
+      "rotulo": "R2",
+      "hz": 466.1637615180899,
+      "diametro": 10.5,
+      "doPe": 89.37889324715235,
+      "doPeAcustico": 89.37889324715235,
+      "daJanela": 317.9970343453523,
+      "espaco": 41.938279591218475,
+      "corte": null,
+      "razaoCorte": null,
+      "avisos": [
+       "cutoff indisponível"
+      ]
+     }
+    ],
+    "comprimentoAcustico": 407.37592759250464,
+    "comprimentoFisico": 507.37592759250464,
+    "correcao": 28.35957600581986,
+    "furoInterno": 20.8,
+    "furoOtimo": 18.08147197276062
+   }
+  },
+  {
+   "nome": "sol4-6furos-extra",
+   "entrada": {
+    "furos": 6,
+    "fundamental": "G4",
+    "a4": 440.0,
+    "temperatura": 20.0,
+    "diametroExterno": 22.0,
+    "parede": 2.6,
+    "janelaCompr": 10.4,
+    "janelaLarg": 11.4,
+    "janelaAltura": 1.5,
+    "cabeca": 100.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "Bb4",
+      "hz": null,
+      "diametro": 10.5,
+      "ativo": true
+     },
+     {
+      "nota": "C5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "D5",
+      "hz": null,
+      "diametro": 7.0,
+      "ativo": true
+     },
+     {
+      "nota": "Eb5",
+      "hz": null,
+      "diametro": 5.0,
+      "ativo": true
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     },
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     }
+    ]
+   },
+   "saida": {
+    "furosBoca2Pe": [
+     {
+      "rotulo": "L1",
+      "hz": 783.9908719634985,
+      "diametro": 8.0,
+      "doPe": 230.81076140006212,
+      "doPeAcustico": 230.81076140006212,
+      "daJanela": 184.26378202109095,
+      "espaco": null,
+      "corte": 1571.150144336695,
+      "razaoCorte": 2.0040413741065155,
+      "avisos": []
+     },
+     {
+      "rotulo": "L2",
+      "hz": 698.4564628660078,
+      "diametro": 9.0,
+      "doPe": 199.23631455855292,
+      "doPeAcustico": 199.23631455855292,
+      "daJanela": 215.83822886260015,
+      "espaco": 31.5744468415092,
+      "corte": 2170.3775379554218,
+      "razaoCorte": 3.1073913026011875,
+      "avisos": []
+     },
+     {
+      "rotulo": "L3",
+      "hz": 622.2539674441618,
+      "diametro": 5.0,
+      "doPe": 179.97471085879084,
+      "doPeAcustico": 179.97471085879084,
+      "daJanela": 235.09983256236222,
+      "espaco": 19.261603699762077,
+      "corte": 1536.9996829554923,
+      "razaoCorte": 2.4700520420440957,
+      "avisos": []
+     },
+     {
+      "rotulo": "R1",
+      "hz": 587.3295358348151,
+      "diametro": 7.0,
+      "doPe": 162.52017378915167,
+      "doPeAcustico": 162.52017378915167,
+      "daJanela": 252.5543696320014,
+      "espaco": 17.454537069639173,
+      "corte": 1318.506724775395,
+      "razaoCorte": 2.2449181325459877,
+      "avisos": []
+     },
+     {
+      "rotulo": "R2",
+      "hz": 523.2511306011972,
+      "diametro": 8.0,
+      "doPe": 124.91467682677495,
+      "doPeAcustico": 124.91467682677495,
+      "daJanela": 290.1598665943781,
+      "espaco": 37.60549696237672,
+      "corte": 1329.3253660514386,
+      "razaoCorte": 2.540511215951106,
+      "avisos": []
+     },
+     {
+      "rotulo": "R3",
+      "hz": 466.1637615180899,
+      "diametro": 10.5,
+      "doPe": 80.80757257600993,
+      "doPeAcustico": 80.80757257600993,
+      "daJanela": 334.26697084514313,
+      "espaco": 44.10710425076502,
+      "corte": 1167.9683020865878,
+      "razaoCorte": 2.5054892690135966,
+      "avisos": []
+     }
+    ],
+    "comprimentoAcustico": 415.07454342115307,
+    "comprimentoFisico": 515.0745434211531,
+    "correcao": 20.660960177171432,
+    "furoInterno": 16.8,
+    "furoOtimo": 18.08147197276062
+   }
+  },
+  {
+   "nome": "sol4-5furos-a432-30C",
+   "entrada": {
+    "furos": 5,
+    "fundamental": "G4",
+    "a4": 432.0,
+    "temperatura": 30.0,
+    "diametroExterno": 26.0,
+    "parede": 2.6,
+    "janelaCompr": 10.4,
+    "janelaLarg": 11.4,
+    "janelaAltura": 1.5,
+    "cabeca": 100.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "Bb4",
+      "hz": null,
+      "diametro": 9,
+      "ativo": true
+     },
+     {
+      "nota": "C5",
+      "hz": null,
+      "diametro": 8,
+      "ativo": true
+     },
+     {
+      "nota": "D5",
+      "hz": null,
+      "diametro": 7.5,
+      "ativo": true
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 8,
+      "ativo": true
+     },
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 9,
+      "ativo": true
+     }
+    ]
+   },
+   "saida": {
+    "furosBoca2Pe": [
+     {
+      "rotulo": "L1",
+      "hz": 769.7364924732532,
+      "diametro": 9.0,
+      "doPe": 235.0020368843513,
+      "doPeAcustico": 235.0020368843513,
+      "daJanela": 188.05918463226493,
+      "espaco": null,
+      "corte": 2108.5873976705325,
+      "razaoCorte": 2.739362649801616,
+      "avisos": []
+     },
+     {
+      "rotulo": "L2",
+      "hz": 685.7572544502622,
+      "diametro": 8.0,
+      "doPe": 221.23033957876584,
+      "doPeAcustico": 221.23033957876584,
+      "daJanela": 201.8308819378504,
+      "espaco": 13.771697305585462,
+      "corte": 1049.3274473710394,
+      "razaoCorte": 1.5301733092305871,
+      "avisos": [
+       "cutoff baixo"
+      ]
+     },
+     {
+      "rotulo": "L3",
+      "hz": 576.6508170014548,
+      "diametro": 7.5,
+      "doPe": 173.46017575872435,
+      "doPeAcustico": 173.46017575872435,
+      "daJanela": 249.60104575789188,
+      "espaco": 47.77016382004149,
+      "corte": 1104.0912182260895,
+      "razaoCorte": 1.914661673362901,
+      "avisos": [
+       "cutoff baixo"
+      ]
+     },
+     {
+      "rotulo": "R1",
+      "hz": 513.7374736811755,
+      "diametro": 8.0,
+      "doPe": 133.8073645149854,
+      "doPeAcustico": 133.8073645149854,
+      "daJanela": 289.2538570016308,
+      "espaco": 39.65281124373894,
+      "corte": 1206.6602487786786,
+      "razaoCorte": 2.348787679692468,
+      "avisos": []
+     },
+     {
+      "rotulo": "R2",
+      "hz": 457.68805676321557,
+      "diametro": 9.0,
+      "doPe": 97.6822872562143,
+      "doPeAcustico": 97.6822872562143,
+      "daJanela": 325.37893426040193,
+      "espaco": 36.125077258771114,
+      "corte": null,
+      "razaoCorte": null,
+      "avisos": [
+       "cutoff indisponível"
+      ]
+     }
+    ],
+    "comprimentoAcustico": 423.06122151661623,
+    "comprimentoFisico": 523.0612215166162,
+    "correcao": 28.326523121204445,
+    "furoInterno": 20.8,
+    "furoOtimo": 18.36007949475804
+   }
+  },
+  {
+   "nome": "sol4-5furos-hz-explicito",
+   "entrada": {
+    "furos": 5,
+    "fundamental": "G4",
+    "a4": 440.0,
+    "temperatura": 20.0,
+    "diametroExterno": 26.0,
+    "parede": 2.6,
+    "janelaCompr": 10.4,
+    "janelaLarg": 11.4,
+    "janelaAltura": 1.5,
+    "cabeca": 100.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "Bb4",
+      "hz": 470.0,
+      "diametro": 10.5,
+      "ativo": true
+     },
+     {
+      "nota": "C5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "D5",
+      "hz": 590.0,
+      "diametro": 7.0,
+      "ativo": true
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     }
+    ]
+   },
+   "saida": {
+    "furosBoca2Pe": [
+     {
+      "rotulo": "L1",
+      "hz": 783.9908719634985,
+      "diametro": 9.0,
+      "doPe": 227.99424172849538,
+      "doPeAcustico": 227.99424172849538,
+      "daJanela": 179.38168586400926,
+      "espaco": null,
+      "corte": 1960.722470092458,
+      "razaoCorte": 2.500950636302493,
+      "avisos": []
+     },
+     {
+      "rotulo": "L2",
+      "hz": 698.4564628660078,
+      "diametro": 8.0,
+      "doPe": 212.597718659436,
+      "doPeAcustico": 212.597718659436,
+      "daJanela": 194.77820893306864,
+      "espaco": 15.396523069059384,
+      "corte": 1125.4021018397675,
+      "razaoCorte": 1.6112702246634738,
+      "avisos": [
+       "cutoff baixo"
+      ]
+     },
+     {
+      "rotulo": "L3",
+      "hz": 590.0,
+      "diametro": 7.0,
+      "doPe": 172.4512287703712,
+      "doPeAcustico": 172.4512287703712,
+      "daJanela": 234.92469882213345,
+      "espaco": 40.14648988906481,
+      "corte": 1005.2772657211103,
+      "razaoCorte": 1.7038597724086615,
+      "avisos": [
+       "cutoff baixo"
+      ]
+     },
+     {
+      "rotulo": "R1",
+      "hz": 523.2511306011972,
+      "diametro": 8.0,
+      "doPe": 130.24892084751593,
+      "doPeAcustico": 130.24892084751593,
+      "daJanela": 277.1270067449887,
+      "espaco": 42.202307922855255,
+      "corte": 1161.947831548046,
+      "razaoCorte": 2.2206312869558613,
+      "avisos": []
+     },
+     {
+      "rotulo": "R2",
+      "hz": 470.0,
+      "diametro": 10.5,
+      "doPe": 92.58810152007362,
+      "doPeAcustico": 92.58810152007362,
+      "daJanela": 314.787826072431,
+      "espaco": 37.66081932744231,
+      "corte": null,
+      "razaoCorte": null,
+      "avisos": [
+       "cutoff indisponível"
+      ]
+     }
+    ],
+    "comprimentoAcustico": 407.37592759250464,
+    "comprimentoFisico": 507.37592759250464,
+    "correcao": 28.35957600581986,
+    "furoInterno": 20.8,
+    "furoOtimo": 18.08147197276062
+   }
+  },
+  {
+   "nome": "sol4-6furos-diam-alterado",
+   "entrada": {
+    "furos": 6,
+    "fundamental": "G4",
+    "a4": 440.0,
+    "temperatura": 20.0,
+    "diametroExterno": 22.0,
+    "parede": 2.6,
+    "janelaCompr": 10.4,
+    "janelaLarg": 11.4,
+    "janelaAltura": 1.5,
+    "cabeca": 100.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "Bb4",
+      "hz": null,
+      "diametro": 12.0,
+      "ativo": true
+     },
+     {
+      "nota": "C5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "D5",
+      "hz": null,
+      "diametro": 7.0,
+      "ativo": true
+     },
+     {
+      "nota": "Eb5",
+      "hz": null,
+      "diametro": 5.0,
+      "ativo": true
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     },
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     }
+    ]
+   },
+   "saida": {
+    "furosBoca2Pe": [
+     {
+      "rotulo": "L1",
+      "hz": 783.9908719634985,
+      "diametro": 8.0,
+      "doPe": 230.74999072552825,
+      "doPeAcustico": 230.74999072552825,
+      "daJanela": 184.2468262925636,
+      "espaco": null,
+      "corte": 1569.1044644421438,
+      "razaoCorte": 2.0014320581467167,
+      "avisos": []
+     },
+     {
+      "rotulo": "L2",
+      "hz": 698.4564628660078,
+      "diametro": 9.0,
+      "doPe": 199.09316145872958,
+      "doPeAcustico": 199.09316145872958,
+      "daJanela": 215.90365555936228,
+      "espaco": 31.656829266798667,
+      "corte": 2183.292810051282,
+      "razaoCorte": 3.1258824653042487,
+      "avisos": []
+     },
+     {
+      "rotulo": "L3",
+      "hz": 622.2539674441618,
+      "diametro": 5.0,
+      "doPe": 180.05876782934442,
+      "doPeAcustico": 180.05876782934442,
+      "daJanela": 234.93804918874744,
+      "espaco": 19.034393629385164,
+      "corte": 1525.2641125170376,
+      "razaoCorte": 2.45119226604836,
+      "avisos": []
+     },
+     {
+      "rotulo": "R1",
+      "hz": 587.3295358348151,
+      "diametro": 7.0,
+      "doPe": 162.33460273181214,
+      "doPeAcustico": 162.33460273181214,
+      "daJanela": 252.66221428627972,
+      "espaco": 17.72416509753228,
+      "corte": 1327.703207045579,
+      "razaoCorte": 2.260576262623019,
+      "avisos": []
+     },
+     {
+      "rotulo": "R2",
+      "hz": 523.2511306011972,
+      "diametro": 8.0,
+      "doPe": 125.2482587560171,
+      "doPeAcustico": 125.2482587560171,
+      "daJanela": 289.74855826207477,
+      "espaco": 37.086343975795046,
+      "corte": 1287.2503821666642,
+      "razaoCorte": 2.4601005270407317,
+      "avisos": []
+     },
+     {
+      "rotulo": "R3",
+      "hz": 466.1637615180899,
+      "diametro": 12.0,
+      "doPe": 78.21066778710701,
+      "doPeAcustico": 78.21066778710701,
+      "daJanela": 336.78614923098485,
+      "espaco": 47.03759096891008,
+      "corte": 1289.3299115110697,
+      "razaoCorte": 2.765830418289681,
+      "avisos": []
+     }
+    ],
+    "comprimentoAcustico": 414.99681701809186,
+    "comprimentoFisico": 514.9968170180919,
+    "correcao": 20.73868658023264,
+    "furoInterno": 16.8,
+    "furoOtimo": 18.08147197276062
+   }
+  },
+  {
+   "nome": "sol4-6furos-extra-hz-explicito",
+   "entrada": {
+    "furos": 6,
+    "fundamental": "G4",
+    "a4": 440.0,
+    "temperatura": 20.0,
+    "diametroExterno": 22.0,
+    "parede": 2.6,
+    "janelaCompr": 10.4,
+    "janelaLarg": 11.4,
+    "janelaAltura": 1.5,
+    "cabeca": 100.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "Bb4",
+      "hz": null,
+      "diametro": 10.5,
+      "ativo": true
+     },
+     {
+      "nota": "C5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "D5",
+      "hz": null,
+      "diametro": 7.0,
+      "ativo": true
+     },
+     {
+      "nota": "Eb5",
+      "hz": 620.0,
+      "diametro": 5.0,
+      "ativo": true
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     },
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     }
+    ]
+   },
+   "saida": {
+    "furosBoca2Pe": [
+     {
+      "rotulo": "L1",
+      "hz": 783.9908719634985,
+      "diametro": 8.0,
+      "doPe": 230.54426135098512,
+      "doPeAcustico": 230.54426135098512,
+      "daJanela": 184.53028207016794,
+      "espaco": null,
+      "corte": 1603.6569142000874,
+      "razaoCorte": 2.0455045735210438,
+      "avisos": []
+     },
+     {
+      "rotulo": "L2",
+      "hz": 698.4564628660078,
+      "diametro": 9.0,
+      "doPe": 200.23689435351872,
+      "doPeAcustico": 200.23689435351872,
+      "daJanela": 214.83764906763435,
+      "espaco": 30.307366997466403,
+      "corte": 1983.232221625813,
+      "razaoCorte": 2.839450025972882,
+      "avisos": []
+     },
+     {
+      "rotulo": "L3",
+      "hz": 620.0,
+      "diametro": 5.0,
+      "doPe": 177.16857921323114,
+      "doPeAcustico": 177.16857921323114,
+      "daJanela": 237.90596420792193,
+      "espaco": 23.06831514028758,
+      "corte": 1677.7713331701289,
+      "razaoCorte": 2.706082795435692,
+      "avisos": []
+     },
+     {
+      "rotulo": "R1",
+      "hz": 587.3295358348151,
+      "diametro": 7.0,
+      "doPe": 162.52017378915167,
+      "doPeAcustico": 162.52017378915167,
+      "daJanela": 252.5543696320014,
+      "espaco": 14.64840542407947,
+      "corte": 1318.506724775395,
+      "razaoCorte": 2.2449181325459877,
+      "avisos": []
+     },
+     {
+      "rotulo": "R2",
+      "hz": 523.2511306011972,
+      "diametro": 8.0,
+      "doPe": 124.91467682677495,
+      "doPeAcustico": 124.91467682677495,
+      "daJanela": 290.1598665943781,
+      "espaco": 37.60549696237672,
+      "corte": 1329.3253660514386,
+      "razaoCorte": 2.540511215951106,
+      "avisos": []
+     },
+     {
+      "rotulo": "R3",
+      "hz": 466.1637615180899,
+      "diametro": 10.5,
+      "doPe": 80.80757257600993,
+      "doPeAcustico": 80.80757257600993,
+      "daJanela": 334.26697084514313,
+      "espaco": 44.10710425076502,
+      "corte": 1167.9683020865878,
+      "razaoCorte": 2.5054892690135966,
+      "avisos": []
+     }
+    ],
+    "comprimentoAcustico": 415.07454342115307,
+    "comprimentoFisico": 515.0745434211531,
+    "correcao": 20.660960177171432,
+    "furoInterno": 16.8,
+    "furoOtimo": 18.08147197276062
+   }
+  },
+  {
+   "nome": "sol4-6furos-extra-inativo",
+   "entrada": {
+    "furos": 6,
+    "fundamental": "G4",
+    "a4": 440.0,
+    "temperatura": 20.0,
+    "diametroExterno": 22.0,
+    "parede": 2.6,
+    "janelaCompr": 10.4,
+    "janelaLarg": 11.4,
+    "janelaAltura": 1.5,
+    "cabeca": 100.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "Bb4",
+      "hz": null,
+      "diametro": 10.5,
+      "ativo": true
+     },
+     {
+      "nota": "C5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "D5",
+      "hz": null,
+      "diametro": 7.0,
+      "ativo": true
+     },
+     {
+      "nota": "Eb5",
+      "hz": null,
+      "diametro": 5.0,
+      "ativo": false
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     },
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     }
+    ]
+   },
+   "saida": {
+    "furosBoca2Pe": [
+     {
+      "rotulo": "L1",
+      "hz": 783.9908719634985,
+      "diametro": 8.0,
+      "doPe": 229.6454909535035,
+      "doPeAcustico": 229.6454909535035,
+      "daJanela": 185.48662758102824,
+      "espaco": null,
+      "corte": 1726.1489514062207,
+      "razaoCorte": 2.2017462360028444,
+      "avisos": []
+     },
+     {
+      "rotulo": "L2",
+      "hz": 698.4564628660078,
+      "diametro": 9.0,
+      "doPe": 203.48688519587128,
+      "doPeAcustico": 203.48688519587128,
+      "daJanela": 211.64523333866046,
+      "espaco": 26.158605757632216,
+      "corte": 1488.2159557037517,
+      "razaoCorte": 2.1307211470233782,
+      "avisos": []
+     },
+     {
+      "rotulo": "R1",
+      "hz": 587.3295358348151,
+      "diametro": 7.0,
+      "doPe": 162.52017378915008,
+      "doPeAcustico": 162.52017378915008,
+      "daJanela": 252.61194474538166,
+      "espaco": 40.9667114067212,
+      "corte": 1318.5067247754498,
+      "razaoCorte": 2.244918132546081,
+      "avisos": []
+     },
+     {
+      "rotulo": "R2",
+      "hz": 523.2511306011972,
+      "diametro": 8.0,
+      "doPe": 124.91467682677649,
+      "doPeAcustico": 124.91467682677649,
+      "daJanela": 290.21744170775526,
+      "espaco": 37.60549696237359,
+      "corte": 1329.3253660514233,
+      "razaoCorte": 2.540511215951077,
+      "avisos": []
+     },
+     {
+      "rotulo": "R3",
+      "hz": 466.1637615180899,
+      "diametro": 10.5,
+      "doPe": 80.80757257601044,
+      "doPeAcustico": 80.80757257601044,
+      "daJanela": 334.3245459585213,
+      "espaco": 44.10710425076604,
+      "corte": 1167.968302086584,
+      "razaoCorte": 2.5054892690135886,
+      "avisos": []
+     }
+    ],
+    "comprimentoAcustico": 415.13211853453174,
+    "comprimentoFisico": 515.1321185345317,
+    "correcao": 20.603385063792757,
+    "furoInterno": 16.8,
+    "furoOtimo": 18.08147197276062
+   }
+  },
+  {
+   "nome": "sol4-6furos-linha-inativa-pe",
+   "entrada": {
+    "furos": 6,
+    "fundamental": "G4",
+    "a4": 440.0,
+    "temperatura": 20.0,
+    "diametroExterno": 22.0,
+    "parede": 2.6,
+    "janelaCompr": 10.4,
+    "janelaLarg": 11.4,
+    "janelaAltura": 1.5,
+    "cabeca": 100.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "Bb4",
+      "hz": null,
+      "diametro": 10.5,
+      "ativo": false
+     },
+     {
+      "nota": "C5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "D5",
+      "hz": null,
+      "diametro": 7.0,
+      "ativo": true
+     },
+     {
+      "nota": "Eb5",
+      "hz": null,
+      "diametro": 5.0,
+      "ativo": true
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     },
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     }
+    ]
+   },
+   "saida": {
+    "furosBoca2Pe": [
+     {
+      "rotulo": "L1",
+      "hz": 783.9908719634985,
+      "diametro": 8.0,
+      "doPe": 231.33725197749357,
+      "doPeAcustico": 231.33725197749357,
+      "daJanela": 183.9911976936595,
+      "espaco": null,
+      "corte": 1538.5810722576553,
+      "razaoCorte": 1.9624987066549537,
+      "avisos": [
+       "cutoff baixo"
+      ]
+     },
+     {
+      "rotulo": "L2",
+      "hz": 698.4564628660078,
+      "diametro": 9.0,
+      "doPe": 198.41190508342908,
+      "doPeAcustico": 198.41190508342908,
+      "daJanela": 216.916544587724,
+      "espaco": 32.92534689406449,
+      "corte": 2395.3150768578207,
+      "razaoCorte": 3.429440780072414,
+      "avisos": []
+     },
+     {
+      "rotulo": "L3",
+      "hz": 622.2539674441618,
+      "diametro": 5.0,
+      "doPe": 182.5980512903347,
+      "doPeAcustico": 182.5980512903347,
+      "daJanela": 232.73039838081837,
+      "espaco": 15.813853793094381,
+      "corte": 1377.2468143749543,
+      "razaoCorte": 2.2133194586638645,
+      "avisos": []
+     },
+     {
+      "rotulo": "R1",
+      "hz": 587.3295358348151,
+      "diametro": 7.0,
+      "doPe": 160.85941293162267,
+      "doPeAcustico": 160.85941293162267,
+      "daJanela": 254.4690367395304,
+      "espaco": 21.738638358712024,
+      "corte": 1492.1030298190137,
+      "razaoCorte": 2.5404869647806434,
+      "avisos": []
+     },
+     {
+      "rotulo": "R2",
+      "hz": 523.2511306011972,
+      "diametro": 8.0,
+      "doPe": 131.4951971923606,
+      "doPeAcustico": 131.4951971923606,
+      "daJanela": 283.8332524787925,
+      "espaco": 29.36421573926208,
+      "corte": null,
+      "razaoCorte": null,
+      "avisos": [
+       "cutoff indisponível"
+      ]
+     }
+    ],
+    "comprimentoAcustico": 415.32844967115307,
+    "comprimentoFisico": 515.3284496711531,
+    "correcao": 20.407053927171432,
+    "furoInterno": 16.8,
+    "furoOtimo": 18.08147197276062
+   }
+  },
+  {
+   "nome": "sol4-6furos-ponta15",
+   "entrada": {
+    "furos": 6,
+    "fundamental": "G4",
+    "a4": 440.0,
+    "temperatura": 20.0,
+    "diametroExterno": 22.0,
+    "parede": 2.6,
+    "janelaCompr": 10.4,
+    "janelaLarg": 11.4,
+    "janelaAltura": 1.5,
+    "cabeca": 90.0,
+    "ponta": 15.0,
+    "linhas": [
+     {
+      "nota": "Bb4",
+      "hz": null,
+      "diametro": 10.5,
+      "ativo": true
+     },
+     {
+      "nota": "C5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "D5",
+      "hz": null,
+      "diametro": 7.0,
+      "ativo": true
+     },
+     {
+      "nota": "Eb5",
+      "hz": null,
+      "diametro": 5.0,
+      "ativo": true
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     },
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     }
+    ]
+   },
+   "saida": {
+    "furosBoca2Pe": [
+     {
+      "rotulo": "L1",
+      "hz": 783.9908719634985,
+      "diametro": 8.0,
+      "doPe": 245.81076140006212,
+      "doPeAcustico": 230.81076140006212,
+      "daJanela": 184.26378202109095,
+      "espaco": null,
+      "corte": 1571.150144336695,
+      "razaoCorte": 2.0040413741065155,
+      "avisos": []
+     },
+     {
+      "rotulo": "L2",
+      "hz": 698.4564628660078,
+      "diametro": 9.0,
+      "doPe": 214.23631455855292,
+      "doPeAcustico": 199.23631455855292,
+      "daJanela": 215.83822886260015,
+      "espaco": 31.5744468415092,
+      "corte": 2170.3775379554218,
+      "razaoCorte": 3.1073913026011875,
+      "avisos": []
+     },
+     {
+      "rotulo": "L3",
+      "hz": 622.2539674441618,
+      "diametro": 5.0,
+      "doPe": 194.97471085879084,
+      "doPeAcustico": 179.97471085879084,
+      "daJanela": 235.09983256236222,
+      "espaco": 19.261603699762077,
+      "corte": 1536.9996829554923,
+      "razaoCorte": 2.4700520420440957,
+      "avisos": []
+     },
+     {
+      "rotulo": "R1",
+      "hz": 587.3295358348151,
+      "diametro": 7.0,
+      "doPe": 177.52017378915167,
+      "doPeAcustico": 162.52017378915167,
+      "daJanela": 252.5543696320014,
+      "espaco": 17.454537069639173,
+      "corte": 1318.506724775395,
+      "razaoCorte": 2.2449181325459877,
+      "avisos": []
+     },
+     {
+      "rotulo": "R2",
+      "hz": 523.2511306011972,
+      "diametro": 8.0,
+      "doPe": 139.91467682677495,
+      "doPeAcustico": 124.91467682677495,
+      "daJanela": 290.1598665943781,
+      "espaco": 37.60549696237672,
+      "corte": 1329.3253660514386,
+      "razaoCorte": 2.540511215951106,
+      "avisos": []
+     },
+     {
+      "rotulo": "R3",
+      "hz": 466.1637615180899,
+      "diametro": 10.5,
+      "doPe": 95.80757257600993,
+      "doPeAcustico": 80.80757257600993,
+      "daJanela": 334.26697084514313,
+      "espaco": 44.10710425076502,
+      "corte": 1167.9683020865878,
+      "razaoCorte": 2.5054892690135966,
+      "avisos": []
+     }
+    ],
+    "comprimentoAcustico": 415.07454342115307,
+    "comprimentoFisico": 520.0745434211531,
+    "correcao": 20.660960177171432,
+    "furoInterno": 16.8,
+    "furoOtimo": 18.08147197276062
+   }
+  },
+  {
+   "nome": "erro-6furos-extra-tubo-largo",
+   "entrada": {
+    "furos": 6,
+    "fundamental": "G4",
+    "a4": 440.0,
+    "temperatura": 20.0,
+    "diametroExterno": 26.0,
+    "parede": 2.6,
+    "janelaCompr": 10.4,
+    "janelaLarg": 11.4,
+    "janelaAltura": 1.5,
+    "cabeca": 100.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "Bb4",
+      "hz": null,
+      "diametro": 10.5,
+      "ativo": true
+     },
+     {
+      "nota": "C5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "D5",
+      "hz": null,
+      "diametro": 7.0,
+      "ativo": true
+     },
+     {
+      "nota": "Eb5",
+      "hz": null,
+      "diametro": 5.0,
+      "ativo": true
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     },
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     }
+    ]
+   },
+   "erro": "O Bracker não encontrou posições físicas monotônicas para as notas e diâmetros informados. A primeira inconsistência ocorreu em L1. Revise a ordem das notas, os diâmetros e a relação bore/parede."
+  },
+  {
+   "nome": "la3-5furos",
+   "entrada": {
+    "furos": 5,
+    "fundamental": "A3",
+    "a4": 440.0,
+    "temperatura": 20.0,
+    "diametroExterno": 30.0,
+    "parede": 3.0,
+    "janelaCompr": 12.0,
+    "janelaLarg": 13.0,
+    "janelaAltura": 1.8,
+    "cabeca": 100.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "C4",
+      "hz": null,
+      "diametro": 11,
+      "ativo": true
+     },
+     {
+      "nota": "D4",
+      "hz": null,
+      "diametro": 9,
+      "ativo": true
+     },
+     {
+      "nota": "E4",
+      "hz": null,
+      "diametro": 8,
+      "ativo": true
+     },
+     {
+      "nota": "G4",
+      "hz": null,
+      "diametro": 9,
+      "ativo": true
+     },
+     {
+      "nota": "A4",
+      "hz": null,
+      "diametro": 10,
+      "ativo": true
+     }
+    ]
+   },
+   "saida": {
+    "furosBoca2Pe": [
+     {
+      "rotulo": "L1",
+      "hz": 440.0,
+      "diametro": 10.0,
+      "doPe": 407.2181575109724,
+      "doPeAcustico": 407.2181575109724,
+      "daJanela": 336.09990675468515,
+      "espaco": null,
+      "corte": 1188.7073024727088,
+      "razaoCorte": 2.701607505619793,
+      "avisos": []
+     },
+     {
+      "rotulo": "L2",
+      "hz": 391.99543598174927,
+      "diametro": 9.0,
+      "doPe": 372.6284788856927,
+      "doPeAcustico": 372.6284788856927,
+      "daJanela": 370.68958537996485,
+      "espaco": 34.5896786252797,
+      "corte": 733.5969087123095,
+      "razaoCorte": 1.871442474515098,
+      "avisos": [
+       "cutoff baixo"
+      ]
+     },
+     {
+      "rotulo": "L3",
+      "hz": 329.6275569128699,
+      "diametro": 8.0,
+      "doPe": 293.4055114982646,
+      "doPeAcustico": 293.4055114982646,
+      "daJanela": 449.9125527673929,
+      "espaco": 79.22296738742807,
+      "corte": 735.0679685918385,
+      "razaoCorte": 2.229995500000439,
+      "avisos": []
+     },
+     {
+      "rotulo": "R1",
+      "hz": 293.6647679174076,
+      "diametro": 9.0,
+      "doPe": 225.8644074687545,
+      "doPeAcustico": 225.8644074687545,
+      "daJanela": 517.453656796903,
+      "espaco": 67.54110402951011,
+      "corte": 767.0691178858908,
+      "razaoCorte": 2.6120570176863263,
+      "avisos": []
+     },
+     {
+      "rotulo": "R2",
+      "hz": 261.6255653005986,
+      "diametro": 11.0,
+      "doPe": 153.4046136936912,
+      "doPeAcustico": 153.4046136936912,
+      "daJanela": 589.9134505719663,
+      "espaco": 72.4597937750633,
+      "corte": null,
+      "razaoCorte": null,
+      "avisos": [
+       "cutoff indisponível"
+      ]
+     }
+    ],
+    "comprimentoAcustico": 743.3180642656575,
+    "comprimentoFisico": 843.3180642656575,
+    "correcao": 33.074338942307804,
+    "furoInterno": 24.0,
+    "furoOtimo": 29.26054363252589
+   }
+  },
+  {
+   "nome": "erro-ordem-invertida",
+   "entrada": {
+    "furos": 5,
+    "fundamental": "G4",
+    "a4": 440.0,
+    "temperatura": 20.0,
+    "diametroExterno": 26.0,
+    "parede": 2.6,
+    "janelaCompr": 10.4,
+    "janelaLarg": 11.4,
+    "janelaAltura": 1.5,
+    "cabeca": 100.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 10.5,
+      "ativo": true
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "D5",
+      "hz": null,
+      "diametro": 7.0,
+      "ativo": true
+     },
+     {
+      "nota": "C5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "Bb4",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     }
+    ]
+   },
+   "erro": "Ordem de notas incompatível com a topologia Bracker: L1 (466.164 Hz) deve ser mais aguda que L2 (523.251 Hz). As linhas seguem fisicamente da embocadura para o pé."
+  }
+ ]
+}

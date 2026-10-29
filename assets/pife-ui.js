@@ -302,12 +302,13 @@
     $("pc-aj-furo").innerHTML = r.furos.map(function (f) { return '<option value="' + f.indice + '">' + (f.indice + 1) + "º furo · " + f.nota + "</option>"; }).join("");
     $("pc-molde").innerHTML = molde(r, e);
     try { localStorage.setItem(CHAVE, JSON.stringify(e)); } catch (x) { /* sem armazenamento: segue */ }
-    history.replaceState(null, "", "#" + encodeURIComponent(JSON.stringify(e)));
+    window.__pifeHash = "#" + encodeURIComponent(JSON.stringify(e));
+    if (!window.__modoNaf) history.replaceState(null, "", window.__pifeHash); /* no modo NAF a URL é da NAF */
   }
 
   /* início: link > salvo > padrão */
   var inicial = null;
-  try { if (location.hash.length > 2) inicial = JSON.parse(decodeURIComponent(location.hash.slice(1))); } catch (x) { inicial = null; }
+  try { if (location.hash.length > 2 && !window.__modoNaf) inicial = JSON.parse(decodeURIComponent(location.hash.slice(1))); } catch (x) { inicial = null; }
   if (!inicial) { try { inicial = JSON.parse(localStorage.getItem(CHAVE) || "null"); } catch (x) { inicial = null; } }
   if (inicial && inicial.tom) aplicar(inicial); else sugerir();
   if (!inicial) sugerir();
@@ -359,4 +360,8 @@
   qualTom();
   if (window.matchMedia) { var mq = window.matchMedia("(max-width: 640px)"); (mq.addEventListener ? mq.addEventListener("change", atualizar) : mq.addListener(atualizar)); }
   atualizar();
+  /* Voltar/Avançar do navegador de volta ao Pífano: recarrega o estado do link (usado por naf-ui.js) */
+  window.PifeUI = { recarregar: function () {
+    try { var s = location.hash.length > 2 ? JSON.parse(decodeURIComponent(location.hash.slice(1))) : null; if (s && s.tom) { aplicar(s); atualizar(); } } catch (x) { /* link inválido: mantém */ }
+  } };
 })();
