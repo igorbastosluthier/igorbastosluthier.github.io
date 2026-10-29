@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Figtree:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css?v=1610a">
 <link rel="stylesheet" href="assets/mix.css">
+<link rel="stylesheet" href="assets/naf.css?v=1">
 <style>
 .pc-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:28px}
 .pc-grid fieldset{min-width:0;border:1px solid rgba(45,72,57,.25);border-radius:12px;padding:14px 16px;margin:0}
@@ -108,12 +109,13 @@
 }
 .pc-molde{display:none}[hidden]{display:none!important}#pc-tabela{width:100%}#pc-tabela th,#pc-tabela td{text-align:center}
 @media print{
-  body>*:not(main),main>*:not(#pc-molde){display:none!important}
+  body>*:not(main),main>*:not(.pc-molde){display:none!important}
   .pc-molde{display:block!important}.pc-pag{page-break-after:always;break-after:page}
+  body.modo-naf #pc-molde,body:not(.modo-naf) #naf-molde{display:none!important}
   @page{size:A4 portrait;margin:12mm 15mm}body{background:#fff!important}
 }
 </style>
-<script>window.__af=location.hash==="#afinador";</script>
+<script>window.__af=location.hash==="#afinador";window.__modoNaf=/(^|[?&])modo=naf(&|$)/.test(location.search);</script>
 </head>
 <body>
 <a class="skip" href="#conteudo">Pular para o conteúdo</a><header class="site"><div class="in"><a class="brand" href="index.html" aria-label="Igor Bastos, luthier · início"><svg xmlns="http://www.w3.org/2000/svg" viewBox="150 125 700 465" class="mz" aria-hidden="true" focusable="false"><defs><clipPath id="mzc"><polygon points="0,580 150,566 240,520 300,450 335,370 352,300 352,222 360,200 380,194 400,190 425,193 450,190 470,198 486,214 503,214 512,170 530,146 560,138 592,142 612,158 622,200 628,262 640,320 668,390 720,460 800,520 900,560 1000,580"/></clipPath></defs><g clip-path="url(#mzc)"><polygon fill="#7E2A5E" points="0,35.0 1000,-35.0 1000,187.0 0,257.0"/><polygon fill="#D9A33A" points="0,257.0 1000,187.0 1000,265.0 0,335.0"/><polygon fill="#9A3B1F" points="0,335.0 1000,265.0 1000,350.0 0,420.0"/><polygon fill="#EAD9B8" points="0,420.0 1000,350.0 1000,447.0 0,517.0"/><polygon fill="#2D4839" points="0,517.0 1000,447.0 1000,665.0 0,735.0"/><line x1="0" y1="257.0" x2="1000" y2="187.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="335.0" x2="1000" y2="265.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="420.0" x2="1000" y2="350.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="517.0" x2="1000" y2="447.0" stroke="#F6EFE2" stroke-width="7"/><line x1="506" y1="120" x2="500" y2="222.0" stroke="#F6EFE2" stroke-width="7"/><rect x="0" y="574" width="1000" height="40" fill="#2D4839"/></g></svg><span><b>Igor Bastos</b><small>luthier</small></span></a><button class="burger" aria-expanded="false" aria-controls="menu">Menu</button><nav aria-label="Principal"><ul class="menu" id="menu"><li><a href="index.html">Início</a></li><li><a href="pifanos.html">Pífanos</a></li><li><a href="irlandesa.html">Irlandesa</a></li><li><a href="nativas.html">Nativas</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="galeria.html">Galeria</a></li><li><a href="valores.html">Valores</a></li><li><a href="perguntas.html">Perguntas</a></li><li><a href="tabelas.html">Tabelas</a></li><li><a href="calculadora.html" aria-current="page">Calculadora</a></li><li><a href="sobre.html">Sobre</a></li><li class="cta monte"><a href="monte.html">Monte a sua</a></li><li class="cta"><a href="https://wa.me/5575982901157?text=Ol%C3%A1%2C%20Igor%21%20Vi%20os%20valores%20no%20site%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">WhatsApp</a></li></ul></nav></div></header>
@@ -121,6 +123,8 @@
 <section class="ph"><div class="wrap"><div class="eyebrow">Ferramenta gratuita</div><h1>Calculadora de pife</h1><p>Onde furar o seu pífano, em qualquer tom. Meça o tubo, escolha o tom e a calculadora mostra a posição de cada furo, desenha a flauta e gera um molde em tamanho real para imprimir.</p><div class="faixa"></div></div></section>
 
 <section class="blk pc"><div class="wrap">
+<div class="naf-modos" role="tablist" aria-label="Tipo de flauta"><button type="button" role="tab" id="modo-aba-pife" aria-controls="modo-pife" aria-selected="true">Pífano</button><button type="button" role="tab" id="modo-aba-naf" aria-controls="modo-naf" aria-selected="false" tabindex="-1">Flauta NAF</button></div>
+<div id="modo-pife" role="tabpanel" aria-labelledby="modo-aba-pife">
 <form id="pc-form" class="pc-grid" autocomplete="off" onsubmit="return false">
   <fieldset><legend>1. O pife</legend>
     <label>Tom do pife<select id="pc-tom"></select><small>O tom é a nota com todos os furos fechados.</small></label>
@@ -169,6 +173,54 @@
   <h3>Tabela de digitação</h3>
   <p class="pc-mini">Para o tom escolhido, nas três oitavas. Toque na imagem para ver grande e imprimir.</p>
   <a id="pc-dig-link" href="img/tabelas/tabela_G.png" target="_blank" rel="noopener"><img id="pc-dig-img" src="img/tabelas/tabela_G.webp" alt="Tabela de digitação do pife em Sol" loading="lazy"></a>
+</div>
+</div>
+<div id="modo-naf" role="tabpanel" aria-labelledby="modo-aba-naf" hidden>
+<p class="pc-mini">Flauta nativa americana (NAF) cilíndrica, de 5 ou 6 furos. Posições <b>calculadas pelo modelo</b> Bracker (janela e bloco), não uma garantia de que a flauta pronta saia afinada nas duas oitavas: confira com o afinador e ajuste os furos aos poucos. Tudo é calculado neste aparelho; nada é enviado.</p>
+<form id="naf-form" class="pc-grid" autocomplete="off" onsubmit="return false">
+  <fieldset><legend>1. Instrumento e afinação</legend>
+    <label>Quantidade de furos<select id="naf-furos"><option value="5">5 furos</option><option value="6">6 furos</option></select></label>
+    <label>Nota fundamental (todos os furos fechados)<select id="naf-fund"></select><small>Com a oitava: Sol 4 é o G4 de 392 Hz.</small></label>
+    <label>Escala dos furos<select id="naf-escala"><option value="pentatonica-menor">Pentatônica menor</option><option value="personalizada">Personalizada</option></select><small>Pentatônica menor: 1º furo abre a 3ª menor acima da fundamental. Na personalizada, digite a nota ou os Hz de cada furo.</small></label>
+    <label>Referência A4 (Hz)<input id="naf-a4" type="number" min="380" max="480" step="0.1" value="440"><small>440 é o padrão.</small></label>
+    <label>Temperatura ambiente (°C)<input id="naf-temp" type="number" min="-10" max="50" step="1" value="20"><small>O som muda com o calor: use a temperatura em que vai tocar.</small></label>
+  </fieldset>
+  <fieldset><legend>2. O tubo</legend>
+    <label>Diâmetro externo (mm)<input id="naf-od" type="number" min="8" max="80" step="0.1"></label>
+    <label>Espessura média da parede (mm)<input id="naf-parede" type="number" min="0.3" max="20" step="0.1"></label>
+    <label>Diâmetro interno (mm) <em>(derivado)</em><input id="naf-di" type="number" min="1" max="78" step="0.1"><small>É o externo menos 2 × a parede. Se digitar aqui, o externo se ajusta e a parede fica como está.</small></label>
+    <label>Extensão extra na ponta do pé (mm)<input id="naf-ponta" type="number" min="0" max="200" step="0.5" value="0"><small>Folga física que você deixa além do fim acústico. Só desloca as medidas "do pé"; não é o comprimento acústico calculado.</small></label>
+  </fieldset>
+  <fieldset><legend>3. Janela e cabeça</legend>
+    <label>Comprimento da janela, ao longo do tubo (mm)<input id="naf-jc" type="number" min="1" max="60" step="0.1"></label>
+    <label>Largura da janela, atravessando o tubo (mm)<input id="naf-jl" type="number" min="1" max="60" step="0.1"></label>
+    <label>Altura da janela (mm)<input id="naf-ja" type="number" min="0.1" max="30" step="0.1"><small>Altura/profundidade acústica da janela e do canal (o "H" do Bracker). Não é a espessura geral da parede do tubo.</small></label>
+    <label>Cabeça: da ponta da cabeça ao centro da janela (mm)<input id="naf-cabeca" type="number" min="0" max="400" step="0.5"><small>Só soma ao comprimento total. Não é a distância da janela ao pé.</small></label>
+  </fieldset>
+  <fieldset class="pc-furos"><legend>4. Furos, do pé para a embocadura</legend>
+    <p class="pc-mini">O furo 1 é o mais perto do pé. Escolha a nota ou digite os Hz: <b>se digitar Hz, esse valor é o alvo</b>, mesmo que a nota mais próxima tenha outro nome. Desmarque um furo para tirá-lo do cálculo. As medidas iniciais são sugestões editáveis; mudar o diâmetro muda a posição.</p>
+    <div id="naf-linhas"></div>
+    <datalist id="naf-notas"></datalist>
+    <button type="button" id="naf-sugerir" class="btn ghost">Voltar às medidas sugeridas</button>
+  </fieldset>
+</form>
+
+<div id="naf-erros" aria-live="polite"></div>
+<div id="naf-saida" class="pc-res" aria-live="polite" hidden>
+  <h2>Resultado</h2>
+  <div id="naf-avisos"></div>
+  <div id="naf-desenho" class="pc-desenho"></div>
+  <div id="naf-cartoes" class="pc-cartoes"></div>
+  <div class="tw"><table id="naf-tabela"><caption>Posição do CENTRO de cada furo (não da borda), do pé para a embocadura, calculada pelo modelo Bracker</caption>
+    <thead><tr><th scope="col">Furo</th><th scope="col">Nota-alvo</th><th scope="col">Hz</th><th scope="col">Ø</th><th scope="col">Do pé (centro)</th><th scope="col">Da janela (centro)</th><th scope="col">Ao furo de baixo (centros)</th><th scope="col">Alcance (cutoff)</th></tr></thead><tbody></tbody></table></div>
+  <ul id="naf-resumo" class="plist"></ul>
+  <div class="pc-acoes">
+    <button type="button" id="naf-imprimir" class="btn">Imprimir molde em tamanho real (1:1)</button>
+    <button type="button" id="naf-link" class="btn ghost">Copiar link deste cálculo</button>
+    <span id="naf-copiado" class="pc-mini" hidden>Link copiado.</span>
+  </div>
+  <p class="pc-mini">No molde, confira a régua de 100 mm depois de imprimir (tamanho real, 100%). Alcance (cutoff): razão entre a frequência de corte do furo e a nota; abaixo de 2 a segunda oitava tende a sair com dificuldade. É uma estimativa do modelo, não uma medição.</p>
+</div>
 </div>
 </div></section>
 
@@ -391,8 +443,11 @@
 </div></section>
 
 <div id="pc-molde" class="pc-molde" aria-hidden="true"></div>
+<div id="naf-molde" class="pc-molde" aria-hidden="true"></div>
 <script src="assets/pife-calc.js?v=6"></script>
-<script src="assets/pife-ui.js?v=16"></script>
+<script src="assets/pife-ui.js?v=17"></script>
+<script src="assets/naf-calc.js?v=1"></script>
+<script src="assets/naf-ui.js?v=1"></script>
 <script src="assets/pife-afinador.js?v=7"></script>
 </main>
 <footer class="f4"><div class="in"><div><a class="brand" href="index.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="150 125 700 465" class="mz" aria-hidden="true" focusable="false"><defs><clipPath id="mzc"><polygon points="0,580 150,566 240,520 300,450 335,370 352,300 352,222 360,200 380,194 400,190 425,193 450,190 470,198 486,214 503,214 512,170 530,146 560,138 592,142 612,158 622,200 628,262 640,320 668,390 720,460 800,520 900,560 1000,580"/></clipPath></defs><g clip-path="url(#mzc)"><polygon fill="#7E2A5E" points="0,35.0 1000,-35.0 1000,187.0 0,257.0"/><polygon fill="#D9A33A" points="0,257.0 1000,187.0 1000,265.0 0,335.0"/><polygon fill="#9A3B1F" points="0,335.0 1000,265.0 1000,350.0 0,420.0"/><polygon fill="#EAD9B8" points="0,420.0 1000,350.0 1000,447.0 0,517.0"/><polygon fill="#2D4839" points="0,517.0 1000,447.0 1000,665.0 0,735.0"/><line x1="0" y1="257.0" x2="1000" y2="187.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="335.0" x2="1000" y2="265.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="420.0" x2="1000" y2="350.0" stroke="#F6EFE2" stroke-width="7"/><line x1="0" y1="517.0" x2="1000" y2="447.0" stroke="#F6EFE2" stroke-width="7"/><line x1="506" y1="120" x2="500" y2="222.0" stroke="#F6EFE2" stroke-width="7"/><rect x="0" y="574" width="1000" height="40" fill="#2D4839"/></g></svg><span><b>Igor Bastos</b><small>luthier</small></span></a><h2 style="margin-top:22px">Encomendas</h2><p>Cada flauta é feita sob encomenda. Escreva no WhatsApp com o modelo e o tom que procura. Se ainda não sabe qual escolher, tire suas dúvidas comigo e eu indico a flauta certa.</p><a class="btn wa" href="https://wa.me/5575982901157?text=Ol%C3%A1%2C%20Igor%21%20Vi%20os%20valores%20no%20site%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">(75) 98290-1157</a></div><div><h3>Flautas</h3><ul><li><a href="pifanos.html">Pífanos</a></li><li><a href="irlandesa.html">Flauta irlandesa</a></li><li><a href="nativas.html">Flautas nativas</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="galeria.html">Galeria</a></li></ul></div><div><h3>Encomendas</h3><ul><li><a href="valores.html">Valores</a></li><li><a href="perguntas.html">Perguntas</a></li><li><a href="monte.html">Monte a sua flauta</a></li><li><a href="tabelas.html">Tabelas de digitação</a></li><li><a href="calculadora.html">Calculadora de pife</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="privacidade.html">Privacidade</a></li></ul></div><div><h3>Contato</h3><ul><li><a href="https://wa.me/5575982901157?text=Ol%C3%A1%2C%20Igor%21%20Vi%20os%20valores%20no%20site%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">WhatsApp (75) 98290-1157</a></li><li><a href="https://instagram.com/igorbastos.luthier" target="_blank" rel="noopener">Instagram @igorbastos.luthier</a></li><li><a href="mailto:igorbastosluthier@gmail.com">igorbastosluthier@gmail.com</a></li></ul></div></div><div class="bot"><span>Igor Bastos · Vale do Capão, Chapada Diamantina, Bahia</span><span>Envio pelos Correios, postado em Palmeiras (BA)</span></div></footer>
