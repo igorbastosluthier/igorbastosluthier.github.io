@@ -5,6 +5,8 @@ const assert = require("assert"), fs = require("fs"), path = require("path");
 const N = require("../assets/naf-calc.js");
 const ref = JSON.parse(fs.readFileSync(path.join(__dirname, "fixtures", "naf_ref.json"), "utf8"));
 let ok = 0;
+/* palavras que o cliente não deve ver na interface da NAF */
+const PROIBIDO = /Bracker|Flute ?Lab|Flutopedia|cutoff|estimad[oa]|modelo|NaN|Infinity|undefined|null|indispon|[RL][123]|topologia|fundamental/i;
 const t = (nome, fn) => { fn(); ok++; console.log("  ok  " + nome); };
 const perto = (a, b, tol, msg) => assert.ok(Math.abs(a - b) <= tol * Math.max(1, Math.abs(b)), msg + ": " + a + " vs " + b);
 
@@ -104,7 +106,7 @@ t("ordem: furo 1 é o mais perto do pé; conversão Bracker coerente", function 
   assert.deepStrictEqual(N.LINHAS_BRACKER[6], [0, 2, 3, 4, 5, 6]); assert.deepStrictEqual(N.LINHAS_BRACKER[5], [0, 2, 3, 4, 5]);
   r.furos.forEach((f, i) => { if (i) perto(f.espacoAbaixo, f.doPe - r.furos[i - 1].doPe, 1e-12, "espaço"); });
   const e = cfg(5); e.linhas.reverse(); const x = N.calcular(e); /* notas invertidas */
-  assert.strictEqual(x.ok, false); assert.ok(/Ordem de notas/.test(x.erros[0].msg));
+  assert.strictEqual(x.ok, false); assert.ok(/Ordem das notas/.test(x.erros[0].msg));
 });
 
 /* 6. sanidade geométrica */
@@ -185,7 +187,8 @@ t("5 furos: cutoff do furo do pé estimado (caso do dono) e avisos em português
   perto(r.furos[0].doPe, 67.892, 1e-4, "posição do furo 1 (igual ao Python do Lab)");
   perto(r.furos[0].razaoCorte, 1.880, 1e-3, "razão estimada");
   const txt = r.avisos.join(" | ");
-  assert.ok(/estimativa/.test(txt) && !/R3|NaN|null|indisponível|undefined/.test(txt), txt);
+  assert.ok(!PROIBIDO.test(txt), txt); /* o cutoff estimado do furo do pé não gera aviso nenhum */
+  assert.strictEqual(txt, "");
 });
 
 /* 8f. varredura: nenhuma saída com NaN/null/indisponível/jargão, 5 e 6 furos, todas as fundamentais, 6 temperaturas */
@@ -206,6 +209,23 @@ t("varredura: sem NaN/null/indisponível/jargão em resultados e avisos", functi
     });
   });
   assert.deepStrictEqual(ruins, []); assert.ok(n === 2 * 32 * 6, "todas as combinações calculadas: " + n);
+});
+
+/* 8g. textos visíveis: bloco NAF do HTML (rótulos, ajudas, títulos), erros e avisos não usam jargão interno */
+t("textos visíveis da NAF sem jargão (HTML, erros, avisos)", function () {
+  const html = fs.readFileSync(path.join(__dirname, "..", "calculadora.html"), "utf8");
+  const ini = html.indexOf('<div id="modo-naf"'), fim = html.indexOf("</div></section>", ini);
+  const bloco = html.slice(ini, fim);
+  const visivel = bloco.replace(/<[^>]*>/g, " ") + " " + (bloco.match(/(title|placeholder|aria-label)="[^"]*"/g) || []).join(" ");
+  assert.ok(!PROIBIDO.test(visivel), "HTML: " + (visivel.match(PROIBIDO) || [""])[0]);
+  const ruins = [];
+  [{ parede: 14 }, { diametroExterno: "abc" }, { janelaCompr: 0 }, { a4: -1 }, { fundamental: "H9" }, { fundamental: "C6" }, { cabeca: "" }, { ponta: -3 }, { furos: 7 }].forEach(function (o) {
+    const r = N.calcular(cfg(5, o)); if (PROIBIDO.test(r.erros.map(x => x.msg).join(" "))) ruins.push(JSON.stringify(o));
+  });
+  const inv = cfg(5); inv.linhas.reverse(); if (PROIBIDO.test(N.calcular(inv).erros[0].msg)) ruins.push("ordem invertida");
+  const g = cfg(6); g.linhas.forEach(l => l.diametro = 40); const rg = N.calcular(g); if (!rg.ok && PROIBIDO.test(rg.erros[0].msg)) ruins.push("furo gigante");
+  const w = N.calcular(cfg(5, { diametroExterno: 28, parede: 2.6 })); if (w.ok && PROIBIDO.test(w.avisos.join(" "))) ruins.push("tubo largo: " + w.avisos.join(" | "));
+  assert.deepStrictEqual(ruins, []);
 });
 
 /* 9. parser de notas */

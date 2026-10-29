@@ -72,18 +72,50 @@ module.exports = async (p, base) => {
   await p.goto(base + "/calculadora.html"); await ev("document.getElementById('modo-aba-naf').click()"); await p.sleep(300);
   ok((await ev("document.getElementById('naf-temp').value")) === "31", "B4 aba NAF mostra o cálculo salvo mesmo abrindo primeiro no Pífano");
 
-  /* C1: caso do dono (5 furos, Dó 5): cutoff do furo do pé estimado e explicado; parágrafo do furo extra só com 6 furos */
+  /* C1: caso do dono (5 furos, Dó 5): tudo calcula e o texto fica limpo; o aviso do furo extra só aparece com 6 furos */
+  const PROIBIDO = "/Bracker|Flute ?Lab|Flutopedia|cutoff|estimad[oa]|modelo|NaN|Infinity|undefined|\bnull\b|indispon|\b[RL][123]\b|topologia/i";
   await abrir();
   await set("naf-fund", "C5", "change"); await set("naf-temp", "25"); await set("naf-od", "22.4"); await set("naf-parede", "3"); await set("naf-jc", "5"); await set("naf-jl", "12"); await set("naf-ja", "8"); await set("naf-cabeca", "85");
-  for (const [k, d] of [[0, 9], [1, 8], [2, 9], [3, 11], [4, 9]]) await ev("(()=>{const e=document.querySelector('#naf-linhas [data-k=\"" + k + "\"][data-c=\"d\"]');e.value='" + d + "';e.dispatchEvent(new Event('input',{bubbles:true}));})()");
+  for (const [k, d] of [[0, 10], [1, 8], [2, 9], [3, 11], [4, 9]]) await ev("(()=>{const e=document.querySelector('#naf-linhas [data-k=\"" + k + "\"][data-c=\"d\"]');e.value='" + d + "';e.dispatchEvent(new Event('input',{bubbles:true}));})()");
   ok((await erro()) === "" && (await linhasTab()) === 5, "C1 caso do dono calcula 5 furos", await erro());
   const cel1 = await ev("document.querySelector('#naf-tabela tbody tr td:last-child').innerText");
-  ok(/\(estimado\)/.test(cel1) && !/indispon|NaN|null/.test(cel1), "C1 cutoff do furo 1 estimado na tabela", cel1);
-  const av = await ev("document.getElementById('naf-avisos').innerText");
-  ok(/estimativa/.test(av) && !/R3|NaN|null|indispon|undefined/.test(av), "C1 aviso em português simples", av);
-  ok(await ev("document.getElementById('naf-ajuda-extra').hidden"), "C1 parágrafo do furo extra oculto com 5 furos");
+  ok(/^● (Bom|Limitado|Fraco)$/.test(cel1.trim()), "C1 coluna Alcance simples, sem números nem 'estimado'", cel1);
+  ok((await ev("document.getElementById('naf-avisos').innerText")).trim() === "" || !(await ev("new RegExp(" + PROIBIDO + ").test(document.getElementById('naf-avisos').innerText)")), "C1 avisos sem jargão");
+  ok(!(await ev("new RegExp(" + PROIBIDO + ").test(document.getElementById('modo-naf').innerText + ' ' + [...document.querySelectorAll('#modo-naf [title],#modo-naf [placeholder]')].map(e=>(e.title||'')+(e.placeholder||'')).join(' ') + ' ' + document.getElementById('naf-desenho').textContent + ' ' + document.getElementById('naf-molde').textContent)")), "C1 texto visível da NAF sem Bracker/cutoff/modelo/etc.");
+  ok(!(await ev("document.querySelector('#naf-linhas .naf-info[data-k=\"3\"]').textContent.includes('extra')")), "C1 5 furos: nenhuma explicação de furo extra");
   await set("naf-furos", "6", "change");
-  ok(!(await ev("document.getElementById('naf-ajuda-extra').hidden")), "C1 parágrafo do furo extra visível com 6 furos");
+  ok(await ev("document.querySelector('#naf-linhas .naf-info[data-k=\"3\"]').textContent.includes('Furo extra')"), "C1 6 furos: furo 4 marcado como extra (texto curto)");
+  ok(/principalmente o furo extra/.test(await ev("document.getElementById('naf-cautela').textContent")), "C1 uma linha de cautela, com o extra só em 6 furos");
+
+  /* V1: "Mostrar no desenho" liga/desliga de fato cada grupo do SVG (desktop) e persiste */
+  await abrir();
+  const grupos = async () => JSON.parse(await ev("JSON.stringify([...new Set([...document.querySelectorAll('#naf-desenho svg [data-vis]')].map(g=>g.getAttribute('data-vis')))].sort())"));
+  const chk = (k, v) => ev("(()=>{const c=document.querySelector('#naf-vis input[data-vis=\"" + k + "\"]');if(c.checked!==" + v + "){c.click();}})()");
+  const rotulosVis = ["notas", "numeros", "diametros", "espacos", "boca", "total", "janela", "tubo"];
+  ok(JSON.stringify(await ev("[...document.querySelectorAll('#naf-vis label')].map(l=>l.textContent.trim())")) === JSON.stringify(["Notas", "Nº dos furos", "Ø dos furos", "Entre furos", "Até o pé", "Comprimento", "Janela", "Tubo e parede"]), "V1 painel com os mesmos nomes do Pífano");
+  ok(JSON.stringify(await grupos()) === JSON.stringify(["espacos", "janela", "notas", "numeros", "total", "tubo"]), "V1 padrão limpo (sem Ø e sem 'Até o pé')", JSON.stringify(await grupos()));
+  for (const k of rotulosVis) {
+    await chk(k, k === "boca" || k === "diametros"); /* liga os desligados por padrão, desliga os ligados */
+    const g = await grupos(), ligado = await ev("document.querySelector('#naf-vis input[data-vis=\"" + k + "\"]').checked");
+    ok(g.includes(k) === ligado, "V1 '" + k + "': checkbox " + (ligado ? "ligado" : "desligado") + " => grupo " + (ligado ? "presente" : "ausente"), JSON.stringify(g));
+    await chk(k, !ligado);
+  }
+  await chk("boca", true); await chk("diametros", true);
+  ok((await grupos()).includes("boca") && (await grupos()).includes("diametros") && (await ev("document.getElementById('naf-desenho').textContent.includes('Ø9')")), "V1 'Até o pé' e 'Ø dos furos' aparecem no desenho");
+  await p.goto(base + "/calculadora.html?modo=naf"); await p.sleep(300);
+  ok((await ev("document.querySelector('#naf-vis input[data-vis=\"boca\"]').checked")) === true, "V1 escolha persiste ao recarregar (como no Pífano)");
+  /* V2: celular (390 px): mesmo painel, desenho em pé, mesmas opções ligando/desligando */
+  await p.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true }); await p.sleep(500);
+  await ev("(()=>{const c=document.querySelector('#naf-vis input[data-vis=\"espacos\"]');c.click();c.click();})()");
+  ok(await ev("!!document.querySelector('#naf-desenho svg.pc-vert')"), "V2 celular usa o desenho em pé");
+  for (const k of ["espacos", "boca", "total", "janela", "tubo"]) {
+    const ligado = await ev("document.querySelector('#naf-vis input[data-vis=\"" + k + "\"]').checked");
+    await chk(k, !ligado);
+    const g = await grupos(); ok(g.includes(k) === !ligado, "V2 celular '" + k + "' " + (!ligado ? "liga" : "desliga") + " o grupo", JSON.stringify(g));
+    await chk(k, ligado);
+  }
+  await chk("notas", false); await chk("numeros", false); await chk("diametros", false);
+  ok(!(await ev("!!document.querySelector('#naf-desenho svg [data-vis=rotulos]')")), "V2 celular sem notas/nº/Ø: sem rótulos laterais");
 
   console.log(falhas ? "RESULTADO: " + falhas + " falha(s)" : "RESULTADO: tudo OK");
 };

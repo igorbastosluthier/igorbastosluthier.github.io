@@ -25,7 +25,7 @@
     if (h1) h1.textContent = naf ? "Calculadora de flauta NAF" : "Calculadora de pife";
     var lead = document.querySelector(".ph p");
     if (lead) { if (!lead.getAttribute("data-pife")) lead.setAttribute("data-pife", lead.textContent);
-      lead.textContent = naf ? "Onde furar a sua flauta nativa americana de 5 ou 6 furos. Informe o tubo, a janela e a nota, e a calculadora mostra a posição de cada furo, desenha a flauta e gera um molde em tamanho real para imprimir." : lead.getAttribute("data-pife"); }
+      lead.textContent = naf ? "Onde furar a sua flauta nativa americana. Escolha a nota, meça o tubo e a janela, e a calculadora mostra a posição de cada furo, desenha a flauta e gera um molde em tamanho real para imprimir." : lead.getAttribute("data-pife"); }
     document.title = naf ? "Calculadora de flauta NAF · Igor Bastos" : "Calculadora de pife · Igor Bastos";
   }
   function trocarModo(naf) {
@@ -86,16 +86,16 @@
 
   /* NAF de 6 furos na pentatônica: o 4º furo contado do pé é o extra, fora da escala (Flutopedia, Basic-Six) */
   function ehExtra(k) { return nFuros() === 6 && $("naf-escala").value === "pentatonica-menor" && N.FURO_EXTRA[6] === k; }
-  var TEXTO_EXTRA = " Furo extra: fora da pentatônica (sugestão: 6ª menor, +8 semitons; é o Ré do exemplo em Fá# menor da Flutopedia). Na digitação principal ele fica fechado. Pode editar a nota ou os Hz.";
+  
 
   function desenharLinhas() {
     var cx = $("naf-linhas"); cx.innerHTML = "";
     linhas.forEach(function (l, k) {
       var div = document.createElement("div"); div.className = "naf-lin"; div.setAttribute("role", "group"); div.setAttribute("aria-label", "Furo " + (k + 1));
       div.innerHTML = '<label class="naf-ativo"><input type="checkbox" data-k="' + k + '" data-c="a"> <b>Furo ' + (k + 1) + '<span class="naf-xt" data-k="' + k + '"></span></b></label>' +
-        '<label>Nota-alvo<input type="text" list="naf-notas" autocomplete="off" data-k="' + k + '" data-c="nota"></label>' +
-        '<label>Frequência (Hz)<input type="text" inputmode="decimal" autocomplete="off" data-k="' + k + '" data-c="hz"></label>' +
-        '<label>Ø do furo (mm)<input type="number" min="1" max="40" step="0.5" data-k="' + k + '" data-c="d"></label>' +
+        '<label>Nota<input type="text" list="naf-notas" autocomplete="off" data-k="' + k + '" data-c="nota"></label>' +
+        '<label>Hz<input type="text" inputmode="decimal" autocomplete="off" data-k="' + k + '" data-c="hz"></label>' +
+        '<label>Ø (mm)<input type="number" min="1" max="40" step="0.5" data-k="' + k + '" data-c="d"></label>' +
         '<small class="naf-info" data-k="' + k + '"></small>';
       cx.appendChild(div);
       div.querySelector('[data-c="a"]').checked = l.a; div.querySelector('[data-c="nota"]').value = l.nota;
@@ -130,49 +130,109 @@
   }
 
   /* ---- desenho (SVG) ---- */
+  /* Opções "Mostrar no desenho" (mesma ideia e mesmos nomes do Pífano). Cada uma liga/desliga de fato um grupo do SVG. */
+  var VIS = { tubo: true, notas: true, numeros: true, espacos: true, boca: false, total: true, janela: true, diametros: false };
+  var VIS_NOMES = { notas: "Notas", numeros: "Nº dos furos", diametros: "Ø dos furos", espacos: "Entre furos", boca: "Até o pé", total: "Comprimento", janela: "Janela", tubo: "Tubo e parede" };
+  try { var salvoVis = JSON.parse(localStorage.getItem(CHAVE + ".vis") || "null"); if (salvoVis) Object.keys(VIS).forEach(function (k) { if (typeof salvoVis[k] === "boolean") VIS[k] = salvoVis[k]; }); } catch (x) { /* padrão */ }
+  function grupo(chave, interno) { return VIS[chave] ? '<g data-vis="' + chave + '">' + interno + "</g>" : ""; }
+
   function cota(x1, x2, y, texto, cor, dy) {
     var m = (x1 + x2) / 2, s = '<g stroke="' + cor + '" stroke-width="1.2"><line x1="' + x1 + '" y1="' + y + '" x2="' + x2 + '" y2="' + y + '"/>' +
       '<line x1="' + x1 + '" y1="' + (y - 5) + '" x2="' + x1 + '" y2="' + (y + 5) + '"/><line x1="' + x2 + '" y1="' + (y - 5) + '" x2="' + x2 + '" y2="' + (y + 5) + '"/></g>';
     return s + '<text x="' + m + '" y="' + (y - 4 - (dy || 0)) + '" text-anchor="middle" font-size="12" fill="' + cor + '">' + texto + '</text>';
   }
+  /* cota vertical com o texto girado ao longo da linha (celular) */
+  function cotaVR(x, ya, yb, txt, cor, fs) {
+    var m = (ya + yb) / 2;
+    return '<g stroke="' + cor + '" stroke-width="1.3"><line x1="' + x + '" y1="' + ya + '" x2="' + x + '" y2="' + yb + '"/><line x1="' + (x - 4) + '" y1="' + ya + '" x2="' + (x + 4) + '" y2="' + ya + '"/><line x1="' + (x - 4) + '" y1="' + yb + '" x2="' + (x + 4) + '" y2="' + yb + '"/></g>' +
+      (txt ? '<text x="' + (x - 3) + '" y="' + m + '" font-size="' + (fs || 11) + '" fill="' + cor + '" text-anchor="middle" transform="rotate(-90 ' + (x - 3) + ' ' + m + ')">' + txt + "</text>" : "");
+  }
+  function textoTubo(r) { var e = r.entrada; return "Ø externo " + mm(e.diametroExterno) + " · parede " + mm(e.parede) + " · Ø interno " + mm(r.diametroInterno); }
+
   function desenho(r) {
     var e = r.entrada, W = 1000, L = r.comprimentoFisico;
     /* margem esquerda extra quando a janela passa da ponta da cabeça (cabeça curta), para nada sair do desenho */
     var x0 = 30 + Math.max(0, e.janelaCompr / 2 - e.cabeca) * ((W - 70) / L), esc = (W - x0 - 40) / L;
     var X = function (p) { return x0 + (L - p) * esc; }; /* p = distância ao pé; cabeça à esquerda, pé à direita */
-    var ext = e.diametroExterno, h = ext * esc, hi = r.diametroInterno * esc, topo = 52, cy = topo + h / 2, base = cy + h / 2;
+    var ext = e.diametroExterno, h = ext * esc, hi = r.diametroInterno * esc;
+    var topo = 40 + (VIS.janela ? 16 : 0) + (VIS.notas ? 16 : 0) + (VIS.diametros ? 16 : 0), cy = topo + h / 2, base = cy + h / 2;
     var xpe = X(0), xj = X(r.janelaDoPe), s = "";
     s += '<rect x="' + x0 + '" y="' + (cy - h / 2) + '" width="' + (xpe - x0) + '" height="' + h + '" rx="2" fill="#D9A33A" stroke="#7a5a1c" stroke-width="2"/>';
-    s += '<rect x="' + x0 + '" y="' + (cy - hi / 2) + '" width="' + (xpe - x0) + '" height="' + hi + '" fill="#f0c56a"/>';
-    s += '<g stroke="#7a5a1c" stroke-width="1" stroke-dasharray="5 4"><line x1="' + x0 + '" y1="' + (cy - hi / 2) + '" x2="' + xpe + '" y2="' + (cy - hi / 2) + '"/><line x1="' + x0 + '" y1="' + (cy + hi / 2) + '" x2="' + xpe + '" y2="' + (cy + hi / 2) + '"/></g>';
+    s += grupo("tubo", '<rect x="' + x0 + '" y="' + (cy - hi / 2) + '" width="' + (xpe - x0) + '" height="' + hi + '" fill="#f0c56a"/>' +
+      '<g stroke="#7a5a1c" stroke-width="1" stroke-dasharray="5 4"><line x1="' + x0 + '" y1="' + (cy - hi / 2) + '" x2="' + xpe + '" y2="' + (cy - hi / 2) + '"/><line x1="' + x0 + '" y1="' + (cy + hi / 2) + '" x2="' + xpe + '" y2="' + (cy + hi / 2) + '"/></g>');
     /* janela: comprimento ao longo do tubo, largura atravessando (limitada à altura do tubo no desenho) */
     var wj = Math.min(e.janelaLarg, ext) * esc, lj = e.janelaCompr * esc;
-    s += '<rect x="' + (xj - lj / 2) + '" y="' + (cy - wj / 2) + '" width="' + lj + '" height="' + wj + '" fill="#2D4839"/>';
-    s += '<line x1="' + xj + '" y1="' + 20 + '" x2="' + xj + '" y2="' + (base + 6) + '" stroke="#9A3B1F" stroke-width="1.2" stroke-dasharray="4 3"/>';
-    s += '<text x="' + Math.max(xj, 70) + '" y="' + 14 + '" text-anchor="middle" font-size="12" fill="#9A3B1F">centro da janela</text>';
-    var xs = [];
-    var nivelAlto = false;
+    s += grupo("janela", '<rect x="' + (xj - lj / 2) + '" y="' + (cy - wj / 2) + '" width="' + lj + '" height="' + wj + '" fill="#2D4839"/>' +
+      '<line x1="' + xj + '" y1="22" x2="' + xj + '" y2="' + (base + 6) + '" stroke="#9A3B1F" stroke-width="1.2" stroke-dasharray="4 3"/>' +
+      '<text x="' + Math.max(xj, 50) + '" y="16" text-anchor="middle" font-size="12" fill="#9A3B1F">janela</text>');
+    var xs = [], altas = [], nivelAlto = false, yNota = topo - 12 - (VIS.diametros ? 16 : 0);
+    var circulos = "", nots = "", nums = "", dias = "";
     r.furos.forEach(function (f, i) {
       var x = X(f.doPe); xs.push(x);
-      s += '<circle cx="' + x + '" cy="' + cy + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"/>';
-      s += '<g stroke="#f6efe2" stroke-width="1"><line x1="' + (x - 4) + '" y1="' + cy + '" x2="' + (x + 4) + '" y2="' + cy + '"/><line x1="' + x + '" y1="' + (cy - 4) + '" x2="' + x + '" y2="' + (cy + 4) + '"/></g>';
+      circulos += '<circle cx="' + x + '" cy="' + cy + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"/>' +
+        '<g stroke="#f6efe2" stroke-width="1"><line x1="' + (x - 4) + '" y1="' + cy + '" x2="' + (x + 4) + '" y2="' + cy + '"/><line x1="' + x + '" y1="' + (cy - 4) + '" x2="' + x + '" y2="' + (cy + 4) + '"/></g>';
       /* notas de furos vizinhos muito juntos sobem um nível para não se sobrepor */
-      var sobe = i > 0 && Math.abs(x - xs[i - 1]) < 52 && !nivelAlto;
-      nivelAlto = sobe;
-      s += '<text x="' + x + '" y="' + (topo - 14 - (sobe ? 14 : 0)) + '" text-anchor="middle" font-size="13" fill="#7E2A5E">' + f.nota + '</text>';
-      s += '<text x="' + x + '" y="' + (base + 16) + '" text-anchor="middle" font-size="14" fill="#2D4839">' + f.linha + '</text>';
+      var sobe = i > 0 && Math.abs(x - xs[i - 1]) < 52 && !nivelAlto; nivelAlto = sobe;
+      nots += '<text x="' + x + '" y="' + (yNota - (sobe ? 14 : 0)) + '" text-anchor="middle" font-size="13" fill="#7E2A5E">' + f.nota + "</text>";
+      dias += '<text x="' + x + '" y="' + (topo - 12) + '" text-anchor="middle" font-size="11" fill="#2D4839">Ø' + mm(f.diametro) + "</text>";
+      nums += '<text x="' + x + '" y="' + (base + 16) + '" text-anchor="middle" font-size="14" fill="#2D4839">' + f.linha + "</text>";
     });
-    var y = base + 26;
-    /* entre centros de furos vizinhos (rótulos alternados em altura para não se sobreporem) */
-    for (var i = 1; i < r.furos.length; i++) s += cota(xs[i], xs[i - 1], y + 14, mm(r.furos[i].espacoAbaixo), "#7E2A5E", i % 2 ? 0 : 13);
-    y += 34;
-    /* até o pé: uma cota por furo, do centro do furo à ponta do pé */
-    r.furos.forEach(function (f, k) { s += cota(xpe, xs[k], y + 14 + k * 18, "furo " + f.linha + " · " + f.nota + ": " + mm(f.doPe), "#2D4839"); });
-    y += 18 * r.furos.length + 8;
-    s += cota(xpe, xj, y + 14, "centro da janela ao pé: " + mm(r.janelaDoPe), "#9A3B1F"); y += 26;
-    s += cota(xpe, X(L), y + 14, "comprimento total estimado: " + mm(L), "#7a5a1c"); y += 30;
-    s += '<text x="' + (x0) + '" y="' + (y + 12) + '" font-size="12" fill="#444">Todas as medidas dos furos e da janela são até o CENTRO (não até a borda). Posições calculadas pelo modelo.</text>';
-    return '<svg viewBox="0 0 ' + W + ' ' + (y + 26) + '" role="img" aria-label="Desenho da flauta NAF com a janela, os furos e as medidas até o pé">' + s + '</svg>';
+    s += circulos + grupo("notas", nots) + grupo("diametros", dias) + grupo("numeros", nums);
+    var y = base + (VIS.numeros ? 24 : 10);
+    if (VIS.espacos) {
+      var sp = ""; for (var i = 1; i < r.furos.length; i++) sp += cota(xs[i], xs[i - 1], y + 14, mm(r.furos[i].espacoAbaixo), "#7E2A5E", i % 2 ? 0 : 13);
+      s += grupo("espacos", sp); y += 34;
+    }
+    if (VIS.boca) {
+      var bc = ""; r.furos.forEach(function (f, k) { bc += cota(xpe, xs[k], y + 14 + k * 18, f.nota + ": " + mm(f.doPe), "#2D4839"); });
+      s += grupo("boca", bc); y += 18 * r.furos.length + 8;
+    }
+    if (VIS.janela) { s += grupo("janela", cota(xpe, xj, y + 14, "da janela ao pé: " + mm(r.janelaDoPe), "#9A3B1F")); y += 26; }
+    if (VIS.total) { s += grupo("total", cota(xpe, X(L), y + 14, "comprimento: " + mm(L), "#7a5a1c")); y += 26; }
+    if (VIS.tubo) { s += grupo("tubo", '<text x="' + x0 + '" y="' + (y + 14) + '" font-size="12" fill="#7a5a1c">' + textoTubo(r) + "</text>"); y += 22; }
+    return '<svg viewBox="0 0 ' + W + " " + (y + 18) + '" role="img" aria-label="Desenho da flauta NAF com os furos e as medidas">' + s + "</svg>";
+  }
+
+  /* Celular: a mesma flauta em pé (cabeça em cima, pé embaixo), com as mesmas opções */
+  function desenhoVertical(r) {
+    var e = r.entrada, L = r.comprimentoFisico, H = 860, y0 = 30, esc = (H - 60) / L, ext = e.diametroExterno, w = ext * esc, hi = r.diametroInterno * esc;
+    var rotulos = VIS.notas || VIS.numeros || VIS.diametros, esq = 6 + (rotulos ? (VIS.diametros ? 84 : 66) : (VIS.janela ? 34 : 14));
+    var x1 = esq, cx = x1 + w / 2, col = x1 + w + 16;
+    var Y = function (p) { return y0 + (L - p) * esc; };
+    var colEsp = col; if (VIS.espacos) col += 18;
+    var colBoca = col; if (VIS.boca) col += r.furos.length * 16;
+    var colJan = col; if (VIS.janela) col += 16;
+    var colTot = col; if (VIS.total) col += 16;
+    var W = Math.max(col + 8, x1 + w + 20, VIS.tubo ? 200 : 0), ype = Y(0), yj = Y(r.janelaDoPe), s = "";
+    s += '<rect x="' + x1 + '" y="' + y0 + '" width="' + w + '" height="' + (ype - y0) + '" rx="2" fill="#D9A33A" stroke="#7a5a1c" stroke-width="2"/>';
+    s += grupo("tubo", '<rect x="' + (cx - hi / 2) + '" y="' + y0 + '" width="' + hi + '" height="' + (ype - y0) + '" fill="#f0c56a"/>');
+    var wj = Math.min(e.janelaLarg, ext) * esc, lj = e.janelaCompr * esc;
+    s += grupo("janela", '<rect x="' + (cx - wj / 2) + '" y="' + (yj - lj / 2) + '" width="' + wj + '" height="' + lj + '" fill="#2D4839"/>' +
+      '<text x="' + (x1 - 6) + '" y="' + (yj + 4) + '" text-anchor="end" font-size="11" fill="#9A3B1F">janela</text>');
+    var tx = function (y, t, cor, tam) { return '<text x="' + (x1 - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="' + (tam || 12) + '" fill="' + (cor || "#2D4839") + '">' + t + "</text>"; };
+    var circ = "", rot = "", esp = "", bc = "", ant = ype;
+    r.furos.forEach(function (f, k) {
+      var y = Y(f.doPe);
+      circ += '<circle cx="' + cx + '" cy="' + y + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"/>';
+      var l1 = [VIS.numeros ? f.linha + "º" : "", VIS.notas ? f.nota : ""].filter(Boolean).join(" ");
+      if (l1) rot += tx(y - (VIS.diametros ? 4 : 0), l1);
+      if (VIS.diametros) rot += tx(y + (l1 ? 9 : 0), "Ø" + mm(f.diametro), "#7a5a1c", 10);
+      if (k > 0) esp += cotaVR(colEsp, ant, y, mm(f.espacoAbaixo), "#7E2A5E", 10);
+      bc += cotaVR(colBoca + k * 16, ype, y, f.nota + ": " + mm(f.doPe), "#2D4839", 10);
+      ant = y;
+    });
+    s += circ + ((rotulos) ? '<g data-vis="rotulos">' + rot + "</g>" : "") + grupo("espacos", esp) + grupo("boca", bc);
+    if (VIS.janela) s += grupo("janela", cotaVR(colJan, ype, yj, "janela ao pé: " + mm(r.janelaDoPe), "#9A3B1F", 10));
+    if (VIS.total) s += grupo("total", cotaVR(colTot, ype, y0, "total: " + mm(L), "#7a5a1c", 10));
+    s += tx(ype - 4, "pé", null, 11);
+    var bas = ype + 22, extra = "";
+    if (VIS.tubo) { ["Ø externo " + mm(ext), "parede " + mm(e.parede), "Ø interno " + mm(r.diametroInterno)].forEach(function (t, k) { extra += '<text x="' + (W / 2) + '" y="' + (bas + k * 15) + '" text-anchor="middle" font-size="11" fill="#7a5a1c">' + t + "</text>"; }); bas += 30; }
+    return '<svg class="pc-vert" viewBox="0 0 ' + W + " " + (bas + 18) + '" role="img" aria-label="Desenho da flauta NAF em pé, com os furos e as medidas">' + s + (VIS.tubo ? '<g data-vis="tubo">' + extra + "</g>" : "") + "</svg>";
+  }
+  function painelVis() {
+    $("naf-vis").innerHTML = '<span class="pc-mini pc-vis-t">Mostrar no desenho:</span>' + Object.keys(VIS_NOMES).map(function (k) {
+      return '<label><input type="checkbox" data-vis="' + k + '"' + (VIS[k] ? " checked" : "") + "> " + VIS_NOMES[k] + "</label>";
+    }).join("");
   }
 
   /* ---- molde 1:1: páginas A4 em pé, régua de 100 mm, distância ao pé crescendo para baixo ---- */
@@ -185,16 +245,16 @@
   }
   function molde(r) {
     var e = r.entrada, L = r.comprimentoFisico, passo = 230, ini = -10, fim = L + 10, paginas = "", n = 1;
-    var marcas = [{ p: 0, d: 0, t: "PÉ (ponta do tubo): 0 mm" }];
-    r.furos.forEach(function (f) { marcas.push({ p: f.doPe, d: f.diametro, t: "Furo " + f.linha + " · " + f.nota + " · Ø " + mm(f.diametro) + " (centro)" }); });
-    marcas.push({ p: r.janelaDoPe, janela: true, t: "CENTRO DA JANELA " + mm(e.janelaCompr) + " × " + mm(e.janelaLarg) });
-    marcas.push({ p: L, d: 0, t: "CABEÇA (ponta): cortar aqui" });
+    var marcas = [{ p: 0, d: 0, t: "PÉ (ponta do tubo)" }];
+    r.furos.forEach(function (f) { marcas.push({ p: f.doPe, d: f.diametro, t: "Furo " + f.linha + " · " + f.nota + " · Ø " + mm(f.diametro) }); });
+    marcas.push({ p: r.janelaDoPe, janela: true, t: "JANELA " + mm(e.janelaCompr) + " × " + mm(e.janelaLarg) });
+    marcas.push({ p: L, d: 0, t: "CABEÇA: cortar aqui" });
     var tx = Math.max(84, 60 + e.diametroExterno / 2 + 6);
     for (var a = ini; a < fim; a += passo, n++) {
       var b = a + passo + 10, s = '<svg xmlns="http://www.w3.org/2000/svg" width="180mm" height="270mm" viewBox="0 0 180 270">';
       var Y = function (p) { return 25 + (p - a); };
-      s += '<text x="5" y="8" font-size="4">Calculadora de flauta NAF · igorbastosluthier.com.br · ' + mm(e.janelaCompr) + ' mm de janela · página ' + n + '</text>';
-      s += '<text x="5" y="14" font-size="3.2">A régua abaixo deve ter 100 mm (10 cm). Se não tiver, imprima em tamanho real (100%, sem ajustar à página).</text>';
+      s += '<text x="5" y="8" font-size="4">Calculadora de flauta NAF · igorbastosluthier.com.br' + ' · página ' + n + ' · a cruz marca o centro do furo</text>';
+      s += '<text x="5" y="14" font-size="3.2">A régua deve ter 100 mm. Se não tiver, imprima em tamanho real (100%).</text>';
       s += '<line x1="5" y1="18" x2="105" y2="18" stroke="#000" stroke-width=".4"/>';
       for (var k = 0; k <= 100; k += 10) s += '<line x1="' + (5 + k) + '" y1="16" x2="' + (5 + k) + '" y2="20" stroke="#000" stroke-width=".3"/>';
       s += '<text x="108" y="19" font-size="3">100 mm</text>';
@@ -220,10 +280,11 @@
   }
 
   /* ---- resultado ---- */
-  function selo(rz, estimado) {
-    if (rz === null) return '<span class="pc-selo" style="--c:#9A3B1F">● sem estimativa</span>';
-    var c = rz >= 2 ? ["#2D4839", "Bom"] : rz >= 1.5 ? ["#D9A33A", "Limitado"] : ["#9A3B1F", "Crítico"];
-    return '<span class="pc-selo" style="--c:' + c[0] + '"' + (estimado ? ' title="Estimado: o modelo Bracker não calcula o alcance do furo do pé na NAF de 5 furos; usei a mesma regra do último furo."' : '') + '>● ' + c[1] + ' · ' + mm(rz, 2) + (estimado ? ' (estimado)' : '') + '</span>';
+  /* Alcance: o quanto os agudos saem com facilidade neste furo (a conta é a razão de corte; aqui só a faixa) */
+  function selo(rz) {
+    if (rz === null) return "—";
+    var c = rz >= 2 ? ["#2D4839", "Bom"] : rz >= 1.5 ? ["#D9A33A", "Limitado"] : ["#9A3B1F", "Fraco"];
+    return '<span class="pc-selo" style="--c:' + c[0] + '">● ' + c[1] + "</span>";
   }
   function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
 
@@ -233,7 +294,7 @@
     (erros || []).forEach(function (er) {
       var el = CAMPOS[er.campo] ? $(CAMPOS[er.campo]) : null, mt = /^furo(\d+)-(d|hz|nota)$/.exec(er.campo);
       if (mt) el = document.querySelector('#naf-linhas input[data-k="' + mt[1] + '"][data-c="' + (mt[2] === "d" ? "d" : mt[2]) + '"]');
-      if (el) el.setAttribute("aria-invalid", "true");
+      if (el) { el.setAttribute("aria-invalid", "true"); if (er.campo === "cabeca" || er.campo === "ponta") $("naf-mais").open = true; }
     });
   }
 
@@ -241,45 +302,46 @@
     if (linhas.length !== nFuros()) return; /* estado intermediário de uma troca de topologia: não calcula nem salva */
     derivarInterno();
     $("naf-escala-aviso").hidden = $("naf-escala").value === "pentatonica-menor";
-    $("naf-ajuda-extra").hidden = nFuros() !== 6; /* o parágrafo do furo extra só vale com 6 furos */
     var e = lerEntrada(), r = N.calcular(e);
     document.querySelectorAll("#naf-linhas .naf-info").forEach(function (el) { el.textContent = ""; });
     document.querySelectorAll("#naf-linhas .naf-xt").forEach(function (el) { el.textContent = ehExtra(parseInt(el.getAttribute("data-k"), 10)) ? " (extra)" : ""; });
     marcarErros(r.ok ? [] : r.erros);
     if (!r.ok) {
       ultimo = null;
-      $("naf-erros").innerHTML = '<div class="pc-aviso" role="alert"><b>Não foi possível calcular</b><ul>' + r.erros.map(function (x) { return "<li>" + esc(x.msg) + "</li>"; }).join("") + "</ul><p class=\"pc-mini\">Nenhuma posição é mostrada enquanto houver erros. Corrija os campos marcados.</p></div>";
+      $("naf-erros").innerHTML = '<div class="pc-aviso" role="alert"><b>Confira os campos</b><ul>' + r.erros.map(function (x) { return "<li>" + esc(x.msg) + "</li>"; }).join("") + "</ul></div>";
       $("naf-saida").hidden = true; $("naf-molde").innerHTML = "";
       salvar(); return;
     }
     ultimo = r; $("naf-erros").innerHTML = ""; $("naf-saida").hidden = false;
+    /* Hz da nota aparece como sugestão cinza no campo; só o Hz digitado ganha uma linha de texto */
+    linhas.forEach(function (l, k) {
+      var hzEl = document.querySelector('#naf-linhas [data-k="' + k + '"][data-c="hz"]'), mp = N.parseNota(l.nota), a4 = parseFloat(e.a4);
+      if (hzEl) hzEl.placeholder = mp !== null && isFinite(a4) ? mm(N.freqNota(mp, a4), 2) : "";
+    });
     r.furos.forEach(function (f) {
       var el = document.querySelector('#naf-linhas .naf-info[data-k="' + (f.linha - 1) + '"]'); if (!el) return;
-      el.textContent = (f.extra ? TEXTO_EXTRA.trim() + " " : "") + (f.fonteHz === "hz" ? "Hz digitado vale como alvo (≈ " + f.notaProxima.nota + (Math.abs(f.notaProxima.cents) >= 0.5 ? (f.notaProxima.cents > 0 ? " +" : " −") + Math.round(Math.abs(f.notaProxima.cents)) + " cents" : "") + ")" : "Hz da nota: " + mm(f.hz, 2));
+      var t = [];
+      if (f.extra) t.push("Furo extra, fora da escala.");
+      if (f.fonteHz === "hz") t.push("Vale este valor (≈ " + f.notaProxima.nota + (Math.abs(f.notaProxima.cents) >= 0.5 ? (f.notaProxima.cents > 0 ? " +" : " −") + Math.round(Math.abs(f.notaProxima.cents)) + " cents" : "") + ").");
+      el.textContent = t.join(" ");
     });
-    $("naf-desenho").innerHTML = desenho(r);
+    $("naf-desenho").innerHTML = (window.matchMedia && window.matchMedia("(max-width: 640px)").matches) ? desenhoVertical(r) : desenho(r);
     $("naf-cartoes").innerHTML = r.furos.slice().reverse().map(function (f) {
-      return '<div class="pc-cartao"><div class="pc-c1"><b>' + f.linha + 'º</b> ' + f.nota + (f.extra ? ' (extra)' : '') + ' <span>Ø ' + mm(f.diametro) + ' · ' + mm(f.hz, 2) + ' Hz</span></div>' +
-        '<div class="pc-c2"><b>' + mm(f.doPe) + '</b> do pé · ' + mm(f.daJanela) + ' da janela' + (f.espacoAbaixo === null ? "" : " · " + mm(f.espacoAbaixo) + " ao furo de baixo") + '</div>' +
-        '<div class="pc-c3">' + selo(f.razaoCorte, f.corteEstimado) + '</div></div>';
+      return '<div class="pc-cartao"><div class="pc-c1"><b>' + f.linha + "º</b> " + f.nota + " <span>Ø " + mm(f.diametro) + "</span></div>" +
+        '<div class="pc-c2"><b>' + mm(f.doPe) + "</b> do pé · " + mm(f.daJanela) + " da janela" + (f.espacoAbaixo === null ? "" : " · " + mm(f.espacoAbaixo) + " até o de baixo") + "</div>" +
+        '<div class="pc-c3">' + selo(f.razaoCorte) + "</div></div>";
     }).join("");
     $("naf-tabela").querySelector("tbody").innerHTML = r.furos.map(function (f) {
-      return '<tr><th scope="row">' + f.linha + 'º</th><td>' + f.nota + ' <small>(' + f.notaIng + (f.extra ? ', extra' : '') + ')</small></td><td>' + mm(f.hz, 2) + (f.fonteHz === "hz" ? " <small>digitado</small>" : "") + '</td><td>' + mm(f.diametro) + ' mm</td><td><b>' + mm(f.doPe) + ' mm</b></td><td>' +
-        mm(f.daJanela) + ' mm</td><td>' + (f.espacoAbaixo === null ? "—" : mm(f.espacoAbaixo) + " mm") + '</td><td>' + selo(f.razaoCorte, f.corteEstimado) + '</td></tr>';
+      return '<tr><th scope="row">' + f.linha + "º</th><td>" + f.nota + " <small>" + mm(f.hz, 2) + " Hz</small></td><td>" + mm(f.diametro) + " mm</td><td><b>" + mm(f.doPe) + " mm</b></td><td>" +
+        mm(f.daJanela) + " mm</td><td>" + (f.espacoAbaixo === null ? "—" : mm(f.espacoAbaixo) + " mm") + "</td><td>" + selo(f.razaoCorte) + "</td></tr>";
     }).join("");
     $("naf-resumo").innerHTML =
-      "<li><span>Fundamental (todos os furos fechados)</span><b>" + r.fundamental.nome + " (" + r.fundamental.nomeIng + ") · " + mm(r.fundamental.hz, 2) + " Hz</b></li>" +
-      "<li><span>Centro da janela, medido da ponta do pé <em>(calculado)</em></span><b>" + mm(r.janelaDoPe) + " mm</b></li>" +
-      "<li><span>Comprimento acústico: centro da janela ao fim acústico <em>(calculado)</em></span><b>" + mm(r.comprimentoAcustico) + " mm</b></li>" +
-      "<li><span>Cabeça: ponta da cabeça ao centro da janela <em>(informado)</em></span><b>" + mm(r.entrada.cabeca) + " mm</b></li>" +
-      "<li><span>Extensão além do fim acústico, na ponta do pé <em>(informado; não entra na acústica)</em></span><b>" + mm(r.entrada.ponta) + " mm</b></li>" +
-      "<li><span>Comprimento total estimado do tubo (cabeça + acústico + extensão)</span><b>" + mm(r.comprimentoFisico) + " mm</b></li>" +
-      "<li><span>Diâmetro interno <em>(derivado: externo − 2 × parede)</em> · ótimo do modelo para essa nota</span><b>" + mm(r.diametroInterno) + " mm · " + mm(r.furoOtimo) + " mm</b></li>" +
-      "<li><span>Velocidade do som a " + mm(r.entrada.temperatura, 0) + " °C</span><b>" + mm(r.velocidadeSom / 1000, 1) + " m/s</b></li>";
+      "<li><span>Do centro da janela até o pé</span><b>" + mm(r.janelaDoPe) + " mm</b></li>" +
+      "<li><span>Comprimento total do tubo</span><b>" + mm(r.comprimentoFisico) + " mm</b></li>" +
+      "<li><span>Nota grave (tudo fechado)</span><b>" + r.fundamental.nome + " · " + mm(r.fundamental.hz, 2) + " Hz</b></li>";
     $("naf-avisos").innerHTML = r.avisos.length
-      ? '<div class="pc-aviso"><b>Atenção</b> <span class="pc-mini">(avisos não mexem nos furos; a decisão é sua)</span><ul>' + r.avisos.map(function (a) { return "<li>" + esc(a) + "</li>"; }).join("") + "</ul></div>"
-      : '<p class="pc-ok">Nenhum aviso do modelo para esta geometria.</p>';
-    if (r.furos.some(function (f) { return f.extra; })) $("naf-avisos").innerHTML += '<div class="pc-aviso"><b>Furo extra: posição calculada, afinação prática incerta.</b> O modelo Bracker supõe a digitação sem cruzamento (todos os furos abaixo abertos). A Flutopedia afina o furo extra com os furos 3, 5 e 6 fechados (nota cruzada); por isso a afinação do furo extra pode exigir ajuste na flauta pronta.</div>';
+      ? '<div class="pc-aviso"><b>Atenção</b><ul>' + r.avisos.map(function (a) { return "<li>" + esc(a) + "</li>"; }).join("") + "</ul></div>" : "";
+    $("naf-cautela").textContent = "Posições calculadas: confira com o afinador e ajuste aos poucos" + (r.furos.some(function (f) { return f.extra; }) ? ", principalmente o furo extra." : ".");
     $("naf-molde").innerHTML = molde(r);
     salvar();
   }
@@ -320,6 +382,14 @@
     atualizar();
   });
   $("naf-voltar-pent").addEventListener("click", function () { $("naf-escala").value = "pentatonica-menor"; refazerNotas(); atualizar(); });
+  painelVis();
+  $("naf-vis").addEventListener("change", function (ev) {
+    var k = ev.target.getAttribute("data-vis"); if (!k) return;
+    VIS[k] = ev.target.checked;
+    try { localStorage.setItem(CHAVE + ".vis", JSON.stringify(VIS)); } catch (x) { /* sem armazenamento */ }
+    atualizar();
+  });
+  if (window.matchMedia) { var mq = window.matchMedia("(max-width: 640px)"); (mq.addEventListener ? mq.addEventListener("change", atualizar) : mq.addListener(atualizar)); }
   $("naf-sugerir").addEventListener("click", function () { sugerirTudo(); atualizar(); });
   $("naf-imprimir").addEventListener("click", function () { if (ultimo) window.print(); });
   $("naf-link").addEventListener("click", function () {
