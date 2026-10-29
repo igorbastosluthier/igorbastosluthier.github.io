@@ -59,6 +59,8 @@ casos = [
     caso("sol4-6furos-extra-inativo", 6, notas=p, diam=d6, ativos=[True, True, True, False, True, True], **T6),
     caso("sol4-6furos-linha-inativa-pe", 6, notas=p, diam=d6, ativos=[False, True, True, True, True, True], **T6),
     caso("sol4-6furos-ponta15", 6, notas=p, diam=d6, ponta=15.0, cabeca=90.0, **T6),
+    caso("dono-do5-5furos", 5, key="C5", temp=25.0, od=22.4, wall=3.0, janL=5.0, janW=12.0, janH=8.0, cabeca=85.0,
+         notas=["Eb5", "F5", "G5", "Bb5", "C6"], diam=[9.0, 8.0, 9.0, 11.0, 9.0]),
     caso("erro-6furos-extra-tubo-largo", 6, notas=p, diam=d6),
     caso("la3-5furos", 5, key="A3", od=30.0, wall=3.0, janL=12.0, janW=13.0, janH=1.8, notas=["C4", "D4", "E4", "G4", "A4"], diam=[11, 9, 8, 9, 10]),
     caso("erro-ordem-invertida", 5, notas=["G5", "F5", "D5", "C5", "Bb4"], diam=[10.5, 8.0, 7.0, 8.0, 9.0]),

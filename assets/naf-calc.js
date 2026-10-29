@@ -99,13 +99,19 @@
 
   /* frequência de corte (f_c do clone) dividida pela frequência do furo = "razão de corte" */
   function razaoCorte(s, n1) {
-    if (s.diams[n1 - 1] === 0) return 0;
-    var sp;
+    if (s.diams[n1 - 1] === 0) return { valor: 0, estimado: false };
+    var sp, estimado = false;
     if (n1 === 7) sp = s.xend - s.xf[6];
     else if (s.diams[n1] > 0) sp = s.xf[n1] - s.xf[n1 - 1];
-    else sp = n1 + 1 < 7 ? s.xf[n1 + 1] - s.xf[n1 - 1] : NaN;
+    else if (n1 + 1 < 7) sp = s.xf[n1 + 1] - s.xf[n1 - 1];
+    else {
+      /* EXTENSÃO NOSSA (não é paridade): o clone Bracker dá NaN aqui (furo do pé quando a linha R3 está livre, como na
+         NAF de 5 furos, pois não há furo abaixo). Usamos a mesma regra que ele aplica ao último furo (n1 == 7):
+         espaço = distância do furo ao fim acústico. As posições não dependem disso. */
+      sp = s.xend - s.xf[n1 - 1]; estimado = true;
+    }
     var a = (s.c / (2 * Math.PI)) * (s.diams[n1 - 1] / s.bore) * (1.0 / Math.sqrt(te(s, n1) * sp));
-    return a / s.freqs[n1 - 1];
+    return { valor: a / s.freqs[n1 - 1], estimado: estimado };
   }
 
   /* ---- sugestões editáveis (sementes do Flute Lab 6.1.1 / auto_design: NAF), não são regra universal ---- */
@@ -250,7 +256,7 @@
     for (k = 0; k < n; k++) {
       var l = v.linhas[k]; if (!l.ativo) continue;
       var doPeAc = doFim[k], pos = doPeAc + v.ponta, da = compAc - doPeAc;
-      var rc = razaoCorte(s, slotDe[k] + 1);
+      var rcc = razaoCorte(s, slotDe[k] + 1), rc = rcc.valor;
       var nome, nomeI, aprox = null;
       if (l.fonte === "nota") { nome = nomePt(l.midi); nomeI = nomeEn(l.midi); }
       else {
@@ -263,7 +269,7 @@
       furos.push({
         linha: l.linha, extra: !!(e.escala === "pentatonica-menor" && FURO_EXTRA[n] === l.linha - 1), nota: nome, notaIng: nomeI, hz: l.hz, fonteHz: l.fonte, notaProxima: aprox ? { nota: nomePt(aprox.midi), cents: aprox.cents } : null,
         diametro: l.diametro, doPe: pos, doPeAcustico: doPeAc, daJanela: da, espacoAbaixo: null,
-        corte: isFinite(rc) ? rc * l.hz : null, razaoCorte: isFinite(rc) ? rc : null
+        corte: isFinite(rc) ? rc * l.hz : null, razaoCorte: isFinite(rc) ? rc : null, corteEstimado: rcc.estimado
       });
     }
     for (k = 1; k < furos.length; k++) furos[k].espacoAbaixo = furos[k].doPe - furos[k - 1].doPe;
@@ -274,9 +280,13 @@
     if (v.cabeca < v.janelaCompr / 2) avisos.push("A cabeça informada é menor que metade do comprimento da janela.");
     furos.forEach(function (f, i) {
       var r = "Furo " + f.linha + " (" + f.nota + ")";
-      if (f.razaoCorte === null) avisos.push(r + ": alcance (cutoff) indisponível" + (n === 5 && i === 0 ? " (o código Bracker/Flute Lab não calcula o cutoff do furo do pé quando a linha final R3 está livre, como na NAF de 5 furos)." : " para essa combinação."));
-      else if (f.razaoCorte < 1.5) avisos.push(r + ": alcance (cutoff) crítico (razão " + f.razaoCorte.toFixed(2).replace(".", ",") + "): a 2ª oitava tende a não sair. Aumentar o furo ou afastá-lo do vizinho melhora.");
-      else if (f.razaoCorte < 2) avisos.push(r + ": alcance (cutoff) limitado (razão " + f.razaoCorte.toFixed(2).replace(".", ",") + ").");
+      if (f.razaoCorte === null) avisos.push(r + ": não foi possível estimar o alcance deste furo com estas medidas.");
+      else {
+        if (f.corteEstimado) avisos.push(r + ": o modelo original (Bracker) não calcula o alcance do furo do pé quando ele é o último furo da flauta (caso da NAF de 5 furos); o valor mostrado é uma estimativa feita com a regra do último furo (distância até o fim do tubo). As posições dos furos não dependem disso.");
+        var est = f.corteEstimado ? ", estimada" : "";
+        if (f.razaoCorte < 1.5) avisos.push(r + ": alcance (cutoff) crítico (razão " + f.razaoCorte.toFixed(2).replace(".", ",") + est + "): a 2ª oitava tende a não sair. Aumentar o furo ou afastá-lo do vizinho melhora.");
+        else if (f.razaoCorte < 2) avisos.push(r + ": alcance (cutoff) limitado (razão " + f.razaoCorte.toFixed(2).replace(".", ",") + est + ").");
+      }
       if (f.diametro > bore * 0.72) avisos.push(r + ": furo acima de 72% do diâmetro interno (limite usado nas sugestões do modelo).");
       if (f.doPeAcustico - f.diametro / 2 < 0) avisos.push(r + ": o furo encosta na ponta do pé.");
       if (f.daJanela - f.diametro / 2 < v.janelaCompr / 2) avisos.push(r + ": o furo toca a janela (centro a " + fmt(f.daJanela) + " mm do centro da janela).");

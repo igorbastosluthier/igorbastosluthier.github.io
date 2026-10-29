@@ -1161,6 +1161,125 @@
    }
   },
   {
+   "nome": "dono-do5-5furos",
+   "entrada": {
+    "furos": 5,
+    "fundamental": "C5",
+    "a4": 440.0,
+    "temperatura": 25.0,
+    "diametroExterno": 22.4,
+    "parede": 3.0,
+    "janelaCompr": 5.0,
+    "janelaLarg": 12.0,
+    "janelaAltura": 8.0,
+    "cabeca": 85.0,
+    "ponta": 0.0,
+    "linhas": [
+     {
+      "nota": "Eb5",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     },
+     {
+      "nota": "F5",
+      "hz": null,
+      "diametro": 8.0,
+      "ativo": true
+     },
+     {
+      "nota": "G5",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     },
+     {
+      "nota": "Bb5",
+      "hz": null,
+      "diametro": 11.0,
+      "ativo": true
+     },
+     {
+      "nota": "C6",
+      "hz": null,
+      "diametro": 9.0,
+      "ativo": true
+     }
+    ]
+   },
+   "saida": {
+    "furosBoca2Pe": [
+     {
+      "rotulo": "L1",
+      "hz": 1046.5022612023945,
+      "diametro": 9.0,
+      "doPe": 172.80284028837548,
+      "doPeAcustico": 172.80284028837548,
+      "daJanela": 99.74494190502668,
+      "espaco": null,
+      "corte": 2108.6824725764136,
+      "razaoCorte": 2.0149812864748244,
+      "avisos": []
+     },
+     {
+      "rotulo": "L2",
+      "hz": 932.3275230361799,
+      "diametro": 11.0,
+      "doPe": 151.9147510512048,
+      "doPeAcustico": 151.9147510512048,
+      "daJanela": 120.63303114219735,
+      "espaco": 20.888089237170675,
+      "corte": 1909.5925801188268,
+      "razaoCorte": 2.0481993000701357,
+      "avisos": []
+     },
+     {
+      "rotulo": "L3",
+      "hz": 783.9908719634985,
+      "diametro": 9.0,
+      "doPe": 118.93919722940626,
+      "doPeAcustico": 118.93919722940626,
+      "daJanela": 153.6085849639959,
+      "espaco": 32.97555382179854,
+      "corte": 1980.5727001971406,
+      "razaoCorte": 2.5262701021464866,
+      "avisos": []
+     },
+     {
+      "rotulo": "R1",
+      "hz": 698.4564628660078,
+      "diametro": 8.0,
+      "doPe": 95.26149723937783,
+      "doPeAcustico": 95.26149723937783,
+      "daJanela": 177.28628495402432,
+      "espaco": 23.67769999002843,
+      "corte": 1704.348142441704,
+      "razaoCorte": 2.4401637511494645,
+      "avisos": []
+     },
+     {
+      "rotulo": "R2",
+      "hz": 622.2539674441618,
+      "diametro": 9.0,
+      "doPe": 67.89233344427305,
+      "doPeAcustico": 67.89233344427305,
+      "daJanela": 204.6554487491291,
+      "espaco": 27.369163795104782,
+      "corte": null,
+      "razaoCorte": null,
+      "avisos": [
+       "cutoff indisponível"
+      ]
+     }
+    ],
+    "comprimentoAcustico": 272.54778219340216,
+    "comprimentoFisico": 357.54778219340216,
+    "correcao": 56.685619353559446,
+    "furoInterno": 16.4,
+    "furoOtimo": 14.21377637725882
+   }
+  },
+  {
    "nome": "erro-6furos-extra-tubo-largo",
    "entrada": {
     "furos": 6,

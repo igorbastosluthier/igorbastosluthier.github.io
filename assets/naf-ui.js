@@ -220,10 +220,10 @@
   }
 
   /* ---- resultado ---- */
-  function selo(rz) {
-    if (rz === null) return '<span class="pc-selo" style="--c:#9A3B1F">● indisponível</span>';
+  function selo(rz, estimado) {
+    if (rz === null) return '<span class="pc-selo" style="--c:#9A3B1F">● sem estimativa</span>';
     var c = rz >= 2 ? ["#2D4839", "Bom"] : rz >= 1.5 ? ["#D9A33A", "Limitado"] : ["#9A3B1F", "Crítico"];
-    return '<span class="pc-selo" style="--c:' + c[0] + '">● ' + c[1] + ' · ' + mm(rz, 2) + '</span>';
+    return '<span class="pc-selo" style="--c:' + c[0] + '"' + (estimado ? ' title="Estimado: o modelo Bracker não calcula o alcance do furo do pé na NAF de 5 furos; usei a mesma regra do último furo."' : '') + '>● ' + c[1] + ' · ' + mm(rz, 2) + (estimado ? ' (estimado)' : '') + '</span>';
   }
   function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
 
@@ -241,6 +241,7 @@
     if (linhas.length !== nFuros()) return; /* estado intermediário de uma troca de topologia: não calcula nem salva */
     derivarInterno();
     $("naf-escala-aviso").hidden = $("naf-escala").value === "pentatonica-menor";
+    $("naf-ajuda-extra").hidden = nFuros() !== 6; /* o parágrafo do furo extra só vale com 6 furos */
     var e = lerEntrada(), r = N.calcular(e);
     document.querySelectorAll("#naf-linhas .naf-info").forEach(function (el) { el.textContent = ""; });
     document.querySelectorAll("#naf-linhas .naf-xt").forEach(function (el) { el.textContent = ehExtra(parseInt(el.getAttribute("data-k"), 10)) ? " (extra)" : ""; });
@@ -260,11 +261,11 @@
     $("naf-cartoes").innerHTML = r.furos.slice().reverse().map(function (f) {
       return '<div class="pc-cartao"><div class="pc-c1"><b>' + f.linha + 'º</b> ' + f.nota + (f.extra ? ' (extra)' : '') + ' <span>Ø ' + mm(f.diametro) + ' · ' + mm(f.hz, 2) + ' Hz</span></div>' +
         '<div class="pc-c2"><b>' + mm(f.doPe) + '</b> do pé · ' + mm(f.daJanela) + ' da janela' + (f.espacoAbaixo === null ? "" : " · " + mm(f.espacoAbaixo) + " ao furo de baixo") + '</div>' +
-        '<div class="pc-c3">' + selo(f.razaoCorte) + '</div></div>';
+        '<div class="pc-c3">' + selo(f.razaoCorte, f.corteEstimado) + '</div></div>';
     }).join("");
     $("naf-tabela").querySelector("tbody").innerHTML = r.furos.map(function (f) {
       return '<tr><th scope="row">' + f.linha + 'º</th><td>' + f.nota + ' <small>(' + f.notaIng + (f.extra ? ', extra' : '') + ')</small></td><td>' + mm(f.hz, 2) + (f.fonteHz === "hz" ? " <small>digitado</small>" : "") + '</td><td>' + mm(f.diametro) + ' mm</td><td><b>' + mm(f.doPe) + ' mm</b></td><td>' +
-        mm(f.daJanela) + ' mm</td><td>' + (f.espacoAbaixo === null ? "—" : mm(f.espacoAbaixo) + " mm") + '</td><td>' + selo(f.razaoCorte) + '</td></tr>';
+        mm(f.daJanela) + ' mm</td><td>' + (f.espacoAbaixo === null ? "—" : mm(f.espacoAbaixo) + " mm") + '</td><td>' + selo(f.razaoCorte, f.corteEstimado) + '</td></tr>';
     }).join("");
     $("naf-resumo").innerHTML =
       "<li><span>Fundamental (todos os furos fechados)</span><b>" + r.fundamental.nome + " (" + r.fundamental.nomeIng + ") · " + mm(r.fundamental.hz, 2) + " Hz</b></li>" +
@@ -299,6 +300,9 @@
       var l = linhas[k]; if (!l) return;
       if (c === "a") l.a = t.checked; else if (c === "d") { l.d = t.value; manualDim = true; } else { l[c] = t.value; if (c === "nota" || c === "hz") $("naf-escala").value = "personalizada"; }
     } else if (/^naf-(od|parede|jc|jl|ja|cabeca|ponta)$/.test(t.id)) manualDim = true;
+    /* temperatura e A4 mudam a solução do modelo: enquanto as medidas são as sugeridas, refaz as sugestões junto
+       (senão uma mudança de temperatura poderia deixar as medidas sugeridas sem solução) */
+    if ((t.id === "naf-temp" || t.id === "naf-a4") && !manualDim && isFinite(parseFloat(t.value))) { aplicarMedidas(sugestao()); refazerDiametros(); }
     if (t.id === "naf-di") { var p = parseFloat($("naf-parede").value), di = parseFloat(t.value); if (isFinite(p) && isFinite(di)) { $("naf-od").value = Math.round((di + 2 * p) * 100) / 100; manualDim = true; } }
     atualizar();
   });

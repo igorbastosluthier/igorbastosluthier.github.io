@@ -23,7 +23,12 @@ ref.casos.forEach(function (c) {
       perto(f.hz, py[i].hz, 1e-9, "hz"); perto(f.diametro, py[i].diametro, 1e-12, "diâmetro");
       perto(f.doPe, py[i].doPe, 1e-9, "doPe"); perto(f.doPeAcustico, py[i].doPeAcustico, 1e-9, "doPeAcustico");
       perto(f.daJanela, py[i].daJanela, 1e-9, "daJanela");
-      if (py[i].razaoCorte === null) assert.strictEqual(f.razaoCorte, null); else perto(f.razaoCorte, py[i].razaoCorte, 1e-9, "razaoCorte");
+      if (py[i].razaoCorte === null) {
+        /* o Python (Bracker) dá NaN no furo do pé da NAF de 5 furos; nossa extensão estima com s = distância ao fim acústico */
+        assert.ok(f.corteEstimado && i === 0, "só o furo do pé (primeiro ativo) pode ser estimado");
+        const bore = e.diametroExterno - 2 * e.parede, c = 20055 * Math.sqrt(e.temperatura + 270.15), d = f.diametro;
+        perto(f.razaoCorte, (c / (2 * Math.PI)) * (d / bore) / Math.sqrt((e.parede + 0.75 * d) * f.doPeAcustico) / f.hz, 1e-9, "razaoCorte estimada");
+      } else { assert.ok(!f.corteEstimado); perto(f.razaoCorte, py[i].razaoCorte, 1e-9, "razaoCorte"); }
       if (py[i].corte !== null) perto(f.corte, py[i].corte, 1e-9, "corte Hz");
     });
     perto(r.comprimentoAcustico, o.comprimentoAcustico, 1e-9, "comprimento acústico");
@@ -135,10 +140,10 @@ t("avisos não alteram posições nem a entrada", function () {
 });
 
 /* 8b. sugestões iniciais têm solução em TODAS as fundamentais permitidas (Dó 3 a Sol 5), 5 e 6 furos, várias temperaturas */
-t("sugestões iniciais têm solução (MIDI 48-79, 5 e 6 furos, 10/20/35 °C)", function () {
+t("sugestões iniciais têm solução (MIDI 48-79, 5 e 6 furos, -10 a 50 °C)", function () {
   const falhas = [];
   [5, 6].forEach(function (n) {
-    for (let m = N.MIDI_MIN; m <= N.MIDI_MAX; m++) [10, 20, 35].forEach(function (temp) {
+    for (let m = N.MIDI_MIN; m <= N.MIDI_MAX; m++) [-10, 0, 10, 20, 35, 50].forEach(function (temp) {
       const sug = N.sugerir({ furos: n, midi: m, temp: temp }), notas = N.escala("pentatonica-menor", m, n);
       const r = N.calcular({ furos: n, fundamental: N.nomeEn(m), a4: 440, temperatura: temp, escala: "pentatonica-menor", diametroExterno: sug.diametroExterno, parede: sug.parede,
         janelaCompr: sug.janelaCompr, janelaLarg: sug.janelaLarg, janelaAltura: sug.janelaAltura, cabeca: sug.cabeca, ponta: 0,
@@ -168,6 +173,39 @@ t("cabeça vazia/ilegível é rejeitada com mensagem clara", function () {
     assert.ok(r.erros.some(x => x.campo === "cabeca" && /informe um número/.test(x.msg)), JSON.stringify(r.erros));
   });
   assert.strictEqual(N.calcular(cfg(5, { cabeca: "89" })).ok, true);
+});
+
+/* 8e. caso do dono (5 furos, Dó 5): o furo do pé ganha cutoff estimado, texto simples, sem NaN/null/R3 */
+t("5 furos: cutoff do furo do pé estimado (caso do dono) e avisos em português simples", function () {
+  const e = { furos: 5, escala: "pentatonica-menor", fundamental: "C5", a4: 440, temperatura: 25, diametroExterno: 22.4, parede: 3, janelaCompr: 5, janelaLarg: 12, janelaAltura: 8, cabeca: 85, ponta: 0,
+    linhas: ["Eb5", "F5", "G5", "Bb5", "C6"].map((n, i) => ({ nota: n, diametro: [9, 8, 9, 11, 9][i] })) };
+  const r = N.calcular(e); assert.ok(r.ok, JSON.stringify(r.erros));
+  assert.ok(Number.isFinite(r.furos[0].razaoCorte) && r.furos[0].corteEstimado === true);
+  assert.ok(r.furos.slice(1).every(f => !f.corteEstimado && Number.isFinite(f.razaoCorte)));
+  perto(r.furos[0].doPe, 67.892, 1e-4, "posição do furo 1 (igual ao Python do Lab)");
+  perto(r.furos[0].razaoCorte, 1.880, 1e-3, "razão estimada");
+  const txt = r.avisos.join(" | ");
+  assert.ok(/estimativa/.test(txt) && !/R3|NaN|null|indisponível|undefined/.test(txt), txt);
+});
+
+/* 8f. varredura: nenhuma saída com NaN/null/indisponível/jargão, 5 e 6 furos, todas as fundamentais, 6 temperaturas */
+t("varredura: sem NaN/null/indisponível/jargão em resultados e avisos", function () {
+  let n = 0, ruins = [];
+  [5, 6].forEach(function (nf) {
+    for (let m = N.MIDI_MIN; m <= N.MIDI_MAX; m++) [-10, 0, 10, 20, 35, 50].forEach(function (temp) {
+      const sug = N.sugerir({ furos: nf, midi: m, temp: temp });
+      const r = N.calcular({ furos: nf, fundamental: N.nomeEn(m), a4: 440, temperatura: temp, escala: "pentatonica-menor", diametroExterno: sug.diametroExterno, parede: sug.parede,
+        janelaCompr: sug.janelaCompr, janelaLarg: sug.janelaLarg, janelaAltura: sug.janelaAltura, cabeca: sug.cabeca, ponta: 0,
+        linhas: N.escala("x", m, nf).map((x, i) => ({ nota: N.nomeEn(x), diametro: sug.diametros[i] })) });
+      if (!r.ok) { ruins.push(nf + "f " + N.nomeEn(m) + " " + temp + " erro"); return; }
+      n++;
+      const j = JSON.stringify(r);
+      if (/NaN|Infinity|undefined/.test(j) || r.furos.some(f => f.razaoCorte === null || f.corte === null)) ruins.push(nf + "f " + N.nomeEn(m) + " " + temp + " valor ausente");
+      if (/R3|R2|L1|indispon|null|NaN/.test(r.avisos.join(" "))) ruins.push(nf + "f " + N.nomeEn(m) + " " + temp + " jargão: " + r.avisos.join(" | "));
+      if (r.furos.filter(f => f.corteEstimado).length !== (nf === 5 ? 1 : 0)) ruins.push(nf + "f " + N.nomeEn(m) + " " + temp + " estimado inesperado");
+    });
+  });
+  assert.deepStrictEqual(ruins, []); assert.ok(n === 2 * 32 * 6, "todas as combinações calculadas: " + n);
 });
 
 /* 9. parser de notas */
