@@ -23,6 +23,9 @@
     [[abaPife, !naf], [abaNaf, naf]].forEach(function (p) { p[0].setAttribute("aria-selected", p[1] ? "true" : "false"); p[0].tabIndex = p[1] ? 0 : -1; });
     var h1 = document.querySelector(".ph h1");
     if (h1) h1.textContent = naf ? "Calculadora de flauta NAF" : "Calculadora de pife";
+    var lead = document.querySelector(".ph p");
+    if (lead) { if (!lead.getAttribute("data-pife")) lead.setAttribute("data-pife", lead.textContent);
+      lead.textContent = naf ? "Onde furar a sua flauta nativa americana de 5 ou 6 furos. Informe o tubo, a janela e a nota, e a calculadora mostra a posição de cada furo, desenha a flauta e gera um molde em tamanho real para imprimir." : lead.getAttribute("data-pife"); }
     document.title = naf ? "Calculadora de flauta NAF · Igor Bastos" : "Calculadora de pife · Igor Bastos";
   }
   function trocarModo(naf) {
@@ -142,11 +145,15 @@
     s += '<line x1="' + xj + '" y1="' + 20 + '" x2="' + xj + '" y2="' + (base + 6) + '" stroke="#9A3B1F" stroke-width="1.2" stroke-dasharray="4 3"/>';
     s += '<text x="' + xj + '" y="' + 14 + '" text-anchor="middle" font-size="12" fill="#9A3B1F">centro da janela</text>';
     var xs = [];
-    r.furos.forEach(function (f) {
+    var nivelAlto = false;
+    r.furos.forEach(function (f, i) {
       var x = X(f.doPe); xs.push(x);
       s += '<circle cx="' + x + '" cy="' + cy + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"/>';
       s += '<g stroke="#f6efe2" stroke-width="1"><line x1="' + (x - 4) + '" y1="' + cy + '" x2="' + (x + 4) + '" y2="' + cy + '"/><line x1="' + x + '" y1="' + (cy - 4) + '" x2="' + x + '" y2="' + (cy + 4) + '"/></g>';
-      s += '<text x="' + x + '" y="' + (topo - 28 + 14) + '" text-anchor="middle" font-size="13" fill="#7E2A5E">' + f.nota + '</text>';
+      /* notas de furos vizinhos muito juntos sobem um nível para não se sobrepor */
+      var sobe = i > 0 && Math.abs(x - xs[i - 1]) < 52 && !nivelAlto;
+      nivelAlto = sobe;
+      s += '<text x="' + x + '" y="' + (topo - 14 - (sobe ? 14 : 0)) + '" text-anchor="middle" font-size="13" fill="#7E2A5E">' + f.nota + '</text>';
       s += '<text x="' + x + '" y="' + (base + 16) + '" text-anchor="middle" font-size="14" fill="#2D4839">' + f.linha + '</text>';
     });
     var y = base + 26;
