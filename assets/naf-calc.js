@@ -110,14 +110,14 @@
 
   /* ---- sugestões editáveis (sementes do Flute Lab 6.1.1 / auto_design: NAF), não são regra universal ---- */
   function r1(x) { return Math.round(x * 10) / 10; }
-  function sementeSugestao(n, midi, a4, fator) {
+  function sementeSugestao(n, midi, a4, fator, escD) {
     var f0 = freqFundamental(midi, a4);
     var otimo = Math.max(7, Math.min(38, 2620 * Math.pow(f0, -5 / 6)));
     var bore = Math.max(7, Math.min(38, otimo * fator));
     var wall = Math.max(2.4, Math.min(5.5, bore * 0.14));
     var ref = [8.0, 9.0, 8.0, 7.0, 8.0, 10.5, 9.0].slice(0, n).reverse(); /* da boca ao pé -> do pé à boca */
     var esc = Math.max(0.7, Math.min(1.4, bore / 19.0));
-    var diams = ref.map(function (v) { return Math.max(2.5, Math.min(bore * 0.72, Math.round(v * esc * 2) / 2)); });
+    var diams = ref.map(function (v) { return Math.max(2.5, Math.min(bore * 0.72, Math.round(v * esc * escD * 2) / 2)); });
     /* o furo extra (6 furos) é pequeno: com o Bracker ele só tem solução se for bem menor que os vizinhos */
     if (n === 6) diams[FURO_EXTRA[6]] = Math.max(2.5, Math.round(bore * 0.3 * 2) / 2);
     return {
@@ -132,11 +132,11 @@
   function sugerir(o) {
     o = o || {};
     var n = o.furos === 5 ? 5 : 6, a4 = o.a4 || 440, midi = typeof o.midi === "number" ? o.midi : 67;
-    var fatores = [1.15, 1.05, 0.95, 0.9, 0.85, 0.8, 0.75], primeira = null;
-    for (var i = 0; i < fatores.length; i++) {
-      var s = sementeSugestao(n, midi, a4, fatores[i]);
+    var fatores = [1.15, 1.05, 0.95, 0.9, 0.85, 0.8, 0.7, 0.6], escDs = [1, 0.85, 0.7, 0.55], primeira = null;
+    for (var q = 0; q < fatores.length * escDs.length; q++) {
+      var i = Math.floor(q / escDs.length), s = sementeSugestao(n, midi, a4, fatores[i], escDs[q % escDs.length]);
       if (!primeira) primeira = s;
-      var e = { furos: n, fundamental: nomeEn(midi), a4: a4, temperatura: 20, diametroExterno: s.diametroExterno, parede: s.parede,
+      var e = { furos: n, fundamental: nomeEn(midi), a4: a4, temperatura: o.temp === undefined ? 20 : o.temp, diametroExterno: s.diametroExterno, parede: s.parede,
         janelaCompr: s.janelaCompr, janelaLarg: s.janelaLarg, janelaAltura: s.janelaAltura, cabeca: s.cabeca, ponta: 0,
         linhas: escala("pentatonica-menor", midi, n).map(function (m, k) { return { nota: nomeEn(m), diametro: s.diametros[k] }; }) };
       if (midi >= MIDI_MIN && midi <= MIDI_MAX && calcular(e).ok) return s;
@@ -172,8 +172,9 @@
     v.janelaCompr = req("janelaCompr", "Comprimento da janela", e.janelaCompr, 1, 60, " mm");
     v.janelaLarg = req("janelaLarg", "Largura da janela", e.janelaLarg, 1, 60, " mm");
     v.janelaAltura = req("janelaAltura", "Altura da janela", e.janelaAltura, 0.1, 30, " mm");
-    var cab = e.cabeca === undefined || e.cabeca === "" ? 0 : num(e.cabeca);
-    if (!isFinite(cab) || cab < 0 || cab > 400) erros.push({ campo: "cabeca", msg: "Cabeça (ponta da cabeça ao centro da janela): use um valor entre 0 e 400 mm." }); else v.cabeca = cab;
+    var cab = num(e.cabeca);
+    if (!isFinite(cab)) erros.push({ campo: "cabeca", msg: "Cabeça (ponta da cabeça ao centro da janela): informe um número em mm." });
+    else if (cab < 0 || cab > 400) erros.push({ campo: "cabeca", msg: "Cabeça (ponta da cabeça ao centro da janela): use um valor entre 0 e 400 mm." }); else v.cabeca = cab;
     var po = e.ponta === undefined || e.ponta === "" ? 0 : num(e.ponta);
     if (!isFinite(po) || po < 0 || po > 200) erros.push({ campo: "ponta", msg: "Extensão na ponta do pé: use um valor entre 0 e 200 mm." }); else v.ponta = po;
     if (isFinite(v.diametroExterno) && isFinite(v.parede) && v.diametroExterno <= 2 * v.parede)
@@ -253,9 +254,11 @@
       var nome, nomeI, aprox = null;
       if (l.fonte === "nota") { nome = nomePt(l.midi); nomeI = nomeEn(l.midi); }
       else {
+        /* Hz explícito é o alvo; o rótulo nunca pode contradizê-lo: só mantém o nome da nota se o Hz estiver a
+           menos de 0,5 cent dela, senão mostra a nota mais próxima com "≈" */
         var nm = notaMaisProxima(l.hz, v.a4); aprox = nm;
-        var mp = parseNota(l.nota); /* rótulo digitado pelo usuário, se houver */
-        nome = mp !== null ? nomePt(mp) : nomePt(nm.midi); nomeI = mp !== null ? nomeEn(mp) : nomeEn(nm.midi);
+        var igual = Math.abs(nm.cents) < 0.5;
+        nome = (igual ? "" : "≈ ") + nomePt(nm.midi); nomeI = (igual ? "" : "≈ ") + nomeEn(nm.midi);
       }
       furos.push({
         linha: l.linha, extra: !!(e.escala === "pentatonica-menor" && FURO_EXTRA[n] === l.linha - 1), nota: nome, notaIng: nomeI, hz: l.hz, fonteHz: l.fonte, notaProxima: aprox ? { nota: nomePt(aprox.midi), cents: aprox.cents } : null,

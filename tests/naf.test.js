@@ -134,15 +134,40 @@ t("avisos não alteram posições nem a entrada", function () {
   assert.strictEqual(JSON.stringify(w), JSON.stringify(cfg(5, { diametroExterno: 28, parede: 2.6 })));
 });
 
-/* 8b. sugestões iniciais sempre geram um resultado válido (5 e 6 furos, várias fundamentais) */
-t("sugestões iniciais têm solução no modelo", function () {
-  [[5, 67], [6, 67], [5, 69], [6, 69], [5, 62], [6, 64]].forEach(function ([n, m]) {
-    const sug = N.sugerir({ furos: n, midi: m }), notas = N.escala("pentatonica-menor", m, n);
-    const r = N.calcular({ furos: n, fundamental: N.nomeEn(m), a4: 440, temperatura: 20, escala: "pentatonica-menor", diametroExterno: sug.diametroExterno, parede: sug.parede,
-      janelaCompr: sug.janelaCompr, janelaLarg: sug.janelaLarg, janelaAltura: sug.janelaAltura, cabeca: sug.cabeca, ponta: 0,
-      linhas: notas.map((x, i) => ({ nota: N.nomeEn(x), diametro: sug.diametros[i] })) });
-    assert.ok(r.ok, n + " furos, midi " + m + ": " + JSON.stringify(r.erros));
+/* 8b. sugestões iniciais têm solução em TODAS as fundamentais permitidas (Dó 3 a Sol 5), 5 e 6 furos, várias temperaturas */
+t("sugestões iniciais têm solução (MIDI 48-79, 5 e 6 furos, 10/20/35 °C)", function () {
+  const falhas = [];
+  [5, 6].forEach(function (n) {
+    for (let m = N.MIDI_MIN; m <= N.MIDI_MAX; m++) [10, 20, 35].forEach(function (temp) {
+      const sug = N.sugerir({ furos: n, midi: m, temp: temp }), notas = N.escala("pentatonica-menor", m, n);
+      const r = N.calcular({ furos: n, fundamental: N.nomeEn(m), a4: 440, temperatura: temp, escala: "pentatonica-menor", diametroExterno: sug.diametroExterno, parede: sug.parede,
+        janelaCompr: sug.janelaCompr, janelaLarg: sug.janelaLarg, janelaAltura: sug.janelaAltura, cabeca: sug.cabeca, ponta: 0,
+        linhas: notas.map((x, i) => ({ nota: N.nomeEn(x), diametro: sug.diametros[i] })) });
+      if (!r.ok) falhas.push(n + " furos " + N.nomeEn(m) + " " + temp + "C");
+    });
   });
+  assert.deepStrictEqual(falhas, []);
+});
+
+/* 8c. o rótulo nunca contradiz o Hz usado como alvo */
+t("Hz explícito diferente da nota: rótulo mostra a nota mais próxima com ≈", function () {
+  const e = cfg(5); e.linhas[0] = { nota: "Sib 4", hz: 480, diametro: e.linhas[0].diametro, ativo: true };
+  const f = N.calcular(e).furos[0];
+  assert.strictEqual(f.hz, 480); assert.ok(/^≈ /.test(f.nota) && /^≈ /.test(f.notaIng), f.nota);
+  assert.ok(Math.abs(f.notaProxima.cents) > 0.5);
+  e.linhas[0].hz = N.freqNota(70, 440); /* exatamente Sib 4 */
+  assert.strictEqual(N.calcular(e).furos[0].nota, "Si♭ 4");
+  e.linhas[0].hz = 466.1638 * Math.pow(2, 0.3 / 1200); /* 0,3 cent: ainda é Sib 4 */
+  assert.strictEqual(N.calcular(e).furos[0].nota, "Si♭ 4");
+});
+
+/* 8d. cabeça vazia ou inválida é erro claro (não vira 0 com aviso falso) */
+t("cabeça vazia/ilegível é rejeitada com mensagem clara", function () {
+  ["", "abc", undefined, null].forEach(function (c) {
+    const r = N.calcular(cfg(5, { cabeca: c })); assert.strictEqual(r.ok, false, String(c));
+    assert.ok(r.erros.some(x => x.campo === "cabeca" && /informe um número/.test(x.msg)), JSON.stringify(r.erros));
+  });
+  assert.strictEqual(N.calcular(cfg(5, { cabeca: "89" })).ok, true);
 });
 
 /* 9. parser de notas */
