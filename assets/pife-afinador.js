@@ -101,9 +101,16 @@
     d[0] = 1;
     var acum = 0;
     for (tau = 1; tau <= tauMax; tau++) { acum += d[tau]; d[tau] = d[tau] * tau / (acum || 1); }
-    var achado = -1;
+    /* Escolha do período: o vale mais fundo serve de referência e fica o PRIMEIRO vale (o período mais curto) que
+       chega perto dele. Antes valia só "o primeiro abaixo de 0,12": com sopro soproso o vale certo ficava um pouco
+       acima disso, um vale de período 2, 3, 4… vezes maior passava no lugar e a nota pulava uma ou mais oitavas
+       para baixo (ou sumia), deixando o afinador indeciso. */
+    var menor = Infinity;
+    for (tau = tauMin; tau <= tauMax; tau++) if (d[tau] < menor) menor = d[tau];
+    if (menor > 0.3) return null;
+    var limite = Math.min(0.3, Math.max(0.12, menor + 0.1)), achado = -1;
     for (tau = tauMin; tau <= tauMax; tau++) {
-      if (d[tau] < 0.12) { while (tau + 1 <= tauMax && d[tau + 1] < d[tau]) tau++; achado = tau; break; }
+      if (d[tau] <= limite) { while (tau + 1 <= tauMax && d[tau + 1] < d[tau]) tau++; achado = tau; break; }
     }
     if (achado < 0) return null;
     var t0 = achado;
@@ -174,19 +181,55 @@
     if (estavel.n === 18) { mapa[m] = estavel.soma / estavel.n; mostrarMapa(); }
   }
 
+  /* Suavização: mediana das 5 últimas leituras (uma leitura errada isolada não mexe na agulha), depois a média
+     amortecida da sensibilidade escolhida, em cents (antes era em Hz, sem mediana, e zerava a cada falha de leitura:
+     uma leitura errada arrastava a agulha e o nome por várias notas). Salto de mais de meio tom = nota nova: vai
+     direto, sem passar pelas notas do meio. Falha curta de leitura (até ~0,13 s) não zera nada. */
+  var SEGURAR = 8, HISTERESE = 0.15;
+  var brutos = [], suaveM = null, notaAtual = null, semLeitura = 0;
+  function mediana(v) { var s = v.slice().sort(function (a, b) { return a - b; }); return s[s.length >> 1]; }
+  /* o nome da nota só troca quando o som passa 15 cents além da metade do caminho até a outra nota, ou quando
+     passa mais tempo do outro lado (uns 0,25 s a mais) — uma nota perto de ±50 cents não fica trocando de nome a
+     cada tremida e fica com o nome do lado onde ela mais está */
+  var trocaN = 0;
+  function escolherNota(mc, melhor, atual) {
+    if (atual == null) { trocaN = 0; return melhor; }
+    if (melhor === atual) { if (trocaN > 0) trocaN--; return atual; }
+    if (Math.abs(mc - atual) - Math.abs(mc - melhor) > 2 * HISTERESE || ++trocaN >= 15) { trocaN = 0; return melhor; }
+    return atual;
+  }
+
   function quadro() {
     if (!rodando) return;
     analisador.getFloatTimeDomainData(buf);
-    var r = yin(buf, ctx.sampleRate);
-    if (r && r.confianca > 0.8) {
-      suave = suave == null ? r.f : suave * SENS.suave + r.f * (1 - SENS.suave);
-      var m = Math.round(midiDeFreq(suave)), alvo = m;
+    var r = yin(buf, ctx.sampleRate), leu = r && r.confianca > 0.7;
+    if (leu) {
+      semLeitura = 0;
+      brutos.push(midiDeFreq(r.f)); if (brutos.length > 5) brutos.shift();
+      var med = mediana(brutos), ult = brutos.slice(-3);
+      if (suaveM != null && Math.abs(med - suaveM) <= 0.6) suaveM = suaveM * SENS.suave + med * (1 - SENS.suave);
+      /* nota nova: só aparece quando as 3 últimas leituras concordam (na passagem de uma nota para outra o som
+         fica misturado e daria o nome de uma nota do meio) */
+      else if (ult.length === 3 && Math.max.apply(null, ult) - Math.min.apply(null, ult) < 0.3) suaveM = mediana(ult);
+      else leu = false;
+    } else if (++semLeitura > SEGURAR) {
+      suave = null; suaveM = null; brutos = []; notaAtual = null; trocaN = 0;
+      estavel = { midi: null, n: 0, soma: 0 };
+    }
+    if (leu) {
+      suave = la() * Math.pow(2, (suaveM - 69) / 12);
+      var alvo;
       if (modo === "pife") {
-        var notas = notasDoPife(), melhor = null;
-        notas.forEach(function (n) { if (melhor == null || Math.abs(n.midi - midiDeFreq(suave)) < Math.abs(melhor.midi - midiDeFreq(suave))) melhor = n; });
+        var notas = notasDoPife(), melhor = null, atual = null;
+        notas.forEach(function (n) {
+          if (melhor == null || Math.abs(n.midi - suaveM) < Math.abs(melhor.midi - suaveM)) melhor = n;
+          if (n.midi === notaAtual) atual = n;
+        });
+        if (escolherNota(suaveM, melhor.midi, atual ? atual.midi : null) !== melhor.midi) melhor = atual;
         alvo = melhor.midi;
         $("af-nota-sub").textContent = melhor.oitava + "ª oitava · " + ["tudo fechado", "furo 1 aberto", "furos 1 e 2 abertos", "furos 1 a 3 abertos", "furos 1 a 4 abertos", "furos 1 a 5 abertos", "tudo aberto"][melhor.furo];
-      } else { $("af-nota-sub").textContent = ""; }
+      } else { alvo = escolherNota(suaveM, Math.round(suaveM), notaAtual); $("af-nota-sub").textContent = ""; }
+      notaAtual = alvo;
       var c = cents(suave, alvo);
       $("af-nota").textContent = nome(alvo);
       $("af-hz").textContent = suave.toFixed(1).replace(".", ",") + " Hz";
@@ -199,10 +242,7 @@
         harm = harm && harm.length === hh.length ? harm.map(function (v, i) { return v * 0.7 + hh[i] * 0.3; }) : hh;
         desenharHarm(); textoHarm();
       }
-    } else {
-      suave = null; historico.push(null);
-      estavel = { midi: null, n: 0, soma: 0 };
-    }
+    } else historico.push(null);
     if (historico.length > 200) historico.shift();
     desenharHistorico();
     requestAnimationFrame(quadro);
