@@ -20,7 +20,7 @@ Esta pasta começa com `_`, então o GitHub Pages (Jekyll) **não publica** este
 cd C:\Users\airba\Documents\site_repo
 git pull --ff-only
 # editar
-node tests/pife.test.js && node tests/naf.test.js && node tests/afinador.test.js && node tests/afinador_vies.test.js && node tests/escalas.test.js && node tests/pife_motor.test.js
+node tests/pife.test.js && node tests/naf.test.js && node tests/afinador.test.js && node tests/afinador_vies.test.js && node tests/escalas.test.js && node tests/pife_motor.test.js && node tests/furos_varredura.test.js
 git add <arquivos>
 git commit -m "área: o que mudou (em português, para o Igor ler)"
 git push origin main
@@ -46,6 +46,7 @@ git push origin main
 | `assets/pife-calc.js` | núcleo do cálculo do pífano (sem DOM; testado em node) |
 | `assets/pife-ui.js` | tela da calculadora do pífano (desenho, molde 1:1, estado na URL) |
 | `assets/naf-calc.js` / `assets/naf-ui.js` | núcleo e tela da NAF (núcleo Bracker, 5/6 furos) |
+| `assets/ajuste-furos.js` | ajuste automático do tamanho dos furos sugeridos para nenhum ficar encostado (folga entre bordas ≥ 3 mm ou 15% do tubo; furo de 3,5 mm/25% até 80% do tubo, 72% na NAF); as posições saem da conta normal |
 | `assets/escalas.js` | escalas do app (nomes, graus, quais servem para cada flauta e nº de furos) e o botão "Ouvir escala" (Web Audio) |
 | `assets/pife-afinador.js` | afinador (YIN + refino; ver seção 4) |
 | `assets/site.css`, `mix.css`, `naf.css`, `feedback.*`, `monte.js` | estilo, feedback e montagem |
@@ -65,6 +66,7 @@ git push origin main
 | `node tests/afinador.test.js` | estabilidade do afinador numa página falsa: nome da nota firme, oitava certa, agulha firme, melodia, só ruído = sem nota |
 | `node tests/afinador_vies.test.js` | **viés** do detector: Sol 3 a Mi 7, sons de flauta com pouco e muito sopro; exige viés ≤ 2 cents e p95 ≤ 4 cents |
 | `node tests/escalas.test.js` | escalas iguais às do app (`tests/fixtures/escalas_app.json`, gerado por `tests/gen_escalas_app.py`), notas tocadas no "Ouvir escala", pífano e NAF com outra escala/nº de furos |
+| `node tests/furos_varredura.test.js` | todas as escalas × furos × tons do pífano e da NAF (e Personalizada): 0 furos encostados, 0 erros, notas certas |
 | `tests/browser/*.test.js` | testes no navegador (Chrome via CDP, `tests/browser/cdp.js`) da tela da NAF |
 
 ---

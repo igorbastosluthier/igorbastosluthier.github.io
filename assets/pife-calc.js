@@ -3,6 +3,8 @@
    (Flutomat, de Pete Kosel, que segue o trabalho de Hans Bracker e de C. J. Nederveen). Todas as medidas em mm. */
 (function (root) {
   "use strict";
+  /* ajuste automático do tamanho dos furos (ajuste-furos.js): no navegador vem antes deste arquivo */
+  var Aj = typeof module === "object" && module.exports ? require("./ajuste-furos.js") : root.AjusteFuros;
 
   var SEMITONS_ESCALA_MAIOR = [2, 4, 5, 7, 9, 11];
   var NOMES = ["Dó", "Dó#", "Ré", "Ré#", "Mi", "Fá", "Fá#", "Sol", "Sol#", "Lá", "Lá#", "Si"];
@@ -143,13 +145,48 @@
       var n = (h.indice + 1) + "º furo (" + h.nota + ")";
       if (h.diametro > e.D * 0.85) lista.push(n + ": furo quase do tamanho do tubo. Use um tubo mais largo ou um furo menor.");
       if (h.razaoCorte < 1.4) lista.push(n + ": furo pequeno para essa distância; a nota pode sair fraca ou abafada. Aumente o furo.");
-      if (h.espaco < h.diametro + 3) lista.push(n + ": muito perto do furo de baixo. Diminua os furos ou use outro tom.");
+    });
+    /* furos encostados: a mesma regra do ajuste automático (folga entre as bordas) */
+    apertos(e, furos).forEach(function (a) {
+      var h = furos[a.furos[a.furos.length - 1]], n = (h.indice + 1) + "º furo (" + h.nota + ")";
+      if (a.tipo === "vizinhos") lista.push(n + ": muito perto do furo de baixo. Diminua os furos ou use outro tom.");
+      else if (a.tipo === "pe") lista.push(n + ": muito perto do pé. Diminua esse furo ou use outro tom.");
+      else lista.push(n + ": muito perto do furo do sopro. Use um tubo mais fino ou outro tom.");
     });
     var maior = Math.max.apply(null, furos.slice(1).map(function (h) { return h.espaco; }));
     if (maior > 45) lista.push("Há furos com mais de 4,5 cm entre si: pode ficar difícil para mãos pequenas. Diminuir esses furos aproxima as posições.");
     if (diametroSopro(e) > e.D * 0.75) lista.push("Furo do sopro grande para esse tubo: o som fica mais aberto mas mais difícil. O comum é entre 50% e 65% do diâmetro interno.");
     if (pe < 150) lista.push("Tubo muito curto para esse tom.");
     return lista;
+  }
+
+  /* Furos encostados: folga entre as bordas menor que a mínima (vizinhos, 1º furo e o pé, último furo e o sopro).
+     Devolve [{tipo: "vizinhos"|"pe"|"boca", furos: [índices], falta: mm}]. */
+  function apertos(e, furos) {
+    var g = Aj ? Aj.folgaMinima(e.D) : Math.max(3, 0.15 * e.D), n = furos.length, lista = [];
+    if (!n) return lista;
+    var gp = furos[0].espaco - furos[0].diametro / 2;
+    if (gp < g) lista.push({ tipo: "pe", furos: [0], falta: g - gp });
+    for (var i = 1; i < n; i++) {
+      var gv = furos[i].espaco - (furos[i].diametro + furos[i - 1].diametro) / 2;
+      if (gv < g) lista.push({ tipo: "vizinhos", furos: [i - 1, i], falta: g - gv });
+    }
+    var embC = e.embForma === "oval" ? (e.embC || e.emb) : e.emb, top = furos[n - 1];
+    var gb = top.daBoca - top.diametro / 2 - embC / 2;
+    if (gb < g) lista.push({ tipo: "boca", furos: [n - 1], falta: g - gb });
+    return lista;
+  }
+
+  /* Ajuste automático (pedido do Igor): parte dos furos ideais (e.furos) e muda o tamanho só dos que ficariam encostados,
+     recalculando as posições pela conta normal (as notas continuam afinadas). Furo de 3,5 mm (ou 25% do tubo) até 80%
+     do tubo. Devolve {diametros, ideal, ajustados: [{indice, de, para}], ok, falta}. */
+  function ajustarFuros(e) {
+    var lim = Aj.limites(e.D, 0.8);
+    return Aj.ajustar(e.furos, function (d) {
+      var t = Object.assign({}, e, { furos: d }), a = apertos(t, calcular(t).furos), falta = 0, env = [];
+      a.forEach(function (x) { falta += x.falta; x.furos.forEach(function (i) { if (env.indexOf(i) < 0) env.push(i); }); });
+      return { falta: falta, envolvidos: env };
+    }, lim);
   }
 
   /* Ajuste fino: a nota saiu 'cents' (positivo = alta, negativo = baixa). Retorna a orientação. */
@@ -207,6 +244,6 @@
     return tent.furos;
   }
 
-  var api = { SEMITONS_ESCALA_MAIOR: SEMITONS_ESCALA_MAIOR, padraoFuros: padraoFuros, paredeIdeal: paredeIdeal, diametroSopro: diametroSopro, TONS: TONS, calcular: calcular, otimizarFuros: otimizarFuros, tuboSugerido: tuboSugerido, ajuste: ajuste, furoSugerido: furoSugerido, nomeNota: nomeNota, freqMidi: freqMidi };
+  var api = { apertos: apertos, ajustarFuros: ajustarFuros, SEMITONS_ESCALA_MAIOR: SEMITONS_ESCALA_MAIOR, padraoFuros: padraoFuros, paredeIdeal: paredeIdeal, diametroSopro: diametroSopro, TONS: TONS, calcular: calcular, otimizarFuros: otimizarFuros, tuboSugerido: tuboSugerido, ajuste: ajuste, furoSugerido: furoSugerido, nomeNota: nomeNota, freqMidi: freqMidi };
   if (typeof module === "object" && module.exports) module.exports = api; else root.PifeCalc = api;
 })(this);

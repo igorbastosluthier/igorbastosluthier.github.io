@@ -42,11 +42,17 @@
   /* Furos: o sugerido é o otimizado (inteiro). Se a pessoa digitar um furo, vale o dela até apertar "voltar aos
      sugeridos"; enquanto não digitar, os furos se reotimizam a cada mudança de tom ou de tubo. */
   var manual = false;
+  /* Furos sugeridos: os tamanhos ideais e, se algum furo ficaria encostado, o ajuste automático do tamanho (as posições
+     são recalculadas pela conta normal, então a afinação continua certa). */
+  var ajusteAtual = null;
   function sugerir() {
     var e = lerEntrada(), f = P.otimizarFuros(e);
+    ajusteAtual = P.ajustarFuros ? P.ajustarFuros(Object.assign({}, e, { furos: f })) : null;
+    if (ajusteAtual) f = ajusteAtual.diametros;
     entradasFuro.forEach(function (inp, k) { inp.value = f[k]; });
     manual = false;
   }
+  function mesmos(a, b) { return a.length === b.length && a.every(function (x, i) { return Math.abs(x - b[i]) < 1e-9; }); }
   function dicaTubo() {
     var t = $("pc-tom").options[$("pc-tom").selectedIndex].text, alvo = P.tuboSugerido($("pc-tom").value);
     var D = parseFloat($("pc-D").value);
@@ -82,6 +88,7 @@
     if (!e.furos || e.furos.length !== nFuros()) { sugerir(); return; }
     entradasFuro.forEach(function (x, k) { if (e.furos && e.furos[k]) x.value = e.furos[k]; });
     manual = !!e.manual; /* furos digitados pela pessoa continuam valendo ao reabrir o link */
+    if (!manual) sugerir(); /* sugeridos: refaz (e ajusta) com a conta atual */
   }
 
   /* Opções de visualização do desenho (marcar/desmarcar). */
@@ -125,7 +132,7 @@
     s += '<ellipse cx="' + boca + '" cy="' + cy + '" rx="' + (eC * esc / 2) + '" ry="' + (eL * esc / 2) + '" fill="#2D4839"/>';
     r.furos.forEach(function (f) {
       var x = boca + f.daBoca * esc;
-      s += '<circle cx="' + x + '" cy="' + cy + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"/>';
+      s += '<circle cx="' + x + '" cy="' + cy + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"' + (f.ajustado ? ' stroke="#D9A33A" stroke-width="3"' : "") + "/>";
       if (VIS.numeros) s += '<text x="' + x + '" y="' + (base + 16) + '" text-anchor="middle" font-size="14" fill="#2D4839">' + (f.indice + 1) + '</text>';
       if (VIS.notas) s += '<text x="' + x + '" y="' + (cy - h / 2 - 6 - (VIS.diametros ? 16 : 0)) + '" text-anchor="middle" font-size="13" fill="#7E2A5E">' + f.nota + '</text>';
       if (VIS.diametros) s += '<text x="' + x + '" y="' + (cy - h / 2 - 6) + '" text-anchor="middle" font-size="11" fill="#2D4839">Ø' + mm(f.diametro) + '</text>';
@@ -201,7 +208,7 @@
     var ant = pe;
     r.furos.forEach(function (f, k) {
       var y = boca + f.daBoca * esc;
-      s += '<circle cx="' + cx + '" cy="' + y + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"/>';
+      s += '<circle cx="' + cx + '" cy="' + y + '" r="' + (f.diametro * esc / 2) + '" fill="#2D4839"' + (f.ajustado ? ' stroke="#D9A33A" stroke-width="3"' : "") + "/>";
       var l1 = [VIS.numeros ? (f.indice + 1) + "º" : "", VIS.notas ? f.nota : ""].filter(Boolean).join(" ");
       if (l1) s += tx(y - (VIS.diametros ? 4 : 0), l1);
       if (VIS.diametros) s += tx(y + (l1 ? 9 : 0), "Ø" + mm(f.diametro), "#7a5a1c", 10);
@@ -304,18 +311,35 @@
     $("pc-emb-r").hidden = $("pc-emb-forma").value === "oval"; $("pc-emb-o").hidden = !$("pc-emb-r").hidden;
     $("pc-lip-box").hidden = !$("pc-lip-sim").checked;
     var e = lerEntrada(), r = P.calcular(e);
+    /* aviso curto do ajuste automático (ou dos furos encostados, se a pessoa digitou os tamanhos) */
+    var aj = ajusteAtual && mesmos(ajusteAtual.diametros, e.furos) ? ajusteAtual : null, caixaAj = $("pc-ajuste");
+    r.furos.forEach(function (f) { f.ajustado = !!(aj && aj.ajustados.some(function (a) { return a.indice === f.indice; })); });
+    entradasFuro.forEach(function (inp, k) { inp.classList.toggle("pc-aj-in", r.furos[k].ajustado); });
+    if (caixaAj) {
+      var txt = "";
+      if (aj && aj.ajustados.length) txt = AjusteFuros.textoAjuste(aj.ajustados);
+      if (aj && !aj.ok) txt += (txt ? " " : "") + "Não deu para separar todos os furos neste tubo: use um tubo mais fino, outro tom ou outra escala.";
+      else if (!aj && manual && P.apertos(e, r.furos).length) txt = 'Há furos encostados. <button type="button" class="pc-link-btn" id="pc-ajustar">Ajustar sozinho</button>';
+      caixaAj.innerHTML = txt ? '<p class="pc-ajuste">' + txt + "</p>" : "";
+      var bt = $("pc-ajustar");
+      if (bt) bt.onclick = function () {
+        ajusteAtual = P.ajustarFuros(lerEntrada());
+        entradasFuro.forEach(function (inp, k) { inp.value = ajusteAtual.diametros[k]; });
+        atualizar();
+      };
+    }
     entradasFuro.forEach(function (inp, k) {
       inp.previousElementSibling.textContent = (k + 1) + "º · " + r.furos[k].nota;
     });
     $("pc-desenho").innerHTML = (window.matchMedia && window.matchMedia("(max-width: 640px)").matches) ? desenhoVertical(r, e) : desenho(r, e);
     /* celular: um cartão curto por furo, no lugar da tabela larga */
     $("pc-cartoes").innerHTML = r.furos.slice().reverse().map(function (f) {
-      return '<div class="pc-cartao"><div class="pc-c1"><b>' + (f.indice + 1) + 'º</b> ' + f.nota + ' <span>Ø ' + mm(f.diametro) + '</span></div>' +
+      return '<div class="pc-cartao' + (f.ajustado ? " pc-aj" : "") + '"><div class="pc-c1"><b>' + (f.indice + 1) + 'º</b> ' + f.nota + ' <span>Ø ' + mm(f.diametro) + '</span></div>' +
         '<div class="pc-c2"><b>' + mm(f.daBoca) + '</b> da boca · ' + mm(f.espaco) + ' até o de baixo</div>' +
         '<div class="pc-c3">' + selo(f.razaoCorte) + '</div></div>';
     }).join("");
     $("pc-tabela").querySelector("tbody").innerHTML = r.furos.map(function (f) {
-      return "<tr><th scope=\"row\">" + (f.indice + 1) + "º</th><td>" + f.nota + "</td><td>" + mm(f.diametro) + " mm</td><td><b>" + mm(f.daBoca) + " mm</b></td><td>" + mm(f.doPe) + " mm</td><td>" + mm(f.espaco) + " mm</td><td>" + selo(f.razaoCorte) + "</td></tr>";
+      return "<tr" + (f.ajustado ? ' class="pc-aj"' : "") + "><th scope=\"row\">" + (f.indice + 1) + "º</th><td>" + f.nota + "</td><td>" + mm(f.diametro) + " mm</td><td><b>" + mm(f.daBoca) + " mm</b></td><td>" + mm(f.doPe) + " mm</td><td>" + mm(f.espaco) + " mm</td><td>" + selo(f.razaoCorte) + "</td></tr>";
     }).join("");
     $("pc-alcance").innerHTML = alcance(r);
     $("pc-resumo").innerHTML =

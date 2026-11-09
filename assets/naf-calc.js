@@ -8,6 +8,8 @@
   "use strict";
   /* escalas do app (escalas.js): no navegador vem antes deste arquivo; no node, por require */
   var Esc = typeof module === "object" && module.exports ? require("./escalas.js") : root.Escalas;
+  /* ajuste automático do tamanho dos furos (ajuste-furos.js) */
+  var Aj = typeof module === "object" && module.exports ? require("./ajuste-furos.js") : root.AjusteFuros;
 
   /* ---- notas ---- */
   var NOMES_PT = ["Dó", "Dó♯", "Ré", "Mi♭", "Mi", "Fá", "Fá♯", "Sol", "Sol♯", "Lá", "Si♭", "Si"];
@@ -141,16 +143,23 @@
   function sugerir(o) {
     o = o || {};
     var n = o.furos === 5 ? 5 : 6, a4 = o.a4 || 440, midi = typeof o.midi === "number" ? o.midi : 67, semis = semitons(o.escala, n).furos;
-    var fatores = [1.15, 1.05, 0.95, 0.9, 0.85, 0.8, 0.7, 0.6], escDs = [1, 0.85, 0.7, 0.55], primeira = null;
+    var fatores = [1.15, 1.05, 0.95, 0.9, 0.85, 0.8, 0.7, 0.6], escDs = [1, 0.85, 0.7, 0.55], sementes = [];
     for (var q = 0; q < fatores.length * escDs.length; q++) {
       var i = Math.floor(q / escDs.length), s = sementeSugestao(n, midi, a4, fatores[i], escDs[q % escDs.length], semis);
-      if (!primeira) primeira = s;
       var e = { furos: n, fundamental: nomeEn(midi), a4: a4, temperatura: o.temp === undefined ? 20 : o.temp, diametroExterno: s.diametroExterno, parede: s.parede,
         janelaCompr: s.janelaCompr, janelaLarg: s.janelaLarg, janelaAltura: s.janelaAltura, cabeca: s.cabeca, ponta: 0,
         linhas: semis.map(function (st) { return midi + st; }).map(function (m, k) { return { nota: nomeEn(m), diametro: s.diametros[k] }; }) };
-      if (midi >= MIDI_MIN && midi <= MIDI_MAX && calcular(e).ok) return s;
+      sementes.push({ s: s, e: e, ok: midi >= MIDI_MIN && midi <= MIDI_MAX && calcular(e).ok });
     }
-    return primeira;
+    /* 1º: a primeira semente que já calcula e em que o ajuste automático separa todos os furos; 2º: a primeira que
+       calcula; 3º: a primeira em que o ajuste consegue chegar a uma flauta válida; senão, a semente original */
+    var ajOk = function (x) { return !Aj || ajustarFuros(x.e).ok; };
+    var a = sementes.filter(function (x) { return x.ok; }).filter(ajOk)[0] || null;
+    if (a) return a.s;
+    var calculavel = sementes.filter(function (x) { return x.ok; })[0];
+    if (calculavel) return calculavel.s;
+    if (Aj && midi >= MIDI_MIN && midi <= MIDI_MAX) for (q = 0; q < sementes.length; q++) if (ajOk(sementes[q])) return sementes[q].s;
+    return sementes[0].s;
   }
 
   /* semitons dos furos (do pé para a boca) e auxiliares da escala escolhida; escala que não serve para a NAF com n
@@ -261,6 +270,12 @@
     var compAc = s.xend - s.xemb;
     function falha(msg, campo) { return { ok: false, erros: [{ campo: campo || "geometria", msg: msg }] }; }
     if (!isFinite(compAc) || compAc <= 0) return falha("Não foi possível calcular com estas medidas. Revise o diâmetro, a parede e a janela.");
+    /* uso interno do ajuste automático: as posições "cruas", mesmo quando não formam uma flauta válida */
+    if (e._bruto) {
+      var cru = [];
+      for (k = 0; k < n; k++) if (v.linhas[k].ativo) cru.push({ k: k, x: s.xend - s.xf[slotDe[k]], d: v.linhas[k].diametro });
+      return { ok: false, bruto: { compAc: compAc, bore: bore, janelaCompr: v.janelaCompr, furos: cru } };
+    }
     var previo = Infinity, doFim = [];
     for (k = n - 1; k >= 0; k--) { /* boca -> pé */
       if (!v.linhas[k].ativo) continue;
@@ -305,7 +320,7 @@
       if (i > 0) {
         var p = furos[i - 1], d = f.doPe - p.doPe;
         if (d < (f.diametro + p.diametro) / 2) avisos.push(r + ": cruza o furo " + p.linha + " (centros a " + fmt(d) + " mm).");
-        else if (d < Math.max(12, f.diametro + 4)) avisos.push(r + ": muito perto do furo " + p.linha + " (centros a " + fmt(d) + " mm).");
+        else if (d - (f.diametro + p.diametro) / 2 < folga(bore)) avisos.push(r + ": muito perto do furo " + p.linha + " (centros a " + fmt(d) + " mm).");
       }
     });
     return {
@@ -321,7 +336,52 @@
     };
   }
 
-  var api = { semitons: semitons, ehAux: ehAux, calcular: calcular, validar: validar, sugerir: sugerir, escala: escala, parseNota: parseNota, nomePt: nomePt, nomeEn: nomeEn,
+  /* folga mínima entre bordas (a mesma do pífano e do ajuste automático) */
+  function folga(bore) { return Aj ? Aj.folgaMinima(bore) : Math.max(3, 0.15 * bore); }
+  /* Furos encostados num resultado válido: vizinhos, furo e pé (ponta do tubo), furo e janela.
+     Devolve [{tipo, furos: [índices das linhas, 0 = pé], falta: mm}]. */
+  function apertos(r) {
+    var g = folga(r.diametroInterno), e = r.entrada, fs = r.furos, lista = [];
+    fs.forEach(function (f, i) {
+      var k = f.linha - 1;
+      if (i === 0) { var gp = f.doPe - f.diametro / 2; if (gp < g) lista.push({ tipo: "pe", furos: [k], falta: g - gp }); }
+      else { var p = fs[i - 1], gv = f.doPe - p.doPe - (f.diametro + p.diametro) / 2; if (gv < g) lista.push({ tipo: "vizinhos", furos: [p.linha - 1, k], falta: g - gv }); }
+      if (i === fs.length - 1) { var gj = f.daJanela - f.diametro / 2 - e.janelaCompr / 2; if (gj < g) lista.push({ tipo: "janela", furos: [k], falta: g - gj }); }
+    });
+    return lista;
+  }
+  /* Ajuste automático (pedido do Igor): parte dos diâmetros de e.linhas (os ideais) e muda o tamanho só dos furos que
+     ficariam encostados; as posições saem da conta normal, então as notas continuam afinadas. Furo de 3,5 mm (ou 25% do
+     tubo) até 72% do tubo. Devolve {diametros (0 = furo desligado), ideal, ajustados: [{indice, de, para}], ok, falta}. */
+  function ajustarFuros(e) {
+    var val = validar(e || {});
+    var ideal = (e.linhas || []).map(function (l) { var d = num(l && l.diametro); return l && l.ativo === false ? 0 : (isFinite(d) ? d : 0); });
+    if (val.erros.length) return { diametros: ideal, ideal: ideal.slice(), ajustados: [], ok: false, falta: 0 };
+    var bore = val.v.diametroExterno - 2 * val.v.parede, lim = Aj.limites(bore, 0.72);
+    var ativos = []; ideal.forEach(function (d, i) { if (d > 0) ativos.push(i); });
+    return Aj.ajustar(ideal, function (d) {
+      var t = Object.assign({}, e, { linhas: e.linhas.map(function (l, i) { return Object.assign({}, l, { diametro: d[i] > 0 ? d[i] : l.diametro }); }) });
+      var r = calcular(t);
+      if (!r.ok) { /* sem flauta válida: mede o quanto falta pelas posições cruas, para a busca saber para onde ir */
+        var b = calcular(Object.assign({}, t, { _bruto: true })).bruto, fb = 100;
+        if (!b) return { falta: 1000, envolvidos: ativos };
+        var g = folga(b.bore), ant = null;
+        b.furos.forEach(function (h) {
+          if (!isFinite(h.x)) { fb += 50; return; }
+          if (ant === null) fb += Math.max(0, g - (h.x - h.d / 2));
+          else fb += Math.max(0, g - (h.x - ant.x - (h.d + ant.d) / 2));
+          ant = h;
+        });
+        if (ant) fb += Math.max(0, g - (b.compAc - ant.x - ant.d / 2 - b.janelaCompr / 2));
+        return { falta: fb, envolvidos: ativos };
+      }
+      var a = apertos(r), falta = 0, env = [];
+      a.forEach(function (x) { falta += x.falta; x.furos.forEach(function (i) { if (env.indexOf(i) < 0) env.push(i); }); });
+      return { falta: falta, envolvidos: env };
+    }, lim);
+  }
+
+  var api = { apertos: apertos, ajustarFuros: ajustarFuros, semitons: semitons, ehAux: ehAux, calcular: calcular, validar: validar, sugerir: sugerir, escala: escala, parseNota: parseNota, nomePt: nomePt, nomeEn: nomeEn,
     FURO_EXTRA: FURO_EXTRA, freqNota: freqNota, freqFundamental: freqFundamental, notaMaisProxima: notaMaisProxima, MIDI_MIN: MIDI_MIN, MIDI_MAX: MIDI_MAX, LINHAS_BRACKER: LINHAS_BRACKER };
   if (typeof module === "object" && module.exports) module.exports = api; else root.NafCalc = api;
 })(this);

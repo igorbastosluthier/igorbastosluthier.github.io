@@ -816,3 +816,8 @@ section.ph{padding-top:calc(var(--sp-5) - 16px)}
 .esc-ouvir .esc-modo{display:inline-flex;gap:6px;align-items:center;margin:0;cursor:pointer}
 .esc-ouvir .esc-modo input{display:inline-block;width:auto;margin:0}
 .esc-ouvir .btn{padding:9px 16px}
+/* calculadora: furos com o tamanho ajustado sozinho (para não ficarem encostados) */
+.pc-ajuste{margin:10px 0;padding:8px 12px;border-left:3px solid #D9A33A;background:rgba(217,163,58,.12);border-radius:4px;font-size:.95em}
+.pc-aj td,.pc-aj th{background:rgba(217,163,58,.14)}
+.pc-cartao.pc-aj{box-shadow:inset 3px 0 0 #D9A33A}
+input.pc-aj-in{border-color:#D9A33A!important;box-shadow:0 0 0 2px rgba(217,163,58,.3)}
