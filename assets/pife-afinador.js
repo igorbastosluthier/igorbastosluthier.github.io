@@ -102,9 +102,7 @@
     var acum = 0;
     for (tau = 1; tau <= tauMax; tau++) { acum += d[tau]; d[tau] = d[tau] * tau / (acum || 1); }
     /* Escolha do período: o vale mais fundo serve de referência e fica o PRIMEIRO vale (o período mais curto) que
-       chega perto dele. Antes valia só "o primeiro abaixo de 0,12": com sopro soproso o vale certo ficava um pouco
-       acima disso, um vale de período 2, 3, 4… vezes maior passava no lugar e a nota pulava uma ou mais oitavas
-       para baixo (ou sumia), deixando o afinador indeciso. */
+       chega perto dele (assim a nota não pula de oitava com sopro soproso). */
     var menor = Infinity;
     for (tau = tauMin; tau <= tauMax; tau++) if (d[tau] < menor) menor = d[tau];
     if (menor > 0.3) return null;
@@ -113,12 +111,43 @@
       if (d[tau] <= limite) { while (tau + 1 <= tauMax && d[tau + 1] < d[tau]) tau++; achado = tau; break; }
     }
     if (achado < 0) return null;
+    /* Com sopro forte, o ruído cria pequenos vales ANTES do vale verdadeiro (período mais curto = nota mais aguda):
+       o afinador lia até +30 cents no grave. Fica o vale mais fundo a ±6 % do achado (±1 semitom: sem risco de oitava). */
+    var ini = Math.max(tauMin, Math.floor(achado * 0.94)), fim = Math.min(tauMax, Math.ceil(achado * 1.06));
+    for (tau = ini; tau <= fim; tau++) if (d[tau] < d[achado]) achado = tau;
     var t0 = achado;
     if (t0 > 1 && t0 < tauMax) {
       var a = d[t0 - 1], b = d[t0], c = d[t0 + 1], den = a + c - 2 * b;
       if (den) t0 = t0 + (a - c) / (2 * den);
     }
-    return { f: sr / t0, confianca: 1 - d[achado] };
+    return { f: refinar(x, sr, sr / t0), confianca: 1 - d[achado] };
+  }
+
+  /* Refino fino pela soma dos harmônicos (Goertzel com janela de Hann): o período do YIN perde precisão nos agudos
+     (poucas amostras por período, lia +3 c em Mi 7) e com sopro. Procura ±40 c em passos de 4 c e depois ±4 c em
+     passos de 0,5 c, com interpolação parabólica no fim. */
+  var janelaHann = null;
+  function energia(x, sr, f) {
+    if (!janelaHann || janelaHann.length !== x.length) { janelaHann = new Float32Array(x.length); for (var n = 0; n < x.length; n++) janelaHann[n] = 0.5 - 0.5 * Math.cos(2 * Math.PI * n / (x.length - 1)); }
+    var w = 2 * Math.PI * f / sr, cw = 2 * Math.cos(w), s1 = 0, s2 = 0;
+    for (var i = 0; i < x.length; i++) { var s = x[i] * janelaHann[i] + cw * s1 - s2; s2 = s1; s1 = s; }
+    return s1 * s1 + s2 * s2 - cw * s1 * s2;
+  }
+  function somaHarm(x, sr, f) {
+    var t = 0;
+    for (var k = 1; k <= 4 && k * f < sr / 2.2; k++) t += Math.sqrt(Math.max(0, energia(x, sr, k * f)));
+    return t;
+  }
+  function refinar(x, sr, f) {
+    var melhor = 0, mv = -1, c;
+    for (c = -40; c <= 40; c += 4) { var v = somaHarm(x, sr, f * Math.pow(2, c / 1200)); if (v > mv) { mv = v; melhor = c; } }
+    var base = melhor, vals = [], cs = [];
+    for (c = base - 4; c <= base + 4 + 1e-9; c += 0.5) { cs.push(c); vals.push(somaHarm(x, sr, f * Math.pow(2, c / 1200))); }
+    var k = 0;
+    for (var i = 1; i < vals.length; i++) if (vals[i] > vals[k]) k = i;
+    var off = 0;
+    if (k > 0 && k < vals.length - 1) { var a = vals[k - 1], b = vals[k], d2 = vals[k + 1], den = a + d2 - 2 * b; if (den) off = (a - d2) / (2 * den) * 0.5; }
+    return f * Math.pow(2, (cs[k] + off) / 1200);
   }
 
   /* notas do pife calculado: a escala maior do tom, nas 3 oitavas, com o furo que dá cada uma */
