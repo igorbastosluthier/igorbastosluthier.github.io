@@ -20,7 +20,7 @@ Esta pasta começa com `_`, então o GitHub Pages (Jekyll) **não publica** este
 cd C:\Users\airba\Documents\site_repo
 git pull --ff-only
 # editar
-node tests/pife.test.js && node tests/naf.test.js && node tests/afinador.test.js && node tests/afinador_vies.test.js && node tests/escalas.test.js
+node tests/pife.test.js && node tests/naf.test.js && node tests/afinador.test.js && node tests/afinador_vies.test.js && node tests/escalas.test.js && node tests/pife_motor.test.js
 git add <arquivos>
 git commit -m "área: o que mudou (em português, para o Igor ler)"
 git push origin main
@@ -60,6 +60,7 @@ git push origin main
 | Comando | Confere |
 |---|---|
 | `node tests/pife.test.js` | cálculo do pífano contra `tests/fixtures/pife.json` (gerado por `tests/gen_pife_fixtures.js`) |
+| `node tests/pife_motor.test.js` | pífano contra o motor do app (`tests/fixtures/pife_motor.json`, gerado por `tests/gen_pife_motor.py`): pé a até 1,5 mm, furos a até 7 mm (rms ≤ 2,5 mm) |
 | `node tests/naf.test.js` | cálculo da NAF contra `tests/fixtures/naf_ref.json` (gerado por `tests/gen_naf_reference.py`) |
 | `node tests/afinador.test.js` | estabilidade do afinador numa página falsa: nome da nota firme, oitava certa, agulha firme, melodia, só ruído = sem nota |
 | `node tests/afinador_vies.test.js` | **viés** do detector: Sol 3 a Mi 7, sons de flauta com pouco e muito sopro; exige viés ≤ 2 cents e p95 ≤ 4 cents |
@@ -99,4 +100,5 @@ O mesmo algoritmo existe no app Oficina CNC (`codigo/flute_tuner.py`). Mantenha 
 
 ## 7. Pendências (09/11/2026)
 - Feito em 09/11/2026: "Faça sua flauta" (página inicial, menu, rodapé), "Bocal" no lugar de "cabeça", altura da janela da NAF = parede, escalas do app com nº de furos (pífano 5/6/7, NAF 5/6) e "Ouvir escala" (Subir / Ida e volta).
-- Alinhar o cálculo do site ao motor do app: frequência de corte com √2 (Benade), chaminé = parede, cabeça cônica Boehm (cone reto desde a embocadura), temperatura/A4. A comparação numérica está em andamento.
+- Pífano: correção do sopro e dos furos alinhada ao motor do app (09/11/2026; erro ~10 cents, antes até 136). Falta: furos ainda até ~6 mm do motor no Sol (furo de meio tom).
+- Alinhar o resto do cálculo do site ao motor do app: frequência de corte com √2 (Benade), chaminé = parede, cabeça cônica Boehm (cone reto desde a embocadura), temperatura/A4. A comparação numérica está em andamento.

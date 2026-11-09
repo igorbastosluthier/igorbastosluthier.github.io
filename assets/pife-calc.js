@@ -42,14 +42,20 @@
   function freqMidi(midi, la) { return la * Math.pow(2, (midi - 69) / 12); }
   function velocidadeSom(tempC) { return (331.3 + 0.606 * tempC) * 1000; } /* mm/s */
 
-  /* Correção da embocadura (furo do sopro). */
+  /* Correção da embocadura (furo do sopro). Desde 09/11/2026 alinhada ao motor do app da oficina (Motor Único):
+     ajustada em 54 casos (Sol 4, Dó 5, Ré 5; tubo de 15 a 19 mm; parede 2,5 a 4,5 mm; sopro de 0,5 a 0,6 do tubo),
+     erro rms 0,8 mm. A fórmula antiga (Flutomat) encurtava demais o tubo com parede grossa e o pife saía agudo.
+     "parede" aqui é a chaminé do sopro (parede + porta-lábios). */
   function correcaoEmbocadura(D, parede, embDiam) {
     var r = D / embDiam;
-    return r * r * 10.84 * parede * embDiam / (D + 2 * parede);
+    return r * r * (1.1 * parede + 0.82 * embDiam) + 6.5;
   }
   function correcaoPonta(D) { return 0.6133 * D / 2; }
   function correcaoFechado(D, parede, d) { var r = d / D; return 0.25 * parede * r * r; }
-  function espessuraEfetiva(parede, d) { return parede + 0.75 * d; }
+  /* espessura efetiva do furo aberto, para a POSIÇÃO do furo: parede + 0,6 d (ajustada ao motor do app; era 0,75 d) */
+  function espessuraEfetiva(parede, d) { return parede + 0.6 * d; }
+  /* para o limite de agudo (frequência de corte) continua a de Benade, t + 0,75 d: o alcance e os avisos não mudam */
+  function espessuraCorte(parede, d) { return parede + 0.75 * d; }
 
   /* fração do diâmetro do corpo no centro do sopro, na parábola de Boehm: 0,9 na rolha, 1,0 a 1/4 do comprimento */
   function diametroConeNoSopro(e) {
@@ -112,7 +118,7 @@
         x = novo;
       }
       s = anterior - x;
-      var fc = c / (2 * Math.PI) * (d[i] / D) / Math.sqrt(te * Math.max(s, 0.5));
+      var fc = c / (2 * Math.PI) * (d[i] / D) / Math.sqrt(espessuraCorte(t, d[i]) * Math.max(s, 0.5));
       furos.push({
         indice: i, nota: nomeNota(midi), midi: midi, freq: f, diametro: d[i],
         daBoca: x, doPe: pe - x, espaco: s, corte: fc, razaoCorte: fc / f
