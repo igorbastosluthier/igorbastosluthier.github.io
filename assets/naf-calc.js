@@ -129,7 +129,7 @@
     return {
       diametroExterno: r1(bore + 2 * wall), parede: r1(wall),
       janelaCompr: r1(Math.max(3, bore * 0.5)), janelaLarg: r1(Math.max(3, bore * 0.55)),
-      janelaAltura: r1(Math.max(0.7, bore * 0.07)), cabeca: Math.round(bore * 5.2), ponta: 0, diametros: diams
+      janelaAltura: r1(wall), /* altura da janela = parede do tubo nesse ponto (medido em NAFs: erro +3 a +17 mm; com 0,07 × o furo, +31 a +34 mm) */ cabeca: Math.round(bore * 5.2), ponta: 0, diametros: diams
     };
   }
   /* Parte da semente do Flute Lab (bore = 1,15 × o ótimo do Bracker) e, se o modelo não achar posições em ordem
