@@ -150,16 +150,28 @@
     return f * Math.pow(2, (cs[k] + off) / 1200);
   }
 
-  /* notas do pife calculado: a escala maior do tom, nas 3 oitavas, com o furo que dá cada uma */
+  /* notas da escala do pife calculado (escala e quantidade de furos escolhidas; sem a tela, a escala maior de 6 furos):
+     [{st: semitons, abertos: quantos furos abertos a partir do pé}], só as notas dentro da oitava */
+  function escalaDoPife() {
+    var l = window.PifeUI && window.PifeUI.semitons ? window.PifeUI.semitons() : null;
+    if (!l) return { notas: ESCALA.map(function (st, k) { return { st: st, abertos: k }; }), n: 6 };
+    var notas = [{ st: 0, abertos: 0 }];
+    l.furos.forEach(function (st, k) { if (st < 12 && l.aux.indexOf(st) < 0) notas.push({ st: st, abertos: k + 1 }); });
+    return { notas: notas, n: l.furos.length };
+  }
+  function textoAbertos(a, n) {
+    return a === 0 ? "tudo fechado" : a === n ? "tudo aberto" : a === 1 ? "furo 1 aberto" : a === 2 ? "furos 1 e 2 abertos" : "furos 1 a " + a + " abertos";
+  }
+  /* notas do pife calculado nas 3 oitavas, com o furo que dá cada uma */
   function notasDoPife() {
     var tom = P.TONS.filter(function (t) { return t.id === $("pc-tom").value; })[0];
-    var lista = [];
+    var esc = escalaDoPife(), lista = [];
     for (var o = 0; o < 3; o++) {
-      ESCALA.forEach(function (st, k) {
-        lista.push({ midi: tom.midi + 12 * o + st, oitava: o + 1, furo: k, chave: (tom.midi + 12 * o + st) });
+      esc.notas.forEach(function (x, k) {
+        lista.push({ midi: tom.midi + 12 * o + x.st, oitava: o + 1, furo: k, sub: textoAbertos(x.abertos, esc.n), chave: (tom.midi + 12 * o + x.st) });
       });
     }
-    lista.push({ midi: tom.midi + 36, oitava: 4, furo: 0, chave: tom.midi + 36 });
+    lista.push({ midi: tom.midi + 36, oitava: 4, furo: 0, sub: textoAbertos(0, esc.n), chave: tom.midi + 36 });
     return lista;
   }
 
@@ -188,9 +200,9 @@
   function mostrarMapa() {
     var notas = notasDoPife(), linhas = {};
     notas.forEach(function (n) { (linhas[n.furo] = linhas[n.furo] || {})[n.oitava] = n; });
-    var furosNome = ["1ª nota da escala (tom)", "2ª nota", "3ª nota", "4ª nota", "5ª nota", "6ª nota", "7ª nota"];
+    var furosNome = ["1ª nota da escala (tom)", "2ª nota", "3ª nota", "4ª nota", "5ª nota", "6ª nota", "7ª nota", "8ª nota"], nLinhas = escalaDoPife().notas.length;
     var html = "<thead><tr><th scope=\"col\">Nota</th><th scope=\"col\">1ª oitava</th><th scope=\"col\">2ª oitava</th><th scope=\"col\">3ª oitava</th></tr></thead><tbody>";
-    for (var f = 0; f < 7; f++) {
+    for (var f = 0; f < nLinhas; f++) {
       html += "<tr><th scope=\"row\">" + furosNome[f] + "</th>";
       for (var o = 1; o <= 3; o++) {
         var n = linhas[f] && linhas[f][o], v = n ? mapa[n.chave] : null;
@@ -256,7 +268,7 @@
         });
         if (escolherNota(suaveM, melhor.midi, atual ? atual.midi : null) !== melhor.midi) melhor = atual;
         alvo = melhor.midi;
-        $("af-nota-sub").textContent = melhor.oitava + "ª oitava · " + ["tudo fechado", "furo 1 aberto", "furos 1 e 2 abertos", "furos 1 a 3 abertos", "furos 1 a 4 abertos", "furos 1 a 5 abertos", "tudo aberto"][melhor.furo];
+        $("af-nota-sub").textContent = melhor.oitava + "ª oitava · " + melhor.sub;
       } else { alvo = escolherNota(suaveM, Math.round(suaveM), notaAtual); $("af-nota-sub").textContent = ""; }
       notaAtual = alvo;
       var c = cents(suave, alvo);
@@ -360,6 +372,6 @@
     osc.connect(g); g.connect(c2.destination); osc.start();
     $("af-ref-tocar").textContent = "Parar";
   });
-  ["pc-tom", "pc-la"].forEach(function (id) { $(id).addEventListener("change", function () { mapa = {}; mostrarMapa(); preencherRef(); }); });
+  ["pc-tom", "pc-la", "pc-escala", "pc-nfuros"].forEach(function (id) { if ($(id)) $(id).addEventListener("change", function () { mapa = {}; mostrarMapa(); preencherRef(); }); });
   preencherRef(); mostrarMapa();
 })();

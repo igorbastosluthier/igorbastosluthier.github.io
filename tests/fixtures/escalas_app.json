@@ -1,0 +1,2454 @@
+{
+ "graus": {
+  "Pentatônica menor": [
+   3,
+   5,
+   7,
+   10
+  ],
+  "Pentatônica maior": [
+   2,
+   4,
+   7,
+   9
+  ],
+  "Diatônica maior (jônia)": [
+   2,
+   4,
+   5,
+   7,
+   9,
+   11
+  ],
+  "Menor natural (eólia)": [
+   2,
+   3,
+   5,
+   7,
+   8,
+   10
+  ],
+  "Dórica": [
+   2,
+   3,
+   5,
+   7,
+   9,
+   10
+  ],
+  "Mixolídia": [
+   2,
+   4,
+   5,
+   7,
+   9,
+   10
+  ],
+  "Nordestina (lídio ♭7 · baião/pífano)": [
+   2,
+   4,
+   6,
+   7,
+   9,
+   10
+  ],
+  "Lídia": [
+   2,
+   4,
+   6,
+   7,
+   9,
+   11
+  ],
+  "Frígia": [
+   1,
+   3,
+   5,
+   7,
+   8,
+   10
+  ],
+  "Menor harmônica": [
+   2,
+   3,
+   5,
+   7,
+   8,
+   11
+  ],
+  "Menor melódica": [
+   2,
+   3,
+   5,
+   7,
+   9,
+   11
+  ],
+  "Frígia dominante (Hijaz)": [
+   1,
+   4,
+   5,
+   7,
+   8,
+   10
+  ],
+  "Dupla harmônica (Hijaz Kar / árabe)": [
+   1,
+   4,
+   5,
+   7,
+   8,
+   11
+  ],
+  "Cigana (húngara menor)": [
+   2,
+   3,
+   6,
+   7,
+   8,
+   11
+  ],
+  "Blues menor (pentatônica + ♭5)": [
+   3,
+   5,
+   6,
+   7,
+   10
+  ],
+  "Blues maior": [
+   2,
+   3,
+   4,
+   7,
+   9
+  ],
+  "Egípcia (pentatônica suspensa)": [
+   2,
+   5,
+   7,
+   10
+  ],
+  "Yo (japonesa)": [
+   2,
+   5,
+   7,
+   9
+  ],
+  "Hirajoshi (japonesa)": [
+   2,
+   3,
+   7,
+   8
+  ],
+  "In / Miyako-bushi (japonesa)": [
+   1,
+   5,
+   7,
+   8
+  ],
+  "Kumoi (japonesa)": [
+   2,
+   3,
+   7,
+   9
+  ],
+  "Ryukyu (Okinawa)": [
+   4,
+   5,
+   7,
+   11
+  ],
+  "Tons inteiros": [
+   2,
+   4,
+   6,
+   8,
+   10
+  ],
+  "Maior padrão (Standard / Major / Ionian)": [
+   2,
+   4,
+   5,
+   7,
+   9,
+   11
+  ],
+  "Eólia (Aeolian / Minor)": [
+   2,
+   3,
+   5,
+   7,
+   8,
+   10
+  ],
+  "Eólia com 3ª maior (Aeolian 3)": [
+   2,
+   4,
+   5,
+   7,
+   8,
+   10
+  ],
+  "Eólia com 6ª e 7ª (Aeolian 6 7)": [
+   2,
+   3,
+   5,
+   7,
+   9,
+   11
+  ],
+  "Eólia com 7ª maior (Aeolian 7)": [
+   2,
+   3,
+   5,
+   7,
+   8,
+   11
+  ],
+  "Blues rock and roll (Blues Rock'n'Roll)": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   9,
+   10
+  ],
+  "Cromática (Chromatic)": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ],
+  "Dórica ♯4 (Dorian #4)": [
+   2,
+   3,
+   6,
+   7,
+   9,
+   10
+  ],
+  "Cigana maior (Gypsy Major)": [
+   1,
+   4,
+   5,
+   7,
+   8,
+   11
+  ],
+  "Cigana menor (Gypsy Minor)": [
+   2,
+   3,
+   6,
+   7,
+   8,
+   11
+  ],
+  "Semitom-tom (Half Whole)": [
+   1,
+   3,
+   4,
+   6,
+   7,
+   9,
+   10
+  ],
+  "Cigana húngara (Hungarian Gypsy)": [
+   2,
+   3,
+   6,
+   7,
+   8,
+   10
+  ],
+  "Jônia ♯5 (Ionian #5)": [
+   2,
+   4,
+   5,
+   8,
+   9,
+   11
+  ],
+  "Lócria (Locrian)": [
+   1,
+   3,
+   5,
+   6,
+   8,
+   10
+  ],
+  "Lócria 2 (Locrian 2)": [
+   2,
+   3,
+   5,
+   6,
+   8,
+   10
+  ],
+  "Lócria 6 (Locrian 6)": [
+   1,
+   3,
+   5,
+   6,
+   9,
+   10
+  ],
+  "Lócria ♭4 (Locrian b4 / alterada)": [
+   1,
+   3,
+   4,
+   6,
+   8,
+   10
+  ],
+  "Lócria ♭4 ♭♭7 (Locrian b4 bb7)": [
+   1,
+   3,
+   4,
+   6,
+   8,
+   9
+  ],
+  "Lídia ♯2 (Lydian #2)": [
+   3,
+   4,
+   6,
+   7,
+   9,
+   11
+  ],
+  "Lídia ♯5 (Lydian #5)": [
+   2,
+   4,
+   6,
+   8,
+   9,
+   11
+  ],
+  "Lídia ♭7 (Lydian b7)": [
+   2,
+   4,
+   6,
+   7,
+   9,
+   10
+  ],
+  "Menor melódica descendente (Melodic Minor Descending)": [
+   2,
+   3,
+   5,
+   7,
+   8,
+   10
+  ],
+  "Pentatônica neutra (Neutral Pentatonic)": [
+   2,
+   5,
+   7,
+   10
+  ],
+  "Frígia 3 (Phrygian 3)": [
+   1,
+   4,
+   5,
+   7,
+   8,
+   10
+  ],
+  "Frígia 6 (Phrygian 6)": [
+   1,
+   3,
+   5,
+   7,
+   9,
+   10
+  ],
+  "Pentatônica rock (Rock Pentatonic)": [
+   3,
+   5,
+   8,
+   10
+  ],
+  "Pentatônica escocesa (Scottish Pentatonic)": [
+   2,
+   5,
+   7,
+   9
+  ],
+  "Cigana espanhola (Spanish Gypsy)": [
+   1,
+   4,
+   5,
+   7,
+   8,
+   10
+  ],
+  "Tom-semitom (Whole Half)": [
+   2,
+   3,
+   5,
+   6,
+   8,
+   9,
+   11
+  ]
+ },
+ "layout": {
+  "5": {
+   "Pentatônica menor": {
+    "furos": [
+     3,
+     5,
+     7,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Pentatônica maior": {
+    "furos": [
+     2,
+     4,
+     7,
+     9,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Diatônica maior (jônia)": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     11
+    ]
+   },
+   "Menor natural (eólia)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     8
+    ]
+   },
+   "Dórica": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     10
+    ]
+   },
+   "Mixolídia": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     9
+    ]
+   },
+   "Nordestina (lídio ♭7 · baião/pífano)": {
+    "furos": [
+     2,
+     4,
+     6,
+     7,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     9
+    ]
+   },
+   "Lídia": {
+    "furos": [
+     2,
+     4,
+     6,
+     7,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     11
+    ]
+   },
+   "Frígia": {
+    "furos": [
+     1,
+     3,
+     5,
+     7,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     8
+    ]
+   },
+   "Menor harmônica": {
+    "furos": [
+     3,
+     5,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     2
+    ]
+   },
+   "Menor melódica": {
+    "furos": [
+     3,
+     5,
+     7,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     2
+    ]
+   },
+   "Frígia dominante (Hijaz)": {
+    "furos": [
+     1,
+     4,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     5
+    ]
+   },
+   "Dupla harmônica (Hijaz Kar / árabe)": {
+    "furos": [
+     1,
+     4,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     5
+    ]
+   },
+   "Cigana (húngara menor)": {
+    "furos": [
+     3,
+     6,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     2
+    ]
+   },
+   "Blues menor (pentatônica + ♭5)": {
+    "furos": [
+     3,
+     5,
+     6,
+     7,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Blues maior": {
+    "furos": [
+     2,
+     3,
+     4,
+     7,
+     9
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Egípcia (pentatônica suspensa)": {
+    "furos": [
+     2,
+     5,
+     7,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Yo (japonesa)": {
+    "furos": [
+     2,
+     5,
+     7,
+     9,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Hirajoshi (japonesa)": {
+    "furos": [
+     2,
+     3,
+     7,
+     8,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "In / Miyako-bushi (japonesa)": {
+    "furos": [
+     1,
+     5,
+     7,
+     8,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Kumoi (japonesa)": {
+    "furos": [
+     2,
+     3,
+     7,
+     9,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Ryukyu (Okinawa)": {
+    "furos": [
+     4,
+     5,
+     7,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Tons inteiros": {
+    "furos": [
+     2,
+     4,
+     6,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Maior padrão (Standard / Major / Ionian)": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     11
+    ]
+   },
+   "Eólia (Aeolian / Minor)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     8
+    ]
+   },
+   "Eólia com 3ª maior (Aeolian 3)": {
+    "furos": [
+     2,
+     4,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     5
+    ]
+   },
+   "Eólia com 6ª e 7ª (Aeolian 6 7)": {
+    "furos": [
+     3,
+     5,
+     7,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     2
+    ]
+   },
+   "Eólia com 7ª maior (Aeolian 7)": {
+    "furos": [
+     3,
+     5,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     2
+    ]
+   },
+   "Blues rock and roll (Blues Rock'n'Roll)": {
+    "furos": [
+     2,
+     4,
+     6,
+     7,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     3,
+     5,
+     10
+    ]
+   },
+   "Cromática (Chromatic)": {
+    "furos": [
+     1,
+     4,
+     6,
+     7,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     2,
+     3,
+     5,
+     8,
+     10,
+     11
+    ]
+   },
+   "Dórica ♯4 (Dorian #4)": {
+    "furos": [
+     2,
+     3,
+     6,
+     7,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     10
+    ]
+   },
+   "Cigana maior (Gypsy Major)": {
+    "furos": [
+     1,
+     4,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     5
+    ]
+   },
+   "Cigana menor (Gypsy Minor)": {
+    "furos": [
+     3,
+     6,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     2
+    ]
+   },
+   "Semitom-tom (Half Whole)": {
+    "furos": [
+     1,
+     4,
+     6,
+     7,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     3,
+     10
+    ]
+   },
+   "Cigana húngara (Hungarian Gypsy)": {
+    "furos": [
+     2,
+     3,
+     6,
+     7,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     8
+    ]
+   },
+   "Jônia ♯5 (Ionian #5)": {
+    "furos": [
+     2,
+     4,
+     5,
+     8,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     11
+    ]
+   },
+   "Lócria (Locrian)": {
+    "furos": [
+     1,
+     3,
+     6,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     5
+    ]
+   },
+   "Lócria 2 (Locrian 2)": {
+    "furos": [
+     2,
+     3,
+     6,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     5
+    ]
+   },
+   "Lócria 6 (Locrian 6)": {
+    "furos": [
+     1,
+     3,
+     5,
+     6,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     10
+    ]
+   },
+   "Lócria ♭4 (Locrian b4 / alterada)": {
+    "furos": [
+     1,
+     4,
+     6,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     3
+    ]
+   },
+   "Lócria ♭4 ♭♭7 (Locrian b4 bb7)": {
+    "furos": [
+     1,
+     3,
+     4,
+     6,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     8
+    ]
+   },
+   "Lídia ♯2 (Lydian #2)": {
+    "furos": [
+     4,
+     6,
+     7,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     3
+    ]
+   },
+   "Lídia ♯5 (Lydian #5)": {
+    "furos": [
+     2,
+     4,
+     6,
+     8,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     11
+    ]
+   },
+   "Lídia ♭7 (Lydian b7)": {
+    "furos": [
+     2,
+     4,
+     6,
+     7,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     9
+    ]
+   },
+   "Menor melódica descendente (Melodic Minor Descending)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     8
+    ]
+   },
+   "Pentatônica neutra (Neutral Pentatonic)": {
+    "furos": [
+     2,
+     5,
+     7,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Frígia 3 (Phrygian 3)": {
+    "furos": [
+     1,
+     4,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     5
+    ]
+   },
+   "Frígia 6 (Phrygian 6)": {
+    "furos": [
+     1,
+     3,
+     5,
+     7,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     10
+    ]
+   },
+   "Pentatônica rock (Rock Pentatonic)": {
+    "furos": [
+     3,
+     5,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Pentatônica escocesa (Scottish Pentatonic)": {
+    "furos": [
+     2,
+     5,
+     7,
+     9,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Cigana espanhola (Spanish Gypsy)": {
+    "furos": [
+     1,
+     4,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     5
+    ]
+   },
+   "Tom-semitom (Whole Half)": {
+    "furos": [
+     2,
+     3,
+     6,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     5,
+     8
+    ]
+   }
+  },
+  "6": {
+   "Pentatônica menor": {
+    "furos": [
+     3,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [
+     8
+    ],
+    "fora": []
+   },
+   "Pentatônica maior": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     9,
+     12
+    ],
+    "aux": [
+     5
+    ],
+    "fora": []
+   },
+   "Diatônica maior (jônia)": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Menor natural (eólia)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Dórica": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Mixolídia": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     9,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Nordestina (lídio ♭7 · baião/pífano)": {
+    "furos": [
+     2,
+     4,
+     6,
+     7,
+     9,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lídia": {
+    "furos": [
+     2,
+     4,
+     6,
+     7,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Frígia": {
+    "furos": [
+     1,
+     3,
+     5,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Menor harmônica": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Menor melódica": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Frígia dominante (Hijaz)": {
+    "furos": [
+     1,
+     4,
+     5,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Dupla harmônica (Hijaz Kar / árabe)": {
+    "furos": [
+     1,
+     4,
+     5,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Cigana (húngara menor)": {
+    "furos": [
+     2,
+     3,
+     6,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Blues menor (pentatônica + ♭5)": {
+    "furos": [
+     3,
+     5,
+     6,
+     7,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Blues maior": {
+    "furos": [
+     2,
+     3,
+     4,
+     7,
+     9,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Egípcia (pentatônica suspensa)": {
+    "furos": [
+     2,
+     5,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [
+     9
+    ],
+    "fora": []
+   },
+   "Yo (japonesa)": {
+    "furos": [
+     2,
+     5,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [
+     10
+    ],
+    "fora": []
+   },
+   "Hirajoshi (japonesa)": {
+    "furos": [
+     2,
+     3,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [
+     10
+    ],
+    "fora": []
+   },
+   "In / Miyako-bushi (japonesa)": {
+    "furos": [
+     1,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [
+     10
+    ],
+    "fora": []
+   },
+   "Kumoi (japonesa)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9,
+     12
+    ],
+    "aux": [
+     5
+    ],
+    "fora": []
+   },
+   "Ryukyu (Okinawa)": {
+    "furos": [
+     4,
+     5,
+     7,
+     9,
+     11,
+     12
+    ],
+    "aux": [
+     9
+    ],
+    "fora": []
+   },
+   "Tons inteiros": {
+    "furos": [
+     2,
+     4,
+     6,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Maior padrão (Standard / Major / Ionian)": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Eólia (Aeolian / Minor)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Eólia com 3ª maior (Aeolian 3)": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Eólia com 6ª e 7ª (Aeolian 6 7)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Eólia com 7ª maior (Aeolian 7)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Blues rock and roll (Blues Rock'n'Roll)": {
+    "furos": [
+     2,
+     4,
+     6,
+     7,
+     9,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     3,
+     5
+    ]
+   },
+   "Cromática (Chromatic)": {
+    "furos": [
+     1,
+     4,
+     6,
+     7,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     2,
+     3,
+     5,
+     8,
+     10
+    ]
+   },
+   "Dórica ♯4 (Dorian #4)": {
+    "furos": [
+     2,
+     3,
+     6,
+     7,
+     9,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Cigana maior (Gypsy Major)": {
+    "furos": [
+     1,
+     4,
+     5,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Cigana menor (Gypsy Minor)": {
+    "furos": [
+     2,
+     3,
+     6,
+     7,
+     8,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Semitom-tom (Half Whole)": {
+    "furos": [
+     1,
+     3,
+     4,
+     6,
+     7,
+     9
+    ],
+    "aux": [],
+    "fora": [
+     10
+    ]
+   },
+   "Cigana húngara (Hungarian Gypsy)": {
+    "furos": [
+     2,
+     3,
+     6,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Jônia ♯5 (Ionian #5)": {
+    "furos": [
+     2,
+     4,
+     5,
+     8,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lócria (Locrian)": {
+    "furos": [
+     1,
+     3,
+     5,
+     6,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lócria 2 (Locrian 2)": {
+    "furos": [
+     2,
+     3,
+     5,
+     6,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lócria 6 (Locrian 6)": {
+    "furos": [
+     1,
+     3,
+     5,
+     6,
+     9,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lócria ♭4 (Locrian b4 / alterada)": {
+    "furos": [
+     1,
+     3,
+     4,
+     6,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lócria ♭4 ♭♭7 (Locrian b4 bb7)": {
+    "furos": [
+     1,
+     3,
+     4,
+     6,
+     8,
+     9
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lídia ♯2 (Lydian #2)": {
+    "furos": [
+     3,
+     4,
+     6,
+     7,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lídia ♯5 (Lydian #5)": {
+    "furos": [
+     2,
+     4,
+     6,
+     8,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lídia ♭7 (Lydian b7)": {
+    "furos": [
+     2,
+     4,
+     6,
+     7,
+     9,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Menor melódica descendente (Melodic Minor Descending)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Pentatônica neutra (Neutral Pentatonic)": {
+    "furos": [
+     2,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [
+     8
+    ],
+    "fora": []
+   },
+   "Frígia 3 (Phrygian 3)": {
+    "furos": [
+     1,
+     4,
+     5,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Frígia 6 (Phrygian 6)": {
+    "furos": [
+     1,
+     3,
+     5,
+     7,
+     9,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Pentatônica rock (Rock Pentatonic)": {
+    "furos": [
+     3,
+     5,
+     6,
+     8,
+     10,
+     12
+    ],
+    "aux": [
+     6
+    ],
+    "fora": []
+   },
+   "Pentatônica escocesa (Scottish Pentatonic)": {
+    "furos": [
+     2,
+     5,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [
+     10
+    ],
+    "fora": []
+   },
+   "Cigana espanhola (Spanish Gypsy)": {
+    "furos": [
+     1,
+     4,
+     5,
+     7,
+     8,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Tom-semitom (Whole Half)": {
+    "furos": [
+     2,
+     3,
+     5,
+     6,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     8
+    ]
+   }
+  },
+  "7": {
+   "Pentatônica menor": {
+    "furos": [
+     1,
+     3,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [
+     8,
+     1
+    ],
+    "fora": []
+   },
+   "Pentatônica maior": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [
+     5,
+     10
+    ],
+    "fora": []
+   },
+   "Diatônica maior (jônia)": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     9,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Menor natural (eólia)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Dórica": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Mixolídia": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Nordestina (lídio ♭7 · baião/pífano)": {
+    "furos": [
+     2,
+     4,
+     6,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lídia": {
+    "furos": [
+     2,
+     4,
+     6,
+     7,
+     9,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Frígia": {
+    "furos": [
+     1,
+     3,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Menor harmônica": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Menor melódica": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Frígia dominante (Hijaz)": {
+    "furos": [
+     1,
+     4,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Dupla harmônica (Hijaz Kar / árabe)": {
+    "furos": [
+     1,
+     4,
+     5,
+     7,
+     8,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Cigana (húngara menor)": {
+    "furos": [
+     2,
+     3,
+     6,
+     7,
+     8,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Blues menor (pentatônica + ♭5)": {
+    "furos": [
+     3,
+     5,
+     6,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [
+     8
+    ],
+    "fora": []
+   },
+   "Blues maior": {
+    "furos": [
+     2,
+     3,
+     4,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [
+     10
+    ],
+    "fora": []
+   },
+   "Egípcia (pentatônica suspensa)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [
+     9,
+     3
+    ],
+    "fora": []
+   },
+   "Yo (japonesa)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [
+     10,
+     3
+    ],
+    "fora": []
+   },
+   "Hirajoshi (japonesa)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [
+     10,
+     5
+    ],
+    "fora": []
+   },
+   "In / Miyako-bushi (japonesa)": {
+    "furos": [
+     1,
+     3,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [
+     10,
+     3
+    ],
+    "fora": []
+   },
+   "Kumoi (japonesa)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [
+     5,
+     10
+    ],
+    "fora": []
+   },
+   "Ryukyu (Okinawa)": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     9,
+     11,
+     12
+    ],
+    "aux": [
+     9,
+     2
+    ],
+    "fora": []
+   },
+   "Tons inteiros": {
+    "furos": [
+     2,
+     4,
+     6,
+     8,
+     10,
+     11,
+     12
+    ],
+    "aux": [
+     11
+    ],
+    "fora": []
+   },
+   "Maior padrão (Standard / Major / Ionian)": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     9,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Eólia (Aeolian / Minor)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Eólia com 3ª maior (Aeolian 3)": {
+    "furos": [
+     2,
+     4,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Eólia com 6ª e 7ª (Aeolian 6 7)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Eólia com 7ª maior (Aeolian 7)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Blues rock and roll (Blues Rock'n'Roll)": {
+    "furos": [
+     2,
+     3,
+     4,
+     6,
+     7,
+     9,
+     10
+    ],
+    "aux": [],
+    "fora": [
+     5
+    ]
+   },
+   "Cromática (Chromatic)": {
+    "furos": [
+     1,
+     2,
+     4,
+     6,
+     7,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": [
+     3,
+     5,
+     8,
+     10
+    ]
+   },
+   "Dórica ♯4 (Dorian #4)": {
+    "furos": [
+     2,
+     3,
+     6,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Cigana maior (Gypsy Major)": {
+    "furos": [
+     1,
+     4,
+     5,
+     7,
+     8,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Cigana menor (Gypsy Minor)": {
+    "furos": [
+     2,
+     3,
+     6,
+     7,
+     8,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Semitom-tom (Half Whole)": {
+    "furos": [
+     1,
+     3,
+     4,
+     6,
+     7,
+     9,
+     10
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Cigana húngara (Hungarian Gypsy)": {
+    "furos": [
+     2,
+     3,
+     6,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Jônia ♯5 (Ionian #5)": {
+    "furos": [
+     2,
+     4,
+     5,
+     8,
+     9,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lócria (Locrian)": {
+    "furos": [
+     1,
+     3,
+     5,
+     6,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lócria 2 (Locrian 2)": {
+    "furos": [
+     2,
+     3,
+     5,
+     6,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lócria 6 (Locrian 6)": {
+    "furos": [
+     1,
+     3,
+     5,
+     6,
+     9,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lócria ♭4 (Locrian b4 / alterada)": {
+    "furos": [
+     1,
+     3,
+     4,
+     6,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lócria ♭4 ♭♭7 (Locrian b4 bb7)": {
+    "furos": [
+     1,
+     3,
+     4,
+     6,
+     8,
+     9,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lídia ♯2 (Lydian #2)": {
+    "furos": [
+     3,
+     4,
+     6,
+     7,
+     9,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lídia ♯5 (Lydian #5)": {
+    "furos": [
+     2,
+     4,
+     6,
+     8,
+     9,
+     11,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Lídia ♭7 (Lydian b7)": {
+    "furos": [
+     2,
+     4,
+     6,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Menor melódica descendente (Melodic Minor Descending)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Pentatônica neutra (Neutral Pentatonic)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [
+     8,
+     3
+    ],
+    "fora": []
+   },
+   "Frígia 3 (Phrygian 3)": {
+    "furos": [
+     1,
+     4,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Frígia 6 (Phrygian 6)": {
+    "furos": [
+     1,
+     3,
+     5,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Pentatônica rock (Rock Pentatonic)": {
+    "furos": [
+     1,
+     3,
+     5,
+     6,
+     8,
+     10,
+     12
+    ],
+    "aux": [
+     6,
+     1
+    ],
+    "fora": []
+   },
+   "Pentatônica escocesa (Scottish Pentatonic)": {
+    "furos": [
+     2,
+     3,
+     5,
+     7,
+     9,
+     10,
+     12
+    ],
+    "aux": [
+     10,
+     3
+    ],
+    "fora": []
+   },
+   "Cigana espanhola (Spanish Gypsy)": {
+    "furos": [
+     1,
+     4,
+     5,
+     7,
+     8,
+     10,
+     12
+    ],
+    "aux": [],
+    "fora": []
+   },
+   "Tom-semitom (Whole Half)": {
+    "furos": [
+     2,
+     3,
+     5,
+     6,
+     8,
+     9,
+     11
+    ],
+    "aux": [],
+    "fora": []
+   }
+  }
+ },
+ "padrao": {
+  "naf": "Pentatônica menor",
+  "pife": "Diatônica maior (jônia)"
+ }
+}

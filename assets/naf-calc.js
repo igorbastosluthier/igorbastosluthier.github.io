@@ -6,6 +6,8 @@
    Todas as medidas em mm; frequências em Hz. Nada é enviado a servidor. */
 (function (root) {
   "use strict";
+  /* escalas do app (escalas.js): no navegador vem antes deste arquivo; no node, por require */
+  var Esc = typeof module === "object" && module.exports ? require("./escalas.js") : root.Escalas;
 
   /* ---- notas ---- */
   var NOMES_PT = ["Dó", "Dó♯", "Ré", "Mi♭", "Mi", "Fá", "Fá♯", "Sol", "Sol♯", "Lá", "Si♭", "Si"];
@@ -116,7 +118,7 @@
 
   /* ---- sugestões editáveis (sementes do Flute Lab 6.1.1 / auto_design: NAF), não são regra universal ---- */
   function r1(x) { return Math.round(x * 10) / 10; }
-  function sementeSugestao(n, midi, a4, fator, escD) {
+  function sementeSugestao(n, midi, a4, fator, escD, semis) {
     var f0 = freqFundamental(midi, a4);
     var otimo = Math.max(7, Math.min(38, 2620 * Math.pow(f0, -5 / 6)));
     var bore = Math.max(7, Math.min(38, otimo * fator));
@@ -124,8 +126,9 @@
     var ref = [8.0, 9.0, 8.0, 7.0, 8.0, 10.5, 9.0].slice(0, n).reverse(); /* da boca ao pé -> do pé à boca */
     var esc = Math.max(0.7, Math.min(1.4, bore / 19.0));
     var diams = ref.map(function (v) { return Math.max(2.5, Math.min(bore * 0.72, Math.round(v * esc * escD * 2) / 2)); });
-    /* o furo extra (6 furos) é pequeno: com o Bracker ele só tem solução se for bem menor que os vizinhos */
-    if (n === 6) diams[FURO_EXTRA[6]] = Math.max(2.5, Math.round(bore * 0.3 * 2) / 2);
+    /* furo que fica meio tom acima do de baixo (como o extra da pentatônica de 6 furos) é pequeno: com o Bracker ele
+       só tem solução se for bem menor que os vizinhos (mesma regra do app) */
+    semis.forEach(function (st, k) { if (k > 0 && st - semis[k - 1] === 1) diams[k] = Math.max(2.5, Math.round(bore * 0.3 * 2) / 2); });
     return {
       diametroExterno: r1(bore + 2 * wall), parede: r1(wall),
       janelaCompr: r1(Math.max(3, bore * 0.5)), janelaLarg: r1(Math.max(3, bore * 0.55)),
@@ -137,22 +140,30 @@
      sugestão editável: se nada servir, devolve a semente original. */
   function sugerir(o) {
     o = o || {};
-    var n = o.furos === 5 ? 5 : 6, a4 = o.a4 || 440, midi = typeof o.midi === "number" ? o.midi : 67;
+    var n = o.furos === 5 ? 5 : 6, a4 = o.a4 || 440, midi = typeof o.midi === "number" ? o.midi : 67, semis = semitons(o.escala, n).furos;
     var fatores = [1.15, 1.05, 0.95, 0.9, 0.85, 0.8, 0.7, 0.6], escDs = [1, 0.85, 0.7, 0.55], primeira = null;
     for (var q = 0; q < fatores.length * escDs.length; q++) {
-      var i = Math.floor(q / escDs.length), s = sementeSugestao(n, midi, a4, fatores[i], escDs[q % escDs.length]);
+      var i = Math.floor(q / escDs.length), s = sementeSugestao(n, midi, a4, fatores[i], escDs[q % escDs.length], semis);
       if (!primeira) primeira = s;
       var e = { furos: n, fundamental: nomeEn(midi), a4: a4, temperatura: o.temp === undefined ? 20 : o.temp, diametroExterno: s.diametroExterno, parede: s.parede,
         janelaCompr: s.janelaCompr, janelaLarg: s.janelaLarg, janelaAltura: s.janelaAltura, cabeca: s.cabeca, ponta: 0,
-        linhas: escala("pentatonica-menor", midi, n).map(function (m, k) { return { nota: nomeEn(m), diametro: s.diametros[k] }; }) };
+        linhas: semis.map(function (st) { return midi + st; }).map(function (m, k) { return { nota: nomeEn(m), diametro: s.diametros[k] }; }) };
       if (midi >= MIDI_MIN && midi <= MIDI_MAX && calcular(e).ok) return s;
     }
     return primeira;
   }
 
+  /* semitons dos furos (do pé para a boca) e auxiliares da escala escolhida; escala que não serve para a NAF com n
+     furos (ou desconhecida, ou "personalizada") cai na pentatônica menor */
+  function semitons(tipo, n) {
+    n = n === 5 ? 5 : 6;
+    var l = Esc && tipo ? Esc.layout(tipo, n, "naf") : null;
+    if (l) return l;
+    return { furos: ESCALAS[n].slice(), aux: n === 6 ? [ESCALAS[6][FURO_EXTRA[6]]] : [] };
+  }
   /* notas (MIDI) dos furos do pé para a boca; n = 5 ou 6 */
   function escala(tipo, midiFund, n) {
-    return ESCALAS[n === 5 ? 5 : 6].map(function (x) { return midiFund + x; });
+    return semitons(tipo, n).furos.map(function (x) { return midiFund + x; });
   }
 
   /* ---- validação ---- */
@@ -211,6 +222,13 @@
     return { erros: erros, v: v };
   }
 
+  /* furo auxiliar (fora da escala) da escala escolhida; na personalizada nenhum furo é auxiliar */
+  function ehAux(tipo, n, k) {
+    if (!tipo || tipo === "personalizada") return false;
+    var l = semitons(tipo, n);
+    return l.aux.indexOf(l.furos[k]) >= 0;
+  }
+
   /* ---- cálculo ---- */
   function calcular(e) {
     var val = validar(e || {}), v = val.v, erros = val.erros.slice(), avisos = [];
@@ -267,7 +285,7 @@
         nome = (igual ? "" : "≈ ") + nomePt(nm.midi); nomeI = (igual ? "" : "≈ ") + nomeEn(nm.midi);
       }
       furos.push({
-        linha: l.linha, extra: !!(e.escala === "pentatonica-menor" && FURO_EXTRA[n] === l.linha - 1), nota: nome, notaIng: nomeI, hz: l.hz, fonteHz: l.fonte, notaProxima: aprox ? { nota: nomePt(aprox.midi), cents: aprox.cents } : null,
+        linha: l.linha, extra: ehAux(e.escala, n, l.linha - 1), nota: nome, notaIng: nomeI, hz: l.hz, fonteHz: l.fonte, notaProxima: aprox ? { nota: nomePt(aprox.midi), cents: aprox.cents } : null,
         diametro: l.diametro, doPe: pos, doPeAcustico: doPeAc, daJanela: da, espacoAbaixo: null,
         corte: isFinite(rc) ? rc * l.hz : null, razaoCorte: isFinite(rc) ? rc : null, corteEstimado: rcc.estimado
       });
@@ -303,7 +321,7 @@
     };
   }
 
-  var api = { calcular: calcular, validar: validar, sugerir: sugerir, escala: escala, parseNota: parseNota, nomePt: nomePt, nomeEn: nomeEn,
+  var api = { semitons: semitons, ehAux: ehAux, calcular: calcular, validar: validar, sugerir: sugerir, escala: escala, parseNota: parseNota, nomePt: nomePt, nomeEn: nomeEn,
     FURO_EXTRA: FURO_EXTRA, freqNota: freqNota, freqFundamental: freqFundamental, notaMaisProxima: notaMaisProxima, MIDI_MIN: MIDI_MIN, MIDI_MAX: MIDI_MAX, LINHAS_BRACKER: LINHAS_BRACKER };
   if (typeof module === "object" && module.exports) module.exports = api; else root.NafCalc = api;
 })(this);

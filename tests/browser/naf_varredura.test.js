@@ -5,7 +5,7 @@ module.exports = async (p, base) => {
   const ev = (x) => p.eval(x);
   const set = (id, v, evt) => ev("(()=>{const e=document.getElementById('" + id + "');e.value='" + v + "';e.dispatchEvent(new Event('" + (evt || "input") + "',{bubbles:true}));})()");
   await p.goto(base + "/calculadora.html?modo=naf"); await ev("localStorage.clear()"); await p.goto(base + "/calculadora.html?modo=naf");
-  const PROIBIDO = /Bracker|Flute ?Lab|Flutopedia|cutoff|estimad[oa]|modelo|NaN|Infinity|undefined|null|indispon|[RL][123]|topologia|sem estimativa/i;
+  const PROIBIDO = /Bracker|Flute ?Lab|Flutopedia|cutoff|estimad[oa]|modelo|\bNaN\b|Infinity|undefined|\bnull\b|indispon|\b[RL][123]\b|topologia|sem estimativa/i;
   const nomes = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B"];
   let total = 0, erros = 0; const ruins = [];
   for (const n of ["5", "6"]) {

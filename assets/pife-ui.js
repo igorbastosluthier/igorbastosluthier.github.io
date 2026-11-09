@@ -1,7 +1,7 @@
 /* Calculadora de Pife: interface. Tudo roda no navegador; nada é enviado. */
 (function () {
   "use strict";
-  var P = window.PifeCalc;
+  var P = window.PifeCalc, Esc = window.Escalas;
   var $ = function (id) { return document.getElementById(id); };
   var mm = function (v) { return v.toFixed(1).replace(".", ","); };
   var CHAVE = "pifeCalc.v1";
@@ -11,13 +11,33 @@
   });
   $("pc-tom").value = "sol";
 
-  var caixa = $("pc-furos");
-  for (var i = 0; i < 6; i++) {
-    var l = document.createElement("label");
-    l.innerHTML = '<span class="pc-n"></span><input type="number" min="2" max="30" step="0.5" data-i="' + i + '">';
-    caixa.appendChild(l);
+  /* Quantidade de furos e escala (as mesmas do app; só aparecem as que cabem inteiras nos furos escolhidos) */
+  var selN = $("pc-nfuros"), selEsc = $("pc-escala");
+  function nFuros() { var n = selN ? parseInt(selN.value, 10) : 6; return n === 5 || n === 7 ? n : 6; }
+  function escalaId() { return selEsc && selEsc.value ? selEsc.value : "diatonica-maior-jonia"; }
+  function opcoesEscala(desejada) {
+    if (!selEsc || !Esc) return;
+    var lista = Esc.aplicaveis("pife", nFuros()), atual = desejada || selEsc.value;
+    selEsc.innerHTML = lista.map(function (x) { return '<option value="' + x.id + '">' + x.nome + "</option>"; }).join("");
+    selEsc.value = lista.some(function (x) { return x.id === atual; }) ? atual : (lista.some(function (x) { return x.id === Esc.PADRAO.pife; }) ? Esc.PADRAO.pife : lista[0].id);
   }
-  var entradasFuro = caixa.querySelectorAll("input");
+  function semitons() {
+    var l = Esc ? Esc.layout(escalaId(), nFuros(), "pife") : null;
+    return l ? l : { furos: P.SEMITONS_ESCALA_MAIOR.slice(), aux: [] };
+  }
+
+  var caixa = $("pc-furos"), entradasFuro = [];
+  function montarFuros(n) {
+    if (entradasFuro.length === n) return;
+    caixa.innerHTML = "";
+    for (var i = 0; i < n; i++) {
+      var l = document.createElement("label");
+      l.innerHTML = '<span class="pc-n"></span><input type="number" min="2" max="30" step="0.5" data-i="' + i + '">';
+      caixa.appendChild(l);
+    }
+    entradasFuro = Array.prototype.slice.call(caixa.querySelectorAll("input"));
+  }
+  opcoesEscala(); montarFuros(nFuros());
 
   /* Furos: o sugerido é o otimizado (inteiro). Se a pessoa digitar um furo, vale o dela até apertar "voltar aos
      sugeridos"; enquanto não digitar, os furos se reotimizam a cada mudança de tom ou de tubo. */
@@ -45,7 +65,8 @@
       embForma: $("pc-emb-forma").value, embL: parseFloat($("pc-emb-l").value) || 9, embC: parseFloat($("pc-emb-c").value) || 11,
       cone: $("pc-cone").checked,
       lip: $("pc-lip-sim").checked ? (parseFloat($("pc-lip").value) || 0) : 0,
-      furos: Array.prototype.map.call(entradasFuro, function (x) { return parseFloat(x.value) || 8; }),
+      nf: nFuros(), escala: escalaId(), semitons: semitons().furos, aux: semitons().aux,
+      furos: entradasFuro.map(function (x) { return parseFloat(x.value) || 8; }),
       manual: manual
     };
   }
@@ -55,6 +76,10 @@
     $("pc-D").value = e.D; $("pc-parede").value = e.parede; $("pc-emb").value = e.emb;
     $("pc-emb-forma").value = e.embForma || "redondo"; if (e.embL) $("pc-emb-l").value = e.embL; if (e.embC) $("pc-emb-c").value = e.embC;
     $("pc-lip-sim").checked = !!e.lip; $("pc-cone").checked = !!e.cone; if (e.lip) $("pc-lip").value = e.lip;
+    /* links antigos (sem escala) são o pife de 6 furos na escala maior */
+    if (selN) selN.value = String(e.nf === 5 || e.nf === 7 ? e.nf : 6);
+    opcoesEscala(e.escala || "diatonica-maior-jonia"); montarFuros(nFuros());
+    if (!e.furos || e.furos.length !== nFuros()) { sugerir(); return; }
     entradasFuro.forEach(function (x, k) { if (e.furos && e.furos[k]) x.value = e.furos[k]; });
     manual = !!e.manual; /* furos digitados pela pessoa continuam valendo ao reabrir o link */
   }
@@ -109,15 +134,16 @@
     var furosX = r.furos.map(function (f) { return boca + f.daBoca * esc; });
     if (VIS.espacos) {
       var pontos = [pe].concat(furosX);
-      for (var i = 0; i < 6; i++) s += cota(pontos[i + 1], pontos[i], y + 14, mm(r.furos[i].espaco), "#7E2A5E");
-      s += cota(boca, furosX[5], y + 14, mm(r.furos[5].daBoca), "#7E2A5E");
+      var ult = r.furos.length - 1;
+      for (var i = 0; i <= ult; i++) s += cota(pontos[i + 1], pontos[i], y + 14, mm(r.furos[i].espaco), "#7E2A5E");
+      s += cota(boca, furosX[ult], y + 14, mm(r.furos[ult].daBoca), "#7E2A5E");
       y += 26;
     }
     if (VIS.boca) {
       r.furos.forEach(function (f, k) {
         s += cota(pe, boca + f.daBoca * esc, y + 14 + k * 18, f.nota + ": " + mm(f.doPe), "#2D4839");
       });
-      y += 18 * 6 + 8;
+      y += 18 * r.furos.length + 8;
     }
     if (VIS.rolha) { s += cota(xr, boca, y + 14, "", "#9A3B1F") + '<text x="' + (xr - 4) + '" y="' + (y + 18) + '" text-anchor="end" font-size="12" fill="#9A3B1F">rolha ' + mm(r.rolha) + '</text>'; }
     if (VIS.total) {
@@ -155,7 +181,7 @@
     var esq = 6 + Math.max(VIS.notas || VIS.numeros ? 52 : 34, VIS.rolha ? 62 : 0);
     var x1 = esq, cx = x1 + w / 2, col = x1 + w + 16;
     var colEsp = col; if (VIS.espacos) col += 18;
-    var colBoca = col; if (VIS.boca) col += 6 * 16;
+    var colBoca = col; if (VIS.boca) col += r.furos.length * 16;
     var colTot = col; if (VIS.total) col += 2 * 16;
     var W = Math.max(col + 8, x1 + w + 20);
     var boca = y0 + (r.rolha + 25) * esc, pe = boca + r.bocaAoPe * esc, s = "";
@@ -183,7 +209,7 @@
       if (VIS.boca) s += cotaVR(colBoca + k * 16, pe, y, f.nota + ": " + mm(f.doPe), "#2D4839");
       ant = y;
     });
-    if (VIS.espacos) s += cotaVR(colEsp, ant, boca, mm(r.furos[5].daBoca));
+    if (VIS.espacos) s += cotaVR(colEsp, ant, boca, mm(r.furos[r.furos.length - 1].daBoca));
     var xt = colTot;
     if (VIS.rolha) s += cotaVR(x1 - 6, yr, boca, "", "#9A3B1F") + '<text x="' + (x1 - 12) + '" y="' + (yr + 3) + '" text-anchor="end" font-size="11" fill="#9A3B1F">rolha ' + mm(r.rolha) + '</text>';
     if (VIS.total) { s += cotaVR(xt, boca, pe, "boca ao pé: " + mm(r.bocaAoPe), "#9A3B1F"); s += cotaVR(xt + 16, y0, pe, "tubo inteiro: " + mm(r.bocaAoPe + r.rolha + 25), "#7a5a1c"); }
@@ -262,6 +288,10 @@
   /* tabela de digitação do tom (imagens do site, por nota) */
   var DIG = ["C", "Cs", "D", "Eb", "E", "F", "Fs", "G", "Gs", "A", "Bb", "B"];
   function digitacao() {
+    /* a tabela de digitação do site é a do pife de 6 furos na escala maior */
+    var box = $("digitacao"), padrao = nFuros() === 6 && escalaId() === "diatonica-maior-jonia";
+    if (box) box.hidden = !padrao;
+    if (!padrao) return;
     var tom = P.TONS.filter(function (t) { return t.id === $("pc-tom").value; })[0], k = DIG[((tom.midi % 12) + 12) % 12];
     $("pc-dig-img").src = "img/tabelas/tabela_" + k + ".webp"; $("pc-dig-link").href = "img/tabelas/tabela_" + k + ".png";
     $("pc-dig-img").alt = "Tabela de digitação do pife em " + tom.nome;
@@ -322,9 +352,15 @@
   });
   caixa.addEventListener("input", function () { manual = true; });
   $("pc-form").addEventListener("input", function (ev) {
-    if (!manual && ev.target.closest && !ev.target.closest("#pc-furos")) sugerir();
+    if (ev.target === selN) { opcoesEscala(); montarFuros(nFuros()); sugerir(); }
+    else if (ev.target === selEsc) { if (!manual) sugerir(); }
+    else if (!manual && ev.target.closest && !ev.target.closest("#pc-furos")) sugerir();
     atualizar();
   });
+  /* Ouvir a escala do pife calculado (tônica até a oitava, ou ida e volta) */
+  var ouvir = $("pc-ouvir");
+  if (ouvir && Esc) Esc.ligarBotao(ouvir, function () { var m = document.querySelector('input[name="pc-ouvir-modo"]:checked'); return m ? m.value : "ida-e-volta"; },
+    function () { var r = P.calcular(lerEntrada()); return { freqRaiz: r.f0, furos: r.furos.map(function (f) { return { hz: f.freq, aux: !!f.aux }; }) }; });
   $("pc-sugerir").addEventListener("click", function () { sugerir(); atualizar(); });
   $("pc-imprimir").addEventListener("click", function () { window.print(); });
   $("pc-link").addEventListener("click", function () {
@@ -361,7 +397,7 @@
   if (window.matchMedia) { var mq = window.matchMedia("(max-width: 640px)"); (mq.addEventListener ? mq.addEventListener("change", atualizar) : mq.addListener(atualizar)); }
   atualizar();
   /* Voltar/Avançar do navegador de volta ao Pífano: recarrega o estado do link (usado por naf-ui.js) */
-  window.PifeUI = { recarregar: function () {
+  window.PifeUI = { semitons: function () { return semitons(); }, recarregar: function () {
     try { var s = location.hash.length > 2 ? JSON.parse(decodeURIComponent(location.hash.slice(1))) : null; if (s && s.tom) { aplicar(s); atualizar(); } } catch (x) { /* link inválido: mantém */ }
   } };
 })();

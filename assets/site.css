@@ -811,3 +811,8 @@ section.ph{padding-top:calc(var(--sp-5) - 16px)}
 /* menu do computador: cada item numa linha só; entre 1200 e 1499 px, mais compacto para caber tudo */
 @media(min-width:1200px){.menu a{white-space:nowrap}}
 @media(min-width:1200px) and (max-width:1499px){.menu a{padding:10px 7px;font-size:13.5px}.menu .cta a{padding:10px 12px;margin-left:4px}}
+/* calculadora: ouvir a escala (Subir / Ida e volta + botão) */
+.esc-ouvir{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:10px 0 4px}
+.esc-ouvir .esc-modo{display:inline-flex;gap:6px;align-items:center;margin:0;cursor:pointer}
+.esc-ouvir .esc-modo input{display:inline-block;width:auto;margin:0}
+.esc-ouvir .btn{padding:9px 16px}

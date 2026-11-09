@@ -68,7 +68,11 @@
     return Math.max(4, Math.round(D * fator * 2) / 2);
   }
 
-  /* Calcula o pífano. entrada: {tom, la, temp, D, parede, emb, furos:[d1..d6] (de baixo para cima)} */
+  /* Semitons de cada furo acima da nota grave, do pé para a boca: e.semitons (escala escolhida) ou a escala maior. */
+  function semitonsDe(e) { return Array.isArray(e.semitons) && e.semitons.length ? e.semitons : SEMITONS_ESCALA_MAIOR; }
+
+  /* Calcula o pífano. entrada: {tom, la, temp, D, parede, emb, furos:[d1..dn] (de baixo para cima),
+     semitons:[...] (opcional, mesmo tamanho de furos; padrão = escala maior de 6 furos), aux:[semitons auxiliares]} */
   function calcular(e) {
     var tom = TONS.filter(function (t) { return t.id === e.tom; })[0] || TONS[12];
     var c = velocidadeSom(e.temp);
@@ -81,16 +85,16 @@
     var Demb = e.cone ? D * diametroConeNoSopro(e) : D;
     var Ce = correcaoEmbocadura(Demb, chamine, embD);
     var Cp = correcaoPonta(D);
-    var d = e.furos.slice();
+    var d = e.furos.slice(), semis = semitonsDe(e), n = d.length, aux = e.aux || [];
     var f0 = freqMidi(tom.midi, e.la);
     var fechados = d.map(function (di) { return correcaoFechado(D, t, di); });
-    var somaFechados = function (de) { var s = 0; for (var j = de; j < 6; j++) s += fechados[j]; return s; };
+    var somaFechados = function (de) { var s = 0; for (var j = de; j < n; j++) s += fechados[j]; return s; };
 
     var pe = c / (2 * f0) - Ce - Cp - somaFechados(0); /* da boca (centro do sopro) até o pé */
     var furos = [];
     var anterior = pe;
-    for (var i = 0; i < 6; i++) {
-      var midi = tom.midi + SEMITONS_ESCALA_MAIOR[i];
+    for (var i = 0; i < n; i++) {
+      var midi = tom.midi + semis[i];
       var f = freqMidi(midi, e.la);
       var meia = c / (2 * f);
       var base = meia - Ce - somaFechados(i + 1);
@@ -113,6 +117,7 @@
         indice: i, nota: nomeNota(midi), midi: midi, freq: f, diametro: d[i],
         daBoca: x, doPe: pe - x, espaco: s, corte: fc, razaoCorte: fc / f
       });
+      if (aux.indexOf(semis[i]) >= 0) furos[furos.length - 1].aux = true; /* furo auxiliar, fora da escala */
       anterior = x;
     }
     return {
@@ -174,15 +179,21 @@
   }
 
   /* Furos sugeridos: o padrão que o Igor usa no Sol 4 com tubo de 18 mm (do pé para a boca: 8, 10, 7, 10, 10, 10),
-     na mesma proporção do diâmetro interno do tubo para qualquer tom; mm inteiros. */
-  var PADRAO_IGOR = [8, 10, 7, 10, 10, 10], TUBO_PADRAO = 18;
+     na mesma proporção do diâmetro interno do tubo para qualquer tom; mm inteiros. Em outra escala ou outra quantidade
+     de furos vale a mesma regra (a do app): o furo do pé tem 8, o furo que fica meio tom acima do de baixo tem 7
+     (como o 3º furo da escala maior) e os outros 10. */
+  var TUBO_PADRAO = 18;
+  function padraoFuros(semis) {
+    return semis.map(function (st, i) { return i === 0 ? 8 : st - semis[i - 1] === 1 ? 7 : 10; });
+  }
   function otimizarFuros(e) {
-    var tent = JSON.parse(JSON.stringify(e)), max = Math.max(4, Math.floor(e.D * 0.8));
-    tent.furos = PADRAO_IGOR.map(function (d) { return Math.max(4, Math.round(d * e.D / TUBO_PADRAO)); });
+    var tent = JSON.parse(JSON.stringify(e)), max = Math.max(4, Math.floor(e.D * 0.8)), semis = semitonsDe(e);
+    tent.semitons = semis;
+    tent.furos = padraoFuros(semis).map(function (d) { return Math.max(4, Math.round(d * e.D / TUBO_PADRAO)); });
     /* tubo fino: o arredondamento pode juntar dois furos; o de baixo cresce 1 mm (e desce) até haver 4 mm entre as bordas */
     for (var volta = 0; volta < 20; volta++) {
       var r = calcular(tent), mudou = false;
-      for (var i = 1; i < 6; i++) {
+      for (var i = 1; i < tent.furos.length; i++) {
         if (r.furos[i].espaco < (tent.furos[i] + tent.furos[i - 1]) / 2 + 4 && tent.furos[i - 1] < max) { tent.furos[i - 1] += 1; mudou = true; break; }
       }
       if (!mudou) break;
@@ -190,6 +201,6 @@
     return tent.furos;
   }
 
-  var api = { paredeIdeal: paredeIdeal, diametroSopro: diametroSopro, TONS: TONS, calcular: calcular, otimizarFuros: otimizarFuros, tuboSugerido: tuboSugerido, ajuste: ajuste, furoSugerido: furoSugerido, nomeNota: nomeNota, freqMidi: freqMidi };
+  var api = { SEMITONS_ESCALA_MAIOR: SEMITONS_ESCALA_MAIOR, padraoFuros: padraoFuros, paredeIdeal: paredeIdeal, diametroSopro: diametroSopro, TONS: TONS, calcular: calcular, otimizarFuros: otimizarFuros, tuboSugerido: tuboSugerido, ajuste: ajuste, furoSugerido: furoSugerido, nomeNota: nomeNota, freqMidi: freqMidi };
   if (typeof module === "object" && module.exports) module.exports = api; else root.PifeCalc = api;
 })(this);
