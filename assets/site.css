@@ -496,7 +496,7 @@ header.site nav{margin-left:auto}
 .menu .cta a{background:var(--accent);color:var(--accent-ink);padding:10px 16px;margin-left:8px;font-weight:600}
 .menu .cta a:hover{filter:brightness(1.07);background:var(--accent)}
 .burger{display:none;margin-left:auto;background:none;border:1px solid var(--rule);color:var(--fg-0);font:600 14px var(--text);padding:9px 14px;border-radius:var(--r-1);cursor:pointer}
-@media(max-width:1079px){
+@media(max-width:1199px){
   .burger{display:block}
   header.site nav{position:fixed;inset:68px 0 0 0;background:var(--bg-0);overflow-y:auto;display:none;margin:0;padding:16px max(16px,4vw) 40px}
   body.nav-open header.site nav{display:block}
@@ -722,7 +722,7 @@ footer.f4 .brand{color:#F6EFE2}footer.f4 .brand small{color:rgba(233,223,207,.6)
 /* rodada 2 (crítica do Codex) */
 .grade figcaption,.gal.ed figcaption,.vid figcaption,.split2 figcaption{font-size:14.5px;line-height:1.5}
 @media(max-width:430px){.grade{grid-template-columns:1fr;gap:28px}}
-@media(max-width:1079px){header.site .in{min-height:68px}}
+@media(max-width:1199px){header.site .in{min-height:68px}}
 .menu .cta a{background:var(--c-mata);color:#F6EFE2}
 .ph .faixa{width:160px}
 section.ph{padding-top:calc(var(--sp-5) - 16px)}
@@ -730,7 +730,7 @@ section.ph{padding-top:calc(var(--sp-5) - 16px)}
 .subnav .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-top:6px;padding-bottom:6px}
 .subnav a{flex:none;padding:8px 12px;font:500 14px var(--text);text-decoration:none;color:var(--fg-1);border-radius:999px;white-space:nowrap}
 .subnav a:hover{background:var(--bg-2);color:var(--fg-0)}
-@media(max-width:1079px){.subnav{top:68px}}
+@media(max-width:1199px){.subnav{top:68px}}
 [id]{scroll-margin-top:130px}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent:#B66B96;--bg-1:#211815}}
 :root[data-theme="dark"]{--accent:#B66B96;--bg-1:#211815}
@@ -807,4 +807,7 @@ section.ph{padding-top:calc(var(--sp-5) - 16px)}
 .trust.t3 ul{grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:520px){.trust.t3 ul{gap:8px}.trust.t3 b{font-size:1.05rem}.trust.t3 span{font-size:.72rem}}
 
 /* 07/10: no celular o cabeçalho é opaco (sem ver os botões por trás) */
-@media(max-width:1079px){header.site{background:var(--bg-0)}}
+@media(max-width:1199px){header.site{background:var(--bg-0)}}
+/* menu do computador: cada item numa linha só; entre 1200 e 1499 px, mais compacto para caber tudo */
+@media(min-width:1200px){.menu a{white-space:nowrap}}
+@media(min-width:1200px) and (max-width:1499px){.menu a{padding:10px 7px;font-size:13.5px}.menu .cta a{padding:10px 12px;margin-left:4px}}

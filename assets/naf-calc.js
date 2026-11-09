@@ -179,8 +179,8 @@
     v.janelaLarg = req("janelaLarg", "Largura da janela", e.janelaLarg, 1, 60, " mm");
     v.janelaAltura = req("janelaAltura", "Altura da janela", e.janelaAltura, 0.1, 30, " mm");
     var cab = num(e.cabeca);
-    if (!isFinite(cab)) erros.push({ campo: "cabeca", msg: "Cabeça: informe um número em mm." });
-    else if (cab < 0 || cab > 400) erros.push({ campo: "cabeca", msg: "Cabeça: use um valor entre 0 e 400 mm." }); else v.cabeca = cab;
+    if (!isFinite(cab)) erros.push({ campo: "cabeca", msg: "Bocal: informe um número em mm." });
+    else if (cab < 0 || cab > 400) erros.push({ campo: "cabeca", msg: "Bocal: use um valor entre 0 e 400 mm." }); else v.cabeca = cab;
     var po = e.ponta === undefined || e.ponta === "" ? 0 : num(e.ponta);
     if (!isFinite(po) || po < 0 || po > 200) erros.push({ campo: "ponta", msg: "Extensão na ponta: use um valor entre 0 e 200 mm." }); else v.ponta = po;
     if (isFinite(v.diametroExterno) && isFinite(v.parede) && v.diametroExterno <= 2 * v.parede)
@@ -277,7 +277,7 @@
     var otimo = 2620 * Math.pow(fend, -5 / 6);
     if (Math.abs(bore - otimo) / otimo > 0.18)
       avisos.push("Tubo fora do ideal para essa nota: o ideal é perto de " + fmt(otimo) + " mm de diâmetro interno (o seu tem " + fmt(bore) + " mm).");
-    if (v.cabeca < v.janelaCompr / 2) avisos.push("A cabeça está curta demais para a janela.");
+    if (v.cabeca < v.janelaCompr / 2) avisos.push("O bocal está curto demais para a janela.");
     furos.forEach(function (f, i) {
       var r = "Furo " + f.linha + " (" + f.nota + ")";
       if (f.razaoCorte !== null && f.razaoCorte < 1.5) avisos.push(r + ": os agudos vão sair com dificuldade. Aumente o furo ou afaste-o do vizinho.");

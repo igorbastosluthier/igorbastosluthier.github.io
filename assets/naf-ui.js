@@ -22,11 +22,11 @@
     document.body.classList.toggle("modo-naf", naf);
     [[abaPife, !naf], [abaNaf, naf]].forEach(function (p) { p[0].setAttribute("aria-selected", p[1] ? "true" : "false"); p[0].tabIndex = p[1] ? 0 : -1; });
     var h1 = document.querySelector(".ph h1");
-    if (h1) h1.textContent = naf ? "Calculadora de flauta NAF" : "Calculadora de pife";
+    if (h1) h1.textContent = naf ? "Faça sua flauta NAF" : "Faça sua flauta";
     var lead = document.querySelector(".ph p");
     if (lead) { if (!lead.getAttribute("data-pife")) lead.setAttribute("data-pife", lead.textContent);
       lead.textContent = naf ? "Onde furar a sua flauta nativa americana. Escolha a nota, meça o tubo e a janela, e a calculadora mostra a posição de cada furo, desenha a flauta e gera um molde em tamanho real para imprimir." : lead.getAttribute("data-pife"); }
-    document.title = naf ? "Calculadora de flauta NAF · Igor Bastos" : "Calculadora de pife · Igor Bastos";
+    document.title = naf ? "Faça sua flauta NAF · Igor Bastos" : "Faça sua flauta · Igor Bastos";
   }
   function trocarModo(naf) {
     if (naf === !$("modo-naf").hidden) return;
@@ -248,12 +248,12 @@
     var marcas = [{ p: 0, d: 0, t: "PÉ (ponta do tubo)" }];
     r.furos.forEach(function (f) { marcas.push({ p: f.doPe, d: f.diametro, t: "Furo " + f.linha + " · " + f.nota + " · Ø " + mm(f.diametro) }); });
     marcas.push({ p: r.janelaDoPe, janela: true, t: "JANELA " + mm(e.janelaCompr) + " × " + mm(e.janelaLarg) });
-    marcas.push({ p: L, d: 0, t: "CABEÇA: cortar aqui" });
+    marcas.push({ p: L, d: 0, t: "BOCAL: cortar aqui" });
     var tx = Math.max(84, 60 + e.diametroExterno / 2 + 6);
     for (var a = ini; a < fim; a += passo, n++) {
       var b = a + passo + 10, s = '<svg xmlns="http://www.w3.org/2000/svg" width="180mm" height="270mm" viewBox="0 0 180 270">';
       var Y = function (p) { return 25 + (p - a); };
-      s += '<text x="5" y="8" font-size="4">Calculadora de flauta NAF · igorbastosluthier.com.br' + ' · página ' + n + ' · a cruz marca o centro do furo</text>';
+      s += '<text x="5" y="8" font-size="4">Faça sua flauta NAF · igorbastosluthier.com.br' + ' · página ' + n + ' · a cruz marca o centro do furo</text>';
       s += '<text x="5" y="14" font-size="3.2">A régua deve ter 100 mm. Se não tiver, imprima em tamanho real (100%).</text>';
       s += '<line x1="5" y1="18" x2="105" y2="18" stroke="#000" stroke-width=".4"/>';
       for (var k = 0; k <= 100; k += 10) s += '<line x1="' + (5 + k) + '" y1="16" x2="' + (5 + k) + '" y2="20" stroke="#000" stroke-width=".3"/>';

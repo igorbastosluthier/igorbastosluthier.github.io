@@ -37,7 +37,7 @@ module.exports = async (p, base) => {
 
   /* M3: cabeça vazia = erro claro; cabeça curta mantém tudo dentro do viewBox */
   await abrir(); await set("naf-cabeca", "");
-  ok(/Cabeça.*informe um número/.test(await erro()), "M3 cabeça vazia: mensagem clara", await erro());
+  ok(/Bocal.*informe um número/.test(await erro()), "M3 cabeça vazia: mensagem clara", await erro());
   const dentro = "(()=>{const s=document.querySelector('#naf-desenho svg');const vb=s.viewBox.baseVal;const bb=s.getBBox();return JSON.stringify({x:bb.x,y:bb.y,r:bb.x+bb.width,b:bb.y+bb.height,W:vb.width,H:vb.height})})()";
   for (const c of ["2", "0", "89"]) {
     await set("naf-cabeca", c);

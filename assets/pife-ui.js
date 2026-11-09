@@ -123,7 +123,7 @@
     if (VIS.total) {
       s += cota(boca, pe, y + 14, "da boca ao pé: " + mm(r.bocaAoPe) + " mm", "#9A3B1F");
       y += 26;
-      s += cota(x0, pe, y + 14, "tubo inteiro (com 25 mm de cabeça além da rolha): " + mm(r.bocaAoPe + r.rolha + 25) + " mm", "#7a5a1c");
+      s += cota(x0, pe, y + 14, "tubo inteiro (com 25 mm de bocal além da rolha): " + mm(r.bocaAoPe + r.rolha + 25) + " mm", "#7a5a1c");
     }
     if (VIS.rolha && !VIS.total) y += 26;
     var H = y + 26;
@@ -213,7 +213,7 @@
     var n = 1;
     for (var a = ini; a < fim; a += passo, n++) {
       var b = a + passo + 10, s = '<svg xmlns="http://www.w3.org/2000/svg" width="180mm" height="270mm" viewBox="0 0 180 270">';
-      s += '<text x="5" y="8" font-size="4">Calculadora de pife · igorbastosluthier.com.br · ' + r.tom.nome + ' · página ' + n + '</text>';
+      s += '<text x="5" y="8" font-size="4">Faça sua flauta · igorbastosluthier.com.br · ' + r.tom.nome + ' · página ' + n + '</text>';
       s += '<text x="5" y="14" font-size="3.2">A régua abaixo deve ter 10 cm. Se não tiver, imprima em tamanho real (100%).</text>';
       s += '<line x1="5" y1="18" x2="105" y2="18" stroke="#000" stroke-width=".4"/>';
       for (var k = 0; k <= 100; k += 10) s += '<line x1="' + (5 + k) + '" y1="16" x2="' + (5 + k) + '" y2="20" stroke="#000" stroke-width=".3"/>';
@@ -292,9 +292,9 @@
       "<li><span>Da boca (centro do sopro) até o pé</span><b>" + mm(r.bocaAoPe) + " mm</b></li>" +
       (e.lip ? "<li><span>Chaminé do sopro (parede + porta-lábios " + mm(e.lip) + " mm)</span><b>" + mm(e.parede + e.lip) + " mm</b></li>" : "") +
       "<li><span>Distância da rolha até o centro do furo do sopro</span><b>" + mm(r.rolha) + " mm</b></li>" +
-      (e.cone ? "<li><span>Cabeça cônica: diâmetro interno no centro do sopro</span><b>" + mm(cabeca(e, r).sopro) + " mm</b></li>" +
-      "<li><span>Cabeça cônica: diâmetro interno na rolha</span><b>" + mm(e.D * 0.9) + " mm</b></li>" +
-      "<li><span>Cabeça cônica: o estreitamento começa a esta distância da rolha</span><b>" + mm(cabeca(e, r).inicio) + " mm</b></li>" : "") +
+      (e.cone ? "<li><span>Bocal cônico: diâmetro interno no centro do sopro</span><b>" + mm(cabeca(e, r).sopro) + " mm</b></li>" +
+      "<li><span>Bocal cônico: diâmetro interno na rolha</span><b>" + mm(e.D * 0.9) + " mm</b></li>" +
+      "<li><span>Bocal cônico: o estreitamento começa a esta distância da rolha</span><b>" + mm(cabeca(e, r).inicio) + " mm</b></li>" : "") +
       "<li><span>Nota grave (tudo fechado)</span><b>" + r.tom.nome + " · " + r.f0.toFixed(1).replace(".", ",") + " Hz</b></li>";
     $("pc-avisos").innerHTML = r.avisos.length
       ? '<div class="pc-aviso"><b>Atenção</b><ul>' + r.avisos.map(function (a) { return "<li>" + a + "</li>"; }).join("") + "</ul></div>"
