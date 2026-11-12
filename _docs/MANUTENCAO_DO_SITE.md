@@ -8,16 +8,18 @@ Esta pasta começa com `_`, então o GitHub Pages (Jekyll) **não publica** este
 ## 1. Onde fica e como publica
 | Item | Valor |
 |---|---|
-| Repositório local | `C:\Users\airba\Documents\site_repo` |
+| Repositório local | `C:\HERMES\negocios\flautas-igor\site` |
 | Remoto | `https://github.com/igorbastosluthier/igorbastosluthier.github.io.git`, ramo **main** |
 | Hospedagem | GitHub Pages, domínio próprio pelo arquivo `CNAME` (`igorbastosluthier.com.br`) |
 | Build | nenhum: HTML/CSS/JS estático. Sem `.nojekyll` e sem `_config.yml`: o Jekyll padrão do Pages ignora pastas e arquivos começados com `_` |
 | Identidade do git | `Igor Bastos Luthier <airbastos2@gmail.com>` (já configurada no repositório) |
 
+**Checagens do HERMES:** SITE_DIR aponta para este repositório. Em um terminal aberto antes da migração, defina SITE_DIR para o caminho desta pasta antes de rodar resolvidos_check.py.
+
 **Publicar = commit + push no main.** O Pages atualiza em 1–2 minutos.
 
 ```
-cd C:\Users\airba\Documents\site_repo
+cd C:\HERMES\negocios\flautas-igor\site
 git pull --ff-only
 # editar
 node tests/pife.test.js && node tests/naf.test.js && node tests/afinador.test.js && node tests/afinador_vies.test.js && node tests/escalas.test.js && node tests/pife_motor.test.js && node tests/furos_varredura.test.js
@@ -51,7 +53,7 @@ git push origin main
 | `assets/pife-afinador.js` | afinador (YIN + refino; ver seção 4) |
 | `assets/site.css`, `mix.css`, `naf.css`, `feedback.*`, `monte.js` | estilo, feedback e montagem |
 | `img/`, `vid/` | imagens e vídeos |
-| `mix-r7t2/`, `novo-k3p8/`, `teste-7q4k/` | rascunhos/versões de teste (não são o site principal) |
+| Versões de teste | Usar prévia fora do ramo publicado. O ramo main é a publicação oficial. |
 | `tests/` | testes em node (seção 3) |
 | `sitemap.xml`, `robots.txt`, `CNAME` | SEO e domínio |
 
