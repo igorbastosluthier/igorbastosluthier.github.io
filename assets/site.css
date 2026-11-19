@@ -821,3 +821,10 @@ section.ph{padding-top:calc(var(--sp-5) - 16px)}
 .pc-aj td,.pc-aj th{background:rgba(217,163,58,.14)}
 .pc-cartao.pc-aj{box-shadow:inset 3px 0 0 #D9A33A}
 input.pc-aj-in{border-color:#D9A33A!important;box-shadow:0 0 0 2px rgba(217,163,58,.3)}
+
+/* Coroa de roxinho escolhida pelo Igor: imagem original, sem espelhamento. */
+.brand .marca-coroa{display:block;width:76px;height:76px;object-fit:contain;flex:none}
+header.site .in{height:auto;min-height:84px;max-width:none;padding-top:4px;padding-bottom:4px}
+header.site .brand{gap:4px}
+footer.f4 .brand .marca-coroa{width:92px;height:92px}
+@media(max-width:760px){.brand .marca-coroa{width:64px;height:64px}header.site .in{min-height:76px}}
