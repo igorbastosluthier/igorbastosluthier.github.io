@@ -24,8 +24,11 @@ function calc(){var m=M(),tot=0,lin=[m.n],obs='',tom=null,parts=1,chk={};
  var es=parts===2?D.est2:(parts>3?null:(parts>2?D.est3:D.est[tom]));
  m.add.forEach(function(a){
   if(a[0]==='estojo'){var b=ma.querySelector('b[data-k=estojo]');b.textContent=es?'+ '+br(es):'sob consulta'}
+  if(a[0]==='estojorox'){var r=ma.querySelector('b[data-k=estojorox]');r.textContent=es?'+ '+br(es+100):'sob consulta'}
   if(!chk[a[0]])return;
-  if(a[0]==='estojo'){if(es)tot+=es;else obs='Estojo: valor sob consulta.';lin.push(a[1])}else{tot+=a[2];lin.push(a[1])}});
+  if(a[0]==='march'&&chk.faixa)return;
+  if(a[0]==='estojo'&&chk.estojorox)return;
+  if(a[0]==='estojo'||a[0]==='estojorox'){if(es)tot+=es+(a[0]==='estojorox'?100:0);else obs='Estojo: valor sob consulta.';lin.push(a[1])}else{tot+=a[2];lin.push(a[1])}});
  $('mtot').textContent=br(tot);$('mobs').textContent=obs;
  $('mwa').href='https://wa.me/'+D.wa+'?text='+encodeURIComponent('Olá, Igor! Montei no site:\n- '+lin.join('\n- ')+'\nTotal estimado: '+br(tot)+(obs?'\n'+obs:''))}
 mm.onchange=setm;mw.onchange=function(){fillt();calc()};mt.onchange=calc;mp.onchange=calc;ma.onchange=calc;setm();
