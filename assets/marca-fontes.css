@@ -1,0 +1,5 @@
+/* Fontes originais da marca, hospedadas junto do site. */
+@font-face{font-family:"Fraunces Marca";font-style:normal;font-weight:500;font-display:block;src:url("fonts/fraunces-marca.woff2") format("woff2")}
+@font-face{font-family:"Pinyon Marca";font-style:normal;font-weight:400;font-display:block;src:url("fonts/pinyon-marca.woff2") format("woff2")}
+.brand b{font-family:"Fraunces Marca",Georgia,serif}
+html.marca-fontes-pendentes .brand b,html.marca-fontes-pendentes .h4hero h1{visibility:hidden}
