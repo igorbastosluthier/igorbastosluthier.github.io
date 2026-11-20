@@ -22,7 +22,7 @@ Esta pasta começa com `_`, então o GitHub Pages (Jekyll) **não publica** este
 cd C:\HERMES\negocios\flautas-igor\site
 git pull --ff-only
 # editar
-node tests/pife.test.js && node tests/naf.test.js && node tests/afinador.test.js && node tests/afinador_vies.test.js && node tests/escalas.test.js && node tests/pife_motor.test.js && node tests/furos_varredura.test.js
+node tests/pife.test.js && node tests/naf.test.js && node tests/afinador.test.js && node tests/afinador_vies.test.js && node tests/escalas.test.js && node tests/pife_motor.test.js && node tests/furos_varredura.test.js && node tests/videos_som.test.js
 python tools/build_search_index.py && node tests/busca.test.js
 git add <arquivos>
 git commit -m "área: o que mudou (em português, para o Igor ler)"
@@ -69,6 +69,7 @@ git push origin main
 | `node tests/naf.test.js` | cálculo da NAF contra `tests/fixtures/naf_ref.json` (gerado por `tests/gen_naf_reference.py`) |
 | `node tests/afinador.test.js` | estabilidade do afinador numa página falsa: nome da nota firme, oitava certa, agulha firme, melodia, só ruído = sem nota |
 | `node tests/afinador_vies.test.js` | **viés** do detector: Sol 3 a Mi 7, sons de flauta com pouco e muito sopro; exige viés ≤ 2 cents e p95 ≤ 4 cents |
+| `node tests/videos_som.test.js` | vídeos das peças: o botão só diz "com som" quando o vídeo é o Igor **tocando** aquela flauta (lista conferida em `tests/fixtures/videos_tocando.json` + o arquivo tem áudio); os outros usam `class="play so-ver"` ("Ver o vídeo"). Vídeo novo de peça: só entra como "com som" depois de ouvir/medir e pôr na lista |
 | `node tests/escalas.test.js` | escalas iguais às do app (`tests/fixtures/escalas_app.json`, gerado por `tests/gen_escalas_app.py`), notas tocadas no "Ouvir escala", pífano e NAF com outra escala/nº de furos |
 | `node tests/furos_varredura.test.js` | todas as escalas × furos × tons do pífano e da NAF (e Personalizada): 0 furos encostados, 0 erros, notas certas |
 | `python tools/build_search_index.py --check` | o índice da busca e os ids das peças estão em dia com as páginas (sai com erro se esqueceram de rodar o script) |
