@@ -23,6 +23,7 @@ cd C:\HERMES\negocios\flautas-igor\site
 git pull --ff-only
 # editar
 node tests/pife.test.js && node tests/naf.test.js && node tests/afinador.test.js && node tests/afinador_vies.test.js && node tests/escalas.test.js && node tests/pife_motor.test.js && node tests/furos_varredura.test.js
+python tools/build_search_index.py && node tests/busca.test.js
 git add <arquivos>
 git commit -m "área: o que mudou (em português, para o Igor ler)"
 git push origin main
@@ -52,6 +53,7 @@ git push origin main
 | `assets/escalas.js` | escalas do app (nomes, graus, quais servem para cada flauta e nº de furos) e o botão "Ouvir escala" (Web Audio) |
 | `assets/pife-afinador.js` | afinador (YIN + refino; ver seção 4) |
 | `assets/site.css`, `mix.css`, `naf.css`, `feedback.*`, `monte.js` | estilo, feedback e montagem |
+| `busca.html`, `assets/busca.js`, `assets/busca.css`, `assets/busca.json` | busca do site (lupa no cabeçalho de todas as páginas, tecla `/`). O `busca.json` é **gerado**: rode `python tools/build_search_index.py` depois de mudar qualquer página (peça nova, texto novo) e publique junto. O script também põe o id de cada peça (`p-<foto>`), das perguntas (`q-...`) e dos títulos de Valores/Tabelas/Privacidade, a lupa no cabeçalho e o `?v=` da busca (tirado do conteúdo do arquivo). Página nova: inclua em `PAGINAS` no script. Sinônimos (naf = nativa, pife = pífano, roxinho = purpleheart, Sol = G…) ficam em `SINONIMOS` |
 | `img/`, `vid/` | imagens e vídeos |
 | Versões de teste | Usar prévia fora do ramo publicado. O ramo main é a publicação oficial. |
 | `tests/` | testes em node (seção 3) |
@@ -69,7 +71,9 @@ git push origin main
 | `node tests/afinador_vies.test.js` | **viés** do detector: Sol 3 a Mi 7, sons de flauta com pouco e muito sopro; exige viés ≤ 2 cents e p95 ≤ 4 cents |
 | `node tests/escalas.test.js` | escalas iguais às do app (`tests/fixtures/escalas_app.json`, gerado por `tests/gen_escalas_app.py`), notas tocadas no "Ouvir escala", pífano e NAF com outra escala/nº de furos |
 | `node tests/furos_varredura.test.js` | todas as escalas × furos × tons do pífano e da NAF (e Personalizada): 0 furos encostados, 0 erros, notas certas |
-| `tests/browser/*.test.js` | testes no navegador (Chrome via CDP, `tests/browser/cdp.js`) da tela da NAF |
+| `python tools/build_search_index.py --check` | o índice da busca e os ids das peças estão em dia com as páginas (sai com erro se esqueceram de rodar o script) |
+| `node tests/busca.test.js` | busca: todo link do índice cai num id que existe, toda miniatura existe, e as buscas do Igor (pifano, jacaranda, aguia, lobo, irlandesa, afinador, calculadora, estojo, roxinho sol…) trazem o certo |
+| `tests/browser/*.test.js` | testes no navegador (Chrome via CDP, `tests/browser/cdp.js`) da tela da NAF e da busca (`busca.test.js`: lupa em todas as páginas e larguras, `/`, Enter, Esc, celular; `BUSCA_FOTOS=<pasta>` grava as fotos da tela) |
 
 ---
 

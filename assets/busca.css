@@ -1,0 +1,80 @@
+/* Busca do site (assets/busca.js). Usa as cores e fontes do site.css. */
+.busca-btn{order:5;flex:none;display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;margin-left:6px;border:1px solid var(--rule);border-radius:999px;background:transparent;color:var(--fg-0);text-decoration:none;cursor:pointer;transition:background .15s}
+.busca-btn:hover{background:var(--bg-2)}
+.busca-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.busca-btn svg{display:block}
+/* computador estreito: o menu ja ocupa quase tudo; aperta um pouco para a lupa caber */
+@media(min-width:1200px) and (max-width:1439px){
+  .busca-btn{width:38px;height:38px;margin-left:-8px}
+}
+@media(min-width:1200px) and (max-width:1365px){
+  header.site .in{padding-left:max(16px,2vw);padding-right:max(16px,2vw)}
+  .menu a{padding-left:5px;padding-right:5px}
+  .menu .cta a{padding-left:10px;padding-right:10px;margin-left:2px}
+}
+@media(max-width:1199px){
+  .busca-btn{order:2;margin-left:auto}
+  .busca-btn + .burger{order:3;margin-left:10px}
+}
+.busca-sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+html.busca-aberta,html.busca-aberta body{overflow:hidden}
+
+/* painel */
+.busca[hidden]{display:none}
+.busca{position:fixed;inset:0;z-index:200;display:flex;justify-content:center;align-items:flex-start;padding:9vh 16px 16px;background:rgba(30,21,18,.5)}
+.busca-caixa{display:flex;flex-direction:column;width:100%;max-width:720px;max-height:82vh;background:var(--bg-1);color:var(--fg-0);border:1px solid var(--rule);border-radius:var(--r-2);box-shadow:0 30px 80px -20px rgba(30,21,18,.55);overflow:hidden}
+.busca-topo{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;border-bottom:1px solid var(--rule)}
+.busca-lupa{flex:none;color:var(--fg-2)}
+.busca-topo input{flex:1;min-width:0;margin:0;padding:10px 2px;border:0;background:transparent;color:var(--fg-0);font:400 18px/1.3 var(--text);outline:none;-webkit-appearance:none;appearance:none}
+.busca-topo input::-webkit-search-cancel-button{display:none}
+.busca-x{flex:none;width:40px;height:40px;border:1px solid var(--rule);border-radius:999px;background:transparent;color:var(--fg-1);font:400 24px/1 var(--text);cursor:pointer}
+.busca-x:hover{background:var(--bg-2)}
+.busca-status{margin:0;padding:8px 16px 0;font:500 12.5px/1.4 var(--text);color:var(--fg-2)}
+.busca-res{overflow-y:auto;overscroll-behavior:contain;padding:0 8px 14px;-webkit-overflow-scrolling:touch}
+
+/* resultados (painel e busca.html) */
+.busca-g h3{margin:14px 8px 4px;font:600 11px/1 var(--text);letter-spacing:.2em;text-transform:uppercase;color:var(--fg-2)}
+.busca-g h3 small{font-size:inherit;letter-spacing:0;color:var(--fg-2);opacity:.8}
+.busca-g ul{list-style:none;margin:0;padding:0}
+.busca-it{display:flex;align-items:center;gap:12px;padding:8px;border-radius:var(--r-2);color:var(--fg-0);text-decoration:none}
+.busca-it:hover,.busca-it.sel{background:var(--bg-2)}
+.busca-it:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.busca-it img,.busca-ic{flex:none;width:56px;height:56px;border-radius:var(--r-1);object-fit:cover;background:var(--bg-2)}
+.busca-ic{display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.busca-ic svg{width:26px;height:26px}
+.busca-tx{min-width:0;flex:1}
+.busca-it b{display:block;font:500 16.5px/1.25 var(--display);color:var(--fg-0)}
+.busca-it small{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:2px;font:400 13.5px/1.4 var(--text);color:var(--fg-1)}
+.busca-it small i{font-style:normal;font-weight:600;color:var(--fg-2)}
+.busca-it mark{background:color-mix(in srgb,var(--accent) 16%,transparent);color:inherit;border-radius:2px;padding:0 1px}
+.busca-mais{margin:12px 8px 0}
+.busca-mais a{font:600 14px/1.3 var(--text);color:var(--accent)}
+.busca-nada{padding:18px 8px 6px}
+.busca-nada p{margin:0 0 10px;color:var(--fg-1)}
+.busca-nada .btn{margin-top:6px}
+
+/* chegou numa peca pelo link da busca */
+.busca-alvo{outline:3px solid var(--accent);outline-offset:6px;border-radius:var(--r-2);animation:busca-pisca 2.6s ease-out forwards}
+@keyframes busca-pisca{0%,70%{outline-color:var(--accent)}100%{outline-color:transparent}}
+
+/* pagina busca.html */
+.busca-pagina{display:flex;gap:10px;max-width:720px;margin-top:18px}
+.busca-pagina input{flex:1;min-width:0;padding:13px 14px;border:1px solid var(--rule);border-radius:var(--r-1);background:var(--bg-1);color:var(--fg-0);font:400 17px/1.3 var(--text)}
+.busca-pagina input:focus{outline:2px solid var(--accent);outline-offset:1px}
+#busca-pg-res{max-width:780px}
+#busca-pg-res .busca-g h3{margin-left:0}
+.busca-atalhos{margin-top:36px;max-width:780px}
+.busca-atalhos h2{font-size:1.3rem;margin:0 0 10px}
+.busca-atalhos ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.busca-atalhos a{display:inline-block;padding:8px 14px;border:1px solid var(--rule);border-radius:999px;color:var(--fg-0);text-decoration:none;font:500 14.5px/1.2 var(--text)}
+.busca-atalhos a:hover{background:var(--bg-2)}
+
+@media(max-width:760px){
+  .busca{padding:0;align-items:stretch}
+  .busca-caixa{max-width:none;max-height:none;height:100%;height:100dvh;border:0;border-radius:0;box-shadow:none}
+  .busca-topo{padding:8px 16px}
+  .busca-res{padding:0 8px 28px}
+  .busca-status{padding:8px 16px 0}
+  .busca-pagina .btn{padding:12px 16px}
+}
+@media (prefers-reduced-motion:reduce){.busca-alvo{animation:none}}
