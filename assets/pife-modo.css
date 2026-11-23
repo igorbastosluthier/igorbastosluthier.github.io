@@ -1,0 +1,34 @@
+/* Calculadora de Pife: Básico | Avançado, ajuda no "?" e avisos que só aparecem quando há algo fora do lugar (23/11/2026) */
+.pc-nivel{display:inline-flex;gap:2px;padding:3px;margin:0 0 12px;border:1px solid rgba(45,72,57,.35);border-radius:999px}
+.pc-nivel button{border:0;background:transparent;color:inherit;font:inherit;font-weight:600;padding:8px 18px;border-radius:999px;cursor:pointer;min-height:40px}
+.pc-nivel button[aria-pressed="true"]{background:#2D4839;color:#fff}
+.pc-nivel button:focus-visible,.pc-ajuda:focus-visible,.pc-nota-modo button:focus-visible{outline:3px solid #D9A33A;outline-offset:2px}
+.pc-nota-modo{margin:-4px 0 14px;font-size:.88em;opacity:.9}
+.pc-nota-modo button{margin-left:6px}
+#pc-form.pc-basico [data-avancado]{display:none!important}
+.pc-modelos{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.pc-modelos .pc-ajuda-txt{flex-basis:100%}
+.pc-grid .pc-campo{margin:10px 0}
+.pc-grid .pc-campo>label,.pc-grid .pc-rot{display:inline;margin:0}
+.pc-grid .pc-campo-check{display:flex;flex-wrap:wrap;align-items:center;gap:0 2px}
+.pc-grid .pc-campo-check .pc-ajuda-txt{flex-basis:100%}
+.pc-grid .pc-sub{margin-top:8px}
+.pc-grid .pc-dois label{margin:6px 0 0}
+.pc-ajuda{position:relative;display:inline-grid;place-items:center;width:24px;height:24px;margin:0 0 0 6px;padding:0;border-radius:50%;border:1px solid rgba(45,72,57,.5);background:transparent;color:#2D4839;font:inherit;font-size:.8em;font-weight:600;line-height:1;cursor:pointer;vertical-align:middle}
+.pc-ajuda::after{content:"";position:absolute;inset:-9px}
+.pc-ajuda[aria-expanded="true"]{background:#2D4839;color:#fff;border-color:#2D4839}
+.pc-ajuda-txt{margin:6px 0 0;padding:8px 10px;border-radius:8px;background:rgba(45,72,57,.07);font-size:.88em;line-height:1.45}
+.pc-ajuda-txt a{color:#7E2A5E}
+.pc-alerta{margin:6px 0 0;padding:6px 10px;border-left:3px solid #D9A33A;border-radius:6px;background:rgba(217,163,58,.13);font-size:.88em;line-height:1.4}
+.pc-grid input.pc-in-aviso{border-color:#D9A33A;box-shadow:0 0 0 2px rgba(217,163,58,.3)}
+.pc-aviso .pc-link-btn{margin-left:4px}
+@media (prefers-color-scheme:dark){
+ :root:not([data-theme="light"]) .pc-ajuda{color:#F6EFE2;border-color:rgba(246,239,226,.45)}
+ :root:not([data-theme="light"]) .pc-ajuda[aria-expanded="true"],:root:not([data-theme="light"]) .pc-nivel button[aria-pressed="true"]{background:#D9A33A;color:#1c1410;border-color:#D9A33A}
+ :root:not([data-theme="light"]) .pc-ajuda-txt{background:rgba(246,239,226,.08)}
+ :root:not([data-theme="light"]) .pc-ajuda-txt a{color:#D9A33A}
+}
+@media (max-width:640px){
+ .pc-nivel{display:flex}.pc-nivel button{flex:1}
+ .pc-modelos .pc-chip{flex:1 1 auto}
+}

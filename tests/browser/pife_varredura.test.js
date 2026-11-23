@@ -17,7 +17,7 @@ module.exports = async (p, base) => {
       for(const es of escalas){ set('pc-escala',es);
         for(const t of [...$('pc-tom').options].map(o=>o.value)){
           set('pc-tom',t);
-          const usar=$('pc-usar-tubo'); if(usar) usar.click(); /* tubo indicado do tom */
+          const usar=$('pc-usar-tubo'); if(usar) usar.click(); /* tubo indicado do tom (o botão só aparece fora do indicado ± 1 mm) */
           tot++;
           const linhas=document.querySelectorAll('#pc-tabela tbody tr').length, av=$('pc-avisos').innerText, aj=$('pc-ajuste').innerText;
           if(linhas!==+n) ruins.push(n+' '+es+' '+t+' linhas '+linhas);
@@ -29,8 +29,9 @@ module.exports = async (p, base) => {
   ok(res.nr === 0 && res.tot > 1400, "pífano: " + res.tot + " combinações (escala × furos × tom), " + res.ajust + " com ajuste, 0 problemas", res.ruins.join(" || "));
   res.ex.forEach((x) => console.log("      exemplo: " + x));
 
-  /* furo digitado à mão: vale o da pessoa; aviso com botão "Ajustar sozinho" */
+  /* furo digitado à mão (modo Avançado): vale o da pessoa; aviso com botão "Ajustar sozinho" */
   await p.goto(base + "/calculadora.html"); await ev("localStorage.clear()"); await p.goto(base + "/calculadora.html");
+  await ev("document.getElementById('pc-modo-avancado').click()");
   await ev("(()=>{const i=document.querySelectorAll('#pc-furos input');[2,3].forEach(k=>{i[k].value='14';i[k].dispatchEvent(new Event('input',{bubbles:true}));});})()");
   const antes = await ev("document.getElementById('pc-ajuste').innerText");
   ok(/encostados/.test(antes) && (await ev("document.querySelectorAll('#pc-furos input')[2].value")) === "14", "digitado: respeita 14 mm e avisa furos encostados", antes);

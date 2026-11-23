@@ -79,7 +79,8 @@
     $("af-harm-res").textContent = t;
   }
 
-  function la() { return parseFloat(($("pc-la") || {}).value) || 440; }
+  /* a afinação que a calculadora está usando (no Básico, Lá 440; no Avançado, a escolhida, inclusive "outra") */
+  function la() { if (window.PifeUI && window.PifeUI.la) return window.PifeUI.la(); return parseFloat(($("pc-la") || {}).value) || 440; }
   function midiDeFreq(f) { return 69 + 12 * Math.log2(f / la()); }
   function freqDeMidi(m) { return la() * Math.pow(2, (m - 69) / 12); }
   function nome(m) { return NOMES[((m % 12) + 12) % 12] + " " + (Math.floor(m / 12) - 1); }
@@ -372,6 +373,6 @@
     osc.connect(g); g.connect(c2.destination); osc.start();
     $("af-ref-tocar").textContent = "Parar";
   });
-  ["pc-tom", "pc-la", "pc-escala", "pc-nfuros"].forEach(function (id) { if ($(id)) $(id).addEventListener("change", function () { mapa = {}; mostrarMapa(); preencherRef(); }); });
+  ["pc-tom", "pc-la", "pc-la-outra", "pc-escala", "pc-nfuros"].forEach(function (id) { if ($(id)) $(id).addEventListener("change", function () { mapa = {}; mostrarMapa(); preencherRef(); }); });
   preencherRef(); mostrarMapa();
 })();

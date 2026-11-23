@@ -138,27 +138,31 @@
   /* Parede ideal (Igor, 13/10): 4 mm no Sol 4 com tubo de 18 mm; proporcional ao diâmetro interno nos outros tons */
   function paredeIdeal(D) { return Math.round(4 * D / 18 * 2) / 2; }
 
-  function avisos(e, pe, furos) {
+  /* Avisos com o tipo e o campo de cada um (a tela mostra cada aviso junto do campo certo). Os textos e a ordem são os de
+     sempre: avisos() devolve só os textos, e é isso que calcular() entrega (as fixtures conferem). */
+  function avisosItens(e, pe, furos) {
     var lista = [], ideal = paredeIdeal(e.D);
-    if (e.parede + (e.lip || 0) < ideal * 0.75) lista.push("Parede fina para esse tubo (o ideal é perto de " + String(ideal).replace(".", ",") + " mm): no furo do sopro, um porta-lábios ajuda a dar mais sustentação ao som.");
+    var add = function (tipo, campo, texto, furo) { var a = { tipo: tipo, campo: campo, texto: texto }; if (furo !== undefined) a.furo = furo; lista.push(a); };
+    if (e.parede + (e.lip || 0) < ideal * 0.75) add("parede-fina", "parede", "Parede fina para esse tubo (o ideal é perto de " + String(ideal).replace(".", ",") + " mm): no furo do sopro, um porta-lábios ajuda a dar mais sustentação ao som.");
     furos.forEach(function (h) {
       var n = (h.indice + 1) + "º furo (" + h.nota + ")";
-      if (h.diametro > e.D * 0.85) lista.push(n + ": furo quase do tamanho do tubo. Use um tubo mais largo ou um furo menor.");
-      if (h.razaoCorte < 1.4) lista.push(n + ": furo pequeno para essa distância; a nota pode sair fraca ou abafada. Aumente o furo.");
+      if (h.diametro > e.D * 0.85) add("furo-grande", "furo", n + ": furo quase do tamanho do tubo. Use um tubo mais largo ou um furo menor.", h.indice);
+      if (h.razaoCorte < 1.4) add("furo-fraco", "furo", n + ": furo pequeno para essa distância; a nota pode sair fraca ou abafada. Aumente o furo.", h.indice);
     });
     /* furos encostados: a mesma regra do ajuste automático (folga entre as bordas) */
     apertos(e, furos).forEach(function (a) {
       var h = furos[a.furos[a.furos.length - 1]], n = (h.indice + 1) + "º furo (" + h.nota + ")";
-      if (a.tipo === "vizinhos") lista.push(n + ": muito perto do furo de baixo. Diminua os furos ou use outro tom.");
-      else if (a.tipo === "pe") lista.push(n + ": muito perto do pé. Diminua esse furo ou use outro tom.");
-      else lista.push(n + ": muito perto do furo do sopro. Use um tubo mais fino ou outro tom.");
+      if (a.tipo === "vizinhos") add("perto-vizinho", "furo", n + ": muito perto do furo de baixo. Diminua os furos ou use outro tom.", h.indice);
+      else if (a.tipo === "pe") add("perto-pe", "furo", n + ": muito perto do pé. Diminua esse furo ou use outro tom.", h.indice);
+      else add("perto-sopro", "furo", n + ": muito perto do furo do sopro. Use um tubo mais fino ou outro tom.", h.indice);
     });
     var maior = Math.max.apply(null, furos.slice(1).map(function (h) { return h.espaco; }));
-    if (maior > 45) lista.push("Há furos com mais de 4,5 cm entre si: pode ficar difícil para mãos pequenas. Diminuir esses furos aproxima as posições.");
-    if (diametroSopro(e) > e.D * 0.75) lista.push("Furo do sopro grande para esse tubo: o som fica mais aberto mas mais difícil. O comum é entre 50% e 65% do diâmetro interno.");
-    if (pe < 150) lista.push("Tubo muito curto para esse tom.");
+    if (maior > 45) add("espaco-45", "geral", "Há furos com mais de 4,5 cm entre si: pode ficar difícil para mãos pequenas. Diminuir esses furos aproxima as posições.");
+    if (diametroSopro(e) > e.D * 0.75) add("sopro-grande", "emb", "Furo do sopro grande para esse tubo: o som fica mais aberto mas mais difícil. O comum é entre 50% e 65% do diâmetro interno.");
+    if (pe < 150) add("tubo-curto", "geral", "Tubo muito curto para esse tom.");
     return lista;
   }
+  function avisos(e, pe, furos) { return avisosItens(e, pe, furos).map(function (a) { return a.texto; }); }
 
   /* Furos encostados: folga entre as bordas menor que a mínima (vizinhos, 1º furo e o pé, último furo e o sopro).
      Devolve [{tipo: "vizinhos"|"pe"|"boca", furos: [índices], falta: mm}]. */
@@ -244,6 +248,6 @@
     return tent.furos;
   }
 
-  var api = { apertos: apertos, ajustarFuros: ajustarFuros, SEMITONS_ESCALA_MAIOR: SEMITONS_ESCALA_MAIOR, padraoFuros: padraoFuros, paredeIdeal: paredeIdeal, diametroSopro: diametroSopro, TONS: TONS, calcular: calcular, otimizarFuros: otimizarFuros, tuboSugerido: tuboSugerido, ajuste: ajuste, furoSugerido: furoSugerido, nomeNota: nomeNota, freqMidi: freqMidi };
+  var api = { avisosItens: avisosItens, apertos: apertos, ajustarFuros: ajustarFuros, SEMITONS_ESCALA_MAIOR: SEMITONS_ESCALA_MAIOR, padraoFuros: padraoFuros, paredeIdeal: paredeIdeal, diametroSopro: diametroSopro, TONS: TONS, calcular: calcular, otimizarFuros: otimizarFuros, tuboSugerido: tuboSugerido, ajuste: ajuste, furoSugerido: furoSugerido, nomeNota: nomeNota, freqMidi: freqMidi };
   if (typeof module === "object" && module.exports) module.exports = api; else root.PifeCalc = api;
 })(this);

@@ -1,10 +1,34 @@
 /* Calculadora de Pife: interface. Tudo roda no navegador; nada é enviado. */
 (function () {
   "use strict";
-  var P = window.PifeCalc, Esc = window.Escalas;
+  var P = window.PifeCalc, Esc = window.Escalas, M = window.PifeModo;
   var $ = function (id) { return document.getElementById(id); };
   var mm = function (v) { return v.toFixed(1).replace(".", ","); };
   var CHAVE = "pifeCalc.v1";
+  /* Básico | Avançado (pedido do Igor, 23/11): o Básico pede tom, furos, escala, tubo e furo do sopro e usa os padrões
+     (Lá 440, 25 °C, parede ideal, bocal reto, sopro redondo, sem porta-lábios, furos sugeridos). O que se muda no Avançado
+     fica guardado e volta ao abrir o Avançado; no Básico não entra na conta. O modo vai junto no link e no que fica salvo. */
+  var modo = "basico", paredeManual = false, ajusteBasico = null, itensResultado = [];
+  function setModo(m) {
+    modo = m === "avancado" ? "avancado" : "basico";
+    $("pc-form").classList.toggle("pc-basico", modo === "basico");
+    ["basico", "avancado"].forEach(function (k) { var b = $("pc-modo-" + k); if (b) b.setAttribute("aria-pressed", String(k === modo)); });
+  }
+  function numero(id, padrao) { var v = parseFloat($(id).value); return isFinite(v) ? v : padrao; } /* 0 °C vale 0 */
+  function laForm() {
+    var v = $("pc-la").value;
+    if (v === "outra") { var o = parseFloat(($("pc-la-outra") || {}).value); return isFinite(o) && o > 0 ? o : 440; }
+    return parseFloat(v) || 440;
+  }
+  function setLa(v) {
+    v = parseFloat(v) || 440;
+    if (v === 440 || v === 432 || !$("pc-la-outra")) $("pc-la").value = String(v);
+    else { $("pc-la").value = "outra"; $("pc-la-outra").value = v; }
+  }
+  /* a afinação da conta, sem refazer a flauta (o afinador pergunta a cada nota) */
+  function laConta() { return modo === "avancado" ? laForm() : M.PADRAO.la; }
+  /* parede: segue a ideal do tubo até a pessoa digitar a dela (no Avançado) */
+  function sincParede() { if (!paredeManual) $("pc-parede").value = P.paredeIdeal(parseFloat($("pc-D").value) || 18); }
 
   P.TONS.forEach(function (t) {
     var o = document.createElement("option"); o.value = t.id; o.textContent = t.nome; $("pc-tom").appendChild(o);
@@ -46,42 +70,52 @@
      são recalculadas pela conta normal, então a afinação continua certa). */
   var ajusteAtual = null;
   function sugerir() {
-    var e = lerEntrada(), f = P.otimizarFuros(e);
-    ajusteAtual = P.ajustarFuros ? P.ajustarFuros(Object.assign({}, e, { furos: f })) : null;
-    if (ajusteAtual) f = ajusteAtual.diametros;
-    entradasFuro.forEach(function (inp, k) { inp.value = f[k]; });
+    /* os furos do Avançado (no Básico a conta usa os sugeridos para os padrões, sem mexer nestes campos) */
+    var s = M.sugeridos(lerForm());
+    ajusteAtual = s.ajuste;
+    entradasFuro.forEach(function (inp, k) { inp.value = s.furos[k]; });
     manual = false;
   }
   function mesmos(a, b) { return a.length === b.length && a.every(function (x, i) { return Math.abs(x - b[i]) < 1e-9; }); }
   function dicaTubo() {
     var t = $("pc-tom").options[$("pc-tom").selectedIndex].text, alvo = P.tuboSugerido($("pc-tom").value);
-    var D = parseFloat($("pc-D").value);
-    $("pc-dica-tubo").innerHTML = "Indicado para " + t + ": " + mm(alvo) + " mm. " + (Math.abs(D - alvo) < 0.01 ? "" :
-      '<button type="button" class="pc-link-btn" id="pc-usar-tubo">usar ' + mm(alvo) + ' mm</button>');
-    var b = $("pc-usar-tubo"); if (b) b.onclick = function () { $("pc-D").value = alvo; $("pc-emb").value = Math.round(alvo * 0.53); if (!manual) sugerir(); atualizar(); };
+    $("pc-dica-tubo").textContent = "Indicado para " + t + ": " + mm(alvo) + " mm.";
   }
+  /* "usar 18,0 mm": o tubo indicado do tom e o furo do sopro na mesma proporção */
+  function usarTubo(alvo) { $("pc-D").value = alvo; $("pc-emb").value = Math.round(alvo * 0.53); sincParede(); if (!manual) sugerir(); atualizar(); }
 
-
-
-  function lerEntrada() {
+  /* o que está nos campos (inclusive os do Avançado, mesmo escondidos) */
+  function lerForm() {
     return {
-      tom: $("pc-tom").value, la: parseFloat($("pc-la").value), temp: parseFloat($("pc-temp").value) || 25,
-      D: parseFloat($("pc-D").value) || 19, parede: parseFloat($("pc-parede").value) || 3,
+      tom: $("pc-tom").value, la: laForm(), temp: numero("pc-temp", 25),
+      D: parseFloat($("pc-D").value) || 19, parede: parseFloat($("pc-parede").value) || 3, paredeManual: paredeManual,
       emb: parseFloat($("pc-emb").value) || 10,
       embForma: $("pc-emb-forma").value, embL: parseFloat($("pc-emb-l").value) || 9, embC: parseFloat($("pc-emb-c").value) || 11,
       cone: $("pc-cone").checked,
       lip: $("pc-lip-sim").checked ? (parseFloat($("pc-lip").value) || 0) : 0,
       nf: nFuros(), escala: escalaId(), semitons: semitons().furos, aux: semitons().aux,
       furos: entradasFuro.map(function (x) { return parseFloat(x.value) || 8; }),
-      manual: manual
+      manual: manual, modo: modo
     };
+  }
+  /* o que entra na conta: no Avançado, os campos; no Básico, os padrões e os furos sugeridos */
+  function lerEntrada() {
+    var raw = lerForm();
+    if (modo === "avancado") return raw;
+    var b = M.entradaBasica(raw);
+    ajusteBasico = b.ajuste;
+    return b.e;
   }
 
   function aplicar(e) {
-    $("pc-tom").value = e.tom; $("pc-la").value = String(e.la); $("pc-temp").value = e.temp;
+    $("pc-tom").value = e.tom; setLa(e.la); $("pc-temp").value = e.temp;
     $("pc-D").value = e.D; $("pc-parede").value = e.parede; $("pc-emb").value = e.emb;
     $("pc-emb-forma").value = e.embForma || "redondo"; if (e.embL) $("pc-emb-l").value = e.embL; if (e.embC) $("pc-emb-c").value = e.embC;
     $("pc-lip-sim").checked = !!e.lip; $("pc-cone").checked = !!e.cone; if (e.lip) $("pc-lip").value = e.lip;
+    /* links antigos não dizem se a parede foi digitada: digitada é a que difere da ideal */
+    paredeManual = e.paredeManual !== undefined ? !!e.paredeManual : Math.abs((parseFloat(e.parede) || 0) - P.paredeIdeal(parseFloat(e.D) || 18)) > 1e-9;
+    sincParede();
+    setModo(M.modoDoEstado(e, "basico"));
     /* links antigos (sem escala) são o pife de 6 furos na escala maior */
     if (selN) selN.value = String(e.nf === 5 || e.nf === 7 ? e.nf : 6);
     opcoesEscala(e.escala || "diatonica-maior-jonia"); montarFuros(nFuros());
@@ -304,15 +338,58 @@
     $("pc-dig-img").alt = "Tabela de digitação do pife em " + tom.nome;
   }
 
+  /* aviso de campo: só aparece quando há algo fora do lugar; some quando a pessoa acerta */
+  function alerta(id, textos) {
+    var el = $(id); if (!el) return;
+    var h = textos.filter(Boolean).join(" ");
+    if (el.innerHTML !== h) el.innerHTML = h;
+    el.hidden = !h;
+  }
+  function faixa(id, un) {
+    var el = $(id); if (!el || el.value === "") return "";
+    var v = parseFloat(el.value), mn = parseFloat(el.min), mx = parseFloat(el.max), f = function (x) { return String(x).replace(".", ","); };
+    return isFinite(v) && (v < mn || v > mx) ? "Fora da faixa da calculadora: use de " + f(mn) + " a " + f(mx) + un + "." : "";
+  }
+  function avisosNosCampos(e, r) {
+    var c = M.avisosCampos(e, r), txt = function (k) { return (c[k] || []).map(function (a) { return a.texto; }); }, n = 0;
+    var tubo = (c.D || [])[0], linhaD = txt("D"), av = modo === "avancado";
+    if (tubo) linhaD.push('<button type="button" class="pc-link-btn" id="pc-usar-tubo" data-alvo="' + tubo.alvo + '">usar ' + mm(tubo.alvo) + " mm</button>");
+    var grupos = {
+      "pc-al-D": linhaD,
+      "pc-al-emb": e.embForma === "oval" ? [] : txt("emb").concat(av ? [faixa("pc-emb", " mm")] : []),
+      "pc-al-oval": av && e.embForma === "oval" ? txt("oval").concat([faixa("pc-emb-l", " mm") || faixa("pc-emb-c", " mm")]) : [],
+      "pc-al-parede": av ? txt("parede").concat([faixa("pc-parede", " mm")]) : [],
+      "pc-al-temp": av ? [faixa("pc-temp", " °C")] : [],
+      "pc-al-la": av && $("pc-la").value === "outra" ? [faixa("pc-la-outra", " Hz")] : [],
+      "pc-al-lip": av && e.lip ? [faixa("pc-lip", " mm")] : []
+    };
+    Object.keys(grupos).forEach(function (id) { var l = grupos[id].filter(Boolean); n += l.length; alerta(id, l); });
+    return n;
+  }
+  function notaModo(raw) {
+    var nota = $("pc-modo-nota"); if (!nota) return;
+    var aa = modo === "basico" ? M.ajustesAvancados(raw) : [];
+    var h = aa.length ? "No Básico valem os padrões. Guardado no Avançado: " + aa.map(function (a) { return a.t; }).join(", ") +
+      '. <button type="button" class="pc-link-btn" id="pc-abrir-avancado">Abrir o Avançado</button>' : "";
+    if (nota.innerHTML !== h) nota.innerHTML = h;
+    nota.hidden = !h;
+  }
+
   function atualizar() {
     dicaTubo();
     digitacao();
-    $("pc-dica-parede").textContent = "Ideal para esse tubo: " + mm(P.paredeIdeal(parseFloat($("pc-D").value) || 18)) + " mm.";
-    $("pc-emb-r").hidden = $("pc-emb-forma").value === "oval"; $("pc-emb-o").hidden = !$("pc-emb-r").hidden;
+    var Dt = parseFloat($("pc-D").value) || 18, ideal = P.paredeIdeal(Dt), pw = parseFloat($("pc-parede").value);
+    $("pc-dica-parede").innerHTML = "Ideal para esse tubo: " + mm(ideal) + " mm." + (paredeManual && Math.abs(pw - ideal) > 1e-9 ?
+      ' <button type="button" class="pc-link-btn" id="pc-usar-parede">usar ' + mm(ideal) + " mm</button>" : "");
+    if ($("pc-dica-emb")) $("pc-dica-emb").textContent = "Para este tubo, comece com uns " + Math.round(Dt * 0.53) + " mm (um pouco mais que a metade do diâmetro interno).";
+    var oval = modo === "avancado" && $("pc-emb-forma").value === "oval";
+    $("pc-emb-r").hidden = oval; $("pc-emb-o").hidden = !oval;
     $("pc-lip-box").hidden = !$("pc-lip-sim").checked;
-    var e = lerEntrada(), r = P.calcular(e);
+    if ($("pc-la-outra-box")) $("pc-la-outra-box").hidden = $("pc-la").value !== "outra";
+    var raw = lerForm(), e = lerEntrada(), r = P.calcular(e);
+    notaModo(raw);
     /* aviso curto do ajuste automático (ou dos furos encostados, se a pessoa digitou os tamanhos) */
-    var aj = ajusteAtual && mesmos(ajusteAtual.diametros, e.furos) ? ajusteAtual : null, caixaAj = $("pc-ajuste");
+    var aj = modo === "basico" ? ajusteBasico : ajusteAtual && mesmos(ajusteAtual.diametros, e.furos) ? ajusteAtual : null, caixaAj = $("pc-ajuste");
     r.furos.forEach(function (f) { f.ajustado = !!(aj && aj.ajustados.some(function (a) { return a.indice === f.indice; })); });
     entradasFuro.forEach(function (inp, k) { inp.classList.toggle("pc-aj-in", r.furos[k].ajustado); });
     if (caixaAj) {
@@ -350,13 +427,21 @@
       "<li><span>Bocal cônico: diâmetro interno na rolha</span><b>" + mm(e.D * 0.9) + " mm</b></li>" +
       "<li><span>Bocal cônico: o estreitamento começa a esta distância da rolha</span><b>" + mm(cabeca(e, r).inicio) + " mm</b></li>" : "") +
       "<li><span>Nota grave (tudo fechado)</span><b>" + r.tom.nome + " · " + r.f0.toFixed(1).replace(".", ",") + " Hz</b></li>";
-    $("pc-avisos").innerHTML = r.avisos.length
-      ? '<div class="pc-aviso"><b>Atenção</b><ul>' + r.avisos.map(function (a) { return "<li>" + a + "</li>"; }).join("") + "</ul></div>"
-      : '<p class="pc-ok">Tudo dentro do normal para esse tubo.</p>';
+    /* avisos: os de um campo aparecem embaixo dele; os do resultado (furos e alcance dos dedos) aqui */
+    var nCampos = avisosNosCampos(e, r);
+    itensResultado = M.avisosResultado(e, r);
+    var marcados = itensResultado.filter(function (a) { return a.tipo === "furo-grande" || a.tipo === "furo-fraco"; }).map(function (a) { return a.furo; });
+    entradasFuro.forEach(function (inp, k) { inp.classList.toggle("pc-in-aviso", marcados.indexOf(k) >= 0); });
+    $("pc-avisos").innerHTML = itensResultado.length
+      ? '<div class="pc-aviso"><b>Atenção</b><ul>' + itensResultado.map(function (a, k) {
+        var b = a.sugestao ? ' <button type="button" class="pc-link-btn" data-alcance="' + k + '">usar ' + mm(a.sugestao.para) + " mm no " + (a.sugestao.furo + 1) + "º furo</button>" : "";
+        return "<li>" + a.texto + b + "</li>"; }).join("") + "</ul></div>"
+      : nCampos ? "" : '<p class="pc-ok">Tudo dentro do normal para esse tubo.</p>';
     $("pc-aj-furo").innerHTML = r.furos.map(function (f) { return '<option value="' + f.indice + '">' + (f.indice + 1) + "º furo · " + f.nota + "</option>"; }).join("");
     $("pc-molde").innerHTML = molde(r, e);
-    try { localStorage.setItem(CHAVE, JSON.stringify(e)); } catch (x) { /* sem armazenamento: segue */ }
-    window.__pifeHash = "#" + encodeURIComponent(JSON.stringify(e));
+    /* guarda os campos (com os do Avançado) e o modo; o link reproduz o mesmo cálculo */
+    try { localStorage.setItem(CHAVE, JSON.stringify(raw)); } catch (x) { /* sem armazenamento: segue */ }
+    window.__pifeHash = "#" + encodeURIComponent(JSON.stringify(raw));
     if (!window.__modoNaf) history.replaceState(null, "", window.__pifeHash); /* no modo NAF a URL é da NAF */
   }
 
@@ -364,8 +449,58 @@
   var inicial = null;
   try { if (location.hash.length > 2 && !window.__modoNaf) inicial = JSON.parse(decodeURIComponent(location.hash.slice(1))); } catch (x) { inicial = null; }
   if (!inicial) { try { inicial = JSON.parse(localStorage.getItem(CHAVE) || "null"); } catch (x) { inicial = null; } }
-  if (inicial && inicial.tom) aplicar(inicial); else sugerir();
-  if (!inicial) sugerir();
+  if (inicial && inicial.tom) aplicar(inicial); else { sincParede(); sugerir(); }
+
+  /* Básico | Avançado */
+  function trocarModo(m) {
+    if (m === modo) return;
+    var laAntes = laConta();
+    setModo(m);
+    if (modo === "avancado") { sincParede(); if (!manual) sugerir(); }
+    atualizar();
+    /* o afinador ("Afinar este pife") refaz o mapa só se a afinação da conta mudou */
+    if (laConta() !== laAntes) $("pc-la").dispatchEvent(new Event("change"));
+  }
+  ["basico", "avancado"].forEach(function (k) { var b = $("pc-modo-" + k); if (b) b.addEventListener("click", function () { trocarModo(k); }); });
+  if ($("pc-modo-nota")) $("pc-modo-nota").addEventListener("click", function (ev) { if (ev.target.id === "pc-abrir-avancado") trocarModo("avancado"); });
+  /* Começar de um modelo (Avançado): preenche os campos; os furos são os sugeridos */
+  $("pc-form").addEventListener("click", function (ev) {
+    var b = ev.target.closest ? ev.target.closest("[data-modelo]") : null; if (!b) return;
+    var md = M.MODELOS.filter(function (x) { return x.id === b.getAttribute("data-modelo"); })[0]; if (!md) return;
+    aplicar(Object.assign(lerForm(), md.valores, { modo: "avancado", paredeManual: undefined, furos: null }));
+    atualizar();
+  });
+  /* botões dentro dos avisos: usar o tubo indicado, a parede ideal ou o furo que cabe no alcance dos dedos */
+  document.addEventListener("click", function (ev) {
+    var t = ev.target;
+    if (!t || !t.getAttribute) return;
+    if (t.id === "pc-usar-tubo") { usarTubo(parseFloat(t.getAttribute("data-alvo"))); return; }
+    if (t.id === "pc-usar-parede") { paredeManual = false; sincParede(); if (!manual) sugerir(); atualizar(); return; }
+    var k = t.getAttribute("data-alcance"); if (k === null) return;
+    var a = itensResultado[parseInt(k, 10)]; if (!a || !a.sugestao) return;
+    if (modo === "basico") {
+      /* a sugestão é para a flauta do Básico: ela passa para o Avançado como está, e lá o furo muda */
+      var e = lerEntrada();
+      setLa(440); $("pc-temp").value = 25; paredeManual = false; sincParede(); $("pc-cone").checked = false;
+      $("pc-emb-forma").value = "redondo"; $("pc-lip-sim").checked = false;
+      entradasFuro.forEach(function (inp, j) { inp.value = e.furos[j]; });
+      setModo("avancado");
+    }
+    entradasFuro[a.sugestao.furo].value = a.sugestao.para; manual = true;
+    atualizar();
+  });
+  /* "?" de cada campo: abre e fecha a explicação curta (vale também para a NAF) */
+  document.addEventListener("click", function (ev) {
+    var b = ev.target && ev.target.closest ? ev.target.closest(".pc-ajuda") : null; if (!b) return;
+    var alvo = $(b.getAttribute("aria-controls")); if (!alvo) return;
+    var abrir = b.getAttribute("aria-expanded") !== "true";
+    b.setAttribute("aria-expanded", String(abrir)); alvo.hidden = !abrir;
+  });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key !== "Escape") return;
+    var b = document.activeElement && document.activeElement.closest ? document.activeElement.closest(".pc-ajuda") : null;
+    if (b && b.getAttribute("aria-expanded") === "true") b.click();
+  });
 
   painelVis();
   $("pc-vis").addEventListener("change", function (ev) {
@@ -376,6 +511,8 @@
   });
   caixa.addEventListener("input", function () { manual = true; });
   $("pc-form").addEventListener("input", function (ev) {
+    if (ev.target === $("pc-parede")) paredeManual = true;
+    sincParede();
     if (ev.target === selN) { opcoesEscala(); montarFuros(nFuros()); sugerir(); }
     else if (ev.target === selEsc) { if (!manual) sugerir(); }
     else if (!manual && ev.target.closest && !ev.target.closest("#pc-furos")) sugerir();
@@ -383,7 +520,7 @@
   });
   /* Ouvir a escala do pife calculado (tônica até a oitava, ou ida e volta) */
   var ouvir = $("pc-ouvir");
-  if (ouvir && Esc) Esc.ligarBotao(ouvir, function () { var m = document.querySelector('input[name="pc-ouvir-modo"]:checked'); return m ? m.value : "ida-e-volta"; },
+  if (ouvir && Esc) Esc.ligarBotao(ouvir, function () { var m = document.querySelector('input[name="pc-ouvir-modo"]:checked'); return modo === "avancado" && m ? m.value : "ida-e-volta"; },
     function () { var r = P.calcular(lerEntrada()); return { freqRaiz: r.f0, furos: r.furos.map(function (f) { return { hz: f.freq, aux: !!f.aux }; }) }; });
   $("pc-sugerir").addEventListener("click", function () { sugerir(); atualizar(); });
   $("pc-imprimir").addEventListener("click", function () { window.print(); });
@@ -396,7 +533,7 @@
     $("pc-aj-res").textContent = res.texto;
   });
   /* Qual tom combina com o tubo: o indicado de cada tom ± 1 mm é a faixa boa; os mais próximos primeiro. */
-  function usarTom(id, d) { $("pc-tom").value = id; $("pc-D").value = d; manual = false; sugerir(); atualizar(); $("pc-form").scrollIntoView({ behavior: "smooth" }); }
+  function usarTom(id, d) { $("pc-tom").value = id; $("pc-D").value = d; manual = false; sincParede(); sugerir(); atualizar(); $("pc-form").scrollIntoView({ behavior: "smooth" }); }
   function qualTom() {
     var d = parseFloat($("pc-qt-d").value) || 0, caixa = $("pc-qt-res");
     if (!d) { caixa.innerHTML = ""; return; }
@@ -421,7 +558,7 @@
   if (window.matchMedia) { var mq = window.matchMedia("(max-width: 640px)"); (mq.addEventListener ? mq.addEventListener("change", atualizar) : mq.addListener(atualizar)); }
   atualizar();
   /* Voltar/Avançar do navegador de volta ao Pífano: recarrega o estado do link (usado por naf-ui.js) */
-  window.PifeUI = { semitons: function () { return semitons(); }, recarregar: function () {
+  window.PifeUI = { semitons: function () { return semitons(); }, la: laConta, modo: function () { return modo; }, recarregar: function () {
     try { var s = location.hash.length > 2 ? JSON.parse(decodeURIComponent(location.hash.slice(1))) : null; if (s && s.tom) { aplicar(s); atualizar(); } } catch (x) { /* link inválido: mantém */ }
   } };
 })();
