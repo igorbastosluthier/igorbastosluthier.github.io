@@ -463,13 +463,6 @@
   }
   ["basico", "avancado"].forEach(function (k) { var b = $("pc-modo-" + k); if (b) b.addEventListener("click", function () { trocarModo(k); }); });
   if ($("pc-modo-nota")) $("pc-modo-nota").addEventListener("click", function (ev) { if (ev.target.id === "pc-abrir-avancado") trocarModo("avancado"); });
-  /* Começar de um modelo (Avançado): preenche os campos; os furos são os sugeridos */
-  $("pc-form").addEventListener("click", function (ev) {
-    var b = ev.target.closest ? ev.target.closest("[data-modelo]") : null; if (!b) return;
-    var md = M.MODELOS.filter(function (x) { return x.id === b.getAttribute("data-modelo"); })[0]; if (!md) return;
-    aplicar(Object.assign(lerForm(), md.valores, { modo: "avancado", paredeManual: undefined, furos: null }));
-    atualizar();
-  });
   /* botões dentro dos avisos: usar o tubo indicado, a parede ideal ou o furo que cabe no alcance dos dedos */
   document.addEventListener("click", function (ev) {
     var t = ev.target;

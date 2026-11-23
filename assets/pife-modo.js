@@ -117,16 +117,8 @@
     return l.concat(alcanceDedos(e, r));
   }
 
-  /* Começar de um modelo (Avançado). Só entra o que cabe inteiro nos campos da calculadora: o pife em Sol de produção do
-     Igor (app Igor Bastos CNC, flute_presets "Pífano G4 · cilíndrico (produção)": canal 17,6, parede 4,2, sopro oval
-     11,4 ao longo × 9,4 atravessando). Os furos são os sugeridos (calculados), como no app. */
-  var MODELOS = [{
-    id: "oficina-sol", nome: "Pife em Sol da oficina",
-    ajuda: "As medidas do pife em Sol que o Igor faz na oficina: tubo de 17,6 mm por dentro, parede de 4,2 mm e furo do sopro oval de 9,4 × 11,4 mm, sem porta-lábios. Os furos dos dedos a calculadora faz.",
-    valores: { tom: "sol", nf: 6, escala: "diatonica-maior-jonia", la: 440, temp: 25, D: 17.6, parede: 4.2, emb: 10, embForma: "oval", embL: 9.4, embC: 11.4, cone: false, lip: 0, manual: false }
-  }];
-
-  var api = { PADRAO: PADRAO, ALCANCE_MAX: ALCANCE_MAX, MODELOS: MODELOS, basica: basica, sugeridos: sugeridos, entradaBasica: entradaBasica,
+  /* Sem modelos prontos (pedido do Igor, 23/11/2026): as medidas de produção dele não vão para o site. */
+  var api = { PADRAO: PADRAO, ALCANCE_MAX: ALCANCE_MAX, basica: basica, sugeridos: sugeridos, entradaBasica: entradaBasica,
     ajustesAvancados: ajustesAvancados, modoDoEstado: modoDoEstado, furosMaoDeCima: furosMaoDeCima, paresMesmaMao: paresMesmaMao,
     alcanceDedos: alcanceDedos, sugestaoAlcance: sugestaoAlcance, avisosCampos: avisosCampos, avisosResultado: avisosResultado };
   if (node) module.exports = api; else root.PifeModo = api;

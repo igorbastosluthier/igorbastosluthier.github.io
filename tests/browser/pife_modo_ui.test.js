@@ -1,6 +1,6 @@
 /* Modo Básico | Avançado na tela (pedido do Igor, 23/11/2026): o Básico abre só com o essencial e sem frases fixas; o "?"
    abre e fecha; avisos aparecem só fora da faixa e somem; o Avançado muda a conta e o Básico volta aos padrões; alcance dos
-   dedos com botão; modelo da oficina; link antigo abre no Avançado; celular sem rolagem para o lado.
+   dedos com botão; sem "começar de um modelo"; link antigo abre no Avançado; celular sem rolagem para o lado.
    node tests/browser/cdp.js tests/browser/pife_modo_ui.test.js [url-base] */
 "use strict";
 module.exports = async (p, base) => {
@@ -46,9 +46,8 @@ module.exports = async (p, base) => {
     const u=$('pc-usar-parede');if(u)u.click();return {a,par:$('pc-parede').value,depois:vis($('pc-al-parede'))}`);
   ok(/^Parede fina/.test(r.a) && r.par === "4" && !r.depois, "parede fina: aviso; 'usar' volta à parede ideal", JSON.stringify(r));
 
-  r = await J(PRE + `document.querySelector('[data-modelo="oficina-sol"]').click();return {D:$('pc-D').value,par:$('pc-parede').value,f:$('pc-emb-forma').value,l:$('pc-emb-l').value,c:$('pc-emb-c').value,
-    oval:vis($('pc-emb-o')),av:$('pc-avisos').innerText,alertas:[...document.querySelectorAll('.pc-alerta')].filter(vis).length}`);
-  ok(r.D === "17.6" && r.par === "4.2" && r.f === "oval" && r.l === "9.4" && r.c === "11.4" && r.oval && r.alertas === 0 && /Tudo dentro do normal/.test(r.av), "modelo 'Pife em Sol da oficina' preenche e sai sem aviso", JSON.stringify(r));
+  r = await J(PRE + `return {modelo:!!document.querySelector('[data-modelo],.pc-modelos')}`);
+  ok(!r.modelo, "sem 'Começar de um modelo' (pedido do Igor, 23/11)", JSON.stringify(r));
 
   /* alcance dos dedos no Básico (Ré 4 grave): aviso com botão; o botão leva ao Avançado com o furo menor */
   r = await J(PRE + `$('pc-modo-basico').click();set('pc-tom','re-grave');const u=$('pc-usar-tubo');if(u)u.click();const a=$('pc-avisos').innerText;

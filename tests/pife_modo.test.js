@@ -169,16 +169,13 @@ ok("alcance dos dedos: em todas as combinações, cada sugestão resolve o par s
   assert.ok(avisos > 0 && sug > 0);
 });
 
-ok("modelo da oficina (Pife em Sol, app: 17,6 / 4,2 / oval 11,4 × 9,4): preenche todos os campos e sai sem aviso", () => {
-  assert.strictEqual(M.MODELOS.length, 1);
-  const md = M.MODELOS[0], v = md.valores;
-  ["tom", "nf", "escala", "la", "temp", "D", "parede", "emb", "embForma", "embL", "embC", "cone", "lip", "manual"].forEach((k) => assert.ok(k in v, k));
-  assert.ok(v.embC > v.embL, "o maior ao longo do tubo");
-  const l = E.layout(v.escala, v.nf, "pife"), e = Object.assign({}, v, { semitons: l.furos, aux: l.aux });
-  e.furos = M.sugeridos(e).furos;
-  const r = P.calcular(e);
-  assert.deepStrictEqual(M.avisosCampos(e, r), {}); assert.deepStrictEqual(M.avisosResultado(e, r), []);
-  assert.ok(/17,6 mm/.test(md.ajuda) && /4,2 mm/.test(md.ajuda) && /9,4 × 11,4/.test(md.ajuda));
+ok("sem 'Começar de um modelo' nem as medidas de produção do Igor (pedido dele, 23/11/2026)", () => {
+  assert.ok(!("MODELOS" in M));
+  const fs = require("fs"), path = require("path"), raiz = path.join(__dirname, "..");
+  ["calculadora.html", "afinador.html", "assets/pife-ui.js", "assets/pife-modo.js", "assets/pife-modo.css"].forEach((f) => {
+    const t = fs.readFileSync(path.join(raiz, f), "utf8");
+    assert.ok(!/data-modelo|pc-modelos|Começar de um modelo|Pife em Sol da oficina|17,6 mm por dentro/.test(t), f);
+  });
 });
 
 /* ---- página: sem frases fixas embaixo dos campos; "?" ligado; Avançado marcado ---- */
@@ -210,7 +207,7 @@ const texto = (no) => (no.filhos || []).map((x) => x.texto !== undefined ? x.tex
   assert.deepStrictEqual(todos(form, (x) => x.tag === "small"), [], "sem <small> fixo");
   todos(form, (x) => x.tag === "p" && !("hidden" in x.attrs)).forEach((p) => assert.fail("parágrafo visível fixo: " + texto(p).slice(0, 60)));
   const ajudas = todos(raiz, (x) => /\bpc-ajuda\b/.test(x.attrs.class || "") && x.tag === "button");
-  assert.ok(ajudas.length >= 12, String(ajudas.length));
+  assert.ok(ajudas.length >= 11, String(ajudas.length));   // 11 campos com "?" (o do modelo saiu em 23/11)
   ajudas.forEach((b) => {
     const alvo = porId(raiz, b.attrs["aria-controls"]);
     assert.ok(alvo && "hidden" in alvo.attrs && texto(alvo).trim().length > 10, "? sem texto: " + b.attrs["aria-controls"]);
