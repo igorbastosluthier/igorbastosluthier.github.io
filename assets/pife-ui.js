@@ -366,14 +366,6 @@
     Object.keys(grupos).forEach(function (id) { var l = grupos[id].filter(Boolean); n += l.length; alerta(id, l); });
     return n;
   }
-  function notaModo(raw) {
-    var nota = $("pc-modo-nota"); if (!nota) return;
-    var aa = modo === "basico" ? M.ajustesAvancados(raw) : [];
-    var h = aa.length ? "No Básico valem os padrões. Guardado no Avançado: " + aa.map(function (a) { return a.t; }).join(", ") +
-      '. <button type="button" class="pc-link-btn" id="pc-abrir-avancado">Abrir o Avançado</button>' : "";
-    if (nota.innerHTML !== h) nota.innerHTML = h;
-    nota.hidden = !h;
-  }
 
   function atualizar() {
     dicaTubo();
@@ -386,8 +378,7 @@
     $("pc-emb-r").hidden = oval; $("pc-emb-o").hidden = !oval;
     $("pc-lip-box").hidden = !$("pc-lip-sim").checked;
     if ($("pc-la-outra-box")) $("pc-la-outra-box").hidden = $("pc-la").value !== "outra";
-    var raw = lerForm(), e = lerEntrada(), r = P.calcular(e);
-    notaModo(raw);
+    var e = lerEntrada(), r = P.calcular(e);
     /* aviso curto do ajuste automático (ou dos furos encostados, se a pessoa digitou os tamanhos) */
     var aj = modo === "basico" ? ajusteBasico : ajusteAtual && mesmos(ajusteAtual.diametros, e.furos) ? ajusteAtual : null, caixaAj = $("pc-ajuste");
     r.furos.forEach(function (f) { f.ajustado = !!(aj && aj.ajustados.some(function (a) { return a.indice === f.indice; })); });
@@ -462,7 +453,6 @@
     if (laConta() !== laAntes) $("pc-la").dispatchEvent(new Event("change"));
   }
   ["basico", "avancado"].forEach(function (k) { var b = $("pc-modo-" + k); if (b) b.addEventListener("click", function () { trocarModo(k); }); });
-  if ($("pc-modo-nota")) $("pc-modo-nota").addEventListener("click", function (ev) { if (ev.target.id === "pc-abrir-avancado") trocarModo("avancado"); });
   /* botões dentro dos avisos: usar o tubo indicado, a parede ideal ou o furo que cabe no alcance dos dedos */
   document.addEventListener("click", function (ev) {
     var t = ev.target;

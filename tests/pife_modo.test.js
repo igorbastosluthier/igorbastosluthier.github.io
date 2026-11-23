@@ -175,6 +175,8 @@ ok("sem 'Começar de um modelo' nem as medidas de produção do Igor (pedido del
   ["calculadora.html", "afinador.html", "assets/pife-ui.js", "assets/pife-modo.js", "assets/pife-modo.css"].forEach((f) => {
     const t = fs.readFileSync(path.join(raiz, f), "utf8");
     assert.ok(!/data-modelo|pc-modelos|Começar de um modelo|Pife em Sol da oficina|17,6 mm por dentro/.test(t), f);
+    // Igor 23/11 ("que desgraça de informação é essa?"): nenhuma frase "No Básico valem os padrões. Guardado no Avançado"
+    assert.ok(!/pc-modo-nota|Guardado no Avançado|valem os padrões/.test(t), f + ": frase do modo");
   });
 });
 

@@ -33,11 +33,11 @@ module.exports = async (p, base) => {
   ok(/pequeno/.test(r.a) && !r.depois, "furo do sopro pequeno: aviso aparece e some", JSON.stringify(r));
 
   r = await J(PRE + `$('pc-modo-avancado').click();const v=['pc-la','pc-temp','pc-parede','pc-cone','pc-emb-forma','pc-lip-sim','pc-sugerir'].filter(id=>!vis($(id)));
-    set('pc-temp','35');const p35=pe();$('pc-modo-basico').click();return {v,p35,pb:pe(),nota:vis($('pc-modo-nota'))?$('pc-modo-nota').innerText:''}`);
+    set('pc-temp','35');const p35=pe();$('pc-modo-basico').click();return {v,p35,pb:pe(),nota:!!document.getElementById('pc-modo-nota')}`);
   ok(!r.v.length, "Avançado mostra afinação, temperatura, parede, cone, formato, porta-lábios e furos", JSON.stringify(r.v));
-  ok(r.p35 !== pe0 && r.pb === pe0 && /35 °C/.test(r.nota), "35 °C muda a conta no Avançado; o Básico volta aos 25 °C e avisa o que ficou guardado", JSON.stringify(r) + " | " + pe0);
-  r = await J(PRE + `$('pc-abrir-avancado').click();const p=pe();set('pc-temp','25');return {av:!$('pc-form').classList.contains('pc-basico'),p,t:$('pc-temp').value}`);
-  ok(r.av && r.p !== pe0, "'Abrir o Avançado' volta com os 35 °C guardados", JSON.stringify(r));
+  ok(r.p35 !== pe0 && r.pb === pe0 && !r.nota, "35 °C muda a conta no Avançado; o Básico volta aos 25 °C sem nenhuma frase sobre isso (Igor 23/11)", JSON.stringify(r) + " | " + pe0);
+  r = await J(PRE + `$('pc-modo-avancado').click();const p=pe();set('pc-temp','25');return {av:!$('pc-form').classList.contains('pc-basico'),p,t:$('pc-temp').value}`);
+  ok(r.av && r.p !== pe0, "voltar ao Avançado mantém os 35 °C guardados", JSON.stringify(r));
 
   r = await J(PRE + `$('pc-la').value='outra';$('pc-la').dispatchEvent(new Event('input',{bubbles:true}));const box=vis($('pc-la-outra-box'));set('pc-la-outra','500');
     const a=vis($('pc-al-la'))?$('pc-al-la').innerText:'';set('pc-la-outra','442');return {box,a,la:window.PifeUI.la(),depois:vis($('pc-al-la'))}`);

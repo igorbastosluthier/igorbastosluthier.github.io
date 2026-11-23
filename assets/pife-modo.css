@@ -2,9 +2,7 @@
 .pc-nivel{display:inline-flex;gap:2px;padding:3px;margin:0 0 12px;border:1px solid rgba(45,72,57,.35);border-radius:999px}
 .pc-nivel button{border:0;background:transparent;color:inherit;font:inherit;font-weight:600;padding:8px 18px;border-radius:999px;cursor:pointer;min-height:40px}
 .pc-nivel button[aria-pressed="true"]{background:#2D4839;color:#fff}
-.pc-nivel button:focus-visible,.pc-ajuda:focus-visible,.pc-nota-modo button:focus-visible{outline:3px solid #D9A33A;outline-offset:2px}
-.pc-nota-modo{margin:-4px 0 14px;font-size:.88em;opacity:.9}
-.pc-nota-modo button{margin-left:6px}
+.pc-nivel button:focus-visible,.pc-ajuda:focus-visible{outline:3px solid #D9A33A;outline-offset:2px}
 #pc-form.pc-basico [data-avancado]{display:none!important}
 .pc-grid .pc-campo{margin:10px 0}
 .pc-grid .pc-campo>label,.pc-grid .pc-rot{display:inline;margin:0}
