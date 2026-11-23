@@ -1,9 +1,6 @@
-/* Calculadora de Pife: Básico | Avançado, ajuda no "?" e avisos que só aparecem quando há algo fora do lugar (23/11/2026) */
-.pc-nivel{display:inline-flex;gap:2px;padding:3px;margin:0 0 12px;border:1px solid rgba(45,72,57,.35);border-radius:999px}
-.pc-nivel button{border:0;background:transparent;color:inherit;font:inherit;font-weight:600;padding:8px 18px;border-radius:999px;cursor:pointer;min-height:40px}
-.pc-nivel button[aria-pressed="true"]{background:#2D4839;color:#fff}
-.pc-nivel button:focus-visible,.pc-ajuda:focus-visible{outline:3px solid #D9A33A;outline-offset:2px}
-#pc-form.pc-basico [data-avancado]{display:none!important}
+/* Calculadora de Pife: ajuda no "?", avisos que só aparecem quando há algo fora do lugar (23/11/2026), o ▶ do tom e a
+   linha com as notas e os saltos da escala */
+.pc-ajuda:focus-visible,.pc-tocar:focus-visible,.pc-nota:focus-visible{outline:3px solid #D9A33A;outline-offset:2px}
 .pc-grid .pc-campo{margin:10px 0}
 .pc-grid .pc-campo>label,.pc-grid .pc-rot{display:inline;margin:0}
 .pc-grid .pc-campo-check{display:flex;flex-wrap:wrap;align-items:center;gap:0 2px}
@@ -18,12 +15,34 @@
 .pc-alerta{margin:6px 0 0;padding:6px 10px;border-left:3px solid #D9A33A;border-radius:6px;background:rgba(217,163,58,.13);font-size:.88em;line-height:1.4}
 .pc-grid input.pc-in-aviso{border-color:#D9A33A;box-shadow:0 0 0 2px rgba(217,163,58,.3)}
 .pc-aviso .pc-link-btn{margin-left:4px}
+/* tom + ▶ (pedido do Igor, 23/11/2026) */
+.pc-tom-linha{display:flex;align-items:center;gap:8px;margin-top:4px}
+.pc-grid .pc-tom-linha select{flex:1 1 auto;min-width:0;margin-top:0}
+.pc-tocar{flex:none;display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border-radius:50%;border:1px solid #2D4839;background:transparent;color:#2D4839;cursor:pointer}
+.pc-tocar[aria-pressed="true"]{background:#2D4839;color:#fff}
+.pc-tocar .pc-i-pausa,.pc-tocar[aria-pressed="true"] .pc-i-play{display:none}
+.pc-tocar[aria-pressed="true"] .pc-i-pausa{display:block}
+/* notas e saltos da escala */
+.pc-notas{display:flex;flex-wrap:wrap;align-items:center;gap:6px 2px;margin:8px 0 0;line-height:1.1}
+.pc-notas:empty{display:none}
+.pc-par{display:inline-flex;align-items:center;gap:2px;white-space:nowrap}
+.pc-nota{min-width:40px;min-height:36px;padding:4px 7px;border:1px solid rgba(45,72,57,.35);border-radius:8px;background:transparent;color:inherit;font:inherit;font-weight:600;font-size:.92em;cursor:pointer}
+.pc-nota:hover{background:rgba(45,72,57,.08)}
+.pc-nota.pc-tocando{background:#2D4839;border-color:#2D4839;color:#fff}
+.pc-salto{display:inline-flex;flex-direction:column;align-items:center;min-width:22px;padding:0 1px;color:#7E2A5E;font-size:.74em}
+.pc-salto b{font-weight:600}
+.pc-salto i{font-style:normal;opacity:.75;font-size:.9em}
 @media (prefers-color-scheme:dark){
  :root:not([data-theme="light"]) .pc-ajuda{color:#F6EFE2;border-color:rgba(246,239,226,.45)}
- :root:not([data-theme="light"]) .pc-ajuda[aria-expanded="true"],:root:not([data-theme="light"]) .pc-nivel button[aria-pressed="true"]{background:#D9A33A;color:#1c1410;border-color:#D9A33A}
+ :root:not([data-theme="light"]) .pc-ajuda[aria-expanded="true"]{background:#D9A33A;color:#1c1410;border-color:#D9A33A}
  :root:not([data-theme="light"]) .pc-ajuda-txt{background:rgba(246,239,226,.08)}
  :root:not([data-theme="light"]) .pc-ajuda-txt a{color:#D9A33A}
+ :root:not([data-theme="light"]) .pc-tocar{color:#F6EFE2;border-color:rgba(246,239,226,.6)}
+ :root:not([data-theme="light"]) .pc-tocar[aria-pressed="true"],:root:not([data-theme="light"]) .pc-nota.pc-tocando{background:#D9A33A;color:#1c1410;border-color:#D9A33A}
+ :root:not([data-theme="light"]) .pc-nota{border-color:rgba(246,239,226,.35)}
+ :root:not([data-theme="light"]) .pc-salto{color:#D9A33A}
 }
 @media (max-width:640px){
- .pc-nivel{display:flex}.pc-nivel button{flex:1}
+ .pc-nota{min-width:36px;padding:4px 5px}
+ .pc-salto{min-width:18px}
 }

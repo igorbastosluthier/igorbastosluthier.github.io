@@ -79,7 +79,7 @@
     $("af-harm-res").textContent = t;
   }
 
-  /* a afinação que a calculadora está usando (no Básico, Lá 440; no Avançado, a escolhida, inclusive "outra") */
+  /* a afinação que a calculadora está usando (a escolhida no formulário, inclusive "outra") */
   function la() { if (window.PifeUI && window.PifeUI.la) return window.PifeUI.la(); return parseFloat(($("pc-la") || {}).value) || 440; }
   function midiDeFreq(f) { return 69 + 12 * Math.log2(f / la()); }
   function freqDeMidi(m) { return la() * Math.pow(2, (m - 69) / 12); }

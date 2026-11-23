@@ -22,8 +22,19 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
     sleep
   };
   await send("Runtime.enable"); await send("Page.enable"); await send("Log.enable");
-  try { await require(path.resolve(process.argv[2]))(page, process.argv[3] || "http://127.0.0.1:8765"); } catch (e) { console.log("ERRO:", e.message); }
+  try { await require(path.resolve(process.argv[2]))(page, process.argv[3] || "http://127.0.0.1:8765"); } catch (e) { console.log("ERRO:", e.message); process.exitCode = 1; }
   const errs = events.filter(e => e.method === "Runtime.exceptionThrown" || (e.method === "Log.entryAdded" && e.params.entry.level === "error")).map(e => JSON.stringify(e.params).slice(0, 300));
   console.log("erros de console/exceção:", errs.length ? errs : "nenhum");
-  ws.close(); proc.kill(); process.exit(process.exitCode || 0);
+  ws.close();
+  /* fecha o Chrome inteiro: no Windows o processo que o node abriu passa o navegador para outro e sai, então proc.kill()
+     deixava uns 15 processos abertos (memória do PC). Primeiro Browser.close; depois, quem sobrar com este perfil. */
+  try {
+    const v = await get("http://127.0.0.1:" + port + "/json/version"), bw = new WebSocket(v.webSocketDebuggerUrl);
+    await new Promise((r, j) => { bw.onopen = r; bw.onerror = j; }); bw.send(JSON.stringify({ id: 1, method: "Browser.close" })); await sleep(1000);
+  } catch (e) { /* já fechado */ }
+  proc.kill();
+  if (process.platform === "win32") {
+    try { require("child_process").execFileSync("powershell.exe", ["-NoProfile", "-Command", "Get-CimInstance Win32_Process -Filter \"Name='chrome.exe'\" | Where-Object { $_.CommandLine -like '*" + path.basename(udd) + "*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"], { stdio: "ignore" }); } catch (e) { /* nada a fechar */ }
+  }
+  process.exit(process.exitCode || 0);
 })();

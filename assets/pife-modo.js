@@ -1,6 +1,6 @@
-/* Calculadora de Pife: modo Básico e Avançado, avisos que só aparecem quando algo está fora do lugar e alcance dos dedos.
-   Pedido do Igor (23/11/2026): sem frases fixas embaixo dos campos; o Básico pede só o essencial e usa os padrões; o
-   Avançado abre o resto. Funções puras, sem DOM (testadas em tests/pife_modo.test.js); a tela é pife-ui.js. */
+/* Calculadora de Pife: furos sugeridos, notas e saltos da escala, avisos que só aparecem quando algo está fora do lugar e
+   alcance dos dedos. Pedido do Igor (23/11/2026): um formulário só, com todos os campos e sem frases fixas embaixo deles.
+   Funções puras, sem DOM (testadas em tests/pife_modo.test.js); a tela é pife-ui.js. */
 (function (root) {
   "use strict";
   var node = typeof module === "object" && module.exports;
@@ -10,43 +10,38 @@
   var num = function (x) { return String(r1(x)).replace(".", ","); };
   var mm1 = function (x) { return x.toFixed(1).replace(".", ","); };
 
-  /* Modo Básico: o que não aparece na tela vale o padrão. A parede é a ideal para o tubo (regra do Igor, paredeIdeal). */
-  var PADRAO = { la: 440, temp: 25, cone: false, embForma: "redondo", lip: 0 };
-  function basica(raw) {
-    var e = Object.assign({}, raw, PADRAO);
-    e.parede = P.paredeIdeal(raw.D);
-    e.manual = false;
-    return e;
-  }
   /* Furos sugeridos: o padrão do Igor na proporção do tubo e, se algum ficaria encostado, o ajuste automático. */
   function sugeridos(e) {
     var f = P.otimizarFuros(e), aj = P.ajustarFuros(Object.assign({}, e, { furos: f }));
     return { furos: aj.diametros, ajuste: aj };
   }
-  /* A entrada que o Básico calcula: padrões + furos sugeridos para esse tubo. */
-  function entradaBasica(raw) {
-    var e = basica(raw), s = sugeridos(e);
-    e.furos = s.furos;
-    return { e: e, ajuste: s.ajuste };
+
+  /* Notas da escala no tom (pedido do Igor, 23/11/2026: "quais notas participam da escala escolhida" e "os saltos"):
+     da nota do tom (tudo fechado) até a oitava, com os mesmos nomes da tabela de furos (sem a oitava). semitons: os
+     dos furos, do pé para a boca; aux: furos fora da escala (não entram). Saltos: ST = semitom, T = tom, 1½T = tom e
+     meio..., com os semitons de cada um. */
+  function salto(d) {
+    var t = Math.floor(d / 2), meio = d % 2 === 1;
+    if (d === 1) return { st: 1, rotulo: "ST", falado: "semitom (1 semitom)" };
+    return { st: d, rotulo: (t === 1 && !meio ? "" : String(t)) + (meio ? "½" : "") + "T",
+      falado: t + (t === 1 ? " tom" : " tons") + (meio ? " e meio" : "") + " (" + d + " semitons)" };
   }
-  /* O que a pessoa mudou no Avançado (o Básico deixa de lado e guarda). */
-  function ajustesAvancados(raw) {
-    var l = [];
-    if (raw.la !== PADRAO.la) l.push({ k: "la", t: "Lá " + num(raw.la) + " Hz" });
-    if (raw.temp !== PADRAO.temp) l.push({ k: "temp", t: num(raw.temp) + " °C" });
-    if (Math.abs(raw.parede - P.paredeIdeal(raw.D)) > 1e-9) l.push({ k: "parede", t: "parede " + num(raw.parede) + " mm" });
-    if (raw.cone) l.push({ k: "cone", t: "bocal cônico" });
-    if (raw.embForma === "oval") l.push({ k: "oval", t: "sopro oval" });
-    if (raw.lip > 0) l.push({ k: "lip", t: "porta-lábios" });
-    if (raw.manual) l.push({ k: "furos", t: "furos digitados" });
-    return l;
+  function nomeSemOitava(midi) { return P.nomeNota(midi).replace(/ -?\d+$/, ""); }
+  function notasEscala(tomMidi, semitons, aux) {
+    aux = aux || [];
+    var graus = [0];
+    (semitons || []).forEach(function (st) { if (aux.indexOf(st) < 0 && st > graus[graus.length - 1] && st <= 12) graus.push(st); });
+    if (graus[graus.length - 1] !== 12) graus.push(12);
+    var notas = graus.map(function (st) { return { st: st, midi: tomMidi + st, nome: nomeSemOitava(tomMidi + st) }; });
+    var saltos = [];
+    for (var i = 1; i < graus.length; i++) {
+      saltos.push(salto(graus[i] - graus[i - 1]));
+    }
+    return { notas: notas, saltos: saltos };
   }
-  /* Modo ao abrir um estado (link ou o que ficou salvo): o modo gravado nele; links antigos (sem modo) com ajustes do
-     Avançado abrem no Avançado, para o resultado sair igual ao do link; os outros, no modo preferido da pessoa. */
-  function modoDoEstado(s, preferido) {
-    if (s && (s.modo === "basico" || s.modo === "avancado")) return s.modo;
-    if (s && ajustesAvancados(s).length) return "avancado";
-    return preferido === "avancado" ? "avancado" : "basico";
+  /* em uma linha de texto: "Sol –T– Lá –T– Si –ST– Dó ..." */
+  function linhaEscala(x) {
+    return x.notas.map(function (n, i) { return (i ? " –" + x.saltos[i - 1].rotulo + "– " : "") + n.nome; }).join("");
   }
 
   /* Alcance dos dedos (regra do app Igor Bastos CNC, motor/design.py: FINGER_CEIL_MM = 48): no máximo 48 mm de centro a
@@ -118,8 +113,8 @@
   }
 
   /* Sem modelos prontos (pedido do Igor, 23/11/2026): as medidas de produção dele não vão para o site. */
-  var api = { PADRAO: PADRAO, ALCANCE_MAX: ALCANCE_MAX, basica: basica, sugeridos: sugeridos, entradaBasica: entradaBasica,
-    ajustesAvancados: ajustesAvancados, modoDoEstado: modoDoEstado, furosMaoDeCima: furosMaoDeCima, paresMesmaMao: paresMesmaMao,
+  var api = { ALCANCE_MAX: ALCANCE_MAX, sugeridos: sugeridos, notasEscala: notasEscala, linhaEscala: linhaEscala,
+    furosMaoDeCima: furosMaoDeCima, paresMesmaMao: paresMesmaMao,
     alcanceDedos: alcanceDedos, sugestaoAlcance: sugestaoAlcance, avisosCampos: avisosCampos, avisosResultado: avisosResultado };
   if (node) module.exports = api; else root.PifeModo = api;
 })(this);

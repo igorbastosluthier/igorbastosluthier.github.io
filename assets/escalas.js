@@ -123,6 +123,7 @@
     return ctx;
   }
   /* Som macio, parecido com flauta: seno + um pouco do 2º e do 3º harmônico, ataque e saída curtos. */
+  var HARM = [[1, 0.78], [2, 0.16], [3, 0.06]];
   function nota(c, destino, f, t0, dur) {
     var g = c.createGain(), ataque = 0.05, saida = Math.min(0.18, dur * 0.4);
     g.gain.setValueAtTime(0.0001, t0);
@@ -130,7 +131,7 @@
     g.gain.setValueAtTime(0.22, t0 + dur - saida);
     g.gain.linearRampToValueAtTime(0.0001, t0 + dur);
     g.connect(destino);
-    var oscs = [[1, 0.78], [2, 0.16], [3, 0.06]].map(function (h) {
+    var oscs = HARM.map(function (h) {
       var o = c.createOscillator(), gh = c.createGain();
       o.type = "sine"; o.frequency.value = f * h[0]; gh.gain.value = h[1];
       o.connect(gh); gh.connect(g); o.start(t0); o.stop(t0 + dur + 0.02);
@@ -138,7 +139,12 @@
     });
     return oscs[0];
   }
-  /* Toca a lista de frequências. op: {porNota (s), ultima (s), aoAcabar()}. Devolve um controle. */
+  /* Quem está tocando (o botão da escala, o do tom ou uma nota da linha) fica avisado quando o som para ou troca:
+     um som novo para o anterior, e cada botão mostra só o estado do que é dele. */
+  var ouvintes = [];
+  function aoMudar(fn) { ouvintes.push(fn); }
+  function avisar() { ouvintes.slice().forEach(function (fn) { try { fn(); } catch (x) { /* um botão com erro não trava os outros */ } }); }
+  /* Toca a lista de frequências. op: {porNota (s), ultima (s), aoAcabar(), dono}. Devolve um controle. */
   function tocar(freqs, op) {
     op = op || {};
     parar();
@@ -151,27 +157,73 @@
       var dur = k === freqs.length - 1 && op.ultima ? op.ultima : passo;
       ult = nota(c, mestre, f, t, dur); t += dur;
     });
-    var este = { mestre: mestre, pausado: false, acabou: false };
-    ult.onended = function () { if (fila !== este) return; este.acabou = true; fila = null; try { mestre.disconnect(); } catch (x) { /* já solto */ } if (op.aoAcabar) op.aoAcabar(); };
+    var este = { mestre: mestre, pausado: false, acabou: false, dono: op.dono || null };
+    ult.onended = function () { if (fila !== este) return; este.acabou = true; fila = null; try { mestre.disconnect(); } catch (x) { /* já solto */ } if (op.aoAcabar) op.aoAcabar(); avisar(); };
     fila = este;
+    avisar();
     return este;
   }
-  function pausar() { if (fila && ctx && !fila.pausado) { fila.pausado = true; ctx.suspend(); } }
-  function continuar() { if (fila && ctx && fila.pausado) { fila.pausado = false; ctx.resume(); } }
+  /* Nota contínua (o "▶" ao lado do tom): o mesmo timbre do "Ouvir escala", sustentada até parar. Trocar a nota
+     enquanto toca (mudarNota) muda na hora, sem recomeçar. */
+  function sustentar(f, dono) {
+    parar();
+    var c = contexto();
+    if (!c || !(f > 0)) return null;
+    if (c.state === "suspended" && c.resume) c.resume();
+    var mestre = c.createGain(); mestre.gain.value = 1; mestre.connect(c.destination);
+    var g = c.createGain(), t0 = c.currentTime + 0.02;
+    g.gain.setValueAtTime(0.0001, t0); g.gain.linearRampToValueAtTime(0.22, t0 + 0.05); g.connect(mestre);
+    var oscs = HARM.map(function (h) {
+      var o = c.createOscillator(), gh = c.createGain();
+      o.type = "sine"; o.frequency.value = f * h[0]; gh.gain.value = h[1];
+      o.connect(gh); gh.connect(g); o.start(t0);
+      return o;
+    });
+    fila = { mestre: mestre, ganho: g, oscs: oscs, freq: f, pausado: false, continua: true, dono: dono || null };
+    avisar();
+    return fila;
+  }
+  function mudarNota(f) {
+    if (!fila || !fila.continua || !(f > 0) || Math.abs(f - fila.freq) < 1e-9) return;
+    var t = ctx.currentTime;
+    fila.oscs.forEach(function (o, k) { o.frequency.cancelScheduledValues(t); o.frequency.setTargetAtTime(f * HARM[k][0], t, 0.012); });
+    fila.freq = f;
+  }
+  function notaAtual() { return fila && fila.continua ? fila.freq : null; }
+  function pausar() { if (fila && ctx && !fila.pausado) { fila.pausado = true; ctx.suspend(); avisar(); } }
+  function continuar() { if (fila && ctx && fila.pausado) { fila.pausado = false; ctx.resume(); avisar(); } }
   function parar() {
     if (!fila) return;
     var f = fila; fila = null;
-    try { f.mestre.disconnect(); } catch (x) { /* já solto */ }
+    if (f.continua && ctx) {
+      /* saída curta (sem estalo) e os osciladores param */
+      var t = ctx.currentTime;
+      try { f.ganho.gain.cancelScheduledValues(t); f.ganho.gain.setValueAtTime(f.ganho.gain.value, t); f.ganho.gain.linearRampToValueAtTime(0.0001, t + 0.06); } catch (x) { /* segue */ }
+      f.oscs.forEach(function (o) { try { o.stop(t + 0.08); } catch (x) { /* já parado */ } });
+      f.oscs[0].onended = function () { try { f.mestre.disconnect(); } catch (x) { /* já solto */ } };
+    } else {
+      try { f.mestre.disconnect(); } catch (x) { /* já solto */ }
+    }
     if (ctx && ctx.state === "suspended") ctx.resume();
+    avisar();
   }
-  function estado() { return !fila ? "parado" : fila.pausado ? "pausado" : "tocando"; }
+  /* estado(): o do som que estiver tocando; estado(dono): o desse botão ("parado" se o som é de outro) */
+  function estado(dono) {
+    if (!fila || (dono !== undefined && fila.dono !== dono)) return "parado";
+    return fila.pausado ? "pausado" : "tocando";
+  }
+  /* saiu da página (ou foi para outra aba/app no celular): o som para */
+  if (typeof document !== "undefined" && root.addEventListener) {
+    root.addEventListener("pagehide", parar);
+    document.addEventListener("visibilitychange", function () { if (document.hidden) parar(); });
+  }
 
   /* Botão "Ouvir escala" com os modos Subir / Ida e volta. el: {botao, modo (select ou radios via função)};
      obter(): devolve {freqRaiz, furos} da flauta calculada agora (ou null). */
   function ligarBotao(botao, lerModo, obter) {
     var chaveAtual = null;
     function rotulo() {
-      var s = estado();
+      var s = estado(botao);
       botao.textContent = s === "tocando" ? "⏸ Pausar" : s === "pausado" ? "▶ Continuar" : "▶ Ouvir escala";
       botao.setAttribute("aria-pressed", s === "tocando" ? "true" : "false");
     }
@@ -179,17 +231,19 @@
       var d = obter();
       if (!d) return;
       var modo = lerModo(), freqs = sequencia(d.freqRaiz, d.furos, modo), chave = modo + "|" + freqs.map(function (f) { return f.toFixed(2); }).join(",");
-      var s = estado();
+      var s = estado(botao);
       if (s === "tocando" && chave === chaveAtual) pausar();
       else if (s === "pausado" && chave === chaveAtual) continuar();
-      else { chaveAtual = chave; tocar(freqs, { porNota: 0.5, ultima: modo === "subir" ? 1.1 : 0.8, aoAcabar: rotulo }); }
+      else { chaveAtual = chave; tocar(freqs, { porNota: 0.5, ultima: modo === "subir" ? 1.1 : 0.8, aoAcabar: rotulo, dono: botao }); }
       rotulo();
     });
+    aoMudar(rotulo); /* outro som começou (o tom, uma nota): o botão volta a "Ouvir escala" */
     return { atualizar: rotulo, parar: function () { parar(); rotulo(); } };
   }
 
   var api = { LISTA: LISTA, FUROS: FUROS, PADRAO: PADRAO, porId: function (id) { return POR_ID[id] || null; }, slug: slug,
     layout: layout, aplicaveis: aplicaveis, serve: serve, sequencia: sequencia,
-    tocar: tocar, pausar: pausar, continuar: continuar, parar: parar, estado: estado, ligarBotao: ligarBotao };
+    tocar: tocar, pausar: pausar, continuar: continuar, parar: parar, estado: estado, ligarBotao: ligarBotao,
+    sustentar: sustentar, mudarNota: mudarNota, notaAtual: notaAtual, aoMudar: aoMudar };
   if (typeof module === "object" && module.exports) module.exports = api; else root.Escalas = api;
 })(this);
