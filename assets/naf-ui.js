@@ -201,51 +201,6 @@
     o += rc(pj - lj / 2, pj - lj / 2 + fio, -wj / 2, wj / 2, 'fill="#fff7e0"', 0);
     return o;
   }
-  /* Corte lateral da cabeça da NAF (bocal à esquerda), desenhado a partir das fotos de corte do Igor. Ilustrativo, sem cota:
-     furo de sopro estreito; câmara de ar lenta (SAC), larga, de cantos arredondados; o tampão maciço (languid) que a separa da
-     câmara do som; sobre ele, a saída de ar, com a rampa curva da SAC subindo até o canal; o canal raso sobre o tampão; a janela do
-     som, com a aresta; a rampa do fipple, que desce da janela para dentro do bore; e a câmara do som (bore), que segue para o pé.
-     A geometria é desenhada na horizontal (coordenadas de 0 a 760); no celular o mesmo desenho é girado, com o bocal em cima. */
-  function secaoCabeca(vertical) {
-    var T = 70, BOT = 210, ar = "#4a3322", mad = "#f0c56a", c = "", o = "";
-    c += '<rect x="0" y="' + T + '" width="760" height="' + (BOT - T) + '" fill="' + mad + '" stroke="#7a5a1c" stroke-width="2"/>';
-    c += '<rect x="0" y="138" width="170" height="14" fill="' + ar + '"/>';                                       /* furo de sopro */
-    c += '<rect x="160" y="110" width="240" height="70" rx="16" fill="' + ar + '"/>';                              /* SAC */
-    c += '<rect x="470" y="110" width="290" height="70" rx="16" fill="' + ar + '"/><rect x="600" y="110" width="160" height="70" fill="' + ar + '"/>'; /* câmara do som (bore) */
-    c += '<path d="M360,110 C390,110 400,77 440,77 L470,77 L470,' + T + ' L360,' + T + ' Z" fill="' + ar + '"/>';   /* saída de ar + rampa da SAC + canal */
-    c += '<rect x="470" y="' + T + '" width="35" height="40" fill="' + ar + '"/>';                                 /* janela do som */
-    c += '<path d="M505,84 C512,104 540,110 590,110 L505,110 Z" fill="' + ar + '"/>';                              /* rampa do fipple */
-    c += '<rect x="504" y="' + T + '" width="2.5" height="14" fill="#fff7e0"/>';                                   /* aresta */
-    /* [x, y, texto, nível (horizontal), âncora] */
-    var ls = [[60, 145, "furo de sopro", "u1", "middle"], [250, 145, "câmara de ar lenta (SAC)", "d1", "middle"],
-      [396, 94, "rampa da câmara de ar (SAC ramp)", "d2", "end"], [380, 80, "saída de ar", "u1", "middle"], [455, 74, "canal", "u1", "middle"],
-      [487, 90, "janela do som", "u2", "middle"], [505, 78, "aresta", "u1", "start"], [435, 145, "tampão (languid)", "d1", "middle"],
-      [531, 105, "rampa do fipple (fipple ramp)", "d2", "middle"], [740, 145, "bore (câmara do som, segue para o pé)", "d1", "end"]];
-    var W, H, svgv;
-    if (vertical) {
-      var k = 0.55, xo = 12, Hg = (BOT - T + 20) * k, tx = xo + Hg + 0, ty = 6, xr = xo + Hg + 16, usados = [];
-      W = 390; H = 760 * k + 12;
-      o += '<g transform="translate(' + tx + "," + ty + ") rotate(90) scale(" + k + ') translate(0,' + (-(T - 10)) + ')">' + c + "</g>";
-      ls.map(function (l) { return [tx - k * (l[1] - (T - 10)), ty + k * l[0], l[2]]; }).sort(function (a, b) { return a[1] - b[1]; }).forEach(function (l) {
-        var yl = l[1]; if (usados.length && yl < usados[usados.length - 1] + 15) yl = usados[usados.length - 1] + 15; usados.push(yl);
-        o += '<polyline points="' + l[0] + "," + l[1] + " " + (xr - 4) + "," + l[1] + " " + (xr + 2) + "," + yl + '" fill="none" stroke="#fff7e0" stroke-width="3"/><polyline points="' + l[0] + "," + l[1] + " " + (xr - 4) + "," + l[1] + " " + (xr + 2) + "," + yl + '" fill="none" stroke="#2D4839" stroke-width="1"/><circle cx="' + l[0] + '" cy="' + l[1] + '" r="2.4" fill="#2D4839" stroke="#fff7e0" stroke-width="1"/>' +
-          '<text x="' + (xr + 6) + '" y="' + (yl + 4) + '" font-size="11" fill="#2D4839">' + l[2] + "</text>";
-      });
-      o += '<text x="' + (W - 6) + '" y="12" font-size="11" text-anchor="end" fill="#7a5a1c">bocal ↑</text><text x="' + (W - 6) + '" y="' + (H - 4) + '" font-size="11" text-anchor="end" fill="#7a5a1c">pé ↓</text>';
-      svgv = ' naf-det-v';
-    } else {
-      W = 760; H = 290; o += c;
-      ls.forEach(function (l) {
-        var ni = l[3], cima = ni.charAt(0) === "u", yl = cima ? (ni === "u2" ? 16 : 42) : (ni === "d2" ? 270 : 244), yb = cima ? (ni === "u2" ? 24 : 50) : (ni === "d2" ? 258 : 232), xt = l[4] === "end" ? l[0] + 10 : l[4] === "start" ? l[0] - 10 : l[0];
-        o += '<line x1="' + l[0] + '" y1="' + l[1] + '" x2="' + l[0] + '" y2="' + (cima ? yb - 6 : yb) + '" stroke="#fff7e0" stroke-width="3"/><line x1="' + l[0] + '" y1="' + l[1] + '" x2="' + l[0] + '" y2="' + (cima ? yb - 6 : yb) + '" stroke="#2D4839" stroke-width="1"/><circle cx="' + l[0] + '" cy="' + l[1] + '" r="2.8" fill="#2D4839" stroke="#fff7e0" stroke-width="1"/>' +
-          '<text x="' + xt + '" y="' + yl + '" font-size="13" text-anchor="' + l[4] + '" fill="#2D4839">' + l[2] + "</text>";
-      });
-      o += '<text x="8" y="16" font-size="12" fill="#7a5a1c">← bocal</text><text x="752" y="278" font-size="12" text-anchor="end" fill="#7a5a1c">pé →</text>';
-      svgv = "";
-    }
-    return '<div class="naf-detalhe"><p class="pc-mini">Corte lateral da cabeça (ilustrativo, sem medidas)</p><svg class="naf-det-svg' + svgv + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Corte lateral da cabeça da flauta NAF: furo de sopro, câmara de ar lenta, tampão, saída de ar com rampa, canal, janela do som com aresta, rampa do fipple e bore">' + o + "</svg></div>";
-  }
-
   /* Detalhe ampliado das janelas (vista de cima), com legendas curtas. Horizontal: bocal à esquerda, pé à direita. Vertical
      (celular): bocal em cima, pé embaixo, legendas à direita. */
   function detalheJanelas(r, vertical) {
@@ -268,7 +223,7 @@
     /* legendas: [distância ao pé, posição através do tubo, texto, lado (horizontal: cima/baixo)] */
     var ls = [];
     ls.push([g.recPe + 0.2 * (g.sacFoot - g.recPe), -g.nw * 0.36, "ninho", "u"]);
-    if (g.ar) { ls.push([g.ar.centro, 0, "saída de ar (SAC)", "u"]); ls.push([g.sacFoot - 0.3 * g.fl, 0, "rampa", "d"]); }
+    if (g.ar) ls.push([g.ar.centro, 0, "saída de ar", "u"]);
     ls.push([g.base + 0.35 * g.fl, 0, "canal", "u"]); ls.push([g.pj, g.wj * 0.2, "janela do som", "d"]); ls.push([g.pj - lj / 2 + 0.05 * lj, g.wj * 0.3, "aresta", "f"]);
     var fs = vertical ? 11 : 13, tx = "";
     if (vertical) {
@@ -287,7 +242,7 @@
       });
       tx += '<text x="8" y="16" font-size="12" fill="#7a5a1c">← bocal</text><text x="' + (W - 8) + '" y="16" font-size="12" text-anchor="end" fill="#7a5a1c">pé →</text>';
     }
-    return '<div class="naf-detalhe"><p class="pc-mini">Detalhe das janelas, ampliado (vista de cima; desenho ilustrativo, sem medidas)</p><svg class="naf-det-svg' + (vertical ? " naf-det-v" : "") + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Detalhe ampliado das janelas da flauta NAF: saída de ar, canal raso, janela do som com chanfro e mesa rebaixada">' + o + tx + "</svg></div>";
+    return '<div class="naf-detalhe"><p class="pc-mini">Detalhe das janelas, ampliado (vista de cima; desenho ilustrativo, sem medidas)</p><svg class="naf-det-svg' + (vertical ? " naf-det-v" : "") + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Detalhe ampliado das janelas da flauta NAF: ninho, saída de ar, canal, janela do som e aresta">' + o + tx + "</svg></div>";
   }
 
   function textoTubo(r) { var e = r.entrada; return "Ø externo " + mm(e.diametroExterno) + " · parede " + mm(e.parede) + " · Ø interno " + mm(r.diametroInterno); }
@@ -307,8 +262,7 @@
     var wj = Math.min(e.janelaLarg, ext) * esc, lj = e.janelaCompr * esc;
     var ar = janelaAr(r);
     var rcH = function (p1, p2, b1, b2, at, rx) { return '<rect x="' + X(Math.max(p1, p2)) + '" y="' + (cy + b1 * esc) + '" width="' + (Math.abs(p2 - p1) * esc) + '" height="' + ((b2 - b1) * esc) + '" rx="' + ((rx || 0) * esc) + '" ' + at + "/>"; };
-    var gj = geoJanelas(r);
-    s += grupo("janela", regiaoJanelas(r, rcH, false) + tampaoRc(r, rcH) + (gj.ar ? '<text x="' + X((gj.base + gj.sacFoot) / 2) + '" y="' + (cy + h / 2 + 11) + '" text-anchor="middle" font-size="10" fill="#7a5a1c">tampão</text>' : "") +
+    s += grupo("janela", regiaoJanelas(r, rcH, false) + tampaoRc(r, rcH) +
       (ar ? '<text x="' + X(ar.centro) + '" y="16" text-anchor="middle" font-size="12" fill="#2D4839">ar</text>' : "") +
       '<line x1="' + xj + '" y1="22" x2="' + xj + '" y2="' + (base + 6) + '" stroke="#9A3B1F" stroke-width="1.2" stroke-dasharray="4 3"/>' +
       '<text x="' + Math.max(xj, 50) + '" y="16" text-anchor="middle" font-size="12" fill="#9A3B1F">' + (ar ? "som" : "janela") + "</text>");
@@ -511,7 +465,7 @@
       el.textContent = t.join(" ");
     });
     var celular = window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
-    $("naf-desenho").innerHTML = (celular ? desenhoVertical(r) : desenho(r)) + (VIS.janela ? detalheJanelas(r, celular) + secaoCabeca(celular) : "");
+    $("naf-desenho").innerHTML = (celular ? desenhoVertical(r) : desenho(r)) + (VIS.janela ? detalheJanelas(r, celular) : "");
     $("naf-cartoes").innerHTML = r.furos.slice().reverse().map(function (f) {
       return '<div class="pc-cartao' + (f.ajustado ? " pc-aj" : "") + '"><div class="pc-c1"><b>' + f.linha + "º</b> " + f.nota + " <span>Ø " + mm(f.diametro) + "</span></div>" +
         '<div class="pc-c2"><b>' + mm(f.doPe) + "</b> do pé · " + mm(f.daJanela) + " da janela" + (f.espacoAbaixo === null ? "" : " · " + mm(f.espacoAbaixo) + " até o de baixo") + "</div>" +

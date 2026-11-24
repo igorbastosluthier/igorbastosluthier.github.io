@@ -29,5 +29,11 @@ t("NAF sem checkbox de ligar/desligar furo; link antigo com furo desligado abre 
 });
 t("NAF: detalhe ampliado das janelas com saída de ar, canal, janela do som e chanfro", () => {
   const j = fs.readFileSync(path.join(__dirname, "..", "assets", "naf-ui.js"), "utf8");
-  ["function detalheJanelas(", "function regiaoJanelas(", "ninho", "saída de ar (SAC)", "rampa", "canal", "janela do som", "aresta", "function secaoCabeca(", "tampão (languid)", "rampa do fipple (fipple ramp)", "rampa da câmara de ar (SAC ramp)"].forEach(x => assert.ok(j.includes(x), x));
+  ["function detalheJanelas(", "function regiaoJanelas(", "ninho", "saída de ar", "canal", "janela do som", "aresta"].forEach(x => assert.ok(j.includes(x), x));
+});
+t("sem termo em inglês visível no site (legendas, ajudas, textos)", () => {
+  const j = fs.readFileSync(path.join(__dirname, "..", "assets", "naf-ui.js"), "utf8").replace(/\/\*[^]*?\*\//g, "");
+  const visiveis = j.split("\n").filter(l => /ls\.push|aria-label|<p class="pc-mini">/.test(l)).join("\n") + naf;
+  const re = /\b(SAC|TSH|flue|fipple|languid|nest|ramp|exit hole|sound hole)\b/i;
+  assert.ok(!re.test(visiveis), "termo em inglês: " + (visiveis.match(re) || [])[0]);
 });
