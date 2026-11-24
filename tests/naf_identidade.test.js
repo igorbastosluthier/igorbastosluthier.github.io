@@ -4,7 +4,7 @@ const assert = require("assert"), fs = require("fs"), path = require("path");
 const html = fs.readFileSync(path.join(__dirname, "..", "calculadora.html"), "utf8");
 const naf = html.slice(html.indexOf('<form id="naf-form"'), html.indexOf('<div id="naf-ajuste"'));
 let ok = 0; const t = (n, f) => { f(); ok++; console.log("  ok  " + n); };
-const campos = ["naf-furos", "naf-fund", "naf-escala", "naf-la", "naf-temp", "naf-od", "naf-parede", "naf-di", "naf-jc", "naf-jl", "naf-ja", "naf-cabeca", "naf-ponta"];
+const campos = ["naf-furos", "naf-fund", "naf-escala", "naf-la", "naf-temp", "naf-od", "naf-parede", "naf-di", "naf-jc", "naf-jl", "naf-ja", "naf-sc", "naf-sl", "naf-cc", "naf-cabeca", "naf-ponta"];
 campos.forEach(id => t("NAF " + id + ": .pc-campo + ajuda visível", () => {
   const m = naf.match(new RegExp('<div class="pc-campo">\s*<label for="' + id + '">[^]*?</div>'));
   assert.ok(m, id + " fora de .pc-campo");

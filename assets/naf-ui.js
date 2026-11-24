@@ -8,10 +8,10 @@
   var mm = function (v, d) { return v.toFixed(d === undefined ? 1 : d).replace(".", ","); };
   var CHAVE = "nafCalc.v1";
   var CAMPOS = { a4: "naf-a4", temperatura: "naf-temp", diametroExterno: "naf-od", parede: "naf-parede", janelaCompr: "naf-jc",
-    janelaLarg: "naf-jl", janelaAltura: "naf-ja", cabeca: "naf-cabeca", ponta: "naf-ponta", fundamental: "naf-fund", furos: "naf-furos" };
+    janelaLarg: "naf-jl", janelaAltura: "naf-ja", cabeca: "naf-cabeca", ponta: "naf-ponta", fundamental: "naf-fund", furos: "naf-furos", saidaCompr: "naf-sc", saidaLarg: "naf-sl", canalCompr: "naf-cc" };
   var linhas = [];       /* estado das linhas (do pé para a boca): {nota, hz, d, a}; hz vazio = derivado da nota */
   /* O que a pessoa digitou fica como está; o resto segue o tom: um marcador por grupo (tubo, janela, furos). Nunca congela o tom nem a escala. */
-  var manualTubo = false, manualJanela = false;
+  var manualTubo = false, manualJanela = false, manualAr = false; /* manualAr: saída de ar e canal raso (só desenho e molde) */
   var ultimo = null;     /* último resultado válido (mesmo objeto para tabela, desenho e molde) */
   var dDigitado = false; /* a pessoa digitou algum diâmetro de furo: vale o dela, sem ajuste automático */
   var ajusteManual = null; /* resultado do botão "Ajustar sozinho" (quando os diâmetros foram digitados) */
@@ -88,6 +88,7 @@
   function aplicarMedidas(s) {
     if (!manualTubo) { $("naf-od").value = s.diametroExterno; $("naf-parede").value = s.parede; }
     if (!manualJanela) { $("naf-jc").value = s.janelaCompr; $("naf-jl").value = s.janelaLarg; $("naf-ja").value = s.janelaAltura; $("naf-cabeca").value = s.cabeca; $("naf-ponta").value = s.ponta; }
+    if (!manualAr) { $("naf-sc").value = s.saidaCompr; $("naf-sl").value = s.saidaLarg; $("naf-cc").value = s.canalCompr; }
     derivarInterno();
   }
   function notasEscala() {
@@ -106,7 +107,7 @@
     linhas.forEach(function (l, k) { l.nota = notas[k]; l.hz = ""; }); desenharLinhas();
   }
   function refazerDiametros() { var sug = sugestao(); linhas.forEach(function (l, k) { l.d = l.ideal = sug.diametros[k]; }); dDigitado = false; desenharLinhas(); }
-  function sugerirTudo() { manualTubo = false; manualJanela = false; aplicarMedidas(sugestao()); montarLinhas(); }
+  function sugerirTudo() { manualTubo = false; manualJanela = false; manualAr = false; aplicarMedidas(sugestao()); montarLinhas(); }
   /* topologia nova: o que a pessoa digitou no tubo e na janela fica; os furos são refeitos para a nova quantidade */
   function refazerPorFuros() { aplicarMedidas(sugestao()); montarLinhas(); }
 
@@ -136,12 +137,13 @@
       furos: nFuros(), escala: $("naf-escala").value, fundamental: $("naf-fund").value, a4: $("naf-a4").value, temperatura: $("naf-temp").value,
       diametroExterno: $("naf-od").value, parede: $("naf-parede").value, janelaCompr: $("naf-jc").value, janelaLarg: $("naf-jl").value,
       janelaAltura: $("naf-ja").value, cabeca: $("naf-cabeca").value, ponta: $("naf-ponta").value,
+      saidaCompr: $("naf-sc").value, saidaLarg: $("naf-sl").value, canalCompr: $("naf-cc").value,
       linhas: linhas.map(function (l) { return { nota: l.nota, hz: l.hz, diametro: l.d, ativo: l.a }; })
     };
   }
   function estadoLink() {
     return { f: nFuros(), fu: $("naf-fund").value, es: $("naf-escala").value, a4: $("naf-a4").value, t: $("naf-temp").value, od: $("naf-od").value,
-      p: $("naf-parede").value, jc: $("naf-jc").value, jl: $("naf-jl").value, ja: $("naf-ja").value, c: $("naf-cabeca").value, po: $("naf-ponta").value,
+      p: $("naf-parede").value, jc: $("naf-jc").value, jl: $("naf-jl").value, ja: $("naf-ja").value, c: $("naf-cabeca").value, po: $("naf-ponta").value, sc: $("naf-sc").value, sl: $("naf-sl").value, cc: $("naf-cc").value, ma: manualAr ? 1 : 0,
       mt: manualTubo ? 1 : 0, mj: manualJanela ? 1 : 0, dd: dDigitado ? 1 : 0, l: linhas.map(function (l) { return [l.nota, l.hz, l.d, l.a ? 1 : 0, l.ideal === undefined ? l.d : l.ideal]; }) };
   }
   function aplicarLink(s) {
@@ -150,7 +152,12 @@
     opcoesEscala(s.es || "pentatonica-menor");
     $("naf-a4").value = s.a4; sincLa(); $("naf-temp").value = s.t;
     $("naf-od").value = s.od; $("naf-parede").value = s.p; $("naf-jc").value = s.jc; $("naf-jl").value = s.jl; $("naf-ja").value = s.ja;
-    $("naf-cabeca").value = s.c; $("naf-ponta").value = s.po; derivarInterno(); if (s.mt !== undefined || s.mj !== undefined) { manualTubo = !!s.mt; manualJanela = !!s.mj; } else { manualTubo = manualJanela = !!s.m; } /* link antigo: um marcador só */
+    $("naf-cabeca").value = s.c; $("naf-ponta").value = s.po;
+    /* saída de ar e canal: link ou estado antigo não os tem: valem o padrão pelo tubo e pela janela */
+    var pad = N.padraoAr((parseFloat(s.od) || 0) - 2 * (parseFloat(s.p) || 0), parseFloat(s.jc) || 0, parseFloat(s.jl) || 0);
+    $("naf-sc").value = s.sc !== undefined && s.sc !== "" ? s.sc : pad.saidaCompr; $("naf-sl").value = s.sl !== undefined && s.sl !== "" ? s.sl : pad.saidaLarg;
+    $("naf-cc").value = s.cc !== undefined && s.cc !== "" ? s.cc : pad.canalCompr; manualAr = !!s.ma;
+    derivarInterno(); if (s.mt !== undefined || s.mj !== undefined) { manualTubo = !!s.mt; manualJanela = !!s.mj; } else { manualTubo = manualJanela = !!s.m; } /* link antigo: um marcador só */
     var n = nFuros(), l = Array.isArray(s.l) ? s.l.slice(0, n) : [];
     /* sem as notas dos furos (ou com notas que não existem) o estado não serve: quem chamou usa o padrão */
     var serve = l.length === n && l.every(function (x) { return Array.isArray(x) && (N.parseNota(String(x[0])) !== null || parseFloat(String(x[1]).replace(",", ".")) > 0); });
@@ -185,12 +192,15 @@
      pé. O motor só calcula a janela do som (comprimento, largura, posição). O ninho, a saída de ar e as distâncias seguem a
      proporção das fotos em relação ao diâmetro do tubo: ilustrativos, sem cota. Distâncias ao pé em mm. */
   function geoJanelas(r) {
+    /* cada medida é só da sua peça: janela do som (comprimento e largura), saída de ar (comprimento e largura) e canal raso (comprimento);
+       o ninho se ajusta para conter tudo */
     var e = r.entrada, lj = e.janelaCompr, ext = e.diametroExterno, wj = Math.min(e.janelaLarg, ext), pj = r.janelaDoPe, L = r.comprimentoFisico;
-    var fl = 1.6 * lj, base = pj + lj / 2, sacFoot = base + fl, sacBoca = sacFoot + lj, mg = 0.4 * ext;
+    var sl = e.saidaCompr, sw = Math.min(e.saidaLarg, ext), cl = e.canalCompr;
+    var base = pj + lj / 2, sacFoot = base + cl, sacBoca = sacFoot + sl, mg = 0.4 * ext;
     var cabe = sacBoca + 0.12 * ext <= L - 1;
     if (cabe) mg = Math.min(mg, L - 1 - sacBoca);
-    return { lj: lj, wj: wj, pj: pj, base: base, fl: fl, sacFoot: sacFoot, sacBoca: sacBoca, nw: Math.min(Math.max(0.65 * ext, wj * 1.9), ext * 0.92),
-      ar: cabe ? { centro: sacFoot + lj / 2 } : null, recPe: pj - lj / 2 - 0.4 * ext, recBoca: cabe ? sacBoca + mg : Math.min(base + 0.4 * ext, L - 1) };
+    return { lj: lj, wj: wj, pj: pj, base: base, fl: cl, sacFoot: sacFoot, sacBoca: sacBoca, sacL: sl, sacW: sw, nw: Math.min(Math.max(0.65 * ext, 1.9 * Math.max(wj, sw)), ext * 0.92),
+      ar: cabe ? { centro: sacFoot + sl / 2 } : null, recPe: pj - lj / 2 - 0.4 * ext, recBoca: cabe ? sacBoca + mg : Math.min(base + 0.4 * ext, L - 1) };
   }
   function janelaAr(r) { return geoJanelas(r).ar; }
   /* tampão maciço (languid) dentro do bore, sob o canal: separa a câmara de ar (lado do bocal) da câmara do som; só o contorno tracejado */
@@ -209,7 +219,7 @@
     o += rc(pj + lj / 2, g.ar ? g.sacFoot : pj + lj / 2, -wj / 2, wj / 2, 'fill="#cf9a3a"', 0);
     if (g.ar) {
       o += rc(g.sacFoot - 0.45 * g.fl, g.sacFoot, -wj / 2, wj / 2, 'fill="url(#' + rp + ')"', 0); /* rampa: o canal desce para dentro da saída de ar */
-      o += rc(g.sacFoot, g.sacBoca, -wj / 2, wj / 2, 'fill="#0f0b09"', 0.04 * lj); /* saída de ar (SAC) */
+      o += rc(g.sacFoot, g.sacBoca, -g.sacW / 2, g.sacW / 2, 'fill="#0f0b09"', 0.04 * g.sacL); /* saída de ar */
     }
     /* janela do som (TSH), com a aresta viva (linha clara) na borda do lado do pé */
     o += rc(pj - lj / 2, pj + lj / 2, -wj / 2, wj / 2, 'fill="#0f0b09"', 0.04 * lj);
@@ -390,7 +400,7 @@
         if (mk.p < a || mk.p > b) return;
         var y = Y(mk.p);
         s += '<line x1="' + (60 - Math.max(20, e.diametroExterno / 2 + 4)) + '" y1="' + y + '" x2="' + (60 + Math.max(20, e.diametroExterno / 2 + 4)) + '" y2="' + y + '" stroke="#000" stroke-width=".3"/>';
-        if (mk.ar) s += '<rect x="' + (60 - Math.min(e.janelaLarg, e.diametroExterno) / 2) + '" y="' + (y - e.janelaCompr / 2) + '" width="' + Math.min(e.janelaLarg, e.diametroExterno) + '" height="' + e.janelaCompr + '" fill="none" stroke="#999" stroke-width=".25" stroke-dasharray="1 1"/>';
+        if (mk.ar) s += '<rect x="' + (60 - Math.min(e.saidaLarg, e.diametroExterno) / 2) + '" y="' + (y - e.saidaCompr / 2) + '" width="' + Math.min(e.saidaLarg, e.diametroExterno) + '" height="' + e.saidaCompr + '" fill="none" stroke="#999" stroke-width=".25" stroke-dasharray="1 1"/>';
         else if (mk.janela) s += '<rect x="' + (60 - Math.min(e.janelaLarg, e.diametroExterno) / 2) + '" y="' + (y - e.janelaCompr / 2) + '" width="' + Math.min(e.janelaLarg, e.diametroExterno) + '" height="' + e.janelaCompr + '" fill="none" stroke="#000" stroke-width=".3"/>';
         else if (mk.d) s += '<circle cx="60" cy="' + y + '" r="' + (mk.d / 2) + '" fill="none" stroke="#000" stroke-width=".3"/><line x1="58" y1="' + y + '" x2="62" y2="' + y + '" stroke="#000" stroke-width=".25"/><line x1="60" y1="' + (y - 2) + '" x2="60" y2="' + (y + 2) + '" stroke="#000" stroke-width=".25"/>';
         if (mk.ar) s += '<text x="' + tx + '" y="' + (y + 1.2) + '" font-size="3">' + mk.t + "</text>"; else s += textoMolde(tx, y + 1.2, mk.t, mm(mk.p) + " mm do pé");
@@ -438,7 +448,7 @@
   }
   function alertasCampos() {
     var n = 0, un = { "naf-temp": " °C", "naf-a4": " Hz" };
-    ["naf-temp", "naf-a4", "naf-od", "naf-parede", "naf-di", "naf-jc", "naf-jl", "naf-ja", "naf-cabeca", "naf-ponta"].forEach(function (id) {
+    ["naf-temp", "naf-a4", "naf-od", "naf-parede", "naf-di", "naf-jc", "naf-jl", "naf-ja", "naf-sc", "naf-sl", "naf-cc", "naf-cabeca", "naf-ponta"].forEach(function (id) {
       var el = $("naf-al-" + id.slice(4)); if (!el) return;
       var t = id === "naf-a4" && $("naf-la").value !== "outra" ? "" : faixaCampo(id, un[id] || " mm");
       if (el.textContent !== t) el.textContent = t;
@@ -535,6 +545,7 @@
       "<li><span>Nota grave (tudo fechado)</span><b>" + r.fundamental.nome + " · " + mm(r.fundamental.hz, 2) + " Hz</b></li>";
     $("naf-alcance").innerHTML = alcance(r);
     r.furos.forEach(function (f) { var inp = document.querySelector('#naf-linhas input[data-k="' + (f.linha - 1) + '"][data-c="d"]'); if (inp) inp.classList.toggle("pc-in-aviso", f.razaoCorte !== null && f.razaoCorte < 2); });
+    if (!geoJanelas(r).ar) r.avisos.push("O bocal está curto para a saída de ar e o canal raso: aumente o bocal ou encurte o canal.");
     $("naf-avisos").innerHTML = r.avisos.length
       ? '<div class="pc-aviso"><b>Atenção</b><ul>' + r.avisos.map(function (a) {
         var b = /^Tubo fora do ideal/.test(a) && isFinite(r.furoOtimo) ? ' <button type="button" class="pc-link-btn" id="naf-usar-tubo" data-alvo="' + (Math.round(r.furoOtimo * 10) / 10) + '">usar ' + mm(r.furoOtimo) + " mm</button>" : "";
@@ -562,6 +573,7 @@
       if (c === "d") { l.d = l.ideal = t.value; dDigitado = true; } else { l[c] = t.value; if (c === "nota" || c === "hz") $("naf-escala").value = "personalizada"; }
     } else if (/^naf-(od|parede)$/.test(t.id)) manualTubo = true;
     else if (/^naf-(jc|jl|ja|cabeca|ponta)$/.test(t.id)) manualJanela = true;
+    else if (/^naf-(sc|sl|cc)$/.test(t.id)) manualAr = true; /* saída de ar e canal: só desenho e molde, ficam como digitados */
     /* temperatura e A4 mudam a solução do modelo: enquanto as medidas são as sugeridas, refaz as sugestões junto
        (senão uma mudança de temperatura poderia deixar as medidas sugeridas sem solução) */
     if ((t.id === "naf-temp" || t.id === "naf-a4") && isFinite(parseFloat(t.value))) { aplicarMedidas(sugestao()); if (!dDigitado) refazerDiametros(); }

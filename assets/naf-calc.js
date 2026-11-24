@@ -120,6 +120,12 @@
     return { valor: a / s.freqs[n1 - 1], estimado: estimado };
   }
 
+  /* Saída de ar e canal raso: NÃO entram na conta da afinação (só a janela do som entra); servem para o desenho e o molde.
+     Padrão: a saída de ar do tamanho da janela do som e o canal com 1,55 × o tubo (no mínimo 18 mm). */
+  function padraoAr(bore, janelaCompr, janelaLarg) {
+    return { saidaCompr: Math.round(janelaCompr * 10) / 10, saidaLarg: Math.round(janelaLarg * 10) / 10, canalCompr: Math.round(Math.max(18, 1.55 * bore) * 10) / 10 };
+  }
+
   /* ---- sugestões editáveis (sementes do Flute Lab 6.1.1 / auto_design: NAF), não são regra universal ---- */
   function r1(x) { return Math.round(x * 10) / 10; }
   function sementeSugestao(n, midi, a4, fator, escD, semis) {
@@ -136,7 +142,7 @@
     return {
       diametroExterno: r1(bore + 2 * wall), parede: r1(wall),
       janelaCompr: r1(Math.max(3, bore * 0.5)), janelaLarg: r1(Math.max(3, bore * 0.55)),
-      janelaAltura: r1(wall), /* altura da janela = parede do tubo nesse ponto (medido em NAFs: erro +3 a +17 mm; com 0,07 × o furo, +31 a +34 mm) */ cabeca: Math.round(bore * 5.2), ponta: 0, diametros: diams
+      janelaAltura: r1(wall), saidaCompr: padraoAr(bore, Math.max(3, bore * 0.5), Math.max(3, bore * 0.55)).saidaCompr, saidaLarg: padraoAr(bore, Math.max(3, bore * 0.5), Math.max(3, bore * 0.55)).saidaLarg, canalCompr: padraoAr(bore, 0, 0).canalCompr, /* altura da janela = parede do tubo nesse ponto (medido em NAFs: erro +3 a +17 mm; com 0,07 × o furo, +31 a +34 mm) */ cabeca: Math.round(bore * 5.2), ponta: 0, diametros: diams
     };
   }
   /* Sugestão: o tubo vem do tom (1,15 × o ideal do modelo) e NÃO encolhe ao trocar a quantidade de furos nem a escala. Os
@@ -217,6 +223,11 @@
     v.janelaCompr = req("janelaCompr", "Comprimento da janela", e.janelaCompr, 1, 60, " mm");
     v.janelaLarg = req("janelaLarg", "Largura da janela", e.janelaLarg, 1, 60, " mm");
     v.janelaAltura = req("janelaAltura", "Altura da janela", e.janelaAltura, 0.1, 30, " mm");
+    /* saída de ar e canal (só desenho e molde): ausentes = padrão pelo tubo e pela janela */
+    var opc = function (campo, rot, val, max) { return val === undefined || val === null || val === "" ? undefined : req(campo, rot, val, 1, max, " mm"); };
+    v.saidaCompr = opc("saidaCompr", "Saída de ar: comprimento", e.saidaCompr, 80);
+    v.saidaLarg = opc("saidaLarg", "Saída de ar: largura", e.saidaLarg, 80);
+    v.canalCompr = opc("canalCompr", "Canal raso: comprimento", e.canalCompr, 200);
     var cab = num(e.cabeca);
     if (!isFinite(cab)) erros.push({ campo: "cabeca", msg: "Bocal: informe um número em mm." });
     else if (cab < 0 || cab > 400) erros.push({ campo: "cabeca", msg: "Bocal: use um valor entre 0 e 400 mm." }); else v.cabeca = cab;
@@ -260,6 +271,12 @@
   /* ---- cálculo ---- */
   function calcular(e) {
     var val = validar(e || {}), v = val.v, erros = val.erros.slice(), avisos = [];
+    if (!erros.length && isFinite(v.diametroExterno) && isFinite(v.parede) && isFinite(v.janelaCompr) && isFinite(v.janelaLarg)) {
+      var pad = padraoAr(v.diametroExterno - 2 * v.parede, v.janelaCompr, v.janelaLarg);
+      if (v.saidaCompr === undefined) v.saidaCompr = pad.saidaCompr;
+      if (v.saidaLarg === undefined) v.saidaLarg = pad.saidaLarg;
+      if (v.canalCompr === undefined) v.canalCompr = pad.canalCompr;
+    }
     if (erros.length) return { ok: false, erros: erros };
     var n = v.furos, lin = LINHAS_BRACKER[n];
     var fend = freqFundamental(v.midi, v.a4);
@@ -344,7 +361,7 @@
     });
     return {
       ok: true, modelo: "bracker-whistle",
-      entrada: { furos: n, fundamental: v.midi, a4: v.a4, temperatura: v.temperatura, diametroExterno: v.diametroExterno, parede: v.parede, janelaCompr: v.janelaCompr, janelaLarg: v.janelaLarg, janelaAltura: v.janelaAltura, cabeca: v.cabeca, ponta: v.ponta },
+      entrada: { furos: n, fundamental: v.midi, a4: v.a4, temperatura: v.temperatura, diametroExterno: v.diametroExterno, parede: v.parede, janelaCompr: v.janelaCompr, janelaLarg: v.janelaLarg, janelaAltura: v.janelaAltura, saidaCompr: v.saidaCompr, saidaLarg: v.saidaLarg, canalCompr: v.canalCompr, cabeca: v.cabeca, ponta: v.ponta },
       fundamental: { midi: v.midi, nome: nomePt(v.midi), nomeIng: nomeEn(v.midi), hz: fend },
       diametroInterno: bore, velocidadeSom: s.c, furoOtimo: otimo,
       comprimentoAcustico: compAc,                    /* do centro acústico da janela ao fim acústico (calculado) */
@@ -400,7 +417,7 @@
     }, lim);
   }
 
-  var api = { apertos: apertos, ajustarFuros: ajustarFuros, semitons: semitons, ehAux: ehAux, calcular: calcular, validar: validar, sugerir: sugerir, escala: escala, parseNota: parseNota, nomePt: nomePt, nomeEn: nomeEn,
+  var api = { padraoAr: padraoAr, apertos: apertos, ajustarFuros: ajustarFuros, semitons: semitons, ehAux: ehAux, calcular: calcular, validar: validar, sugerir: sugerir, escala: escala, parseNota: parseNota, nomePt: nomePt, nomeEn: nomeEn,
     FURO_EXTRA: FURO_EXTRA, freqNota: freqNota, freqFundamental: freqFundamental, notaMaisProxima: notaMaisProxima, MIDI_MIN: MIDI_MIN, MIDI_MAX: MIDI_MAX, LINHAS_BRACKER: LINHAS_BRACKER };
   if (typeof module === "object" && module.exports) module.exports = api; else root.NafCalc = api;
 })(this);

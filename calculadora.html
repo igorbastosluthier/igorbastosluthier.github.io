@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/marca-fontes.css?v=1">
 <script>(function(){if(!document.fonts||!document.fonts.load)return;var r=document.documentElement;r.classList.add("marca-fontes-pendentes");var mostrar=function(){r.classList.remove("marca-fontes-pendentes")};Promise.all([document.fonts.load('500 21px "Fraunces Marca"')]).then(mostrar,mostrar)})();</script>
 <link rel="stylesheet" href="assets/mix.css?v=som1">
-<link rel="stylesheet" href="assets/naf.css?v=6">
+<link rel="stylesheet" href="assets/naf.css?v=7">
 <link rel="stylesheet" href="assets/pife-modo.css?v=2">
 <style>
 .pc-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:28px}
@@ -244,19 +244,34 @@
       <p id="aj-naf-di" class="pc-ajuda-txt" hidden>É o externo menos 2 vezes a parede. Se digitar aqui, o externo se ajusta.</p>
       <p id="naf-al-di" class="pc-alerta" hidden></p></div>
   </fieldset>
-  <fieldset><legend>3. A janela</legend>
-    <div class="pc-campo"><label for="naf-jc">Comprimento (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-jc" aria-label="Ajuda: comprimento da janela">?</button>
+  <fieldset><legend>3. As janelas</legend>
+    <p class="naf-sub">Janela do som</p>
+    <div class="pc-campo"><label for="naf-jc">Comprimento (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-jc" aria-label="Ajuda: comprimento da janela do som">?</button>
       <input id="naf-jc" type="number" min="1" max="60" step="0.1" aria-describedby="naf-al-jc">
-      <p id="aj-naf-jc" class="pc-ajuda-txt" hidden>Ao longo do tubo.</p>
+      <p id="aj-naf-jc" class="pc-ajuda-txt" hidden>Comprimento da janela do som, ao longo do tubo. É a janela principal: entra na conta da afinação.</p>
       <p id="naf-al-jc" class="pc-alerta" hidden></p></div>
-    <div class="pc-campo"><label for="naf-jl">Largura (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-jl" aria-label="Ajuda: largura da janela">?</button>
+    <div class="pc-campo"><label for="naf-jl">Largura (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-jl" aria-label="Ajuda: largura da janela do som">?</button>
       <input id="naf-jl" type="number" min="1" max="60" step="0.1" aria-describedby="naf-al-jl">
-      <p id="aj-naf-jl" class="pc-ajuda-txt" hidden>Atravessando o tubo.</p>
+      <p id="aj-naf-jl" class="pc-ajuda-txt" hidden>Largura da janela do som, atravessando o tubo. Entra na conta da afinação.</p>
       <p id="naf-al-jl" class="pc-alerta" hidden></p></div>
-    <div class="pc-campo"><label for="naf-ja">Altura (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-ja" aria-label="Ajuda: altura da janela">?</button>
+    <div class="pc-campo"><label for="naf-ja">Altura (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-ja" aria-label="Ajuda: altura da janela do som">?</button>
       <input id="naf-ja" type="number" min="0.1" max="30" step="0.1" aria-describedby="naf-al-ja">
-      <p id="aj-naf-ja" class="pc-ajuda-txt" hidden>É a espessura da parede do tubo no lugar da janela.</p>
+      <p id="aj-naf-ja" class="pc-ajuda-txt" hidden>Altura da janela do som: a espessura da madeira no lugar da janela (a profundidade do corte). Entra na conta da afinação.</p>
       <p id="naf-al-ja" class="pc-alerta" hidden></p></div>
+    <p class="naf-sub">Saída de ar</p>
+    <div class="pc-campo"><label for="naf-sc">Comprimento (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-sc" aria-label="Ajuda: comprimento da saída de ar">?</button>
+      <input id="naf-sc" type="number" min="1" max="80" step="0.1" aria-describedby="naf-al-sc">
+      <p id="aj-naf-sc" class="pc-ajuda-txt" hidden>Comprimento da saída de ar, ao longo do tubo. Não entra na conta da afinação: serve para o desenho e o molde.</p>
+      <p id="naf-al-sc" class="pc-alerta" hidden></p></div>
+    <div class="pc-campo"><label for="naf-sl">Largura (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-sl" aria-label="Ajuda: largura da saída de ar">?</button>
+      <input id="naf-sl" type="number" min="1" max="80" step="0.1" aria-describedby="naf-al-sl">
+      <p id="aj-naf-sl" class="pc-ajuda-txt" hidden>Largura da saída de ar, atravessando o tubo. Não entra na conta da afinação: serve para o desenho e o molde.</p>
+      <p id="naf-al-sl" class="pc-alerta" hidden></p></div>
+    <p class="naf-sub">Canal raso entre as janelas</p>
+    <div class="pc-campo"><label for="naf-cc">Comprimento (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-cc" aria-label="Ajuda: comprimento do canal raso">?</button>
+      <input id="naf-cc" type="number" min="1" max="200" step="0.1" aria-describedby="naf-al-cc">
+      <p id="aj-naf-cc" class="pc-ajuda-txt" hidden>Comprimento do canal raso: a distância entre a saída de ar e a janela do som. Não entra na conta da afinação: serve para o desenho e o molde. Precisa caber no bocal.</p>
+      <p id="naf-al-cc" class="pc-alerta" hidden></p></div>
     <details id="naf-mais" class="pc-qt-det"><summary>Mais medidas</summary>
     <div class="pc-campo"><label for="naf-cabeca">Bocal: da ponta ao centro da janela (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-cabeca" aria-label="Ajuda: bocal">?</button>
       <input id="naf-cabeca" type="number" min="0" max="400" step="0.5" aria-describedby="naf-al-cabeca">
@@ -533,8 +548,8 @@
 <div id="naf-molde" class="pc-molde" aria-hidden="true"></div>
 <script src="assets/ajuda.js?v=1"></script><script src="assets/ajuste-furos.js?v=1"></script><script src="assets/furos-regras.js?v=1"></script><script src="assets/escalas.js?v=2"></script><script src="assets/pife-calc.js?v=11"></script><script src="assets/pife-modo.js?v=4"></script>
 <script src="assets/pife-ui.js?v=24"></script>
-<script src="assets/naf-calc.js?v=10"></script>
-<script src="assets/naf-ui.js?v=27"></script>
+<script src="assets/naf-calc.js?v=11"></script>
+<script src="assets/naf-ui.js?v=28"></script>
 <script src="assets/pife-afinador.js?v=13"></script>
 </main>
 <footer class="f4"><div class="in"><div><a class="brand" href="index.html"><img class="marca-coroa" src="img/marca/coroa-roxinho.png" width="76" height="76" alt=""><span><b>Igor Bastos</b><small>luthier</small></span></a><h2 style="margin-top:22px">Encomendas</h2><p>Cada flauta é feita sob encomenda. Escreva no WhatsApp com o modelo e o tom que procura. Se ainda não sabe qual escolher, tire suas dúvidas comigo e eu indico a flauta certa.</p><a class="btn wa" href="https://wa.me/5575982901157?text=Ol%C3%A1%2C%20Igor%21%20Vi%20os%20valores%20no%20site%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">(75) 98290-1157</a></div><div><h3>Flautas</h3><ul><li><a href="pifanos.html">Pífanos</a></li><li><a href="irlandesa.html">Flauta irlandesa</a></li><li><a href="nativas.html">Flautas nativas</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="galeria.html">Galeria</a></li></ul></div><div><h3>Encomendas</h3><ul><li><a href="valores.html">Valores</a></li><li><a href="perguntas.html">Perguntas</a></li><li><a href="monte.html">Monte a sua flauta</a></li><li><a href="tabelas.html">Tabelas de digitação</a></li><li><a href="calculadora.html">Faça sua flauta</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="privacidade.html">Privacidade</a></li><li><a href="https://www.siterastreio.com.br/" target="_blank">Rastreamento</a></li></ul></div><div><h3>Contato</h3><ul><li><a href="https://wa.me/5575982901157?text=Ol%C3%A1%2C%20Igor%21%20Vi%20os%20valores%20no%20site%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">WhatsApp (75) 98290-1157</a></li><li><a href="https://instagram.com/igorbastos.luthier" target="_blank" rel="noopener">Instagram @igorbastos.luthier</a></li><li><a href="mailto:igorbastosluthier@gmail.com">igorbastosluthier@gmail.com</a></li></ul></div></div><div class="bot"><span>Igor Bastos · MEI CNPJ 45.426.899/0001-47 · Praça São Sebastião, s/n, Caeté-Açu, Palmeiras (BA) · Vale do Capão, Chapada Diamantina</span><span>Envio pelos Correios, postado em Palmeiras (BA)</span></div></footer>
