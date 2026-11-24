@@ -22,3 +22,8 @@ t("furos da NAF em grade compacta, Hz como texto", () => { assert.ok(/#naf-linha
 t("bloco de material de construção na aba NAF", () => { assert.ok(html.includes('class="naf-material"')); assert.ok(/id="medir"/.test(html) && /href="#medir"/.test(naf + html.slice(html.indexOf('<aside class="naf-material"'), html.indexOf("</aside>")))); });
 console.log(ok + " verificações NAF identidade (com furos e material)");
 t("NAF desenha as duas janelas (ar e som), ilustrativa e sem cota", () => { const j = fs.readFileSync(path.join(__dirname, "..", "assets", "naf-ui.js"), "utf8"); assert.ok(j.includes("function janelaAr(") && j.includes(">ar</text>") && j.includes('"som"')); assert.ok(j.includes("mk.ar")); });
+t("NAF sem checkbox de ligar/desligar furo; link antigo com furo desligado abre com todos ligados", () => {
+  const j = fs.readFileSync(path.join(__dirname, "..", "assets", "naf-ui.js"), "utf8");
+  assert.ok(!/data-c="a"/.test(j) && !/Desmarque/.test(html));
+  assert.ok(/a: true, ideal: x\[4\]/.test(j), "estado/link antigo deve restaurar a: true");
+});
