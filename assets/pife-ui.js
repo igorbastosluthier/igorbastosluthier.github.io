@@ -60,6 +60,9 @@
   /* Furos: o sugerido é o otimizado (inteiro). Se a pessoa digitar um furo, vale o dela até apertar "voltar aos
      sugeridos"; enquanto não digitar, os furos se reotimizam a cada mudança de tom ou de tubo. */
   var manual = false;
+  /* Tubo: o diâmetro interno (e o furo do sopro, na mesma proporção) acompanha o tom até a pessoa digitar o dela; "Voltar aos tamanhos sugeridos" volta ao automático */
+  var dManual = false, embManual = false;
+  function tuboDoTom() { var d = P.tuboSugerido($("pc-tom").value); $("pc-D").value = d; if (!embManual) $("pc-emb").value = Math.round(d * 0.53); }
   /* Furos sugeridos: os tamanhos ideais e, se algum furo ficaria encostado, o ajuste automático do tamanho (as posições
      são recalculadas pela conta normal, então a afinação continua certa). */
   var ajusteAtual = null;
@@ -75,7 +78,7 @@
     $("pc-dica-tubo").textContent = "Indicado para " + t + ": " + mm(alvo) + " mm.";
   }
   /* "usar 18,0 mm": o tubo indicado do tom e o furo do sopro na mesma proporção */
-  function usarTubo(alvo) { $("pc-D").value = alvo; $("pc-emb").value = Math.round(alvo * 0.53); sincParede(); if (!manual) sugerir(); atualizar(); }
+  function usarTubo(alvo) { dManual = false; embManual = false; $("pc-D").value = alvo; $("pc-emb").value = Math.round(alvo * 0.53); sincParede(); if (!manual) sugerir(); atualizar(); }
 
   /* o que está nos campos: é o que entra na conta, vai no link e fica salvo */
   function lerForm() {
@@ -88,7 +91,7 @@
       lip: $("pc-lip-sim").checked ? (parseFloat($("pc-lip").value) || 0) : 0,
       nf: nFuros(), escala: escalaId(), semitons: semitons().furos, aux: semitons().aux,
       furos: entradasFuro.map(function (x) { return parseFloat(x.value) || 8; }),
-      manual: manual
+      manual: manual, dManual: dManual, embManual: embManual
     };
   }
 
@@ -99,6 +102,9 @@
     $("pc-lip-sim").checked = !!e.lip; $("pc-cone").checked = !!e.cone; if (e.lip) $("pc-lip").value = e.lip;
     /* links antigos não dizem se a parede foi digitada: digitada é a que difere da ideal */
     paredeManual = e.paredeManual !== undefined ? !!e.paredeManual : Math.abs((parseFloat(e.parede) || 0) - P.paredeIdeal(parseFloat(e.D) || 18)) > 1e-9;
+    /* links antigos não dizem se o diâmetro foi digitado: digitado é o que difere do indicado para o tom */
+    dManual = e.dManual !== undefined ? !!e.dManual : Math.abs((parseFloat(e.D) || 0) - P.tuboSugerido(e.tom)) > 1e-9;
+    embManual = e.embManual !== undefined ? !!e.embManual : Math.abs((parseFloat(e.emb) || 0) - Math.round((parseFloat(e.D) || 18) * 0.53)) > 1e-9;
     sincParede();
     /* links antigos (sem escala) são o pife de 6 furos na escala maior */
     if (selN) selN.value = String(e.nf === 5 || e.nf === 7 ? e.nf : 6);
@@ -478,6 +484,9 @@
   caixa.addEventListener("input", function () { manual = true; });
   $("pc-form").addEventListener("input", function (ev) {
     if (ev.target === $("pc-parede")) paredeManual = true;
+    if (ev.target === $("pc-D")) dManual = true;
+    if (ev.target === $("pc-emb")) embManual = true;
+    if (ev.target === $("pc-tom") && !dManual) tuboDoTom();
     sincParede();
     if (ev.target === selN) { opcoesEscala(); montarFuros(nFuros()); sugerir(); }
     else if (ev.target === selEsc) { if (!manual) sugerir(); }
@@ -515,7 +524,7 @@
   var ouvir = $("pc-ouvir");
   if (ouvir && Esc) Esc.ligarBotao(ouvir, function () { var m = document.querySelector('input[name="pc-ouvir-modo"]:checked'); return m ? m.value : "ida-e-volta"; },
     function () { var r = P.calcular(lerForm()); return { freqRaiz: r.f0, furos: r.furos.map(function (f) { return { hz: f.freq, aux: !!f.aux }; }) }; });
-  $("pc-sugerir").addEventListener("click", function () { sugerir(); atualizar(); });
+  $("pc-sugerir").addEventListener("click", function () { dManual = false; embManual = false; paredeManual = false; tuboDoTom(); sincParede(); sugerir(); atualizar(); });
   $("pc-imprimir").addEventListener("click", function () { window.print(); });
   $("pc-link").addEventListener("click", function () {
     var done = function () { $("pc-copiado").hidden = false; setTimeout(function () { $("pc-copiado").hidden = true; }, 2500); };
@@ -526,7 +535,7 @@
     $("pc-aj-res").textContent = res.texto;
   });
   /* Qual tom combina com o tubo: o indicado de cada tom ± 1 mm é a faixa boa; os mais próximos primeiro. */
-  function usarTom(id, d) { $("pc-tom").value = id; $("pc-D").value = d; manual = false; sincParede(); sugerir(); atualizar(); $("pc-form").scrollIntoView({ behavior: "smooth" }); }
+  function usarTom(id, d) { $("pc-tom").value = id; $("pc-D").value = d; dManual = true; manual = false; sincParede(); sugerir(); atualizar(); $("pc-form").scrollIntoView({ behavior: "smooth" }); }
   function qualTom() {
     var d = parseFloat($("pc-qt-d").value) || 0, caixa = $("pc-qt-res");
     if (!d) { caixa.innerHTML = ""; return; }
