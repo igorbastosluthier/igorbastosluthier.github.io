@@ -163,48 +163,43 @@
     return '<g stroke="' + cor + '" stroke-width="1.3"><line x1="' + x + '" y1="' + ya + '" x2="' + x + '" y2="' + yb + '"/><line x1="' + (x - 4) + '" y1="' + ya + '" x2="' + (x + 4) + '" y2="' + ya + '"/><line x1="' + (x - 4) + '" y1="' + yb + '" x2="' + (x + 4) + '" y2="' + yb + '"/></g>' +
       (txt ? '<text x="' + (x - 3) + '" y="' + m + '" font-size="' + (fs || 11) + '" fill="' + cor + '" text-anchor="middle" transform="rotate(-90 ' + (x - 3) + ' ' + m + ')">' + txt + "</text>" : "");
   }
-  /* Segunda abertura da NAF: a saída da câmara de ar (SAC), do lado do bocal. O motor não calcula essa abertura: o desenho é
-     ilustrativo (mesma largura de janela, vão igual ao comprimento dela) e sem cota. Só aparece se couber antes da ponta do
-     bocal. Devolve distâncias ao pé (mm). */
-  function janelaAr(r) {
-    var lj = r.entrada.janelaCompr, centro = r.janelaDoPe + 2 * lj;
-    return centro + lj / 2 <= r.comprimentoFisico - 1 ? { centro: centro, vao: lj } : null;
-  }
-  /* Região das janelas, vista de cima, na ordem em que se vê numa NAF (do bocal para o pé): saída de ar (SAC), parede entre
-     as aberturas, canal raso, janela do som (TSH) com o chanfro na borda do lado do pé; tudo sobre a mesa rebaixada onde assenta o
-     bloco (o "passarinho", só o contorno tracejado). Proporções tiradas das fotos de NAF do Igor e do comprimento/largura da
-     janela. rc(p1, p2, b1, b2, atributos, raio): retângulo entre as distâncias ao pé p1..p2 e a posição b1..b2 através do tubo (mm). */
+  /* Região das janelas, vista de cima, como nas fotos de NAF do Igor. Do bocal para o pé: o bloco (o "passarinho", peça sólida de
+     madeira) cobre a saída de ar (SAC) e o começo do canal; depois vem o rasgo escuro da mesa rebaixada, comprido e de pontas
+     arredondadas; perto do lado do pé do rasgo fica a janela do som (TSH), escura, com o chanfro: a aresta clara e fina na borda do
+     lado do pé. O motor só calcula a janela do som (comprimento, largura, posição). O resto é ilustrativo, em proporção às fotos e
+     à janela, sem cota. A saída de ar é só sugerida, por baixo do bloco. Distâncias ao pé em mm. */
   function geoJanelas(r) {
-    var e = r.entrada, lj = e.janelaCompr, wj = Math.min(e.janelaLarg, e.diametroExterno), pj = r.janelaDoPe, ar = janelaAr(r);
-    var mw = Math.min(wj * 1.7, e.diametroExterno * 0.86);
-    return { lj: lj, wj: wj, pj: pj, ar: ar, mw: mw, sw: Math.min(wj * 1.3, mw * 0.92),
-      mesaPe: pj - lj / 2 - 0.35 * lj, mesaBoca: (ar ? ar.centro + lj / 2 : pj + lj / 2 + 0.5 * lj) + 0.3 * lj };
+    var e = r.entrada, lj = e.janelaCompr, wj = Math.min(e.janelaLarg, e.diametroExterno), pj = r.janelaDoPe, ext = e.diametroExterno, L = r.comprimentoFisico;
+    var sw = Math.min(wj * 1.9, ext * 0.7), total = Math.max(2.16 * lj, 2.6 * sw);
+    var slotPe = pj - lj / 2 - 0.58 * lj, slotBoca = slotPe + total, bl = 1.35 * lj;
+    var blocoPe = slotBoca - 0.4 * lj, blocoBoca = blocoPe + bl, cabe = blocoBoca <= L - 1;
+    if (!cabe) slotBoca = Math.min(slotBoca, L - 1);
+    return { lj: lj, wj: wj, pj: pj, sw: sw, slotPe: slotPe, slotBoca: slotBoca, blocoPe: blocoPe, blocoBoca: blocoBoca, bw: Math.min(sw * 1.1, ext * 0.8),
+      ar: cabe ? { centro: (blocoPe + blocoBoca) / 2 } : null, sacL: Math.min(lj, bl * 0.7), sacW: Math.min(wj * 1.2, sw * 0.8) };
   }
+  function janelaAr(r) { return geoJanelas(r).ar; }
+  /* rc(p1, p2, b1, b2, atributos, raio): retângulo entre as distâncias ao pé p1..p2 e a posição b1..b2 através do tubo (mm) */
   function regiaoJanelas(r, rc, vertical) {
-    var g = geoJanelas(r), lj = g.lj, wj = g.wj, pj = g.pj, ar = g.ar, o = "", cf = vertical ? "naf-chfV" : "naf-chfH";
-    o += '<defs><linearGradient id="' + cf + '" x1="0" y1="0" x2="' + (vertical ? 0 : 1) + '" y2="' + (vertical ? 1 : 0) + '"><stop offset="0" stop-color="#2D4839"/><stop offset="1" stop-color="#c58a2e"/></linearGradient></defs>';
-    /* mesa rebaixada */
-    o += rc(g.mesaPe, g.mesaBoca, -g.mw / 2, g.mw / 2, 'fill="#c58a2e" stroke="#7a5a1c" stroke-width="1.2"', 0.3 * lj);
-    if (ar) {
-      /* canal raso: da saída de ar até a janela do som, por cima da parede */
-      o += rc(pj, ar.centro, -wj * 0.2, wj * 0.2, 'fill="#8f5f1b"', 0);
-      /* saída de ar (SAC) */
-      o += rc(ar.centro - lj / 2, ar.centro + lj / 2, -g.sw / 2, g.sw / 2, 'fill="#1f3328" stroke="#14231b" stroke-width="1"', 0.1 * lj);
-      /* contorno do bloco (opcional): cobre a saída de ar e parte da parede */
-      o += rc(pj + lj / 2 + 0.5 * lj, ar.centro + lj / 2 + 0.2 * lj, -g.mw / 2 * 1.04, g.mw / 2 * 1.04, 'fill="none" stroke="#7E2A5E" stroke-width="1.4" stroke-dasharray="5 3"', 0.25 * lj);
+    var g = geoJanelas(r), lj = g.lj, wj = g.wj, pj = g.pj, o = "";
+    /* rasgo da mesa rebaixada: marrom muito escuro, pontas arredondadas */
+    o += rc(g.slotPe, g.slotBoca, -g.sw / 2, g.sw / 2, 'fill="#2a1d15" stroke="#14100c" stroke-width="1"', g.sw / 2);
+    /* canal raso: faixa estreita, um pouco mais clara que a mesa, da boca do rasgo (sob o bloco) até a janela do som */
+    o += rc(pj + lj / 2, g.slotBoca - g.sw * 0.3, -wj * 0.25, wj * 0.25, 'fill="#5a4129"', 0);
+    /* janela do som (TSH): quase preta, com o chanfro (aresta clara e fina) dentro dela, na borda do lado do pé */
+    o += rc(pj - lj / 2, pj + lj / 2, -wj / 2, wj / 2, 'fill="#0f0b09"', 0.06 * lj);
+    o += rc(pj - lj / 2, pj - lj / 2 + Math.max(0.14 * lj, 0.8), -wj / 2 + 0.06 * lj, wj / 2 - 0.06 * lj, 'fill="#f1e3c0"', 0);
+    if (g.ar) {
+      /* bloco: peça sólida de madeira, levemente translúcida, sobre a saída de ar; o contorno tracejado fino é a saída de ar por baixo */
+      o += rc(g.blocoPe, g.blocoBoca, -g.bw / 2, g.bw / 2, 'fill="#a85a26" fill-opacity=".88" stroke="#5c2e0e" stroke-width="1.2"', 0.18 * g.bw);
+      o += rc(g.ar.centro - g.sacL / 2, g.ar.centro + g.sacL / 2, -g.sacW / 2, g.sacW / 2, 'fill="none" stroke="#f6efe2" stroke-opacity=".85" stroke-width=".9" stroke-dasharray="3 2"', 0.1 * g.sacL);
     }
-    /* janela do som (TSH) */
-    o += rc(pj - lj / 2, pj + lj / 2, -wj / 2, wj / 2, 'fill="#2D4839" stroke="#14231b" stroke-width="1"', 0.05 * lj);
-    /* chanfro: rampa na borda do lado do pé, com a aresta viva (a que corta o ar) junto à janela */
-    o += rc(pj - lj / 2 - 0.3 * lj, pj - lj / 2, -wj / 2, wj / 2, 'fill="url(#' + cf + ')"', 0);
-    o += rc(pj - lj / 2 - 0.04 * lj, pj - lj / 2, -wj / 2, wj / 2, 'fill="#f6efe2"', 0);
     return o;
   }
   /* Detalhe ampliado das janelas (vista de cima), com legendas curtas. Horizontal: bocal à esquerda, pé à direita. Vertical
      (celular): bocal em cima, pé embaixo, legendas à direita. */
   function detalheJanelas(r, vertical) {
     var e = r.entrada, g = geoJanelas(r), lj = g.lj, ext = e.diametroExterno, L = r.comprimentoFisico;
-    var pLo = Math.max(-5, g.mesaPe - 0.9 * lj), pHi = Math.min(L, g.mesaBoca + 0.9 * lj), span = pHi - pLo, pad = 14;
+    var pLo = Math.max(-5, g.slotPe - 0.9 * lj), pHi = Math.min(L, (g.ar ? g.blocoBoca : g.slotBoca) + 0.6 * lj), span = pHi - pLo, pad = 14;
     var s = Math.max(2, vertical ? Math.min(150 / ext, 440 / span) : Math.min(760 / span, 300 / ext)), h = ext * s, big = span * s;
     var X, Y, W, H, rc, xl = 16, yt = 70;
     if (vertical) {
@@ -221,8 +216,9 @@
     o += regiaoJanelas(r, rc, vertical);
     /* legendas: [distância ao pé, posição através do tubo, texto, lado (horizontal: cima/baixo)] */
     var ls = [];
-    if (g.ar) { ls.push([g.ar.centro + lj / 2 + 0.1 * lj, g.mw / 2, "bloco", "d"]); ls.push([g.ar.centro, 0, "saída de ar", "d"]); ls.push([(g.pj + g.ar.centro) / 2, 0, "canal raso", "u"]); }
-    ls.push([g.pj, 0, "janela do som", "d"]); ls.push([g.pj - lj / 2 - 0.15 * lj, 0, "chanfro", "u"]); ls.push([g.mesaBoca - 0.15 * lj, -g.mw / 2, "mesa rebaixada", "u"]);
+    if (g.ar) { ls.push([g.blocoBoca - 0.2 * (g.blocoBoca - g.blocoPe), -g.bw / 2, "bloco", "u"]); ls.push([g.ar.centro, 0, "saída de ar (sob o bloco)", "d"]); }
+    ls.push([(g.pj + g.lj / 2 + g.slotBoca - g.sw * 0.3) / 2, 0, "canal raso", "u"]); ls.push([g.pj + 0.2 * g.lj, g.wj / 2, "janela do som", "d"]);
+    ls.push([g.pj - g.lj / 2 + 0.07 * g.lj, -g.wj / 2 + 0.06 * g.lj, "chanfro", "u"]); ls.push([g.slotPe + 0.25 * g.lj, g.sw / 2, "mesa rebaixada", "d"]);
     var fs = vertical ? 12 : 13, tx = "";
     if (vertical) {
       var xr = X(ext / 2) + 12, usados = [];
@@ -240,7 +236,7 @@
       });
       tx += '<text x="8" y="16" font-size="12" fill="#7a5a1c">← bocal</text><text x="' + (W - 8) + '" y="16" font-size="12" text-anchor="end" fill="#7a5a1c">pé →</text>';
     }
-    return '<div class="naf-detalhe"><p class="pc-mini">Detalhe das janelas, ampliado (vista de cima; desenho ilustrativo, sem medidas; o tracejado é o bloco, opcional)</p><svg class="naf-det-svg' + (vertical ? " naf-det-v" : "") + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Detalhe ampliado das janelas da flauta NAF: saída de ar, canal raso, janela do som com chanfro e mesa rebaixada">' + o + tx + "</svg></div>";
+    return '<div class="naf-detalhe"><p class="pc-mini">Detalhe das janelas, ampliado (vista de cima; desenho ilustrativo, sem medidas)</p><svg class="naf-det-svg' + (vertical ? " naf-det-v" : "") + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Detalhe ampliado das janelas da flauta NAF: saída de ar, canal raso, janela do som com chanfro e mesa rebaixada">' + o + tx + "</svg></div>";
   }
 
   function textoTubo(r) { var e = r.entrada; return "Ø externo " + mm(e.diametroExterno) + " · parede " + mm(e.parede) + " · Ø interno " + mm(r.diametroInterno); }
