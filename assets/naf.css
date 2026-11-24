@@ -6,7 +6,7 @@
 .pc-grid .naf-ativo{display:flex;align-items:center;gap:8px;margin:0}
 .pc-grid .naf-ativo input{display:inline-block;width:20px;height:20px;margin:0}
 #naf-linhas{display:grid;gap:10px}
-.naf-lin{display:grid;grid-template-columns:minmax(90px,.8fr) 1.3fr 1.3fr 1fr;gap:6px 12px;align-items:end;padding:10px 12px;border:1px solid rgba(45,72,57,.18);border-radius:10px}
+.naf-lin{display:grid;grid-template-columns:minmax(90px,.7fr) 1.3fr 1.3fr 1fr;gap:2px 12px;align-items:end;padding:6px 12px;border:1px solid rgba(45,72,57,.18);border-radius:10px}
 .naf-lin label{margin:0}
 .naf-lin .naf-info{grid-column:1/-1;margin:0;min-height:1em}
 .pc-grid input[aria-invalid="true"]{border-color:#9A3B1F;box-shadow:0 0 0 2px rgba(154,59,31,.25)}
@@ -14,7 +14,7 @@
 #naf-saida .pc-lead{margin:8px 0}
 @media (max-width:640px){
  #naf-tabela{font-size:.86em}
- .naf-lin{grid-template-columns:1fr 1fr}.naf-lin .naf-ativo{grid-column:1/-1}
+ .naf-lin{grid-template-columns:1fr 1fr}.naf-lin .naf-ativo,.naf-lin label:nth-of-type(4){grid-column:1/-1}
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .naf-modos [role="tab"][aria-selected="true"]{background:#D9A33A;color:#1c1410;border-color:#D9A33A}
 :root:not([data-theme="light"]) .naf-lin{border-color:rgba(255,255,255,.18)}}

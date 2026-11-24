@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="assets/marca-fontes.css?v=1">
 <script>(function(){if(!document.fonts||!document.fonts.load)return;var r=document.documentElement;r.classList.add("marca-fontes-pendentes");var mostrar=function(){r.classList.remove("marca-fontes-pendentes")};Promise.all([document.fonts.load('500 21px "Fraunces Marca"')]).then(mostrar,mostrar)})();</script>
 <link rel="stylesheet" href="assets/mix.css?v=som1">
-<link rel="stylesheet" href="assets/naf.css?v=3">
+<link rel="stylesheet" href="assets/naf.css?v=4">
 <link rel="stylesheet" href="assets/pife-modo.css?v=2">
 <style>
 .pc-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:28px}
@@ -208,35 +208,58 @@
 <div id="modo-naf" role="tabpanel" aria-labelledby="modo-aba-naf" hidden>
 <form id="naf-form" class="pc-grid" autocomplete="off" onsubmit="return false">
   <fieldset><legend>1. A flauta</legend>
-    <label>Furos<select id="naf-furos"><option value="5">5 furos</option><option value="6">6 furos</option></select></label>
-    <label>Nota grave (todos os furos fechados)<select id="naf-fund"></select></label>
+    <div class="pc-campo"><label for="naf-furos">Furos</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-furos" aria-label="Ajuda: furos">?</button>
+      <select id="naf-furos"><option value="5">5 furos</option><option value="6">6 furos</option></select>
+      <p id="aj-naf-furos" class="pc-ajuda-txt" hidden>Quantos furos de dedo a flauta tem. Mudar a quantidade refaz as medidas dos furos.</p></div>
+    <div class="pc-campo"><label for="naf-fund">Nota grave</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-fund" aria-label="Ajuda: nota grave">?</button>
+      <div class="pc-tom-linha"><select id="naf-fund"></select><button type="button" id="naf-fund-ouvir" class="pc-tocar" aria-label="Ouvir a nota grave" aria-pressed="false" title="Ouvir a nota grave"><svg class="pc-i-play" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z" fill="currentColor"/></svg><svg class="pc-i-pausa" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg></button></div>
+      <p id="aj-naf-fund" class="pc-ajuda-txt" hidden>É a nota mais grave da flauta, com todos os furos fechados. O ▶ ao lado toca essa nota até você apertar de novo.</p></div>
     <div class="pc-campo"><label for="naf-escala">Escala</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-escala" aria-label="Ajuda: escala">?</button>
       <select id="naf-escala"><option value="pentatonica-menor">Pentatônica menor</option><option value="personalizada">Personalizada</option></select>
-      <p id="aj-naf-escala" class="pc-ajuda-txt" hidden>Só aparecem as escalas que cabem nesses furos.</p></div>
+      <div id="naf-notas-escala" class="pc-notas" role="group" aria-label="Notas da escala"></div>
+      <p id="aj-naf-escala" class="pc-ajuda-txt" hidden>Só aparecem as escalas que cabem nesses furos. Embaixo, as notas da flauta: toque numa nota para ouvir.</p></div>
     <div class="esc-ouvir" role="group" aria-label="Ouvir a escala"><label class="esc-modo"><input type="radio" name="naf-ouvir-modo" value="subir"> ↑ Subir</label><label class="esc-modo"><input type="radio" name="naf-ouvir-modo" value="ida-e-volta" checked> ↕ Ida e volta</label><button type="button" id="naf-ouvir" class="btn ghost" aria-pressed="false">▶ Ouvir escala</button></div>
-    <label>Afinação: Lá (Hz)<input id="naf-a4" type="number" min="380" max="480" step="0.1" value="440"></label>
+    <div class="pc-campo"><label for="naf-a4">Afinação: Lá (Hz)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-a4" aria-label="Ajuda: afinação">?</button>
+      <input id="naf-a4" type="number" min="380" max="480" step="0.1" value="440">
+      <p id="aj-naf-a4" class="pc-ajuda-txt" hidden>Use 440 se for tocar com outros instrumentos. Outro valor, por exemplo 442, se o seu grupo afina diferente.</p></div>
     <div class="pc-campo"><label for="naf-temp">Temperatura do lugar (°C)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-temp" aria-label="Ajuda: temperatura">?</button>
       <input id="naf-temp" type="number" min="-10" max="50" step="1" value="20">
-      <p id="aj-naf-temp" class="pc-ajuda-txt" hidden>Afine na temperatura em que vai tocar.</p></div>
+      <p id="aj-naf-temp" class="pc-ajuda-txt" hidden>O som muda com o calor: afine na temperatura em que vai tocar.</p></div>
   </fieldset>
   <fieldset><legend>2. O tubo</legend>
-    <label>Diâmetro externo (mm)<input id="naf-od" type="number" min="8" max="80" step="0.1"></label>
-    <label>Espessura da parede (mm)<input id="naf-parede" type="number" min="0.3" max="20" step="0.1"></label>
-    <label>Diâmetro interno (mm)<input id="naf-di" type="number" min="1" max="78" step="0.1" title="É o externo menos 2 vezes a parede. Se digitar aqui, o externo se ajusta."></label>
+    <div class="pc-campo"><label for="naf-od">Diâmetro externo (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-od" aria-label="Ajuda: diâmetro externo">?</button>
+      <input id="naf-od" type="number" min="8" max="80" step="0.1">
+      <p id="aj-naf-od" class="pc-ajuda-txt" hidden>A largura do tubo por fora, medida com paquímetro.</p></div>
+    <div class="pc-campo"><label for="naf-parede">Espessura da parede (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-parede" aria-label="Ajuda: espessura da parede">?</button>
+      <input id="naf-parede" type="number" min="0.3" max="20" step="0.1">
+      <p id="aj-naf-parede" class="pc-ajuda-txt" hidden>A grossura do tubo. É o externo menos o interno, dividido por 2.</p></div>
+    <div class="pc-campo"><label for="naf-di">Diâmetro interno (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-di" aria-label="Ajuda: diâmetro interno">?</button>
+      <input id="naf-di" type="number" min="1" max="78" step="0.1">
+      <p id="aj-naf-di" class="pc-ajuda-txt" hidden>É o externo menos 2 vezes a parede. Se digitar aqui, o externo se ajusta.</p></div>
   </fieldset>
   <fieldset><legend>3. A janela</legend>
-    <label>Comprimento (mm)<input id="naf-jc" type="number" min="1" max="60" step="0.1" title="Ao longo do tubo."></label>
-    <label>Largura (mm)<input id="naf-jl" type="number" min="1" max="60" step="0.1" title="Atravessando o tubo."></label>
-    <label>Altura (mm)<input id="naf-ja" type="number" min="0.1" max="30" step="0.1" title="É a espessura da parede do tubo no lugar da janela."></label>
+    <div class="pc-campo"><label for="naf-jc">Comprimento (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-jc" aria-label="Ajuda: comprimento da janela">?</button>
+      <input id="naf-jc" type="number" min="1" max="60" step="0.1">
+      <p id="aj-naf-jc" class="pc-ajuda-txt" hidden>Ao longo do tubo.</p></div>
+    <div class="pc-campo"><label for="naf-jl">Largura (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-jl" aria-label="Ajuda: largura da janela">?</button>
+      <input id="naf-jl" type="number" min="1" max="60" step="0.1">
+      <p id="aj-naf-jl" class="pc-ajuda-txt" hidden>Atravessando o tubo.</p></div>
+    <div class="pc-campo"><label for="naf-ja">Altura (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-ja" aria-label="Ajuda: altura da janela">?</button>
+      <input id="naf-ja" type="number" min="0.1" max="30" step="0.1">
+      <p id="aj-naf-ja" class="pc-ajuda-txt" hidden>É a espessura da parede do tubo no lugar da janela.</p></div>
     <details id="naf-mais" class="pc-qt-det"><summary>Mais medidas</summary>
-      <label>Bocal: da ponta ao centro da janela (mm)<input id="naf-cabeca" type="number" min="0" max="400" step="0.5"></label>
-      <label>Sobra de tubo na ponta do pé (mm)<input id="naf-ponta" type="number" min="0" max="200" step="0.5" value="0"></label>
+    <div class="pc-campo"><label for="naf-cabeca">Bocal: da ponta ao centro da janela (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-cabeca" aria-label="Ajuda: bocal">?</button>
+      <input id="naf-cabeca" type="number" min="0" max="400" step="0.5">
+      <p id="aj-naf-cabeca" class="pc-ajuda-txt" hidden>Distância da ponta do tubo, no lado do sopro, até o centro da janela.</p></div>
+    <div class="pc-campo"><label for="naf-ponta">Sobra de tubo na ponta do pé (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-ponta" aria-label="Ajuda: sobra no pé">?</button>
+      <input id="naf-ponta" type="number" min="0" max="200" step="0.5" value="0">
+      <p id="aj-naf-ponta" class="pc-ajuda-txt" hidden>Tubo que passa do último furo, na ponta do pé. Pode deixar 0.</p></div>
     </details>
   </fieldset>
-  <fieldset class="pc-furos"><legend>4. Furos, do pé para a boca</legend>
-    <details class="pc-qt-det"><summary>Como preencher</summary><p class="pc-mini">O furo 1 é o mais perto do pé. Escolha a nota ou digite os Hz: o que você digitar é o que vale. Desmarque um furo para tirá-lo. Mudar o diâmetro muda a posição.</p></details>
-    <p id="naf-aviso-troca" class="pc-mini" role="status" hidden>As medidas foram refeitas para essa quantidade de furos.</p>
-    <p id="naf-escala-aviso" class="pc-mini" role="status" hidden>Escala personalizada. <button type="button" id="naf-voltar-pent" class="pc-link-btn">Voltar à pentatônica menor</button></p>
+  <fieldset class="pc-furos"><legend>4. Furos, do pé para a boca <button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-furos" aria-label="Ajuda: furos">?</button></legend>
+    <p id="aj-naf-furos" class="pc-ajuda-txt" hidden>O furo 1 é o mais perto do pé. Escolha a nota ou digite os Hz: o que você digitar é o que vale. Desmarque um furo para tirá-lo. Mudar o diâmetro muda a posição.</p>
+    <p id="naf-aviso-troca" class="pc-alerta" role="status" hidden>As medidas foram refeitas para essa quantidade de furos.</p>
+    <p id="naf-escala-aviso" class="pc-alerta" role="status" hidden>Escala personalizada. <button type="button" id="naf-voltar-pent" class="pc-link-btn">Voltar à pentatônica menor</button></p>
     <div id="naf-linhas"></div>
     <datalist id="naf-notas"></datalist>
     <button type="button" id="naf-sugerir" class="btn ghost">Voltar aos tamanhos sugeridos</button>

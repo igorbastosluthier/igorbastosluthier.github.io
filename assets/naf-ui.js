@@ -354,6 +354,8 @@
       salvar(); return;
     }
     ultimo = r; $("naf-erros").innerHTML = ""; $("naf-saida").hidden = false;
+    notasDaEscala(r);
+    if (btFund && Esc && Esc.estado(btFund) === "tocando") Esc.mudarNota(r.fundamental.hz); /* trocou a nota/o Lá tocando: muda na hora */
     /* Hz da nota aparece como sugestão cinza no campo; só o Hz digitado ganha uma linha de texto */
     linhas.forEach(function (l, k) {
       var hzEl = document.querySelector('#naf-linhas [data-k="' + k + '"][data-c="hz"]'), mp = N.parseNota(l.nota), a4 = parseFloat(e.a4);
@@ -428,6 +430,46 @@
   /* Ouvir a escala da flauta calculada (tônica até a oitava, ou ida e volta); o furo extra não entra */
   if ($("naf-ouvir") && Esc) Esc.ligarBotao($("naf-ouvir"), function () { var m = document.querySelector('input[name="naf-ouvir-modo"]:checked'); return m ? m.value : "ida-e-volta"; },
     function () { return ultimo ? { freqRaiz: ultimo.fundamental.hz, furos: ultimo.furos.map(function (f) { return { hz: f.hz, aux: f.extra }; }) } : null; });
+  /* Notas da escala (mesma linha de notas do Pífano): a grave e cada furo da escala, da mais grave à mais aguda; tocar numa nota toca essa nota.
+     O furo extra fica de fora, como no "Ouvir escala". */
+  var btFund = $("naf-fund-ouvir"), caixaNotas = $("naf-notas-escala");
+  function notasDaEscala(r) {
+    if (!caixaNotas) return;
+    var lista = [{ nome: N.nomePt(midiFund()), hz: r.fundamental.hz }];
+    r.furos.forEach(function (f) { if (!f.extra) lista.push({ nome: String(f.nota).replace(/^≈\s*/, ""), hz: f.hz }); });
+    lista.sort(function (a, b) { return a.hz - b.hz; });
+    var h = lista.map(function (n) {
+      return '<span class="pc-par"><button type="button" class="pc-nota" data-hz="' + n.hz + '" aria-label="Ouvir ' + esc(n.nome) + '">' + esc(n.nome) + "</button></span>";
+    }).join("");
+    if (caixaNotas.innerHTML !== h) caixaNotas.innerHTML = h;
+    caixaNotas.setAttribute("aria-label", "Notas da flauta em " + N.nomePt(midiFund()) + ", da grave à mais aguda");
+  }
+  /* ▶ ao lado da nota grave: contínua até apertar de novo (mesmo som do Pífano) */
+  function rotuloFund() { if (btFund) btFund.setAttribute("aria-pressed", String(!!Esc && Esc.estado(btFund) === "tocando")); }
+  if (btFund && Esc) {
+    btFund.addEventListener("click", function () {
+      if (Esc.estado(btFund) === "tocando") Esc.parar();
+      else { var a4 = parseFloat($("naf-a4").value), m = midiFund(); if (m !== null && isFinite(a4) && a4 > 0) Esc.sustentar(N.freqNota(m, a4), btFund); }
+      rotuloFund();
+    });
+    Esc.aoMudar(rotuloFund);
+  }
+  if (caixaNotas && Esc) {
+    caixaNotas.addEventListener("click", function (ev) {
+      var b = ev.target && ev.target.closest ? ev.target.closest(".pc-nota") : null; if (!b) return;
+      Esc.tocar([parseFloat(b.getAttribute("data-hz"))], { porNota: 0.9, dono: caixaNotas });
+      b.classList.add("pc-tocando");
+    });
+    Esc.aoMudar(function () {
+      if (Esc.estado(caixaNotas) === "tocando") return;
+      Array.prototype.forEach.call(caixaNotas.querySelectorAll(".pc-tocando"), function (b) { b.classList.remove("pc-tocando"); });
+    });
+  }
+  /* voltou para a aba do Pífano: o som da NAF para */
+  if (window.MutationObserver) new MutationObserver(function () {
+    if (!$("modo-naf").hidden || !Esc) return;
+    [btFund, caixaNotas, $("naf-ouvir")].forEach(function (d) { if (d && Esc.estado(d) !== "parado") Esc.parar(); });
+  }).observe($("modo-naf"), { attributes: true, attributeFilter: ["hidden"] });
   painelVis();
   $("naf-vis").addEventListener("change", function (ev) {
     var k = ev.target.getAttribute("data-vis"); if (!k) return;
