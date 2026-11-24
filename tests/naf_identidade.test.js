@@ -16,3 +16,8 @@ t("nenhum title escondendo medida na NAF", () => assert.ok(!/<input[^>]*title=/.
 t("▶ da nota grave e linha de notas", () => { assert.ok(naf.includes('id="naf-fund-ouvir" class="pc-tocar"')); assert.ok(naf.includes('id="naf-notas-escala" class="pc-notas"')); });
 t("avisos usam .pc-alerta", () => assert.ok(/id="naf-aviso-troca" class="pc-alerta"/.test(naf)));
 console.log(ok + " verificações NAF identidade");
+/* Furos: grade compacta como a do Pífano (rótulo em cima, Ø embaixo; Nota/Hz só na escala personalizada) e bloco de material */
+const js = fs.readFileSync(path.join(__dirname, "..", "assets", "naf-ui.js"), "utf8"), css = fs.readFileSync(path.join(__dirname, "..", "assets", "naf.css"), "utf8");
+t("furos da NAF em grade compacta, Hz como texto", () => { assert.ok(/#naf-linhas\{display:grid;grid-template-columns:repeat\(auto-fit,minmax\(120px/.test(css)); assert.ok(js.includes('class="naf-hz-txt"')); assert.ok(/\.naf-lin \.naf-pers\{display:none\}/.test(css)); });
+t("bloco de material de construção na aba NAF", () => { assert.ok(html.includes('class="naf-material"')); assert.ok(/id="medir"/.test(html) && /href="#medir"/.test(naf + html.slice(html.indexOf('<aside class="naf-material"'), html.indexOf("</aside>")))); });
+console.log(ok + " verificações NAF identidade (com furos e material)");

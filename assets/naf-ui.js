@@ -106,10 +106,11 @@
     var cx = $("naf-linhas"); cx.innerHTML = "";
     linhas.forEach(function (l, k) {
       var div = document.createElement("div"); div.className = "naf-lin"; div.setAttribute("role", "group"); div.setAttribute("aria-label", "Furo " + (k + 1));
-      div.innerHTML = '<label class="naf-ativo"><input type="checkbox" data-k="' + k + '" data-c="a"> <b>Furo ' + (k + 1) + '<span class="naf-xt" data-k="' + k + '"></span></b></label>' +
-        '<label>Nota<input type="text" list="naf-notas" autocomplete="off" data-k="' + k + '" data-c="nota"></label>' +
-        '<label>Hz<input type="text" inputmode="decimal" autocomplete="off" data-k="' + k + '" data-c="hz"></label>' +
-        '<label>Ø (mm)<input type="number" min="1" max="40" step="0.5" data-k="' + k + '" data-c="d"></label>' +
+      div.innerHTML = '<label class="naf-ativo"><input type="checkbox" data-k="' + k + '" data-c="a" aria-label="Usar o furo ' + (k + 1) + '"> <span class="pc-n">Furo ' + (k + 1) + '<span class="naf-xt" data-k="' + k + '"></span> · <b class="naf-nome" data-k="' + k + '"></b></span></label>' +
+        '<small class="naf-hz-txt" data-k="' + k + '"></small>' +
+        '<input type="number" min="1" max="40" step="0.5" data-k="' + k + '" data-c="d" aria-label="Diâmetro do furo ' + (k + 1) + ' (mm)">' +
+        '<div class="naf-pers"><label>Nota<input type="text" list="naf-notas" autocomplete="off" data-k="' + k + '" data-c="nota"></label>' +
+        '<label>Hz<input type="text" inputmode="decimal" autocomplete="off" data-k="' + k + '" data-c="hz"></label></div>' +
         '<small class="naf-info" data-k="' + k + '"></small>';
       cx.appendChild(div);
       div.querySelector('[data-c="a"]').checked = l.a; div.querySelector('[data-c="nota"]').value = l.nota;
@@ -317,6 +318,7 @@
     if (linhas.length !== nFuros()) return; /* estado intermediário de uma troca de topologia: não calcula nem salva */
     derivarInterno();
     $("naf-escala-aviso").hidden = !!escolhida();
+    $("naf-linhas").classList.toggle("pers", !escolhida()); /* nota e Hz só se editam na escala personalizada */
     /* Ajuste automático: com os diâmetros sugeridos, os furos que ficariam encostados mudam de tamanho e a posição
        é recalculada (a afinação continua certa). Diâmetro digitado pela pessoa: vale o dela (com botão para ajustar). */
     var aj = null;
@@ -362,6 +364,9 @@
       if (hzEl) hzEl.placeholder = mp !== null && isFinite(a4) ? mm(N.freqNota(mp, a4), 2) : "";
     });
     r.furos.forEach(function (f) {
+      var nm = document.querySelector('#naf-linhas .naf-nome[data-k="' + (f.linha - 1) + '"]'), hzt = document.querySelector('#naf-linhas .naf-hz-txt[data-k="' + (f.linha - 1) + '"]');
+      if (nm) nm.textContent = String(f.nota).replace(/^≈\s*/, "");
+      if (hzt) hzt.textContent = mm(f.hz, 1) + " Hz";
       var el = document.querySelector('#naf-linhas .naf-info[data-k="' + (f.linha - 1) + '"]'); if (!el) return;
       var t = [];
       if (f.extra) t.push("Furo extra, fora da escala.");
