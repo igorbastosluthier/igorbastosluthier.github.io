@@ -27,3 +27,7 @@ t("NAF sem checkbox de ligar/desligar furo; link antigo com furo desligado abre 
   assert.ok(!/data-c="a"/.test(j) && !/Desmarque/.test(html));
   assert.ok(/a: true, ideal: x\[4\]/.test(j), "estado/link antigo deve restaurar a: true");
 });
+t("NAF: detalhe ampliado das janelas com saída de ar, canal, janela do som e chanfro", () => {
+  const j = fs.readFileSync(path.join(__dirname, "..", "assets", "naf-ui.js"), "utf8");
+  ["function detalheJanelas(", "function regiaoJanelas(", "saída de ar", "canal raso", "janela do som", "chanfro", "mesa rebaixada"].forEach(x => assert.ok(j.includes(x), x));
+});

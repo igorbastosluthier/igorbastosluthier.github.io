@@ -14,6 +14,8 @@
 .naf-lin .naf-pers{display:none}
 #naf-linhas.pers .naf-pers{display:block}
 .naf-lin .naf-pers label{margin:4px 0 0;font-size:.85em}
+.naf-detalhe{margin:0 0 12px}.naf-detalhe p{text-align:center;margin:0 0 4px}
+#naf-desenho svg.naf-det-svg{min-width:0;max-width:100%;margin:0 auto 12px}#naf-desenho svg.naf-det-v{max-width:360px}
 .naf-material{margin:0 0 26px;padding:14px 16px;border:1px solid rgba(45,72,57,.25);border-radius:12px}
 .naf-material h3{margin:0 0 6px}.naf-material ul{margin:6px 0 0 18px;padding:0}.naf-material li{margin:6px 0}.naf-material a{color:#7E2A5E}
 .pc-grid input[aria-invalid="true"]{border-color:#9A3B1F;box-shadow:0 0 0 2px rgba(154,59,31,.25)}
