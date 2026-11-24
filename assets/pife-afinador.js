@@ -165,7 +165,7 @@
   }
   /* notas do pife calculado nas 3 oitavas, com o furo que dá cada uma */
   function notasDoPife() {
-    var tom = P.TONS.filter(function (t) { return t.id === $("pc-tom").value; })[0];
+    var tom = P.TONS.filter(function (t) { return t.id === $("pc-tom").value; })[0] || P.TONS.filter(function (t) { return t.id === "sol"; })[0];
     var esc = escalaDoPife(), lista = [];
     for (var o = 0; o < 3; o++) {
       esc.notas.forEach(function (x, k) {
@@ -363,16 +363,48 @@
   function preencherRef() {
     var sel = $("af-ref-nota"), notas = notasDoPife(), atual = sel.value;
     sel.innerHTML = notas.map(function (n) { return '<option value="' + n.midi + '">' + nome(n.midi) + " (" + n.oitava + "ª oitava)</option>"; }).join("");
-    if (atual) sel.value = atual;
+    if (atual) {
+      sel.value = atual;
+      /* a nota de antes não existe no tom novo: fica a mais próxima (nunca uma lista sem nota escolhida, que tocaria nada) */
+      if (sel.selectedIndex < 0) {
+        var a = parseInt(atual, 10), melhor = 0;
+        notas.forEach(function (n, i) { if (Math.abs(n.midi - a) < Math.abs(notas[melhor].midi - a)) melhor = i; });
+        sel.selectedIndex = melhor;
+      }
+    }
+    if (sel.selectedIndex < 0 && sel.options.length) sel.selectedIndex = 0;
+  }
+  /* A nota de referência segue o que está na tela: trocar a nota, o tom ou o Lá com ela tocando muda o som na hora; outro som do site
+     (o ▶ do tom, "Ouvir escala", os chips) para a referência, e ela para ao sair da página. */
+  var refGanho = null;
+  function pararRef() {
+    if (!osc) return;
+    try { osc.stop(); } catch (x) { /* já parado */ }
+    try { osc.disconnect(); if (refGanho) refGanho.disconnect(); } catch (x) { /* já solto */ }
+    osc = null; refGanho = null; $("af-ref-tocar").textContent = "Tocar nota de referência";
+  }
+  function atualizarRef() {
+    if (!osc) return;
+    var m = parseInt($("af-ref-nota").value, 10);
+    if (!isFinite(m)) { pararRef(); return; }
+    osc.frequency.value = freqDeMidi(m);
   }
   $("af-ref-tocar").addEventListener("click", function () {
-    if (osc) { osc.stop(); osc = null; $("af-ref-tocar").textContent = "Tocar nota de referência"; return; }
+    if (osc) { pararRef(); return; }
+    var Esc = window.Escalas; if (Esc && Esc.estado() !== "parado") Esc.parar(); /* só um som por vez */
     var c2 = ctx && ctx.state !== "closed" ? ctx : new (window.AudioContext || window.webkitAudioContext)();
-    osc = c2.createOscillator(); var g = c2.createGain();
-    osc.type = "triangle"; osc.frequency.value = freqDeMidi(parseInt($("af-ref-nota").value, 10)); g.gain.value = 0.15;
-    osc.connect(g); g.connect(c2.destination); osc.start();
+    if (c2.state === "suspended" && c2.resume) c2.resume();
+    osc = c2.createOscillator(); refGanho = c2.createGain();
+    osc.type = "triangle"; osc.frequency.value = freqDeMidi(parseInt($("af-ref-nota").value, 10)); refGanho.gain.value = 0.15;
+    osc.connect(refGanho); refGanho.connect(c2.destination); osc.start();
     $("af-ref-tocar").textContent = "Parar";
   });
-  ["pc-tom", "pc-la", "pc-la-outra", "pc-escala", "pc-nfuros"].forEach(function (id) { if ($(id)) $(id).addEventListener("change", function () { mapa = {}; mostrarMapa(); preencherRef(); }); });
+  $("af-ref-nota").addEventListener("change", atualizarRef);
+  if (window.Escalas && window.Escalas.aoMudar) window.Escalas.aoMudar(function () { if (osc && window.Escalas.estado() !== "parado") pararRef(); });
+  window.addEventListener("pagehide", pararRef);
+  document.addEventListener("visibilitychange", function () { if (document.hidden) pararRef(); });
+  ["pc-tom", "pc-la", "pc-la-outra", "pc-escala", "pc-nfuros"].forEach(function (id) { if ($(id)) $(id).addEventListener("change", function () { mapa = {}; mostrarMapa(); preencherRef(); atualizarRef(); }); });
+  /* o "input" vem antes do "change" em alguns navegadores e o campo "Outra" do Lá só dispara "input" enquanto se digita */
+  ["pc-la", "pc-la-outra"].forEach(function (id) { if ($(id)) $(id).addEventListener("input", function () { atualizarRef(); }); });
   preencherRef(); mostrarMapa();
 })();

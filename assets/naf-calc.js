@@ -152,11 +152,12 @@
     var semis = o.semitons && o.semitons.length === n ? o.semitons : semitons(o.escala, n).furos; /* semitons: notas digitadas (escala personalizada) */
     var s = sementeSugestao(n, midi, a4, fatorTubo(midi), 1, semis);
     if (!FR || midi < MIDI_MIN || midi > MIDI_MAX) return s;
-    var bore = s.diametroExterno - 2 * s.parede;
+    /* medidas que a pessoa digitou (tubo, janela) valem na conta dos furos; s continua com o que o tom sugere */
+    var m = Object.assign({}, s, o.medidas || {}), bore = m.diametroExterno - 2 * m.parede;
     var entrada = function (d) {
-      return { furos: n, fundamental: nomeEn(midi), a4: a4, temperatura: o.temp === undefined ? 20 : o.temp, diametroExterno: s.diametroExterno, parede: s.parede,
-        janelaCompr: s.janelaCompr, janelaLarg: s.janelaLarg, janelaAltura: s.janelaAltura, cabeca: s.cabeca, ponta: 0,
-        linhas: semis.map(function (st) { return midi + st; }).map(function (m, k) { return { nota: nomeEn(m), diametro: d[k] }; }) };
+      return { furos: n, fundamental: nomeEn(midi), a4: a4, temperatura: o.temp === undefined ? 20 : o.temp, diametroExterno: m.diametroExterno, parede: m.parede,
+        janelaCompr: m.janelaCompr, janelaLarg: m.janelaLarg, janelaAltura: m.janelaAltura, cabeca: m.cabeca, ponta: m.ponta || 0,
+        linhas: semis.map(function (st) { return midi + st; }).map(function (mi, k) { return { nota: nomeEn(mi), diametro: d[k] }; }) };
     };
     var g = FR.gerar({ n: n, bore: bore, tipo: "naf", madeira: n !== 5, padrao: n === 5, base: FR.padrao("naf", n, semis, bore),
       avaliar: function (d) {

@@ -10,7 +10,8 @@
   var CAMPOS = { a4: "naf-a4", temperatura: "naf-temp", diametroExterno: "naf-od", parede: "naf-parede", janelaCompr: "naf-jc",
     janelaLarg: "naf-jl", janelaAltura: "naf-ja", cabeca: "naf-cabeca", ponta: "naf-ponta", fundamental: "naf-fund", furos: "naf-furos" };
   var linhas = [];       /* estado das linhas (do pé para a boca): {nota, hz, d, a}; hz vazio = derivado da nota */
-  var manualDim = false; /* a pessoa mexeu nas medidas: não reaplicar as sugestões sozinho */
+  /* O que a pessoa digitou fica como está; o resto segue o tom: um marcador por grupo (tubo, janela, furos). Nunca congela o tom nem a escala. */
+  var manualTubo = false, manualJanela = false;
   var ultimo = null;     /* último resultado válido (mesmo objeto para tabela, desenho e molde) */
   var dDigitado = false; /* a pessoa digitou algum diâmetro de furo: vale o dela, sem ajuste automático */
   var ajusteManual = null; /* resultado do botão "Ajustar sozinho" (quando os diâmetros foram digitados) */
@@ -70,15 +71,24 @@
     var nome = (lista.filter(function (x) { return x.id === ultimaEscala; })[0] || {}).nome || "Pentatônica menor";
     $("naf-voltar-pent").textContent = "Voltar à escala " + nome.charAt(0).toLowerCase() + nome.slice(1);
   }
-  function sugestao() { var t = parseFloat($("naf-temp").value); return N.sugerir({ furos: nFuros(), midi: midiFund(), escala: escolhida() || ultimaEscala, a4: parseFloat($("naf-a4").value) || 440, temp: isFinite(t) ? t : 20 }); }
+  function editouMedidas() { return manualTubo || manualJanela || dDigitado; }
+  /* sugestão para o tom atual; as medidas digitadas (tubo, janela) entram na conta dos furos, o resto vem do tom */
+  function sugestao() {
+    var t = parseFloat($("naf-temp").value), m = {}, num = function (id) { return parseFloat($(id).value); };
+    if (manualTubo && isFinite(num("naf-od")) && isFinite(num("naf-parede"))) { m.diametroExterno = num("naf-od"); m.parede = num("naf-parede"); }
+    if (manualJanela && [num("naf-jc"), num("naf-jl"), num("naf-ja"), num("naf-cabeca"), num("naf-ponta")].every(isFinite)) { m.janelaCompr = num("naf-jc"); m.janelaLarg = num("naf-jl"); m.janelaAltura = num("naf-ja"); m.cabeca = num("naf-cabeca"); m.ponta = num("naf-ponta"); }
+    return N.sugerir({ furos: nFuros(), midi: midiFund(), escala: escolhida() || ultimaEscala, a4: parseFloat($("naf-a4").value) || 440, temp: isFinite(t) ? t : 20, medidas: m });
+  }
   function derivarInterno() {
     if (document.activeElement === $("naf-di")) return; /* não reescreve o campo enquanto a pessoa digita nele */
     var od = parseFloat($("naf-od").value), p = parseFloat($("naf-parede").value);
     $("naf-di").value = isFinite(od) && isFinite(p) ? (Math.round((od - 2 * p) * 100) / 100) : "";
   }
+  /* põe as medidas sugeridas só onde a pessoa não digitou */
   function aplicarMedidas(s) {
-    $("naf-od").value = s.diametroExterno; $("naf-parede").value = s.parede; $("naf-jc").value = s.janelaCompr; $("naf-jl").value = s.janelaLarg;
-    $("naf-ja").value = s.janelaAltura; $("naf-cabeca").value = s.cabeca; $("naf-ponta").value = s.ponta; derivarInterno();
+    if (!manualTubo) { $("naf-od").value = s.diametroExterno; $("naf-parede").value = s.parede; }
+    if (!manualJanela) { $("naf-jc").value = s.janelaCompr; $("naf-jl").value = s.janelaLarg; $("naf-ja").value = s.janelaAltura; $("naf-cabeca").value = s.cabeca; $("naf-ponta").value = s.ponta; }
+    derivarInterno();
   }
   function notasEscala() {
     return N.escala(escolhida() || ultimaEscala, midiFund(), nFuros()).map(N.nomePt);
@@ -96,7 +106,9 @@
     linhas.forEach(function (l, k) { l.nota = notas[k]; l.hz = ""; }); desenharLinhas();
   }
   function refazerDiametros() { var sug = sugestao(); linhas.forEach(function (l, k) { l.d = l.ideal = sug.diametros[k]; }); dDigitado = false; desenharLinhas(); }
-  function sugerirTudo() { manualDim = false; aplicarMedidas(sugestao()); montarLinhas(); }
+  function sugerirTudo() { manualTubo = false; manualJanela = false; aplicarMedidas(sugestao()); montarLinhas(); }
+  /* topologia nova: o que a pessoa digitou no tubo e na janela fica; os furos são refeitos para a nova quantidade */
+  function refazerPorFuros() { aplicarMedidas(sugestao()); montarLinhas(); }
 
   /* NAF de 6 furos na pentatônica: o furo auxiliar (o 4º contado do pé na menor) é o extra, fora da escala */
   function ehExtra(k) { return N.ehAux(escolhida(), nFuros(), k); }
@@ -130,7 +142,7 @@
   function estadoLink() {
     return { f: nFuros(), fu: $("naf-fund").value, es: $("naf-escala").value, a4: $("naf-a4").value, t: $("naf-temp").value, od: $("naf-od").value,
       p: $("naf-parede").value, jc: $("naf-jc").value, jl: $("naf-jl").value, ja: $("naf-ja").value, c: $("naf-cabeca").value, po: $("naf-ponta").value,
-      m: manualDim ? 1 : 0, dd: dDigitado ? 1 : 0, l: linhas.map(function (l) { return [l.nota, l.hz, l.d, l.a ? 1 : 0, l.ideal === undefined ? l.d : l.ideal]; }) };
+      mt: manualTubo ? 1 : 0, mj: manualJanela ? 1 : 0, dd: dDigitado ? 1 : 0, l: linhas.map(function (l) { return [l.nota, l.hz, l.d, l.a ? 1 : 0, l.ideal === undefined ? l.d : l.ideal]; }) };
   }
   function aplicarLink(s) {
     if (!s || typeof s !== "object" || !s.fu) return false;
@@ -138,9 +150,12 @@
     opcoesEscala(s.es || "pentatonica-menor");
     $("naf-a4").value = s.a4; sincLa(); $("naf-temp").value = s.t;
     $("naf-od").value = s.od; $("naf-parede").value = s.p; $("naf-jc").value = s.jc; $("naf-jl").value = s.jl; $("naf-ja").value = s.ja;
-    $("naf-cabeca").value = s.c; $("naf-ponta").value = s.po; derivarInterno(); manualDim = !!s.m;
+    $("naf-cabeca").value = s.c; $("naf-ponta").value = s.po; derivarInterno(); if (s.mt !== undefined || s.mj !== undefined) { manualTubo = !!s.mt; manualJanela = !!s.mj; } else { manualTubo = manualJanela = !!s.m; } /* link antigo: um marcador só */
     var n = nFuros(), l = Array.isArray(s.l) ? s.l.slice(0, n) : [];
-    linhas = []; for (var k = 0; k < n; k++) { var x = l[k] || ["", "", "", 1]; linhas.push({ nota: String(x[0]), hz: String(x[1] === null ? "" : x[1]), d: x[2], a: true, ideal: x[4] === undefined ? x[2] : x[4] }); }
+    /* sem as notas dos furos (ou com notas que não existem) o estado não serve: quem chamou usa o padrão */
+    var serve = l.length === n && l.every(function (x) { return Array.isArray(x) && (N.parseNota(String(x[0])) !== null || parseFloat(String(x[1]).replace(",", ".")) > 0); });
+    if (!serve) return false;
+    linhas = []; for (var k = 0; k < n; k++) { var x = l[k]; linhas.push({ nota: String(x[0]), hz: String(x[1] === null ? "" : x[1]), d: x[2], a: true, ideal: x[4] === undefined ? x[2] : x[4] }); }
     dDigitado = !!s.dd;
     desenharLinhas(); return true;
   }
@@ -447,6 +462,8 @@
     if (linhas.length !== nFuros()) return; /* estado intermediário de uma troca de topologia: não calcula nem salva */
     derivarInterno();
     var nCampos = alertasCampos();
+    notasDaEscala();
+    { var na = notasAudio(); if (na && btFund && Esc && Esc.estado(btFund) === "tocando") Esc.mudarNota(na.fund); } /* trocou a nota/o Lá tocando: muda na hora */
     $("naf-escala-aviso").hidden = !!escolhida();
     $("naf-linhas").classList.toggle("pers", !escolhida()); /* nota e Hz só se editam na escala personalizada */
     /* Ajuste automático: com os diâmetros sugeridos, os furos que ficariam encostados mudam de tamanho e a posição
@@ -486,8 +503,6 @@
       salvar(); return;
     }
     ultimo = r; $("naf-erros").innerHTML = ""; $("naf-saida").hidden = false;
-    notasDaEscala(r);
-    if (btFund && Esc && Esc.estado(btFund) === "tocando") Esc.mudarNota(r.fundamental.hz); /* trocou a nota/o Lá tocando: muda na hora */
     /* Hz da nota aparece como sugestão cinza no campo; só o Hz digitado ganha uma linha de texto */
     linhas.forEach(function (l, k) {
       var hzEl = document.querySelector('#naf-linhas [data-k="' + k + '"][data-c="hz"]'), mp = N.parseNota(l.nota), a4 = parseFloat(e.a4);
@@ -544,12 +559,13 @@
     $("naf-aviso-troca").hidden = true;
     if (c) {
       var l = linhas[k]; if (!l) return;
-      if (c === "d") { l.d = l.ideal = t.value; manualDim = true; dDigitado = true; } else { l[c] = t.value; if (c === "nota" || c === "hz") $("naf-escala").value = "personalizada"; }
-    } else if (/^naf-(od|parede|jc|jl|ja|cabeca|ponta)$/.test(t.id)) manualDim = true;
+      if (c === "d") { l.d = l.ideal = t.value; dDigitado = true; } else { l[c] = t.value; if (c === "nota" || c === "hz") $("naf-escala").value = "personalizada"; }
+    } else if (/^naf-(od|parede)$/.test(t.id)) manualTubo = true;
+    else if (/^naf-(jc|jl|ja|cabeca|ponta)$/.test(t.id)) manualJanela = true;
     /* temperatura e A4 mudam a solução do modelo: enquanto as medidas são as sugeridas, refaz as sugestões junto
        (senão uma mudança de temperatura poderia deixar as medidas sugeridas sem solução) */
-    if ((t.id === "naf-temp" || t.id === "naf-a4") && !manualDim && isFinite(parseFloat(t.value))) { aplicarMedidas(sugestao()); refazerDiametros(); }
-    if (t.id === "naf-di") { var p = parseFloat($("naf-parede").value), di = parseFloat(t.value); if (isFinite(p) && isFinite(di)) { $("naf-od").value = Math.round((di + 2 * p) * 100) / 100; manualDim = true; } }
+    if ((t.id === "naf-temp" || t.id === "naf-a4") && isFinite(parseFloat(t.value))) { aplicarMedidas(sugestao()); if (!dDigitado) refazerDiametros(); }
+    if (t.id === "naf-di") { var p = parseFloat($("naf-parede").value), di = parseFloat(t.value); if (isFinite(p) && isFinite(di)) { $("naf-od").value = Math.round((di + 2 * p) * 100) / 100; manualTubo = true; } }
     atualizar();
   });
   /* "usar X mm": põe o diâmetro interno indicado para essa nota (o externo acompanha) */
@@ -559,31 +575,45 @@
   });
   $("naf-form").addEventListener("change", function (ev) {
     var id = ev.target.id, pent = !!escolhida();
-    if (id === "naf-escala" && pent) { ultimaEscala = escolhida(); opcoesEscala(); refazerNotas(); if (!manualDim) refazerDiametros(); atualizar(); return; }
+    if (id === "naf-escala" && pent) { ultimaEscala = escolhida(); opcoesEscala(); refazerNotas(); if (!dDigitado) refazerDiametros(); atualizar(); return; }
     if (id === "naf-furos") {
       opcoesEscala(); pent = !!escolhida();
       /* trocar a topologia refaz tudo com a semente da nova (nada é herdado por índice); fundamental, A4, temperatura e escala ficam */
-      var editou = manualDim || !pent || linhas.some(function (l) { return !l.a || l.hz !== ""; });
-      sugerirTudo();
+      var editou = editouMedidas() || !pent || linhas.some(function (l) { return !l.a || l.hz !== ""; });
+      refazerPorFuros();
       $("naf-aviso-troca").hidden = !editou;
     } else if (id === "naf-fund") {
       if (pent) refazerNotas();
-      if (!manualDim) { aplicarMedidas(sugestao()); refazerDiametros(); }
+      aplicarMedidas(sugestao()); if (!dDigitado) refazerDiametros();
     } else if (id === "naf-a4" || id === "naf-escala") { if (pent) refazerNotas(); }
     atualizar();
   });
   $("naf-voltar-pent").addEventListener("click", function () { $("naf-escala").value = ultimaEscala; refazerNotas(); atualizar(); });
   /* Ouvir a escala da flauta calculada (tônica até a oitava, ou ida e volta); o furo extra não entra */
   if ($("naf-ouvir") && Esc) Esc.ligarBotao($("naf-ouvir"), function () { var m = document.querySelector('input[name="naf-ouvir-modo"]:checked'); return m ? m.value : "ida-e-volta"; },
-    function () { return ultimo ? { freqRaiz: ultimo.fundamental.hz, furos: ultimo.furos.map(function (f) { return { hz: f.hz, aux: f.extra }; }) } : null; });
+    function () { var na = notasAudio(); return na ? { freqRaiz: na.fund, furos: na.lista.slice(1).map(function (n) { return { hz: n.hz, aux: false }; }) } : null; });
   /* Notas da escala (mesma linha de notas do Pífano): a grave e cada furo da escala, da mais grave à mais aguda; tocar numa nota toca essa nota.
      O furo extra fica de fora, como no "Ouvir escala". */
   var btFund = $("naf-fund-ouvir"), caixaNotas = $("naf-notas-escala");
-  function notasDaEscala(r) {
-    if (!caixaNotas) return;
-    var lista = [{ nome: N.nomePt(midiFund()), hz: r.fundamental.hz }];
-    r.furos.forEach(function (f) { if (!f.extra) lista.push({ nome: String(f.nota).replace(/^≈\s*/, ""), hz: f.hz }); });
+  /* As notas para ouvir saem do que está no formulário (nota grave, Lá, notas e Hz de cada furo), não da conta das posições: se as medidas
+     digitadas não fecham para o tom novo, o som, os chips e o "Ouvir escala" seguem o tom e a escala atuais do mesmo jeito. */
+  function notasAudio() {
+    var a4 = parseFloat($("naf-a4").value), m = midiFund();
+    if (m === null || !(a4 > 0)) return null;
+    var fund = N.freqNota(m, a4), lista = [{ nome: N.nomePt(m), hz: fund }];
+    linhas.forEach(function (l, k) {
+      if (!l.a || ehExtra(k)) return;
+      var hz = parseFloat(String(l.hz).replace(",", ".")), mp = N.parseNota(l.nota);
+      if (!(hz > 0)) { if (mp === null) return; hz = N.freqNota(mp, a4); }
+      lista.push({ nome: String(l.nota), hz: hz });
+    });
     lista.sort(function (a, b) { return a.hz - b.hz; });
+    return { fund: fund, lista: lista };
+  }
+  function notasDaEscala() {
+    if (!caixaNotas) return;
+    var na = notasAudio(); if (!na) return;
+    var lista = na.lista;
     var M = window.PifeModo, total = lista.length ? Math.round(12 * Math.log2(lista[lista.length - 1].hz / lista[0].hz)) : 0;
     var h = lista.map(function (n, i) {
       /* salto até a nota anterior (ST = semitom, T = tom...), pelos semitons entre as duas; o par fica junto, como no Pífano */
@@ -647,7 +677,13 @@
   var inicio = modoNaf() ? lerHash() : null;
   if (!inicio) { try { inicio = JSON.parse(localStorage.getItem(CHAVE) || "null"); } catch (x) { inicio = null; } }
   $("naf-fund").value = "G4"; $("naf-furos").value = "5"; opcoesEscala("pentatonica-menor"); $("naf-a4").value = "440"; sincLa(); $("naf-temp").value = "20";
-  if (!(inicio && aplicarLink(inicio))) sugerirTudo();
+  var inicioOk = false;
+  try { inicioOk = !!(inicio && aplicarLink(inicio)); } catch (x) { inicioOk = false; }
+  if (!inicioOk) { /* estado salvo (ou link) que não serve mais: vale o padrão, sem derrubar a página */
+    try { localStorage.removeItem(CHAVE); } catch (x) { /* sem armazenamento */ }
+    $("naf-fund").value = "G4"; $("naf-furos").value = "5"; opcoesEscala("pentatonica-menor"); $("naf-a4").value = "440"; sincLa(); $("naf-temp").value = "20";
+    manualTubo = false; manualJanela = false; dDigitado = false; sugerirTudo();
+  }
   mostrarModo(modoNaf());
   if (modoNaf()) atualizar(); else { var tmp = estadoLink(); hashNaf = "#" + encodeURIComponent(JSON.stringify(tmp)); }
 })();

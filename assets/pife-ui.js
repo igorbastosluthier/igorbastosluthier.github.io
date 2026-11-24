@@ -74,7 +74,8 @@
   }
   function mesmos(a, b) { return a.length === b.length && a.every(function (x, i) { return Math.abs(x - b[i]) < 1e-9; }); }
   function dicaTubo() {
-    var t = $("pc-tom").options[$("pc-tom").selectedIndex].text, alvo = P.tuboSugerido($("pc-tom").value);
+    var op = $("pc-tom").options[$("pc-tom").selectedIndex]; if (!op) return;
+    var t = op.text, alvo = P.tuboSugerido($("pc-tom").value);
     $("pc-dica-tubo").textContent = "Indicado para " + t + ": " + mm(alvo) + " mm.";
   }
   /* "usar 18,0 mm": o tubo indicado do tom e o furo do sopro na mesma proporção */
@@ -448,7 +449,10 @@
   var inicial = null;
   try { if (location.hash.length > 2 && !window.__modoNaf) inicial = JSON.parse(decodeURIComponent(location.hash.slice(1))); } catch (x) { inicial = null; }
   if (!inicial) { try { inicial = JSON.parse(localStorage.getItem(CHAVE) || "null"); } catch (x) { inicial = null; } }
-  if (inicial && inicial.tom) aplicar(inicial); else { sincParede(); sugerir(); }
+  /* estado salvo (ou link) que não serve mais (tom que não existe, escala trocada, valores fora do lugar) não derruba a página: vale o padrão */
+  var inicialOk = !!(inicial && typeof inicial === "object" && P.TONS.some(function (t) { return t.id === inicial.tom; }));
+  if (inicialOk) { try { aplicar(inicial); } catch (x) { inicialOk = false; } }
+  if (!inicialOk) { try { localStorage.removeItem(CHAVE); } catch (x) { /* sem armazenamento */ } $("pc-tom").value = "sol"; sincParede(); sugerir(); }
 
   /* botões dentro dos avisos: usar o tubo indicado, a parede ideal ou o furo que cabe no alcance dos dedos */
   document.addEventListener("click", function (ev) {
@@ -461,18 +465,7 @@
     entradasFuro[a.sugestao.furo].value = a.sugestao.para; manual = true;
     atualizar();
   });
-  /* "?" de cada campo: abre e fecha a explicação curta (vale também para a NAF) */
-  document.addEventListener("click", function (ev) {
-    var b = ev.target && ev.target.closest ? ev.target.closest(".pc-ajuda") : null; if (!b) return;
-    var alvo = $(b.getAttribute("aria-controls")); if (!alvo) return;
-    var abrir = b.getAttribute("aria-expanded") !== "true";
-    b.setAttribute("aria-expanded", String(abrir)); alvo.hidden = !abrir;
-  });
-  document.addEventListener("keydown", function (ev) {
-    if (ev.key !== "Escape") return;
-    var b = document.activeElement && document.activeElement.closest ? document.activeElement.closest(".pc-ajuda") : null;
-    if (b && b.getAttribute("aria-expanded") === "true") b.click();
-  });
+  /* o "?" de cada campo é de assets/ajuda.js (carregado antes, independente desta calculadora) */
 
   painelVis();
   $("pc-vis").addEventListener("change", function (ev) {
