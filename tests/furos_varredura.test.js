@@ -32,7 +32,7 @@ ok("pífano: todas as escalas × 5/6/7 furos × 23 tons: 0 furos encostados, 0 e
   [5, 6, 7].forEach((k) => E.aplicaveis("pife", k).forEach((es) => P.TONS.forEach((t) => {
     const D = P.tuboSugerido(t.id), l = E.layout(es.id, k, "pife");
     const e = { tom: t.id, la: 440, temp: 25, D, parede: P.paredeIdeal(D), emb: Math.round(D * 0.53), embForma: "redondo", semitons: l.furos, aux: l.aux };
-    e.furos = P.otimizarFuros(e);
+    e.furos = P.sugerirFuros(e);
     const a = P.ajustarFuros(e), e2 = Object.assign({}, e, { furos: a.diametros }), r = P.calcular(e2);
     const nome = k + " furos " + es.nome + " " + t.nome;
     assert.ok(a.ok, nome + ": ajuste não fechou (" + a.falta + ")");
@@ -67,29 +67,36 @@ function nafConfere(e, nome) {
   return a;
 }
 
-ok("NAF: todas as escalas × 5/6 furos × Dó 3 a Sol 5 (e 3 temperaturas no Sol 4): 0 encostados, 0 erros, notas certas", () => {
-  let tot = 0, ajust = 0; const ex = [];
+ok("NAF: todas as escalas × 5/6 furos × Dó 3 a Sol 5 (e 3 temperaturas no Sol 4): 0 encostados, 0 erros, notas certas; o tubo só depende do tom", () => {
+  let tot = 0, ajust = 0, semFlauta = 0; const ex = [], tubo = {};
   [5, 6].forEach((k) => E.aplicaveis("naf", k).forEach((es) => {
     for (let m = N.MIDI_MIN; m <= N.MIDI_MAX; m++) [20].concat(m === 67 ? [5, 35] : []).forEach((temp) => {
-      const nome = k + " furos " + es.nome + " " + N.nomePt(m) + " " + temp + "°C", a = nafConfere(nafCaso(k, es.id, m, temp), nome);
+      const nome = k + " furos " + es.nome + " " + N.nomePt(m) + " " + temp + "°C", caso = nafCaso(k, es.id, m, temp);
+      /* o tubo é o do tom: igual em qualquer quantidade de furos, escala e temperatura (nunca encolhido para fechar a conta) */
+      const chave = m; tubo[chave] = tubo[chave] || (temp === 20 ? caso.diametroExterno + "/" + caso.parede : undefined);
+      if (temp === 20) assert.strictEqual(caso.diametroExterno + "/" + caso.parede, tubo[chave], nome + ": tubo mudou");
+      const a = nafConfere(caso, nome);
       tot++; if (a.ajustados.length) { ajust++; if (ex.length < 3) ex.push(nome + ": " + A.textoAjuste(a.ajustados)); }
     });
   }));
   console.log("      NAF: " + tot + " combinações, " + ajust + " com furos ajustados");
   ex.forEach((x) => console.log("      exemplo: " + x));
-  assert.ok(tot > 1300);
+  assert.ok(tot > 1300, String(tot));
 });
 
 ok("NAF Personalizada: notas digitadas (fora da escala) com os tamanhos sugeridos também viram flauta válida", () => {
   let tot = 0;
   [[5, [2, 3, 7, 9, 12]], [5, [1, 4, 5, 8, 10]], [6, [2, 3, 4, 5, 7, 9]], [6, [1, 2, 5, 6, 10, 11]]].forEach(([k, st]) => {
     [55, 62, 67, 72].forEach((m) => {
-      const e = nafCaso(k, "pentatonica-menor", m, 20);
-      e.escala = "personalizada"; e.linhas = e.linhas.map((l, i) => Object.assign({}, l, { nota: N.nomeEn(m + st[i]) }));
+      const sg = N.sugerir({ furos: k, midi: m, semitons: st, temp: 20 });
+      const e = { furos: k, escala: "personalizada", fundamental: N.nomeEn(m), a4: 440, temperatura: 20, diametroExterno: sg.diametroExterno, parede: sg.parede,
+        janelaCompr: sg.janelaCompr, janelaLarg: sg.janelaLarg, janelaAltura: sg.janelaAltura, cabeca: sg.cabeca, ponta: 0,
+        linhas: st.map((x, i) => ({ nota: N.nomeEn(m + x), diametro: sg.diametros[i] })) };
       nafConfere(e, "personalizada " + k + " " + st + " " + N.nomePt(m)); tot++;
     });
   });
   console.log("      personalizada: " + tot + " casos");
+  assert.ok(tot === 16);
 });
 
 console.log("varredura dos furos: " + n + " verificações OK");

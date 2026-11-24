@@ -39,13 +39,13 @@ ok("um formulário só: nada do modo básico no motor da tela (sem padrões esco
   assert.strictEqual(P.calcular(base).bocaAoPe.toFixed(1), "387.5");
 });
 
-ok("com os campos no padrão, em todas as combinações, o resultado é o de antes (furos sugeridos = otimizar + ajustar)", () => {
+ok("com os campos no padrão, em todas as combinações, o resultado é o do gerador por regras (furos sugeridos = sugerirFuros + ajustar)", () => {
   let tot = 0;
   todas((raw) => {
     const rb = P.calcular(sugerida(raw));
-    /* a flauta de antes: os mesmos padrões escritos à mão + o "sugerir" antigo (otimizar e ajustar) */
+    /* a flauta pelo mesmo caminho do gerador: sugerirFuros (regras) e ajustar */
     const antes = { tom: raw.tom, la: 440, temp: 25, D: raw.D, parede: P.paredeIdeal(raw.D), emb: raw.emb, embForma: "redondo", cone: false, lip: 0, semitons: raw.semitons, aux: raw.aux };
-    antes.furos = P.ajustarFuros(Object.assign({}, antes, { furos: P.otimizarFuros(antes) })).diametros;
+    antes.furos = P.ajustarFuros(Object.assign({}, antes, { furos: P.sugerirFuros(antes) })).diametros;
     assert.strictEqual(JSON.stringify(rb), JSON.stringify(P.calcular(antes)), raw.tom + " " + raw.escala);
     tot++;
   });
@@ -54,7 +54,7 @@ ok("com os campos no padrão, em todas as combinações, o resultado é o de ant
   /* com os outros campos mexidos, os furos sugeridos seguem a mesma regra */
   [{ la: 432, temp: 35 }, { parede: 2.5, lip: 3 }, { cone: true, embForma: "oval", embL: 9, embC: 11 }].forEach((x) => {
     const e = cru("re-grave", 6, "diatonica-maior-jonia", x);
-    assert.deepStrictEqual(M.sugeridos(e).furos, P.ajustarFuros(Object.assign({}, e, { furos: P.otimizarFuros(e) })).diametros, JSON.stringify(x));
+    assert.deepStrictEqual(M.sugeridos(e).furos, P.ajustarFuros(Object.assign({}, e, { furos: P.sugerirFuros(e) })).diametros, JSON.stringify(x));
   });
 });
 
@@ -160,8 +160,8 @@ ok("alcance dos dedos: as mãos como no app (5 = 2+3, 6 = 3+3, 7 = 4+3); o vão 
   [1, 2, 4, 5].forEach((i) => assert.strictEqual(al.some((a) => a.furos[1] === i), rl.furos[i].espaco > 48, "par " + i));
 });
 
-ok("alcance dos dedos: Ré 4 grave avisa os furos 1 e 2 e sugere o 1º menor, que cabe no alcance e mantém as notas", () => {
-  const e = sugerida(cru("re-grave", 6, "diatonica-maior-jonia")), r = P.calcular(e), al = M.alcanceDedos(e, r);
+ok("alcance dos dedos: Ré 4 grave (com os furos de antes, 10/12/9/12/12/12) avisa os furos 1 e 2 e sugere o 1º menor, que cabe no alcance e mantém as notas", () => {
+  const e0 = sugerida(cru("re-grave", 6, "diatonica-maior-jonia")), e = Object.assign({}, e0, { furos: P.ajustarFuros(Object.assign({}, e0, { furos: P.otimizarFuros(e0) })).diametros }), r = P.calcular(e), al = M.alcanceDedos(e, r);
   assert.strictEqual(al.length, 1); const a = al[0];
   assert.deepStrictEqual(a.furos, [0, 1]); assert.ok(a.distancia > 48);
   assert.ok(/^Furos 1 e 2: 50,\d mm entre os centros, na mesma mão\. Passa do alcance confortável dos dedos \(até 48 mm\)\./.test(a.texto), a.texto);

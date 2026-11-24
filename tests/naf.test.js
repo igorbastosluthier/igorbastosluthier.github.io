@@ -158,7 +158,7 @@ t("sugestões iniciais têm solução (MIDI 48-79, 5 e 6 furos, -10 a 50 °C)", 
 
 /* 8c. o rótulo nunca contradiz o Hz usado como alvo */
 t("Hz explícito diferente da nota: rótulo mostra a nota mais próxima com ≈", function () {
-  const e = cfg(5); e.linhas[0] = { nota: "Sib 4", hz: 480, diametro: e.linhas[0].diametro, ativo: true };
+  const e = cfg(5); e.linhas[0] = { nota: "Sib 4", hz: 480, diametro: 9, ativo: true }; /* 9 mm no pé: com Hz fora da nota a conta só fecha com esse furo */
   const f = N.calcular(e).furos[0];
   assert.strictEqual(f.hz, 480); assert.ok(/^≈ /.test(f.nota) && /^≈ /.test(f.notaIng), f.nota);
   assert.ok(Math.abs(f.notaProxima.cents) > 0.5);

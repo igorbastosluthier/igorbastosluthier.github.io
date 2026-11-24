@@ -115,9 +115,9 @@ module.exports = async (p, base) => {
   r = await J(PRE + `return {modelo:!!document.querySelector('[data-modelo],.pc-modelos')}`);
   ok(!r.modelo, "sem 'Começar de um modelo' (pedido do Igor, 23/11)", JSON.stringify(r));
 
-  /* alcance dos dedos (Ré 4 grave): aviso com botão; o botão muda o 1º furo e o aviso some */
+  /* alcance dos dedos (Ré 4 grave, com os furos digitados 10/12/9/12/12/12: os sugeridos já ficam dentro do alcance): aviso com botão; o botão muda o 1º furo e o aviso some */
   await p.goto(base + "/calculadora.html"); await ev("localStorage.clear()"); await p.goto("about:blank"); await p.goto(base + "/calculadora.html");
-  r = await J(PRE + `set('pc-tom','re-grave');const u=$('pc-usar-tubo');if(u)u.click();const a=$('pc-avisos').innerText;
+  r = await J(PRE + `set('pc-tom','re-grave');const u=$('pc-usar-tubo');if(u)u.click();[10,12,9,12,12,12].forEach((v,i)=>{const e=document.querySelectorAll('#pc-furos input')[i];e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}))});const a=$('pc-avisos').innerText;
     const b=document.querySelector('[data-alcance]');const txt=b?b.textContent:'';if(b)b.click();
     return {a,txt,f1:document.querySelectorAll('#pc-furos input')[0].value,depois:$('pc-avisos').innerText}`);
   ok(/Furos 1 e 2: 50,\d mm entre os centros/.test(r.a) && /usar 9,5 mm no 1º furo/.test(r.txt), "Ré 4 grave: aviso de alcance com 'usar 9,5 mm no 1º furo'", JSON.stringify(r));

@@ -5,6 +5,8 @@
   "use strict";
   /* ajuste automático do tamanho dos furos (ajuste-furos.js): no navegador vem antes deste arquivo */
   var Aj = typeof module === "object" && module.exports ? require("./ajuste-furos.js") : root.AjusteFuros;
+  /* tamanho sugerido dos furos por regras (furos-regras.js), o mesmo da NAF */
+  var FR = typeof module === "object" && module.exports ? require("./furos-regras.js") : root.FurosRegras;
 
   var SEMITONS_ESCALA_MAIOR = [2, 4, 5, 7, 9, 11];
   var NOMES = ["Dó", "Dó#", "Ré", "Ré#", "Mi", "Fá", "Fá#", "Sol", "Sol#", "Lá", "Lá#", "Si"];
@@ -248,6 +250,21 @@
     return tent.furos;
   }
 
-  var api = { avisosItens: avisosItens, apertos: apertos, ajustarFuros: ajustarFuros, SEMITONS_ESCALA_MAIOR: SEMITONS_ESCALA_MAIOR, padraoFuros: padraoFuros, paredeIdeal: paredeIdeal, diametroSopro: diametroSopro, TONS: TONS, calcular: calcular, otimizarFuros: otimizarFuros, tuboSugerido: tuboSugerido, ajuste: ajuste, furoSugerido: furoSugerido, nomeNota: nomeNota, freqMidi: freqMidi };
+  /* Tamanho sugerido dos furos por regras (o mesmo gerador da NAF): parte do padrão de sempre, na proporção do tubo, e escolhe de
+     0,5 em 0,5 mm a disposição com furos que dão voz e que o dedo fecha, dedos da mesma mão ao alcance, vãos regulares, madeira
+     entre furos e agudos fáceis. O tubo é o que a pessoa pôs (ou o do tom); aqui ele não muda. */
+  function sugerirFuros(e) {
+    if (!FR) return otimizarFuros(e);
+    var semis = semitonsDe(e), n = semis.length;
+    var g = FR.gerar({ n: n, bore: e.D, tipo: "pifano", madeira: n !== 6, padrao: n === 6, base: FR.padrao("pifano", n, semis, e.D),
+      avaliar: function (d) {
+        var t = Object.assign({}, e, { semitons: semis, furos: d }), r = calcular(t), f = 0;
+        apertos(t, r.furos).forEach(function (x) { f += x.falta; });
+        return { ok: true, pos: r.furos.map(function (h) { return h.doPe; }), razao: r.furos.map(function (h) { return h.razaoCorte; }), falta: f };
+      } });
+    return g.diametros;
+  }
+
+  var api = { sugerirFuros: sugerirFuros, avisosItens: avisosItens, apertos: apertos, ajustarFuros: ajustarFuros, SEMITONS_ESCALA_MAIOR: SEMITONS_ESCALA_MAIOR, padraoFuros: padraoFuros, paredeIdeal: paredeIdeal, diametroSopro: diametroSopro, TONS: TONS, calcular: calcular, otimizarFuros: otimizarFuros, tuboSugerido: tuboSugerido, ajuste: ajuste, furoSugerido: furoSugerido, nomeNota: nomeNota, freqMidi: freqMidi };
   if (typeof module === "object" && module.exports) module.exports = api; else root.PifeCalc = api;
 })(this);

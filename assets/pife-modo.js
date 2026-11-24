@@ -10,9 +10,9 @@
   var num = function (x) { return String(r1(x)).replace(".", ","); };
   var mm1 = function (x) { return x.toFixed(1).replace(".", ","); };
 
-  /* Furos sugeridos: o padrão do Igor na proporção do tubo e, se algum ficaria encostado, o ajuste automático. */
+  /* Furos sugeridos: o gerador por regras (furos-regras.js) na proporção do tubo e, se algum ainda ficaria encostado, o ajuste automático. */
   function sugeridos(e) {
-    var f = P.otimizarFuros(e), aj = P.ajustarFuros(Object.assign({}, e, { furos: f }));
+    var f = P.sugerirFuros(e), aj = P.ajustarFuros(Object.assign({}, e, { furos: f }));
     return { furos: aj.diametros, ajuste: aj };
   }
 
