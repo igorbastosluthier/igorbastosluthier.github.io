@@ -106,14 +106,14 @@
     var cx = $("naf-linhas"); cx.innerHTML = "";
     linhas.forEach(function (l, k) {
       var div = document.createElement("div"); div.className = "naf-lin"; div.setAttribute("role", "group"); div.setAttribute("aria-label", "Furo " + (k + 1));
-      div.innerHTML = '<label class="naf-ativo"><input type="checkbox" data-k="' + k + '" data-c="a" aria-label="Usar o furo ' + (k + 1) + '"> <span class="pc-n">Furo ' + (k + 1) + '<span class="naf-xt" data-k="' + k + '"></span> · <b class="naf-nome" data-k="' + k + '"></b></span></label>' +
+      div.innerHTML = '<label class="naf-ativo"><span class="pc-n">Furo ' + (k + 1) + '<span class="naf-xt" data-k="' + k + '"></span> · <b class="naf-nome" data-k="' + k + '"></b></span></label>' +
         '<small class="naf-hz-txt" data-k="' + k + '"></small>' +
         '<input type="number" min="1" max="40" step="0.5" data-k="' + k + '" data-c="d" aria-label="Diâmetro do furo ' + (k + 1) + ' (mm)">' +
         '<div class="naf-pers"><label>Nota<input type="text" list="naf-notas" autocomplete="off" data-k="' + k + '" data-c="nota"></label>' +
         '<label>Hz<input type="text" inputmode="decimal" autocomplete="off" data-k="' + k + '" data-c="hz"></label></div>' +
         '<small class="naf-info" data-k="' + k + '"></small>';
       cx.appendChild(div);
-      div.querySelector('[data-c="a"]').checked = l.a; div.querySelector('[data-c="nota"]').value = l.nota;
+      div.querySelector('[data-c="nota"]').value = l.nota;
       div.querySelector('[data-c="hz"]').value = l.hz; div.querySelector('[data-c="d"]').value = l.d;
     });
   }
@@ -140,7 +140,7 @@
     $("naf-od").value = s.od; $("naf-parede").value = s.p; $("naf-jc").value = s.jc; $("naf-jl").value = s.jl; $("naf-ja").value = s.ja;
     $("naf-cabeca").value = s.c; $("naf-ponta").value = s.po; derivarInterno(); manualDim = !!s.m;
     var n = nFuros(), l = Array.isArray(s.l) ? s.l.slice(0, n) : [];
-    linhas = []; for (var k = 0; k < n; k++) { var x = l[k] || ["", "", "", 1]; linhas.push({ nota: String(x[0]), hz: String(x[1] === null ? "" : x[1]), d: x[2], a: x[3] !== 0, ideal: x[4] === undefined ? x[2] : x[4] }); }
+    linhas = []; for (var k = 0; k < n; k++) { var x = l[k] || ["", "", "", 1]; linhas.push({ nota: String(x[0]), hz: String(x[1] === null ? "" : x[1]), d: x[2], a: true, ideal: x[4] === undefined ? x[2] : x[4] }); }
     dDigitado = !!s.dd;
     desenharLinhas(); return true;
   }
@@ -427,7 +427,7 @@
     $("naf-aviso-troca").hidden = true;
     if (c) {
       var l = linhas[k]; if (!l) return;
-      if (c === "a") l.a = t.checked; else if (c === "d") { l.d = l.ideal = t.value; manualDim = true; dDigitado = true; } else { l[c] = t.value; if (c === "nota" || c === "hz") $("naf-escala").value = "personalizada"; }
+      if (c === "d") { l.d = l.ideal = t.value; manualDim = true; dDigitado = true; } else { l[c] = t.value; if (c === "nota" || c === "hz") $("naf-escala").value = "personalizada"; }
     } else if (/^naf-(od|parede|jc|jl|ja|cabeca|ponta)$/.test(t.id)) manualDim = true;
     /* temperatura e A4 mudam a solução do modelo: enquanto as medidas são as sugeridas, refaz as sugestões junto
        (senão uma mudança de temperatura poderia deixar as medidas sugeridas sem solução) */
