@@ -106,7 +106,7 @@
     var cx = $("naf-linhas"); cx.innerHTML = "";
     linhas.forEach(function (l, k) {
       var div = document.createElement("div"); div.className = "naf-lin"; div.setAttribute("role", "group"); div.setAttribute("aria-label", "Furo " + (k + 1));
-      div.innerHTML = '<label class="naf-ativo"><span class="pc-n">Furo ' + (k + 1) + '<span class="naf-xt" data-k="' + k + '"></span> · <b class="naf-nome" data-k="' + k + '"></b></span></label>' +
+      div.innerHTML = '<label class="naf-ativo"><span class="pc-n">' + (k + 1) + 'º<span class="naf-xt" data-k="' + k + '"></span> · <b class="naf-nome" data-k="' + k + '"></b></span></label>' +
         '<small class="naf-hz-txt" data-k="' + k + '"></small>' +
         '<input type="number" min="1" max="40" step="0.5" data-k="' + k + '" data-c="d" aria-label="Diâmetro do furo ' + (k + 1) + ' (mm)">' +
         '<div class="naf-pers"><label>Nota<input type="text" list="naf-notas" autocomplete="off" data-k="' + k + '" data-c="nota"></label>' +
@@ -136,7 +136,7 @@
     if (!s || typeof s !== "object" || !s.fu) return false;
     $("naf-furos").value = s.f === 5 ? "5" : "6"; $("naf-fund").value = s.fu; if (!$("naf-fund").value) $("naf-fund").value = "G4";
     opcoesEscala(s.es || "pentatonica-menor");
-    $("naf-a4").value = s.a4; $("naf-temp").value = s.t;
+    $("naf-a4").value = s.a4; sincLa(); $("naf-temp").value = s.t;
     $("naf-od").value = s.od; $("naf-parede").value = s.p; $("naf-jc").value = s.jc; $("naf-jl").value = s.jl; $("naf-ja").value = s.ja;
     $("naf-cabeca").value = s.c; $("naf-ponta").value = s.po; derivarInterno(); manualDim = !!s.m;
     var n = nFuros(), l = Array.isArray(s.l) ? s.l.slice(0, n) : [];
@@ -405,9 +405,48 @@
     });
   }
 
+  /* Afinação como no Pífano: 440, 432 ou "Outra" (o campo Lá só aparece em "Outra") */
+  function sincLa() {
+    var v = parseFloat($("naf-a4").value), sel = $("naf-la");
+    sel.value = v === 440 ? "440" : v === 432 ? "432" : "outra";
+    $("naf-la-outra-box").hidden = sel.value !== "outra";
+  }
+  $("naf-la").addEventListener("change", function () {
+    var v = this.value; $("naf-la-outra-box").hidden = v !== "outra";
+    if (v !== "outra") { $("naf-a4").value = v; $("naf-a4").dispatchEvent(new Event("input", { bubbles: true })); }
+  });
+  /* Aviso de campo (mesmo formato do Pífano): só aparece quando o valor está fora da faixa; some quando a pessoa acerta */
+  function faixaCampo(id, un) {
+    var el = $(id); if (!el || el.value === "") return "";
+    var v = parseFloat(el.value), mn = parseFloat(el.min), mx = parseFloat(el.max), f = function (x) { return String(x).replace(".", ","); };
+    return isFinite(v) && (v < mn || v > mx) ? "Fora da faixa da calculadora: use de " + f(mn) + " a " + f(mx) + un + "." : "";
+  }
+  function alertasCampos() {
+    var n = 0, un = { "naf-temp": " °C", "naf-a4": " Hz" };
+    ["naf-temp", "naf-a4", "naf-od", "naf-parede", "naf-di", "naf-jc", "naf-jl", "naf-ja", "naf-cabeca", "naf-ponta"].forEach(function (id) {
+      var el = $("naf-al-" + id.slice(4)); if (!el) return;
+      var t = id === "naf-a4" && $("naf-la").value !== "outra" ? "" : faixaCampo(id, un[id] || " mm");
+      if (el.textContent !== t) el.textContent = t;
+      el.hidden = !t; if (t) n++;
+      $(id).classList.toggle("pc-in-aviso", !!t);
+    });
+    return n;
+  }
+  /* Faixa "Alcance" do resultado (mesmo componente do Pífano): o pior furo define o resumo */
+  function alcance(r) {
+    var v = r.furos.map(function (f) { return f.razaoCorte; }).filter(function (x) { return x !== null; });
+    if (!v.length) return "";
+    var pior = Math.min.apply(null, v), n = pior >= 2 ? ["#2D4839", "Bom"] : pior >= 1.5 ? ["#D9A33A", "Limitado"] : ["#9A3B1F", "Fraco"];
+    var frase = { "Bom": "Agudos fáceis em todos os furos.",
+      "Limitado": "Os agudos vão exigir sopro firme. Aumentar os furos marcados em amarelo melhora.",
+      "Fraco": "Algum furo está pequeno demais: a nota sai abafada. Aumente os furos marcados em vermelho." }[n[1]];
+    return '<div class="pc-alcance" style="--c:' + n[0] + '"><b>Alcance: ' + n[1] + "</b> · " + frase + ' <a href="#alcance" class="pc-q" aria-label="O que é o alcance">?</a></div>';
+  }
+
   function atualizar() {
     if (linhas.length !== nFuros()) return; /* estado intermediário de uma troca de topologia: não calcula nem salva */
     derivarInterno();
+    var nCampos = alertasCampos();
     $("naf-escala-aviso").hidden = !!escolhida();
     $("naf-linhas").classList.toggle("pers", !escolhida()); /* nota e Hz só se editam na escala personalizada */
     /* Ajuste automático: com os diâmetros sugeridos, os furos que ficariam encostados mudam de tamanho e a posição
@@ -479,8 +518,13 @@
       "<li><span>Do centro da janela até o pé</span><b>" + mm(r.janelaDoPe) + " mm</b></li>" +
       "<li><span>Comprimento total do tubo</span><b>" + mm(r.comprimentoFisico) + " mm</b></li>" +
       "<li><span>Nota grave (tudo fechado)</span><b>" + r.fundamental.nome + " · " + mm(r.fundamental.hz, 2) + " Hz</b></li>";
+    $("naf-alcance").innerHTML = alcance(r);
+    r.furos.forEach(function (f) { var inp = document.querySelector('#naf-linhas input[data-k="' + (f.linha - 1) + '"][data-c="d"]'); if (inp) inp.classList.toggle("pc-in-aviso", f.razaoCorte !== null && f.razaoCorte < 2); });
     $("naf-avisos").innerHTML = r.avisos.length
-      ? '<div class="pc-aviso"><b>Atenção</b><ul>' + r.avisos.map(function (a) { return "<li>" + esc(a) + "</li>"; }).join("") + "</ul></div>" : "";
+      ? '<div class="pc-aviso"><b>Atenção</b><ul>' + r.avisos.map(function (a) {
+        var b = /^Tubo fora do ideal/.test(a) && isFinite(r.furoOtimo) ? ' <button type="button" class="pc-link-btn" id="naf-usar-tubo" data-alvo="' + (Math.round(r.furoOtimo * 10) / 10) + '">usar ' + mm(r.furoOtimo) + " mm</button>" : "";
+        return "<li>" + esc(a) + b + "</li>"; }).join("") + "</ul></div>"
+      : nCampos ? "" : '<p class="pc-ok">Tudo dentro do normal para essa flauta.</p>';
     $("naf-cautela").textContent = "Posições calculadas: confira com o afinador e ajuste aos poucos" + (r.furos.some(function (f) { return f.extra; }) ? ", principalmente o furo extra." : ".");
     $("naf-molde").innerHTML = molde(r);
     salvar();
@@ -507,6 +551,11 @@
     if ((t.id === "naf-temp" || t.id === "naf-a4") && !manualDim && isFinite(parseFloat(t.value))) { aplicarMedidas(sugestao()); refazerDiametros(); }
     if (t.id === "naf-di") { var p = parseFloat($("naf-parede").value), di = parseFloat(t.value); if (isFinite(p) && isFinite(di)) { $("naf-od").value = Math.round((di + 2 * p) * 100) / 100; manualDim = true; } }
     atualizar();
+  });
+  /* "usar X mm": põe o diâmetro interno indicado para essa nota (o externo acompanha) */
+  $("naf-avisos").addEventListener("click", function (ev) {
+    var b = ev.target && ev.target.closest ? ev.target.closest("#naf-usar-tubo") : null; if (!b) return;
+    $("naf-di").value = b.getAttribute("data-alvo"); $("naf-di").dispatchEvent(new Event("input", { bubbles: true }));
   });
   $("naf-form").addEventListener("change", function (ev) {
     var id = ev.target.id, pent = !!escolhida();
@@ -535,8 +584,12 @@
     var lista = [{ nome: N.nomePt(midiFund()), hz: r.fundamental.hz }];
     r.furos.forEach(function (f) { if (!f.extra) lista.push({ nome: String(f.nota).replace(/^≈\s*/, ""), hz: f.hz }); });
     lista.sort(function (a, b) { return a.hz - b.hz; });
-    var h = lista.map(function (n) {
-      return '<span class="pc-par"><button type="button" class="pc-nota" data-hz="' + n.hz + '" aria-label="Ouvir ' + esc(n.nome) + '">' + esc(n.nome) + "</button></span>";
+    var M = window.PifeModo, total = lista.length ? Math.round(12 * Math.log2(lista[lista.length - 1].hz / lista[0].hz)) : 0;
+    var h = lista.map(function (n, i) {
+      /* salto até a nota anterior (ST = semitom, T = tom...), pelos semitons entre as duas; o par fica junto, como no Pífano */
+      var d = i && M ? Math.round(12 * Math.log2(n.hz / lista[i - 1].hz)) : 0, sl = d >= 1 ? M.salto(d) : null;
+      return '<span class="pc-par">' + (sl ? '<span class="pc-salto" role="img" aria-label="' + sl.falado + '" title="' + sl.falado + '"><b>' + sl.rotulo + "</b><i>" + sl.st + "</i></span>" : "") +
+        '<button type="button" class="pc-nota" data-hz="' + n.hz + '" aria-label="Ouvir ' + esc(n.nome) + (i === lista.length - 1 && total === 12 ? " (oitava)" : "") + '">' + esc(n.nome.replace(/ -?\d+$/, "")) + "</button></span>";
     }).join("");
     if (caixaNotas.innerHTML !== h) caixaNotas.innerHTML = h;
     caixaNotas.setAttribute("aria-label", "Notas da flauta em " + N.nomePt(midiFund()) + ", da grave à mais aguda");
@@ -593,7 +646,7 @@
      aba NAF mostre o mesmo cálculo seja qual for a aba aberta primeiro */
   var inicio = modoNaf() ? lerHash() : null;
   if (!inicio) { try { inicio = JSON.parse(localStorage.getItem(CHAVE) || "null"); } catch (x) { inicio = null; } }
-  $("naf-fund").value = "G4"; $("naf-furos").value = "5"; opcoesEscala("pentatonica-menor"); $("naf-a4").value = "440"; $("naf-temp").value = "20";
+  $("naf-fund").value = "G4"; $("naf-furos").value = "5"; opcoesEscala("pentatonica-menor"); $("naf-a4").value = "440"; sincLa(); $("naf-temp").value = "20";
   if (!(inicio && aplicarLink(inicio))) sugerirTudo();
   mostrarModo(modoNaf());
   if (modoNaf()) atualizar(); else { var tmp = estadoLink(); hashNaf = "#" + encodeURIComponent(JSON.stringify(tmp)); }

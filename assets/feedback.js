@@ -79,7 +79,8 @@
   };
 
   // Calculadora: depois de cada resultado, uma pergunta curta.
-  function perguntaCalc(resumo) {
+  function perguntaCalc(resumo, nome) {
+    nome = nome || "calculadora";
     var q = el("div", "fbk-calc"); q.appendChild(el("span", null, "Esse resultado ajudou?"));
     var sim = el("button", "fbk-chip", "Sim"), nao = el("button", "fbk-chip", "Não"); sim.type = nao.type = "button";
     q.appendChild(sim); q.appendChild(nao);
@@ -88,14 +89,14 @@
       q.innerHTML = ""; q.appendChild(el("span", null, t + " Quer contar mais?"));
       caixa.classList.add("fbk-inline"); q.parentNode.insertBefore(caixa, q.nextSibling); caixa.hidden = false;
     }
-    sim.onclick = function () { conta("calculadora/ajudou-sim", "Calculadora ajudou: sim"); fim("Obrigado!"); };
+    sim.onclick = function () { conta(nome + "/ajudou-sim", (nome === "calculadora" ? "Calculadora" : "Calculadora NAF") + " ajudou: sim"); fim("Obrigado!"); };
     nao.onclick = function () {
-      conta("calculadora/ajudou-nao", "Calculadora ajudou: não");
+      conta(nome + "/ajudou-nao", (nome === "calculadora" ? "Calculadora" : "Calculadora NAF") + " ajudou: não");
       q.innerHTML = ""; q.appendChild(el("span", null, "O que faltou?"));
       [["medidas-estranhas", "Medidas estranhas"], ["dificil-entender", "Difícil de entender"],
         ["faltou-opcao", "Faltou uma opção"], ["desenho-molde", "Problema no desenho/molde"]].forEach(function (it) {
         var b = el("button", "fbk-chip", it[1]); b.type = "button";
-        b.onclick = function () { conta("calculadora/" + it[0], "Calculadora: " + it[1]); fim("Obrigado, vou olhar isso."); };
+        b.onclick = function () { conta(nome + "/" + it[0], (nome === "calculadora" ? "Calculadora: " : "Calculadora NAF: ") + it[1]); fim("Obrigado, vou olhar isso."); };
         q.appendChild(b);
       });
     };
@@ -105,12 +106,14 @@
     var rodape = document.querySelector("footer .bot") || document.querySelector("footer");
     if (rodape) rodape.appendChild(botao);
     document.body.appendChild(caixa);
-    var r = document.getElementById("pc-resumo");
-    if (r && pagina === "calculadora") {
-      var feito = false;
-      var ver = function () { if (!feito && r.textContent.trim()) { feito = true; perguntaCalc(r); } };
-      new MutationObserver(ver).observe(r, { childList: true, subtree: true, characterData: true }); ver();
-    }
+    [["pc-resumo", "calculadora"], ["naf-resumo", "calculadora-naf"]].forEach(function (par) {
+      var r = document.getElementById(par[0]);
+      if (r && pagina === "calculadora") {
+        var feito = false;
+        var ver = function () { if (!feito && r.textContent.trim()) { feito = true; perguntaCalc(r, par[1]); } };
+        new MutationObserver(ver).observe(r, { childList: true, subtree: true, characterData: true }); ver();
+      }
+    });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", liga); else liga();
 })();

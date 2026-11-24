@@ -220,41 +220,52 @@
       <div id="naf-notas-escala" class="pc-notas" role="group" aria-label="Notas da escala"></div>
       <p id="aj-naf-escala" class="pc-ajuda-txt" hidden>Só aparecem as escalas que cabem nesses furos. Embaixo, as notas da flauta: toque numa nota para ouvir.</p></div>
     <div class="esc-ouvir" role="group" aria-label="Ouvir a escala"><label class="esc-modo"><input type="radio" name="naf-ouvir-modo" value="subir"> ↑ Subir</label><label class="esc-modo"><input type="radio" name="naf-ouvir-modo" value="ida-e-volta" checked> ↕ Ida e volta</label><button type="button" id="naf-ouvir" class="btn ghost" aria-pressed="false">▶ Ouvir escala</button></div>
-    <div class="pc-campo"><label for="naf-a4">Afinação: Lá (Hz)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-a4" aria-label="Ajuda: afinação">?</button>
-      <input id="naf-a4" type="number" min="380" max="480" step="0.1" value="440">
-      <p id="aj-naf-a4" class="pc-ajuda-txt" hidden>Use 440 se for tocar com outros instrumentos. Outro valor, por exemplo 442, se o seu grupo afina diferente.</p></div>
+    <div class="pc-campo"><label for="naf-la">Afinação</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-a4" aria-label="Ajuda: afinação">?</button>
+      <select id="naf-la"><option value="440">Lá = 440 Hz (padrão)</option><option value="432">Lá = 432 Hz</option><option value="outra">Outra</option></select>
+      <p id="aj-naf-a4" class="pc-ajuda-txt" hidden>Use 440 se for tocar com outros instrumentos. Em "Outra", digite o Lá do seu grupo (por exemplo, 442).</p>
+      <div id="naf-la-outra-box" class="pc-sub" hidden><label for="naf-a4">Lá (Hz)</label><input id="naf-a4" type="number" min="380" max="480" step="0.1" value="440" aria-describedby="naf-al-a4"></div>
+      <p id="naf-al-a4" class="pc-alerta" hidden></p></div>
     <div class="pc-campo"><label for="naf-temp">Temperatura do lugar (°C)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-temp" aria-label="Ajuda: temperatura">?</button>
-      <input id="naf-temp" type="number" min="-10" max="50" step="1" value="20">
-      <p id="aj-naf-temp" class="pc-ajuda-txt" hidden>O som muda com o calor: afine na temperatura em que vai tocar.</p></div>
+      <input id="naf-temp" type="number" min="-10" max="50" step="1" value="20" aria-describedby="naf-al-temp">
+      <p id="aj-naf-temp" class="pc-ajuda-txt" hidden>O som muda com o calor: afine na temperatura em que vai tocar.</p>
+      <p id="naf-al-temp" class="pc-alerta" hidden></p></div>
   </fieldset>
   <fieldset><legend>2. O tubo</legend>
     <div class="pc-campo"><label for="naf-od">Diâmetro externo (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-od" aria-label="Ajuda: diâmetro externo">?</button>
-      <input id="naf-od" type="number" min="8" max="80" step="0.1">
-      <p id="aj-naf-od" class="pc-ajuda-txt" hidden>A largura do tubo por fora, medida com paquímetro.</p></div>
+      <input id="naf-od" type="number" min="8" max="80" step="0.1" aria-describedby="naf-al-od">
+      <p id="aj-naf-od" class="pc-ajuda-txt" hidden>A largura do tubo por fora, medida com paquímetro.</p>
+      <p id="naf-al-od" class="pc-alerta" hidden></p></div>
     <div class="pc-campo"><label for="naf-parede">Espessura da parede (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-parede" aria-label="Ajuda: espessura da parede">?</button>
-      <input id="naf-parede" type="number" min="0.3" max="20" step="0.1">
-      <p id="aj-naf-parede" class="pc-ajuda-txt" hidden>A grossura do tubo. É o externo menos o interno, dividido por 2.</p></div>
+      <input id="naf-parede" type="number" min="0.3" max="20" step="0.1" aria-describedby="naf-al-parede">
+      <p id="aj-naf-parede" class="pc-ajuda-txt" hidden>A grossura do tubo. É o externo menos o interno, dividido por 2.</p>
+      <p id="naf-al-parede" class="pc-alerta" hidden></p></div>
     <div class="pc-campo"><label for="naf-di">Diâmetro interno (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-di" aria-label="Ajuda: diâmetro interno">?</button>
-      <input id="naf-di" type="number" min="1" max="78" step="0.1">
-      <p id="aj-naf-di" class="pc-ajuda-txt" hidden>É o externo menos 2 vezes a parede. Se digitar aqui, o externo se ajusta.</p></div>
+      <input id="naf-di" type="number" min="1" max="78" step="0.1" aria-describedby="naf-al-di">
+      <p id="aj-naf-di" class="pc-ajuda-txt" hidden>É o externo menos 2 vezes a parede. Se digitar aqui, o externo se ajusta.</p>
+      <p id="naf-al-di" class="pc-alerta" hidden></p></div>
   </fieldset>
   <fieldset><legend>3. A janela</legend>
     <div class="pc-campo"><label for="naf-jc">Comprimento (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-jc" aria-label="Ajuda: comprimento da janela">?</button>
-      <input id="naf-jc" type="number" min="1" max="60" step="0.1">
-      <p id="aj-naf-jc" class="pc-ajuda-txt" hidden>Ao longo do tubo.</p></div>
+      <input id="naf-jc" type="number" min="1" max="60" step="0.1" aria-describedby="naf-al-jc">
+      <p id="aj-naf-jc" class="pc-ajuda-txt" hidden>Ao longo do tubo.</p>
+      <p id="naf-al-jc" class="pc-alerta" hidden></p></div>
     <div class="pc-campo"><label for="naf-jl">Largura (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-jl" aria-label="Ajuda: largura da janela">?</button>
-      <input id="naf-jl" type="number" min="1" max="60" step="0.1">
-      <p id="aj-naf-jl" class="pc-ajuda-txt" hidden>Atravessando o tubo.</p></div>
+      <input id="naf-jl" type="number" min="1" max="60" step="0.1" aria-describedby="naf-al-jl">
+      <p id="aj-naf-jl" class="pc-ajuda-txt" hidden>Atravessando o tubo.</p>
+      <p id="naf-al-jl" class="pc-alerta" hidden></p></div>
     <div class="pc-campo"><label for="naf-ja">Altura (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-ja" aria-label="Ajuda: altura da janela">?</button>
-      <input id="naf-ja" type="number" min="0.1" max="30" step="0.1">
-      <p id="aj-naf-ja" class="pc-ajuda-txt" hidden>É a espessura da parede do tubo no lugar da janela.</p></div>
+      <input id="naf-ja" type="number" min="0.1" max="30" step="0.1" aria-describedby="naf-al-ja">
+      <p id="aj-naf-ja" class="pc-ajuda-txt" hidden>É a espessura da parede do tubo no lugar da janela.</p>
+      <p id="naf-al-ja" class="pc-alerta" hidden></p></div>
     <details id="naf-mais" class="pc-qt-det"><summary>Mais medidas</summary>
     <div class="pc-campo"><label for="naf-cabeca">Bocal: da ponta ao centro da janela (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-cabeca" aria-label="Ajuda: bocal">?</button>
-      <input id="naf-cabeca" type="number" min="0" max="400" step="0.5">
-      <p id="aj-naf-cabeca" class="pc-ajuda-txt" hidden>Distância da ponta do tubo, no lado do sopro, até o centro da janela.</p></div>
+      <input id="naf-cabeca" type="number" min="0" max="400" step="0.5" aria-describedby="naf-al-cabeca">
+      <p id="aj-naf-cabeca" class="pc-ajuda-txt" hidden>Distância da ponta do tubo, no lado do sopro, até o centro da janela.</p>
+      <p id="naf-al-cabeca" class="pc-alerta" hidden></p></div>
     <div class="pc-campo"><label for="naf-ponta">Sobra de tubo na ponta do pé (mm)</label><button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-ponta" aria-label="Ajuda: sobra no pé">?</button>
-      <input id="naf-ponta" type="number" min="0" max="200" step="0.5" value="0">
-      <p id="aj-naf-ponta" class="pc-ajuda-txt" hidden>Tubo que passa do último furo, na ponta do pé. Pode deixar 0.</p></div>
+      <input id="naf-ponta" type="number" min="0" max="200" step="0.5" value="0" aria-describedby="naf-al-ponta">
+      <p id="aj-naf-ponta" class="pc-ajuda-txt" hidden>Tubo que passa do último furo, na ponta do pé. Pode deixar 0.</p>
+      <p id="naf-al-ponta" class="pc-alerta" hidden></p></div>
     </details>
   </fieldset>
   <fieldset class="pc-furos"><legend>4. Furos, do pé para a boca <button type="button" class="pc-ajuda" aria-expanded="false" aria-controls="aj-naf-furos" aria-label="Ajuda: furos">?</button></legend>
@@ -271,13 +282,14 @@
 <div id="naf-erros" aria-live="polite"></div>
 <div id="naf-saida" class="pc-res" aria-live="polite" hidden>
   <h2>Resultado</h2>
-  <div id="naf-avisos"></div>
+  <div id="naf-alcance"></div>
   <div id="naf-vis" class="pc-vis"></div>
   <div id="naf-desenho" class="pc-desenho"></div>
   <div id="naf-cartoes" class="pc-cartoes"></div>
   <div class="tw"><table id="naf-tabela"><caption>Posição do centro de cada furo, do pé para a embocadura</caption>
     <thead><tr><th scope="col">Furo</th><th scope="col">Nota</th><th scope="col">Ø</th><th scope="col">Do pé</th><th scope="col">Da janela</th><th scope="col">Até o de baixo</th><th scope="col">Alcance</th></tr></thead><tbody></tbody></table></div>
   <ul id="naf-resumo" class="plist"></ul>
+  <div id="naf-avisos"></div>
   <div class="pc-acoes">
     <button type="button" id="naf-imprimir" class="btn">Imprimir molde em tamanho real</button>
     <button type="button" id="naf-link" class="btn ghost">Copiar link deste cálculo</button>
@@ -519,10 +531,10 @@
 
 <div id="pc-molde" class="pc-molde" aria-hidden="true"></div>
 <div id="naf-molde" class="pc-molde" aria-hidden="true"></div>
-<script src="assets/ajuste-furos.js?v=1"></script><script src="assets/escalas.js?v=2"></script><script src="assets/pife-calc.js?v=10"></script><script src="assets/pife-modo.js?v=2"></script>
+<script src="assets/ajuste-furos.js?v=1"></script><script src="assets/escalas.js?v=2"></script><script src="assets/pife-calc.js?v=10"></script><script src="assets/pife-modo.js?v=3"></script>
 <script src="assets/pife-ui.js?v=22"></script>
 <script src="assets/naf-calc.js?v=8"></script>
-<script src="assets/naf-ui.js?v=22"></script>
+<script src="assets/naf-ui.js?v=23"></script>
 <script src="assets/pife-afinador.js?v=11"></script>
 </main>
 <footer class="f4"><div class="in"><div><a class="brand" href="index.html"><img class="marca-coroa" src="img/marca/coroa-roxinho.png" width="76" height="76" alt=""><span><b>Igor Bastos</b><small>luthier</small></span></a><h2 style="margin-top:22px">Encomendas</h2><p>Cada flauta é feita sob encomenda. Escreva no WhatsApp com o modelo e o tom que procura. Se ainda não sabe qual escolher, tire suas dúvidas comigo e eu indico a flauta certa.</p><a class="btn wa" href="https://wa.me/5575982901157?text=Ol%C3%A1%2C%20Igor%21%20Vi%20os%20valores%20no%20site%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">(75) 98290-1157</a></div><div><h3>Flautas</h3><ul><li><a href="pifanos.html">Pífanos</a></li><li><a href="irlandesa.html">Flauta irlandesa</a></li><li><a href="nativas.html">Flautas nativas</a></li><li><a href="estojos.html">Estojos</a></li><li><a href="galeria.html">Galeria</a></li></ul></div><div><h3>Encomendas</h3><ul><li><a href="valores.html">Valores</a></li><li><a href="perguntas.html">Perguntas</a></li><li><a href="monte.html">Monte a sua flauta</a></li><li><a href="tabelas.html">Tabelas de digitação</a></li><li><a href="calculadora.html">Faça sua flauta</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="privacidade.html">Privacidade</a></li><li><a href="https://www.siterastreio.com.br/" target="_blank">Rastreamento</a></li></ul></div><div><h3>Contato</h3><ul><li><a href="https://wa.me/5575982901157?text=Ol%C3%A1%2C%20Igor%21%20Vi%20os%20valores%20no%20site%20e%20queria%20um%20or%C3%A7amento." target="_blank" rel="noopener">WhatsApp (75) 98290-1157</a></li><li><a href="https://instagram.com/igorbastos.luthier" target="_blank" rel="noopener">Instagram @igorbastos.luthier</a></li><li><a href="mailto:igorbastosluthier@gmail.com">igorbastosluthier@gmail.com</a></li></ul></div></div><div class="bot"><span>Igor Bastos · MEI CNPJ 45.426.899/0001-47 · Praça São Sebastião, s/n, Caeté-Açu, Palmeiras (BA) · Vale do Capão, Chapada Diamantina</span><span>Envio pelos Correios, postado em Palmeiras (BA)</span></div></footer>
@@ -559,7 +571,7 @@ if(h.indexOf("wa.me")>=0)n=(t.indexOf("pedido")>=0||t.indexOf("Pedido")>=0)?"cli
 if(n)window.goatcounter.count({path:n,title:t,event:true});},true);
 </script>
 <link rel="stylesheet" href="assets/feedback.css?v=3">
-<script src="assets/feedback.js?v=3" defer></script>
+<script src="assets/feedback.js?v=4" defer></script>
 <script src="assets/busca.js?v=13a13e0b" defer></script>
 </body>
 </html>

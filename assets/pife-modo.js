@@ -113,7 +113,7 @@
   }
 
   /* Sem modelos prontos (pedido do Igor, 23/11/2026): as medidas de produção dele não vão para o site. */
-  var api = { ALCANCE_MAX: ALCANCE_MAX, sugeridos: sugeridos, notasEscala: notasEscala, linhaEscala: linhaEscala,
+  var api = { ALCANCE_MAX: ALCANCE_MAX, sugeridos: sugeridos, notasEscala: notasEscala, salto: salto, linhaEscala: linhaEscala,
     furosMaoDeCima: furosMaoDeCima, paresMesmaMao: paresMesmaMao,
     alcanceDedos: alcanceDedos, sugestaoAlcance: sugestaoAlcance, avisosCampos: avisosCampos, avisosResultado: avisosResultado };
   if (node) module.exports = api; else root.PifeModo = api;
