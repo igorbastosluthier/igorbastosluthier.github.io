@@ -163,6 +163,14 @@
     return '<g stroke="' + cor + '" stroke-width="1.3"><line x1="' + x + '" y1="' + ya + '" x2="' + x + '" y2="' + yb + '"/><line x1="' + (x - 4) + '" y1="' + ya + '" x2="' + (x + 4) + '" y2="' + ya + '"/><line x1="' + (x - 4) + '" y1="' + yb + '" x2="' + (x + 4) + '" y2="' + yb + '"/></g>' +
       (txt ? '<text x="' + (x - 3) + '" y="' + m + '" font-size="' + (fs || 11) + '" fill="' + cor + '" text-anchor="middle" transform="rotate(-90 ' + (x - 3) + ' ' + m + ')">' + txt + "</text>" : "");
   }
+  /* Segunda abertura da NAF: a saída da câmara de ar (SAC), do lado do bocal, com o rebaixo raso do canal entre ela e a
+     janela do som (onde fica o bloco). O motor não calcula essa abertura: o desenho é ilustrativo (mesmo tamanho da janela,
+     um vão igual ao comprimento dela) e sem cota. Só aparece se couber antes da ponta do bocal. Devolve distâncias ao pé (mm). */
+  function janelaAr(r) {
+    var lj = r.entrada.janelaCompr, centro = r.janelaDoPe + 2 * lj;
+    return centro + lj / 2 <= r.comprimentoFisico - 1 ? { centro: centro, vao: lj } : null;
+  }
+
   function textoTubo(r) { var e = r.entrada; return "Ø externo " + mm(e.diametroExterno) + " · parede " + mm(e.parede) + " · Ø interno " + mm(r.diametroInterno); }
 
   function desenho(r) {
@@ -178,9 +186,13 @@
       '<g stroke="#7a5a1c" stroke-width="1" stroke-dasharray="5 4"><line x1="' + x0 + '" y1="' + (cy - hi / 2) + '" x2="' + xpe + '" y2="' + (cy - hi / 2) + '"/><line x1="' + x0 + '" y1="' + (cy + hi / 2) + '" x2="' + xpe + '" y2="' + (cy + hi / 2) + '"/></g>');
     /* janela: comprimento ao longo do tubo, largura atravessando (limitada à altura do tubo no desenho) */
     var wj = Math.min(e.janelaLarg, ext) * esc, lj = e.janelaCompr * esc;
-    s += grupo("janela", '<rect x="' + (xj - lj / 2) + '" y="' + (cy - wj / 2) + '" width="' + lj + '" height="' + wj + '" fill="#2D4839"/>' +
+    var ar = janelaAr(r), xa = ar ? X(ar.centro) : 0;
+    s += grupo("janela", (ar ? '<rect x="' + (xa + lj / 2) + '" y="' + (cy - wj * 0.22) + '" width="' + (xj - xa - lj) + '" height="' + (wj * 0.44) + '" fill="#c9a24e" stroke="#7a5a1c" stroke-width="1" stroke-dasharray="3 2"/>' +
+        '<rect x="' + (xa - lj / 2) + '" y="' + (cy - wj / 2) + '" width="' + lj + '" height="' + wj + '" fill="#2D4839" fill-opacity=".45" stroke="#2D4839" stroke-width="1.2"/>' +
+        '<text x="' + xa + '" y="16" text-anchor="middle" font-size="12" fill="#2D4839">ar</text>' : "") +
+      '<rect x="' + (xj - lj / 2) + '" y="' + (cy - wj / 2) + '" width="' + lj + '" height="' + wj + '" fill="#2D4839"/>' +
       '<line x1="' + xj + '" y1="22" x2="' + xj + '" y2="' + (base + 6) + '" stroke="#9A3B1F" stroke-width="1.2" stroke-dasharray="4 3"/>' +
-      '<text x="' + Math.max(xj, 50) + '" y="16" text-anchor="middle" font-size="12" fill="#9A3B1F">janela</text>');
+      '<text x="' + Math.max(xj, 50) + '" y="16" text-anchor="middle" font-size="12" fill="#9A3B1F">' + (ar ? "som" : "janela") + "</text>");
     var xs = [], altas = [], nivelAlto = false, yNota = topo - 12 - (VIS.diametros ? 16 : 0);
     var circulos = "", nots = "", nums = "", dias = "";
     r.furos.forEach(function (f, i) {
@@ -223,8 +235,12 @@
     s += '<rect x="' + x1 + '" y="' + y0 + '" width="' + w + '" height="' + (ype - y0) + '" rx="2" fill="#D9A33A" stroke="#7a5a1c" stroke-width="2"/>';
     s += grupo("tubo", '<rect x="' + (cx - hi / 2) + '" y="' + y0 + '" width="' + hi + '" height="' + (ype - y0) + '" fill="#f0c56a"/>');
     var wj = Math.min(e.janelaLarg, ext) * esc, lj = e.janelaCompr * esc;
-    s += grupo("janela", '<rect x="' + (cx - wj / 2) + '" y="' + (yj - lj / 2) + '" width="' + wj + '" height="' + lj + '" fill="#2D4839"/>' +
-      '<text x="' + (x1 - 6) + '" y="' + (yj + 4) + '" text-anchor="end" font-size="11" fill="#9A3B1F">janela</text>');
+    var ar = janelaAr(r), ya = ar ? Y(ar.centro) : 0;
+    s += grupo("janela", (ar ? '<rect x="' + (cx - wj * 0.22) + '" y="' + (ya + lj / 2) + '" width="' + (wj * 0.44) + '" height="' + (yj - ya - lj) + '" fill="#c9a24e" stroke="#7a5a1c" stroke-width="1" stroke-dasharray="3 2"/>' +
+        '<rect x="' + (cx - wj / 2) + '" y="' + (ya - lj / 2) + '" width="' + wj + '" height="' + lj + '" fill="#2D4839" fill-opacity=".45" stroke="#2D4839" stroke-width="1.2"/>' +
+        '<text x="' + (x1 - 6) + '" y="' + (ya + 4) + '" text-anchor="end" font-size="11" fill="#2D4839">ar</text>' : "") +
+      '<rect x="' + (cx - wj / 2) + '" y="' + (yj - lj / 2) + '" width="' + wj + '" height="' + lj + '" fill="#2D4839"/>' +
+      '<text x="' + (x1 - 6) + '" y="' + (yj + 4) + '" text-anchor="end" font-size="11" fill="#9A3B1F">' + (ar ? "som" : "janela") + "</text>");
     var tx = function (y, t, cor, tam) { return '<text x="' + (x1 - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="' + (tam || 12) + '" fill="' + (cor || "#2D4839") + '">' + t + "</text>"; };
     var circ = "", rot = "", esp = "", bc = "", ant = ype;
     r.furos.forEach(function (f, k) {
@@ -264,6 +280,8 @@
     var marcas = [{ p: 0, d: 0, t: "PÉ (ponta do tubo)" }];
     r.furos.forEach(function (f) { marcas.push({ p: f.doPe, d: f.diametro, t: "Furo " + f.linha + " · " + f.nota + " · Ø " + mm(f.diametro) }); });
     marcas.push({ p: r.janelaDoPe, janela: true, t: "JANELA " + mm(e.janelaCompr) + " × " + mm(e.janelaLarg) });
+    var arM = janelaAr(r);
+    if (arM) marcas.push({ p: arM.centro, ar: true, t: "ar (ilustração, não cortar)" });
     marcas.push({ p: L, d: 0, t: "BOCAL: cortar aqui" });
     var tx = Math.max(84, 60 + e.diametroExterno / 2 + 6);
     for (var a = ini; a < fim; a += passo, n++) {
@@ -285,9 +303,10 @@
         if (mk.p < a || mk.p > b) return;
         var y = Y(mk.p);
         s += '<line x1="' + (60 - Math.max(20, e.diametroExterno / 2 + 4)) + '" y1="' + y + '" x2="' + (60 + Math.max(20, e.diametroExterno / 2 + 4)) + '" y2="' + y + '" stroke="#000" stroke-width=".3"/>';
-        if (mk.janela) s += '<rect x="' + (60 - Math.min(e.janelaLarg, e.diametroExterno) / 2) + '" y="' + (y - e.janelaCompr / 2) + '" width="' + Math.min(e.janelaLarg, e.diametroExterno) + '" height="' + e.janelaCompr + '" fill="none" stroke="#000" stroke-width=".3"/>';
+        if (mk.ar) s += '<rect x="' + (60 - Math.min(e.janelaLarg, e.diametroExterno) / 2) + '" y="' + (y - e.janelaCompr / 2) + '" width="' + Math.min(e.janelaLarg, e.diametroExterno) + '" height="' + e.janelaCompr + '" fill="none" stroke="#999" stroke-width=".25" stroke-dasharray="1 1"/>';
+        else if (mk.janela) s += '<rect x="' + (60 - Math.min(e.janelaLarg, e.diametroExterno) / 2) + '" y="' + (y - e.janelaCompr / 2) + '" width="' + Math.min(e.janelaLarg, e.diametroExterno) + '" height="' + e.janelaCompr + '" fill="none" stroke="#000" stroke-width=".3"/>';
         else if (mk.d) s += '<circle cx="60" cy="' + y + '" r="' + (mk.d / 2) + '" fill="none" stroke="#000" stroke-width=".3"/><line x1="58" y1="' + y + '" x2="62" y2="' + y + '" stroke="#000" stroke-width=".25"/><line x1="60" y1="' + (y - 2) + '" x2="60" y2="' + (y + 2) + '" stroke="#000" stroke-width=".25"/>';
-        s += textoMolde(tx, y + 1.2, mk.t, mm(mk.p) + " mm do pé");
+        if (mk.ar) s += '<text x="' + tx + '" y="' + (y + 1.2) + '" font-size="3">' + mk.t + "</text>"; else s += textoMolde(tx, y + 1.2, mk.t, mm(mk.p) + " mm do pé");
       });
       if (b < fim) s += '<text x="5" y="' + Y(b) + '" font-size="3">✂ emendar com a próxima página nesta linha</text><line x1="0" y1="' + Y(b) + '" x2="180" y2="' + Y(b) + '" stroke="#000" stroke-dasharray="2 2" stroke-width=".3"/>';
       paginas += '<div class="pc-pag">' + s + '</svg></div>';
