@@ -216,9 +216,9 @@
     o += regiaoJanelas(r, rc, vertical);
     /* legendas: [distância ao pé, posição através do tubo, texto, lado (horizontal: cima/baixo)] */
     var ls = [];
-    if (g.ar) { ls.push([g.blocoBoca - 0.2 * (g.blocoBoca - g.blocoPe), -g.bw / 2, "bloco", "u"]); ls.push([g.ar.centro, 0, "saída de ar (sob o bloco)", "d"]); }
-    ls.push([(g.pj + g.lj / 2 + g.slotBoca - g.sw * 0.3) / 2, 0, "canal raso", "u"]); ls.push([g.pj + 0.2 * g.lj, g.wj / 2, "janela do som", "d"]);
-    ls.push([g.pj - g.lj / 2 + 0.07 * g.lj, -g.wj / 2 + 0.06 * g.lj, "chanfro", "u"]); ls.push([g.slotPe + 0.25 * g.lj, g.sw / 2, "mesa rebaixada", "d"]);
+    if (g.ar) { ls.push([g.blocoBoca - 0.2 * (g.blocoBoca - g.blocoPe), -g.bw * 0.38, "bloco", "u"]); ls.push([g.ar.centro, 0, "saída de ar (sob o bloco)", "d"]); }
+    ls.push([(g.pj + g.lj / 2 + g.slotBoca - g.sw * 0.3) / 2, 0, "canal raso", "u"]); ls.push([g.pj + 0.2 * g.lj, g.wj * 0.3, "janela do som", "d"]);
+    ls.push([g.pj - g.lj / 2 + 0.07 * g.lj, 0, "chanfro", "u"]); ls.push([g.pj + g.lj / 2 + 0.3 * (g.slotBoca - g.sw * 0.3 - g.pj - g.lj / 2), g.sw * 0.38, "mesa rebaixada", "d"]);
     var fs = vertical ? 12 : 13, tx = "";
     if (vertical) {
       var xr = X(ext / 2) + 12, usados = [];
