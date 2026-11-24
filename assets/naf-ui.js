@@ -163,51 +163,102 @@
     return '<g stroke="' + cor + '" stroke-width="1.3"><line x1="' + x + '" y1="' + ya + '" x2="' + x + '" y2="' + yb + '"/><line x1="' + (x - 4) + '" y1="' + ya + '" x2="' + (x + 4) + '" y2="' + ya + '"/><line x1="' + (x - 4) + '" y1="' + yb + '" x2="' + (x + 4) + '" y2="' + yb + '"/></g>' +
       (txt ? '<text x="' + (x - 3) + '" y="' + m + '" font-size="' + (fs || 11) + '" fill="' + cor + '" text-anchor="middle" transform="rotate(-90 ' + (x - 3) + ' ' + m + ')">' + txt + "</text>" : "");
   }
-  /* Região das janelas, vista de cima, como nas fotos de NAF do Igor. Do bocal para o pé: o bloco (o "passarinho", peça sólida de
-     madeira) cobre a saída de ar (SAC) e o começo do canal; depois vem o rasgo escuro da mesa rebaixada, comprido e de pontas
-     arredondadas; perto do lado do pé do rasgo fica a janela do som (TSH), escura, com o chanfro: a aresta clara e fina na borda do
-     lado do pé. O motor só calcula a janela do som (comprimento, largura, posição). O resto é ilustrativo, em proporção às fotos e
-     à janela, sem cota. A saída de ar é só sugerida, por baixo do bloco. Distâncias ao pé em mm. */
+  /* Região das janelas, vista de cima, no modelo das fotos de NAF sem bloco que o Igor mandou. Tudo dentro do ninho: um rebaixo
+     comprido, em forma de pista, de pontas bem arredondadas, um pouco mais escuro que a madeira e de borda marcada. No meio dele,
+     do bocal para o pé: a saída de ar (SAC), pequena e quase preta; a rampa, por onde o canal desce para dentro dela; o canal, da
+     largura das janelas; e a janela do som (TSH), também pequena e quase preta, com a aresta viva (fipple edge) na borda do lado do
+     pé. O motor só calcula a janela do som (comprimento, largura, posição). O ninho, a saída de ar e as distâncias seguem a
+     proporção das fotos em relação ao diâmetro do tubo: ilustrativos, sem cota. Distâncias ao pé em mm. */
   function geoJanelas(r) {
-    var e = r.entrada, lj = e.janelaCompr, wj = Math.min(e.janelaLarg, e.diametroExterno), pj = r.janelaDoPe, ext = e.diametroExterno, L = r.comprimentoFisico;
-    var sw = Math.min(wj * 1.9, ext * 0.7), total = Math.max(2.16 * lj, 2.6 * sw);
-    var slotPe = pj - lj / 2 - 0.58 * lj, slotBoca = slotPe + total, bl = 1.35 * lj;
-    var blocoPe = slotBoca - 0.4 * lj, blocoBoca = blocoPe + bl, cabe = blocoBoca <= L - 1;
-    if (!cabe) slotBoca = Math.min(slotBoca, L - 1);
-    return { lj: lj, wj: wj, pj: pj, sw: sw, slotPe: slotPe, slotBoca: slotBoca, blocoPe: blocoPe, blocoBoca: blocoBoca, bw: Math.min(sw * 1.1, ext * 0.8),
-      ar: cabe ? { centro: (blocoPe + blocoBoca) / 2 } : null, sacL: Math.min(lj, bl * 0.7), sacW: Math.min(wj * 1.2, sw * 0.8) };
+    var e = r.entrada, lj = e.janelaCompr, ext = e.diametroExterno, wj = Math.min(e.janelaLarg, ext), pj = r.janelaDoPe, L = r.comprimentoFisico;
+    var fl = 1.6 * lj, base = pj + lj / 2, sacFoot = base + fl, sacBoca = sacFoot + lj, mg = 0.4 * ext;
+    var cabe = sacBoca + 0.12 * ext <= L - 1;
+    if (cabe) mg = Math.min(mg, L - 1 - sacBoca);
+    return { lj: lj, wj: wj, pj: pj, base: base, fl: fl, sacFoot: sacFoot, sacBoca: sacBoca, nw: Math.min(Math.max(0.65 * ext, wj * 1.9), ext * 0.92),
+      ar: cabe ? { centro: sacFoot + lj / 2 } : null, recPe: pj - lj / 2 - 0.4 * ext, recBoca: cabe ? sacBoca + mg : Math.min(base + 0.4 * ext, L - 1) };
   }
   function janelaAr(r) { return geoJanelas(r).ar; }
+  /* tampão maciço (languid) dentro do bore, sob o canal: separa a câmara de ar (lado do bocal) da câmara do som; só o contorno tracejado */
+  function tampaoRc(r, rc) {
+    var g = geoJanelas(r); if (!g.ar) return "";
+    return rc(g.base, g.sacFoot, -r.diametroInterno / 2, r.diametroInterno / 2, 'fill="rgba(122,90,28,.22)" stroke="#7a5a1c" stroke-width="1.4" stroke-dasharray="4 3"', 0);
+  }
   /* rc(p1, p2, b1, b2, atributos, raio): retângulo entre as distâncias ao pé p1..p2 e a posição b1..b2 através do tubo (mm) */
   function regiaoJanelas(r, rc, vertical) {
-    var g = geoJanelas(r), lj = g.lj, wj = g.wj, pj = g.pj, o = "";
-    /* rasgo da mesa rebaixada: marrom muito escuro, pontas arredondadas */
-    o += rc(g.slotPe, g.slotBoca, -g.sw / 2, g.sw / 2, 'fill="#2a1d15" stroke="#14100c" stroke-width="1"', g.sw / 2);
-    /* canal raso: faixa estreita, um pouco mais clara que a mesa, da boca do rasgo (sob o bloco) até a janela do som */
-    o += rc(pj + lj / 2, g.slotBoca - g.sw * 0.3, -wj * 0.25, wj * 0.25, 'fill="#5a4129"', 0);
-    /* janela do som (TSH): quase preta, com o chanfro (aresta clara e fina) dentro dela, na borda do lado do pé */
-    o += rc(pj - lj / 2, pj + lj / 2, -wj / 2, wj / 2, 'fill="#0f0b09"', 0.06 * lj);
-    o += rc(pj - lj / 2, pj - lj / 2 + Math.max(0.14 * lj, 0.8), -wj / 2 + 0.06 * lj, wj / 2 - 0.06 * lj, 'fill="#f1e3c0"', 0);
+    var g = geoJanelas(r), lj = g.lj, wj = g.wj, pj = g.pj, o = "", rp = "naf-rampa" + (vertical ? "V" : "H"), fio = Math.max(0.1 * lj, 0.7);
+    /* o degradê da rampa vai do canal (lado do pé) até quase preto na borda da saída de ar (lado do bocal) */
+    o += '<defs><linearGradient id="' + rp + '" x1="0" y1="0" x2="' + (vertical ? 0 : 1) + '" y2="' + (vertical ? 1 : 0) + '"><stop offset="0" stop-color="#6b4416"/><stop offset="1" stop-color="#cf9a3a"/></linearGradient></defs>';
+    /* ninho: pista de pontas totalmente arredondadas */
+    o += rc(g.recPe, g.recBoca, -g.nw / 2, g.nw / 2, 'fill="#dcae4f" stroke="#a87a26" stroke-width="1.4"', g.nw / 2);
+    /* canal: da largura das janelas, um pouco mais escuro que o ninho */
+    o += rc(pj + lj / 2, g.ar ? g.sacFoot : pj + lj / 2, -wj / 2, wj / 2, 'fill="#cf9a3a"', 0);
     if (g.ar) {
-      /* bloco: peça sólida de madeira, levemente translúcida, sobre a saída de ar; o contorno tracejado fino é a saída de ar por baixo */
-      o += rc(g.blocoPe, g.blocoBoca, -g.bw / 2, g.bw / 2, 'fill="#a85a26" fill-opacity=".88" stroke="#5c2e0e" stroke-width="1.2"', 0.18 * g.bw);
-      o += rc(g.ar.centro - g.sacL / 2, g.ar.centro + g.sacL / 2, -g.sacW / 2, g.sacW / 2, 'fill="none" stroke="#f6efe2" stroke-opacity=".85" stroke-width=".9" stroke-dasharray="3 2"', 0.1 * g.sacL);
+      o += rc(g.sacFoot - 0.45 * g.fl, g.sacFoot, -wj / 2, wj / 2, 'fill="url(#' + rp + ')"', 0); /* rampa: o canal desce para dentro da saída de ar */
+      o += rc(g.sacFoot, g.sacBoca, -wj / 2, wj / 2, 'fill="#0f0b09"', 0.04 * lj); /* saída de ar (SAC) */
     }
+    /* janela do som (TSH), com a aresta viva (linha clara) na borda do lado do pé */
+    o += rc(pj - lj / 2, pj + lj / 2, -wj / 2, wj / 2, 'fill="#0f0b09"', 0.04 * lj);
+    o += rc(pj - lj / 2, pj - lj / 2 + fio, -wj / 2, wj / 2, 'fill="#fff7e0"', 0);
     return o;
   }
+  /* Corte lateral da cabeça da NAF (bocal à esquerda), desenhado a partir das fotos de corte do Igor. Ilustrativo, sem cota:
+     furo de sopro estreito; câmara de ar lenta (SAC), larga, de cantos arredondados; o tampão maciço (languid) que a separa da
+     câmara do som; sobre ele, a saída de ar, com a rampa curva da SAC subindo até o canal; o canal raso sobre o tampão; a janela do
+     som, com a aresta; a rampa do fipple, que desce da janela para dentro do bore; e a câmara do som (bore), que segue para o pé.
+     A geometria é desenhada na horizontal (coordenadas de 0 a 760); no celular o mesmo desenho é girado, com o bocal em cima. */
+  function secaoCabeca(vertical) {
+    var T = 70, BOT = 210, ar = "#4a3322", mad = "#f0c56a", c = "", o = "";
+    c += '<rect x="0" y="' + T + '" width="760" height="' + (BOT - T) + '" fill="' + mad + '" stroke="#7a5a1c" stroke-width="2"/>';
+    c += '<rect x="0" y="138" width="170" height="14" fill="' + ar + '"/>';                                       /* furo de sopro */
+    c += '<rect x="160" y="110" width="240" height="70" rx="16" fill="' + ar + '"/>';                              /* SAC */
+    c += '<rect x="470" y="110" width="290" height="70" rx="16" fill="' + ar + '"/><rect x="600" y="110" width="160" height="70" fill="' + ar + '"/>'; /* câmara do som (bore) */
+    c += '<path d="M360,110 C390,110 400,77 440,77 L470,77 L470,' + T + ' L360,' + T + ' Z" fill="' + ar + '"/>';   /* saída de ar + rampa da SAC + canal */
+    c += '<rect x="470" y="' + T + '" width="35" height="40" fill="' + ar + '"/>';                                 /* janela do som */
+    c += '<path d="M505,84 C512,104 540,110 590,110 L505,110 Z" fill="' + ar + '"/>';                              /* rampa do fipple */
+    c += '<rect x="504" y="' + T + '" width="2.5" height="14" fill="#fff7e0"/>';                                   /* aresta */
+    /* [x, y, texto, nível (horizontal), âncora] */
+    var ls = [[60, 145, "furo de sopro", "u1", "middle"], [250, 145, "câmara de ar lenta (SAC)", "d1", "middle"],
+      [396, 94, "rampa da câmara de ar (SAC ramp)", "d2", "end"], [380, 80, "saída de ar", "u1", "middle"], [455, 74, "canal", "u1", "middle"],
+      [487, 90, "janela do som", "u2", "middle"], [505, 78, "aresta", "u1", "start"], [435, 145, "tampão (languid)", "d1", "middle"],
+      [531, 105, "rampa do fipple (fipple ramp)", "d2", "middle"], [740, 145, "bore (câmara do som, segue para o pé)", "d1", "end"]];
+    var W, H, svgv;
+    if (vertical) {
+      var k = 0.55, xo = 12, Hg = (BOT - T + 20) * k, tx = xo + Hg + 0, ty = 6, xr = xo + Hg + 16, usados = [];
+      W = 390; H = 760 * k + 12;
+      o += '<g transform="translate(' + tx + "," + ty + ") rotate(90) scale(" + k + ') translate(0,' + (-(T - 10)) + ')">' + c + "</g>";
+      ls.map(function (l) { return [tx - k * (l[1] - (T - 10)), ty + k * l[0], l[2]]; }).sort(function (a, b) { return a[1] - b[1]; }).forEach(function (l) {
+        var yl = l[1]; if (usados.length && yl < usados[usados.length - 1] + 15) yl = usados[usados.length - 1] + 15; usados.push(yl);
+        o += '<polyline points="' + l[0] + "," + l[1] + " " + (xr - 4) + "," + l[1] + " " + (xr + 2) + "," + yl + '" fill="none" stroke="#fff7e0" stroke-width="3"/><polyline points="' + l[0] + "," + l[1] + " " + (xr - 4) + "," + l[1] + " " + (xr + 2) + "," + yl + '" fill="none" stroke="#2D4839" stroke-width="1"/><circle cx="' + l[0] + '" cy="' + l[1] + '" r="2.4" fill="#2D4839" stroke="#fff7e0" stroke-width="1"/>' +
+          '<text x="' + (xr + 6) + '" y="' + (yl + 4) + '" font-size="11" fill="#2D4839">' + l[2] + "</text>";
+      });
+      o += '<text x="' + (W - 6) + '" y="12" font-size="11" text-anchor="end" fill="#7a5a1c">bocal ↑</text><text x="' + (W - 6) + '" y="' + (H - 4) + '" font-size="11" text-anchor="end" fill="#7a5a1c">pé ↓</text>';
+      svgv = ' naf-det-v';
+    } else {
+      W = 760; H = 290; o += c;
+      ls.forEach(function (l) {
+        var ni = l[3], cima = ni.charAt(0) === "u", yl = cima ? (ni === "u2" ? 16 : 42) : (ni === "d2" ? 270 : 244), yb = cima ? (ni === "u2" ? 24 : 50) : (ni === "d2" ? 258 : 232), xt = l[4] === "end" ? l[0] + 10 : l[4] === "start" ? l[0] - 10 : l[0];
+        o += '<line x1="' + l[0] + '" y1="' + l[1] + '" x2="' + l[0] + '" y2="' + (cima ? yb - 6 : yb) + '" stroke="#fff7e0" stroke-width="3"/><line x1="' + l[0] + '" y1="' + l[1] + '" x2="' + l[0] + '" y2="' + (cima ? yb - 6 : yb) + '" stroke="#2D4839" stroke-width="1"/><circle cx="' + l[0] + '" cy="' + l[1] + '" r="2.8" fill="#2D4839" stroke="#fff7e0" stroke-width="1"/>' +
+          '<text x="' + xt + '" y="' + yl + '" font-size="13" text-anchor="' + l[4] + '" fill="#2D4839">' + l[2] + "</text>";
+      });
+      o += '<text x="8" y="16" font-size="12" fill="#7a5a1c">← bocal</text><text x="752" y="278" font-size="12" text-anchor="end" fill="#7a5a1c">pé →</text>';
+      svgv = "";
+    }
+    return '<div class="naf-detalhe"><p class="pc-mini">Corte lateral da cabeça (ilustrativo, sem medidas)</p><svg class="naf-det-svg' + svgv + '" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Corte lateral da cabeça da flauta NAF: furo de sopro, câmara de ar lenta, tampão, saída de ar com rampa, canal, janela do som com aresta, rampa do fipple e bore">' + o + "</svg></div>";
+  }
+
   /* Detalhe ampliado das janelas (vista de cima), com legendas curtas. Horizontal: bocal à esquerda, pé à direita. Vertical
      (celular): bocal em cima, pé embaixo, legendas à direita. */
   function detalheJanelas(r, vertical) {
     var e = r.entrada, g = geoJanelas(r), lj = g.lj, ext = e.diametroExterno, L = r.comprimentoFisico;
-    var pLo = Math.max(-5, g.slotPe - 0.9 * lj), pHi = Math.min(L, (g.ar ? g.blocoBoca : g.slotBoca) + 0.6 * lj), span = pHi - pLo, pad = 14;
+    var pLo = Math.max(-5, g.recPe - 0.5 * lj), pHi = Math.min(L, g.recBoca + 0.5 * lj), span = pHi - pLo, pad = 14;
     var s = Math.max(2, vertical ? Math.min(150 / ext, 440 / span) : Math.min(760 / span, 300 / ext)), h = ext * s, big = span * s;
     var X, Y, W, H, rc, xl = 16, yt = 70;
     if (vertical) {
-      W = 340; H = big + 2 * pad;
+      W = 380; H = big + 2 * pad;
       X = function (b) { return xl + (b + ext / 2) * s; }; Y = function (p) { return pad + (pHi - p) * s; };
       rc = function (p1, p2, b1, b2, at, rx) { return '<rect x="' + X(b1) + '" y="' + Y(Math.max(p1, p2)) + '" width="' + ((b2 - b1) * s) + '" height="' + (Math.abs(p2 - p1) * s) + '" rx="' + ((rx || 0) * s) + '" ' + at + "/>"; };
     } else {
-      W = big + 2 * pad; H = h + 2 * yt;
+      W = big + 2 * pad; H = h + 2 * yt + 20;
       X = function (p) { return pad + (pHi - p) * s; }; Y = function (b) { return yt + (b + ext / 2) * s; };
       rc = function (p1, p2, b1, b2, at, rx) { return '<rect x="' + X(Math.max(p1, p2)) + '" y="' + Y(b1) + '" width="' + (Math.abs(p2 - p1) * s) + '" height="' + ((b2 - b1) * s) + '" rx="' + ((rx || 0) * s) + '" ' + at + "/>"; };
     }
@@ -216,10 +267,10 @@
     o += regiaoJanelas(r, rc, vertical);
     /* legendas: [distância ao pé, posição através do tubo, texto, lado (horizontal: cima/baixo)] */
     var ls = [];
-    if (g.ar) { ls.push([g.blocoBoca - 0.2 * (g.blocoBoca - g.blocoPe), -g.bw * 0.38, "bloco", "u"]); ls.push([g.ar.centro, 0, "saída de ar (sob o bloco)", "d"]); }
-    ls.push([(g.pj + g.lj / 2 + g.slotBoca - g.sw * 0.3) / 2, 0, "canal raso", "u"]); ls.push([g.pj + 0.2 * g.lj, g.wj * 0.3, "janela do som", "d"]);
-    ls.push([g.pj - g.lj / 2 + 0.07 * g.lj, 0, "chanfro", "u"]); ls.push([g.pj + g.lj / 2 + 0.3 * (g.slotBoca - g.sw * 0.3 - g.pj - g.lj / 2), g.sw * 0.38, "mesa rebaixada", "d"]);
-    var fs = vertical ? 12 : 13, tx = "";
+    ls.push([g.recPe + 0.2 * (g.sacFoot - g.recPe), -g.nw * 0.36, "ninho", "u"]);
+    if (g.ar) { ls.push([g.ar.centro, 0, "saída de ar (SAC)", "u"]); ls.push([g.sacFoot - 0.3 * g.fl, 0, "rampa", "d"]); }
+    ls.push([g.base + 0.35 * g.fl, 0, "canal", "u"]); ls.push([g.pj, g.wj * 0.2, "janela do som", "d"]); ls.push([g.pj - lj / 2 + 0.05 * lj, g.wj * 0.3, "aresta", "f"]);
+    var fs = vertical ? 11 : 13, tx = "";
     if (vertical) {
       var xr = X(ext / 2) + 12, usados = [];
       ls.sort(function (a, b) { return b[0] - a[0]; }).forEach(function (l) {
@@ -230,7 +281,7 @@
       tx += '<text x="' + (W - 6) + '" y="12" font-size="11" text-anchor="end" fill="#7a5a1c">bocal ↑</text><text x="' + (W - 6) + '" y="' + (H - 4) + '" font-size="11" text-anchor="end" fill="#7a5a1c">pé ↓</text>';
     } else {
       ls.forEach(function (l) {
-        var x = X(l[0]), ya = Y(l[1]), yl = l[3] === "u" ? yt - 26 : yt + h + 30, yb = l[3] === "u" ? yt - 22 : yt + h + 6;
+        var x = X(l[0]), ya = Y(l[1]), cima = l[3] === "u" || l[3] === "e", yl = l[3] === "e" ? yt - 48 : l[3] === "u" ? yt - 26 : l[3] === "f" ? yt + h + 52 : yt + h + 30, yb = cima ? yt - (l[3] === "e" ? 44 : 22) : yt + h + (l[3] === "f" ? 34 : 6);
         tx += '<line x1="' + x + '" y1="' + ya + '" x2="' + x + '" y2="' + yb + '" stroke="#2D4839" stroke-width="1"/><circle cx="' + x + '" cy="' + ya + '" r="2.6" fill="#2D4839"/>' +
           '<text x="' + x + '" y="' + yl + '" font-size="' + fs + '" text-anchor="middle" fill="#2D4839">' + l[2] + "</text>";
       });
@@ -255,7 +306,9 @@
     /* janela: comprimento ao longo do tubo, largura atravessando (limitada à altura do tubo no desenho) */
     var wj = Math.min(e.janelaLarg, ext) * esc, lj = e.janelaCompr * esc;
     var ar = janelaAr(r);
-    s += grupo("janela", regiaoJanelas(r, function (p1, p2, b1, b2, at, rx) { return '<rect x="' + X(Math.max(p1, p2)) + '" y="' + (cy + b1 * esc) + '" width="' + (Math.abs(p2 - p1) * esc) + '" height="' + ((b2 - b1) * esc) + '" rx="' + ((rx || 0) * esc) + '" ' + at + "/>"; }, false) +
+    var rcH = function (p1, p2, b1, b2, at, rx) { return '<rect x="' + X(Math.max(p1, p2)) + '" y="' + (cy + b1 * esc) + '" width="' + (Math.abs(p2 - p1) * esc) + '" height="' + ((b2 - b1) * esc) + '" rx="' + ((rx || 0) * esc) + '" ' + at + "/>"; };
+    var gj = geoJanelas(r);
+    s += grupo("janela", regiaoJanelas(r, rcH, false) + tampaoRc(r, rcH) + (gj.ar ? '<text x="' + X((gj.base + gj.sacFoot) / 2) + '" y="' + (cy + h / 2 + 11) + '" text-anchor="middle" font-size="10" fill="#7a5a1c">tampão</text>' : "") +
       (ar ? '<text x="' + X(ar.centro) + '" y="16" text-anchor="middle" font-size="12" fill="#2D4839">ar</text>' : "") +
       '<line x1="' + xj + '" y1="22" x2="' + xj + '" y2="' + (base + 6) + '" stroke="#9A3B1F" stroke-width="1.2" stroke-dasharray="4 3"/>' +
       '<text x="' + Math.max(xj, 50) + '" y="16" text-anchor="middle" font-size="12" fill="#9A3B1F">' + (ar ? "som" : "janela") + "</text>");
@@ -302,7 +355,8 @@
     s += grupo("tubo", '<rect x="' + (cx - hi / 2) + '" y="' + y0 + '" width="' + hi + '" height="' + (ype - y0) + '" fill="#f0c56a"/>');
     var wj = Math.min(e.janelaLarg, ext) * esc, lj = e.janelaCompr * esc;
     var ar = janelaAr(r);
-    s += grupo("janela", regiaoJanelas(r, function (p1, p2, b1, b2, at, rx) { return '<rect x="' + (cx + b1 * esc) + '" y="' + Y(Math.max(p1, p2)) + '" width="' + ((b2 - b1) * esc) + '" height="' + (Math.abs(p2 - p1) * esc) + '" rx="' + ((rx || 0) * esc) + '" ' + at + "/>"; }, true) +
+    var rcV = function (p1, p2, b1, b2, at, rx) { return '<rect x="' + (cx + b1 * esc) + '" y="' + Y(Math.max(p1, p2)) + '" width="' + ((b2 - b1) * esc) + '" height="' + (Math.abs(p2 - p1) * esc) + '" rx="' + ((rx || 0) * esc) + '" ' + at + "/>"; };
+    s += grupo("janela", regiaoJanelas(r, rcV, true) + tampaoRc(r, rcV) +
       (ar ? '<text x="' + (x1 - 6) + '" y="' + (Y(ar.centro) + 4) + '" text-anchor="end" font-size="11" fill="#2D4839">ar</text>' : "") +
       '<text x="' + (x1 - 6) + '" y="' + (yj + 4) + '" text-anchor="end" font-size="11" fill="#9A3B1F">' + (ar ? "som" : "janela") + "</text>");
     var tx = function (y, t, cor, tam) { return '<text x="' + (x1 - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="' + (tam || 12) + '" fill="' + (cor || "#2D4839") + '">' + t + "</text>"; };
@@ -457,7 +511,7 @@
       el.textContent = t.join(" ");
     });
     var celular = window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
-    $("naf-desenho").innerHTML = (celular ? desenhoVertical(r) : desenho(r)) + (VIS.janela ? detalheJanelas(r, celular) : "");
+    $("naf-desenho").innerHTML = (celular ? desenhoVertical(r) : desenho(r)) + (VIS.janela ? detalheJanelas(r, celular) + secaoCabeca(celular) : "");
     $("naf-cartoes").innerHTML = r.furos.slice().reverse().map(function (f) {
       return '<div class="pc-cartao' + (f.ajustado ? " pc-aj" : "") + '"><div class="pc-c1"><b>' + f.linha + "º</b> " + f.nota + " <span>Ø " + mm(f.diametro) + "</span></div>" +
         '<div class="pc-c2"><b>' + mm(f.doPe) + "</b> do pé · " + mm(f.daJanela) + " da janela" + (f.espacoAbaixo === null ? "" : " · " + mm(f.espacoAbaixo) + " até o de baixo") + "</div>" +
