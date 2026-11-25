@@ -20,6 +20,8 @@
   var abaPife = $("modo-aba-pife"), abaNaf = $("modo-aba-naf");
   function modoNaf() { return /(^|[?&])modo=naf(&|$)/.test(location.search); }
   function mostrarModo(naf) {
+    /* A troca encerra a reprodução antes de exibir o outro instrumento. */
+    if (Esc && typeof window.__modoNaf === "boolean" && window.__modoNaf !== naf) Esc.parar();
     window.__modoNaf = naf;
     $("modo-pife").hidden = naf; $("modo-naf").hidden = !naf;
     document.body.classList.toggle("modo-naf", naf);
