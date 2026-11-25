@@ -17,7 +17,7 @@ const itens = [
   ["Escala (select) com ? de ajuda", "h", /id="pc-escala"[^]*?aj-escala|aria-controls="aj-escala"/, /id="naf-escala"/],
   ["Linha de notas da escala (chips)", "h", /class="pc-notas"/, /class="pc-notas"/],
   ["Saltos T / ST entre as notas", "j", /pc-salto/, /pc-salto/],
-  ["▶ em cada nota (toca a nota)", "j", /class="pc-nota"/, /class="pc-nota"/],
+  ["▶ em cada nota (toca a nota)", "j", /class="pc-nota(?:"|')/, /class="pc-nota(?:"|')/],
   ["Ouvir escala (botão)", "h", /id="pc-ouvir"/, /id="naf-ouvir"/],
   ["Subir / Ida e volta", "h", /name="pc-ouvir-modo"/, /name="naf-ouvir-modo"/],
   ["Afinação: 440 / 432 / Outra", "h", /id="pc-la"[^]*?Outra/, /id="naf-la"[^]*?Outra/],

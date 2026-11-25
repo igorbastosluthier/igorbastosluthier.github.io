@@ -24,8 +24,17 @@ module.exports = async (p, base) => {
     ok(c6.length === c5.length + 1 && extras.length === 1, esc + ": com 6 furos aparece uma nota a mais, marcada como furo extra", JSON.stringify(c6));
     ok(c5.every(c => !c.x), esc + ": com 5 furos nenhuma nota é marcada como extra", JSON.stringify(c5));
   }
-  /* o Ouvir escala segue só a escala (sem o furo extra) */
-  const ouvir = await ev("(()=>{const N=window.NafUI&&NafUI._notasOuvir?NafUI._notasOuvir():null;return N===null?'na':String(N);})()");
-  ok(true, "Ouvir escala: sem mudança (o furo extra continua fora dele)", ouvir);
+  /* Pífano: a mesma regra (5, 6 e 7 furos dão linhas diferentes; o furo fora da escala aparece marcado) */
+  const lerPife = () => ev("JSON.stringify([...document.querySelectorAll('#modo-pife .pc-nota')].map(b=>({t:b.textContent,x:b.classList.contains('pc-extra')})))").then(JSON.parse);
+  const pife = async () => { let c = []; for (let i = 0; i < 20 && !(c = await lerPife()).length; i++) await p.sleep(250); return c; };
+  await p.goto(base + "/calculadora.html"); await ev("localStorage.clear()"); await p.goto(base + "/calculadora.html"); await p.sleep(1500);
+  const linhas = {};
+  for (const n of ["5", "6", "7"]) {
+    await ev("(()=>{const e=document.getElementById('pc-nfuros');e.value='" + n + "';e.dispatchEvent(new Event('change',{bubbles:true}));e.dispatchEvent(new Event('input',{bubbles:true}));})()");
+    await p.sleep(700); linhas[n] = await pife();
+  }
+  ok(JSON.stringify(linhas["5"]) !== JSON.stringify(linhas["6"]), "pífano: a linha de notas muda de 5 para 6 furos", JSON.stringify(linhas["5"]));
+  /* 7 furos na diatônica: o furo de cima dá a oitava (regra do app), as notas são as mesmas da de 6 (só a oitava vem do furo) */
+  ok(linhas["7"].length === linhas["6"].length, "pífano: 7 furos na diatônica tem as mesmas notas, com a oitava no furo de cima", JSON.stringify(linhas["7"]));
   console.log(falhas ? "RESULTADO: falhas" : "RESULTADO: tudo OK");
 };
