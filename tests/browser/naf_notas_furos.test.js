@@ -1,4 +1,4 @@
-/* NAF: a linha de notas muda ao passar de 5 para 6 furos (o furo extra aparece, marcado), e o "Ouvir escala" continua sem ele.
+/* NAF: a linha de notas muda ao passar de 5 para 6 furos (o furo extra aparece, marcado), e o "Ouvir escala" toca todas as notas exibidas.
    Dono, 25/11/2026: "a calculadora não mostra alterações na escala quando coloca 5 ou 6 furos na NAF".
    node tests/browser/cdp.js tests/browser/naf_notas_furos.test.js [url-base] */
 "use strict";

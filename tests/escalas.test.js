@@ -76,6 +76,25 @@ ok("sequência para ouvir: Subir = tônica até a oitava; Ida e volta = sobe e d
   assert.deepStrictEqual(sn.map((h) => Math.round(1200 * Math.log2(h / 440))), [0, 300, 500, 700, 1000, 1200]);
 });
 
+ok("NAF: Ouvir escala inclui o furo extra apresentado na linha de notas", () => {
+  const fs = require("node:fs"), vm = require("node:vm");
+  const arquivo = require("node:path").join(__dirname, "../assets/naf-ui.js");
+  const codigo = fs.readFileSync(arquivo, "utf8");
+  const inicio = codigo.indexOf('  if ($("naf-ouvir") && Esc)');
+  const fim = codigo.indexOf("  /* Notas da escala", inicio);
+  assert.ok(inicio >= 0 && fim > inicio);
+  let preparar;
+  const raiz = 440, extra = raiz * Math.pow(2, 8 / 12);
+  const esc = { ligarBotao: (_botao, _modo, obter) => { preparar = obter; } };
+  vm.runInNewContext(codigo.slice(inicio, fim), {
+    $: () => ({}), Esc: esc,
+    notasAudio: (comExtra) => ({ fund: raiz, lista: [{hz: raiz}, ...(comExtra ? [{hz: extra}] : [])] })
+  });
+  const dados = preparar();
+  assert.deepStrictEqual(E.sequencia(dados.freqRaiz, dados.furos, "subir"), [raiz, extra, raiz * 2]);
+  assert.deepStrictEqual(E.sequencia(dados.freqRaiz, dados.furos, "ida-e-volta"), [raiz, extra, raiz * 2, extra, raiz]);
+});
+
 ok("pífano: Lá 440/432 muda as notas tocadas; frequências vêm do pife calculado", () => {
   [440, 432].forEach((la) => {
     const e = { tom: "sol", la: la, temp: 25, D: 18, parede: 4, emb: 10, furos: [8, 10, 7, 10, 10, 10] };

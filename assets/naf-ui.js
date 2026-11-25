@@ -601,16 +601,16 @@
     atualizar();
   });
   $("naf-voltar-pent").addEventListener("click", function () { $("naf-escala").value = ultimaEscala; refazerNotas(); atualizar(); });
-  /* Ouvir a escala da flauta calculada (tônica até a oitava, ou ida e volta); o furo extra não entra */
+  /* Ouvir todas as notas exibidas, incluindo a nota do furo extra quando selecionada. */
   if ($("naf-ouvir") && Esc) Esc.ligarBotao($("naf-ouvir"), function () { var m = document.querySelector('input[name="naf-ouvir-modo"]:checked'); return m ? m.value : "ida-e-volta"; },
-    function () { var na = notasAudio(); return na ? { freqRaiz: na.fund, furos: na.lista.slice(1).map(function (n) { return { hz: n.hz, aux: false }; }) } : null; });
+    function () { var na = notasAudio(true); return na ? { freqRaiz: na.fund, furos: na.lista.slice(1).map(function (n) { return { hz: n.hz, aux: false }; }) } : null; });
   /* Notas da escala (mesma linha de notas do Pífano): a grave e cada furo da escala, da mais grave à mais aguda; tocar numa nota toca essa nota.
-     O furo extra fica de fora, como no "Ouvir escala". */
+     A nota do furo extra aparece marcada e também toca em "Ouvir escala". */
   var btFund = $("naf-fund-ouvir"), caixaNotas = $("naf-notas-escala");
   /* As notas para ouvir saem do que está no formulário (nota grave, Lá, notas e Hz de cada furo), não da conta das posições: se as medidas
      digitadas não fecham para o tom novo, o som, os chips e o "Ouvir escala" seguem o tom e a escala atuais do mesmo jeito. */
   /* comExtra: os chips mostram também a nota do furo extra (marcada), para a linha de notas mudar com 5 ou 6 furos
-     (dono, 25/11: "não mostra alterações na escala quando coloca 5 ou 6 furos"); o "Ouvir escala" segue sem ele */
+     (dono, 25/11: "não mostra alterações na escala quando coloca 5 ou 6 furos") */
   function notasAudio(comExtra) {
     var a4 = parseFloat($("naf-a4").value), m = midiFund();
     if (m === null || !(a4 > 0)) return null;
