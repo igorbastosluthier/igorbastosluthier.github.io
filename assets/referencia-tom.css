@@ -1,0 +1,35 @@
+.tom-referencia {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  white-space: nowrap;
+}
+.tom-referencia button {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  inline-size: 1.75rem;
+  min-block-size: 1.75rem;
+  padding: 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--accent, #76244f);
+  font: 600 .75rem/1 system-ui, sans-serif;
+  cursor: pointer;
+}
+.tom-referencia button[aria-pressed="true"] {
+  background: var(--accent, #76244f);
+  color: var(--accent-ink, #fff);
+}
+.tom-referencia button:focus-visible {
+  outline: 2px solid var(--fg-0, #251d19);
+  outline-offset: 2px;
+}
+
+.monte .tom-referencia label[hidden] {
+  display: none;
+}
+.monte .tom-referencia select {
+  min-inline-size: 0;
+}

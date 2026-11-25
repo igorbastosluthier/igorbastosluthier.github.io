@@ -12,14 +12,26 @@ function setm(){var m=M();
  if(m.w){opt(mw,m.w.map(function(w){return w[0]}));fillt()}
  ma.innerHTML=m.add.map(function(a,i){return '<label class="ck"><input type="checkbox" value="'+i+'"><span>'+a[1]+'</span><b data-k="'+a[0]+'">'+(a[2]?'+ '+br(a[2]):'')+'</b></label>'}).join('');
  calc()}
+var ouvir=$('mt-ouvir'), notaAtual=null;
+var atualizarOuvir=window.ReferenciaTom && window.ReferenciaTom.montar(ouvir, function(){
+ return notaAtual || {nome:'Tom de referência'};
+});
 function fillt(){var m=M(),w=m.w[mw.value][1],o=mt.value;
- mt.innerHTML=m.t.map(function(t,i){return w[i]==null?'':'<option value="'+i+'">'+t+'</option>'}).join('');
+ mt.innerHTML=m.t.map(function(t,i){return w[i]==null?'':'<option value="'+i+'">'+D.tons[t].nome+'</option>'}).join('');
  if(o&&mt.querySelector('option[value="'+o+'"]'))mt.value=o}
 function calc(){var m=M(),tot=0,lin=[m.n],obs='',tom=null,parts=1,chk={};
  ma.querySelectorAll('input').forEach(function(c){chk[m.add[c.value][0]]=c.checked});
  if(m.parts){var p=m.parts[mp.value];tot=p[1];lin.push(p[0]);parts=parseInt(p[0],10);tom='Ré grave'}
- else{var w=m.w[mw.value];tom=m.t[mt.value];tot=w[1][mt.value];lin.push('Tom: '+tom);if(m.w.length>1)lin.push('Material: '+w[0]);
+ else{var w=m.w[mw.value];tom=m.t[mt.value];tot=w[1][mt.value];if(m.w.length>1)lin.push('Material: '+w[0]);
   if(m.march){tot+=w[0]==='Bambu'?m.march.Bambu:m.march['*'];lin.push('Com marchetaria')}}
+ var nota=D.tons[tom];
+ if(window.Escalas && notaAtual && notaAtual.midi!==nota.midi && Escalas.estado(ouvir)!=='parado')Escalas.parar();
+ notaAtual=nota;
+ $('mref-fixo').hidden=!m.parts;
+ $('mref-fixo').textContent=m.parts?nota.nome:'';
+ $('mt-ouvir').disabled=!nota;
+ if(atualizarOuvir)atualizarOuvir();
+ lin.splice(m.parts?2:1,0,'Tom: '+nota.nome);
  if(chk.encaixe)parts=2;
  var es=parts===2?D.est2:(parts>3?null:(parts>2?D.est3:D.est[tom]));
  m.add.forEach(function(a){

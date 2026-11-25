@@ -362,7 +362,7 @@
   /* nota de referência: um som suave na nota escolhida */
   function preencherRef() {
     var sel = $("af-ref-nota"), notas = notasDoPife(), atual = sel.value;
-    sel.innerHTML = notas.map(function (n) { return '<option value="' + n.midi + '">' + nome(n.midi) + " (" + n.oitava + "ª oitava)</option>"; }).join("");
+    sel.innerHTML = notas.map(function (n) { return '<option value="' + n.midi + '">' + (window.PifeUI && window.PifeUI.rotuloNota ? window.PifeUI.rotuloNota(n.midi) : nome(n.midi)) + "</option>"; }).join("");
     if (atual) {
       sel.value = atual;
       /* a nota de antes não existe no tom novo: fica a mais próxima (nunca uma lista sem nota escolhida, que tocaria nada) */

@@ -24,8 +24,14 @@
   /* parede: segue a ideal do tubo até a pessoa digitar a dela */
   function sincParede() { if (!paredeManual) $("pc-parede").value = P.paredeIdeal(parseFloat($("pc-D").value) || 18); }
 
+  var cifras = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+  function formatarTom(tom) {
+    var midi = tom.midi, oitava = Math.floor(midi / 12) - 1;
+    return P.nomeNota(midi).replace("#", "♯") + " (" + cifras[midi % 12] + oitava + ")";
+  }
+
   P.TONS.forEach(function (t) {
-    var o = document.createElement("option"); o.value = t.id; o.textContent = t.nome; $("pc-tom").appendChild(o);
+    var o = document.createElement("option"); o.value = t.id; o.textContent = formatarTom(t); $("pc-tom").appendChild(o);
   });
   $("pc-tom").value = "sol";
 
@@ -538,22 +544,22 @@
       caixa.innerHTML = '<p class="pc-aviso">Esse tubo fica fora da faixa dos pifes da calculadora (de ' + mm(P.tuboSugerido(P.TONS[0].id)) + " a " + mm(P.tuboSugerido(P.TONS[P.TONS.length - 1].id)) + " mm).</p>";
       return;
     }
-    caixa.innerHTML = '<div class="pc-qt-melhor"><span>Melhor tom: <b>' + bons[0].t.nome + '</b></span>' +
+    caixa.innerHTML = '<div class="pc-qt-melhor"><span>Melhor tom: <b>' + formatarTom(bons[0].t) + '</b></span>' +
       '<button type="button" class="btn" data-tom="' + bons[0].t.id + '">Calcular este pife</button></div>' +
       (bons.length > 1 ? '<p class="pc-mini">Também servem:</p><div class="pc-qt-chips">' + bons.slice(1).map(function (o) {
-        return '<button type="button" class="pc-chip" data-tom="' + o.t.id + '">' + o.t.nome + "</button>"; }).join("") + "</div>" : "");
+        return '<button type="button" class="pc-chip" data-tom="' + o.t.id + '">' + formatarTom(o.t) + "</button>"; }).join("") + "</div>" : "");
     caixa.querySelectorAll("[data-tom]").forEach(function (b) { b.onclick = function () { usarTom(b.getAttribute("data-tom"), d); }; });
   }
   $("pc-qt-tab").querySelector("tbody").innerHTML = P.TONS.map(function (t) {
     var x = P.tuboSugerido(t.id);
-    return "<tr><th scope=\"row\">" + t.nome + "</th><td><b>" + mm(x) + " mm</b></td><td>" + mm(x - 1) + " a " + mm(x + 1) + " mm</td></tr>";
+    return "<tr><th scope=\"row\">" + formatarTom(t) + "</th><td><b>" + mm(x) + " mm</b></td><td>" + mm(x - 1) + " a " + mm(x + 1) + " mm</td></tr>";
   }).join("");
   $("pc-qt-d").addEventListener("input", qualTom);
   qualTom();
   if (window.matchMedia) { var mq = window.matchMedia("(max-width: 640px)"); (mq.addEventListener ? mq.addEventListener("change", atualizar) : mq.addListener(atualizar)); }
   atualizar();
   /* Voltar/Avançar do navegador de volta ao Pífano: recarrega o estado do link (usado por naf-ui.js) */
-  window.PifeUI = { semitons: function () { return semitons(); }, la: laForm, recarregar: function () {
+  window.PifeUI = { rotuloNota: function (midi) { return formatarTom({ midi: midi }); }, semitons: function () { return semitons(); }, la: laForm, recarregar: function () {
     try { var s = location.hash.length > 2 ? JSON.parse(decodeURIComponent(location.hash.slice(1))) : null; if (s && s.tom) { aplicar(s); atualizar(); } } catch (x) { /* link inválido: mantém */ }
   } };
 })();
