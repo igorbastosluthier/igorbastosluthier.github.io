@@ -29,6 +29,7 @@
 .pc-nota{min-width:40px;min-height:36px;padding:4px 7px;border:1px solid rgba(45,72,57,.35);border-radius:8px;background:transparent;color:inherit;font:inherit;font-weight:600;font-size:.92em;cursor:pointer}
 .pc-nota:hover{background:rgba(45,72,57,.08)}
 .pc-nota.pc-tocando{background:#2D4839;border-color:#2D4839;color:#fff}
+.pc-nota.pc-extra{border-style:dashed;font-weight:500;opacity:.85}
 .pc-salto{display:inline-flex;flex-direction:column;align-items:center;min-width:22px;padding:0 1px;color:#7E2A5E;font-size:.74em}
 .pc-salto b{font-weight:600}
 .pc-salto i{font-style:normal;opacity:.75;font-size:.9em}

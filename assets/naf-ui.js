@@ -609,29 +609,33 @@
   var btFund = $("naf-fund-ouvir"), caixaNotas = $("naf-notas-escala");
   /* As notas para ouvir saem do que está no formulário (nota grave, Lá, notas e Hz de cada furo), não da conta das posições: se as medidas
      digitadas não fecham para o tom novo, o som, os chips e o "Ouvir escala" seguem o tom e a escala atuais do mesmo jeito. */
-  function notasAudio() {
+  /* comExtra: os chips mostram também a nota do furo extra (marcada), para a linha de notas mudar com 5 ou 6 furos
+     (dono, 25/11: "não mostra alterações na escala quando coloca 5 ou 6 furos"); o "Ouvir escala" segue sem ele */
+  function notasAudio(comExtra) {
     var a4 = parseFloat($("naf-a4").value), m = midiFund();
     if (m === null || !(a4 > 0)) return null;
     var fund = N.freqNota(m, a4), lista = [{ nome: N.nomePt(m), hz: fund }];
     linhas.forEach(function (l, k) {
-      if (!l.a || ehExtra(k)) return;
+      var extra = ehExtra(k);
+      if (!l.a || (extra && !comExtra)) return;
       var hz = parseFloat(String(l.hz).replace(",", ".")), mp = N.parseNota(l.nota);
       if (!(hz > 0)) { if (mp === null) return; hz = N.freqNota(mp, a4); }
-      lista.push({ nome: String(l.nota), hz: hz });
+      lista.push({ nome: String(l.nota), hz: hz, extra: extra });
     });
     lista.sort(function (a, b) { return a.hz - b.hz; });
     return { fund: fund, lista: lista };
   }
   function notasDaEscala() {
     if (!caixaNotas) return;
-    var na = notasAudio(); if (!na) return;
+    var na = notasAudio(true); if (!na) return;
     var lista = na.lista;
     var M = window.PifeModo, total = lista.length ? Math.round(12 * Math.log2(lista[lista.length - 1].hz / lista[0].hz)) : 0;
     var h = lista.map(function (n, i) {
       /* salto até a nota anterior (ST = semitom, T = tom...), pelos semitons entre as duas; o par fica junto, como no Pífano */
       var d = i && M ? Math.round(12 * Math.log2(n.hz / lista[i - 1].hz)) : 0, sl = d >= 1 ? M.salto(d) : null;
       return '<span class="pc-par">' + (sl ? '<span class="pc-salto" role="img" aria-label="' + sl.falado + '" title="' + sl.falado + '"><b>' + sl.rotulo + "</b><i>" + sl.st + "</i></span>" : "") +
-        '<button type="button" class="pc-nota" data-hz="' + n.hz + '" aria-label="Ouvir ' + esc(n.nome) + (i === lista.length - 1 && total === 12 ? " (oitava)" : "") + '">' + esc(n.nome.replace(/ -?\d+$/, "")) + "</button></span>";
+        '<button type="button" class="pc-nota' + (n.extra ? " pc-extra" : "") + '" data-hz="' + n.hz + '"' + (n.extra ? ' title="Furo extra, fora da escala"' : "") +
+        ' aria-label="Ouvir ' + esc(n.nome) + (n.extra ? " (furo extra)" : "") + (i === lista.length - 1 && total === 12 ? " (oitava)" : "") + '">' + esc(n.nome.replace(/ -?\d+$/, "")) + "</button></span>";
     }).join("");
     if (caixaNotas.innerHTML !== h) caixaNotas.innerHTML = h;
     caixaNotas.setAttribute("aria-label", "Notas da flauta em " + N.nomePt(midiFund()) + ", da grave à mais aguda");
